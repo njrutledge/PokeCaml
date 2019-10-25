@@ -1,0 +1,42 @@
+{
+  "Mon1": [
+    {
+      "Type": [
+        "Fire"
+      ],
+      "Stats": [
+        {
+          "ATK": "50",
+          "DEF": "25",
+          "SPE": "50",
+          "HP": "25"
+        }
+      ],
+      "Moves": [
+        "hyper beam",
+        "blast burn",
+        "hydro cannon"
+      ]
+    }
+  ],
+  "Mon2": [
+    {
+      "Type": [
+        ""
+      ],
+      "Stats": [
+        {
+          "ATK": "25",
+          "DEF": "50",
+          "SPE": "25",
+          "HP": "50"
+        }
+      ],
+      "Moves": [
+        "hyper beam",
+        "blast burn",
+        "hydro cannon"
+      ]
+    }
+  ]
+}
