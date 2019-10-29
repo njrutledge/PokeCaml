@@ -1,0 +1,126 @@
+{
+  "type": "object",
+  "properties": {
+    "rooms": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "dynamic descriptions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "room items": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "player items": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "description": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "doot level": {
+            "type": "string"
+          },
+          "score": {
+            "type": "int"
+          },
+          "exits": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "is locked": {
+                  "type": "boolean"
+                },
+                "keys": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "room id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "name",
+                "description",
+                "score",
+                "room id"
+              ]
+            }
+          }
+        },
+        "required": [
+          "id",
+          "description",
+          "score",
+          "exits"
+        ]
+      }
+    },
+    "start room": {
+      "type": "string"
+    },
+    "adventure items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "start room": {
+            "type": "string"
+          },
+          "score": {
+            "type": "int"
+          }
+        },
+        "treasure room": {
+          "type": "object",
+          "properties": {
+            "room id": {
+              "type": "string"
+            },
+            "needed items": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "name",
+          "start room",
+          "score"
+        ]
+      }
+    }
+  },
+  "required": [
+    "rooms",
+    "start room"
+  ]
+}
