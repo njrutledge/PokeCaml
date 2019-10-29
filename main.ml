@@ -26,13 +26,13 @@ let pp_list pp_elt lst =
 
 
 let print_items items = 
-  if items = "" then () else print_endline("the room has items " ^ items)
+  if items = "" then () else print_endline("the town has items " ^ items)
 
 (** *)
-let print_items_in_room adv state = 
+let print_items_in_town adv state = 
   state 
-  |> State.current_room_id 
-  |> Adventure.room_items adv
+  |> State.current_town_id 
+  |> Adventure.town_items adv
   |> pp_list pp_string 
   |> print_items
 (** [execute_quit] quits the adventure. *)
@@ -57,19 +57,19 @@ let execute_unlock adv st exit =
 
 let execute_take adv st item = 
   Both (
-    Adventure.take_item adv (State.current_room_id st) item,
+    Adventure.take_item adv (State.current_town_id st) item,
     State.add_item st item
   )
 
 let execute_drop adv st item =
   Both (
-    Adventure.drop_item adv (State.current_room_id st) item,
+    Adventure.drop_item adv (State.current_town_id st) item,
     State.drop_item st item
   )
 
-let execute_inventory st = 
+let execute_Bag st = 
   ANSITerminal.(print_string [cyan] 
-                  ("Inventory: " ^ pp_list pp_string (State.inventory st)));
+                  ("bag: " ^ pp_list pp_string (State.bag st)));
   None
 
 (** [execute_score adv state] prints the adventurer's current score, and then 
@@ -79,17 +79,6 @@ let execute_score adv state =
   ANSITerminal.(print_string [blue] 
                   (string_of_int (State.calc_score adv state)));
   None
-
-(** [execute_doot adv state phrase] prints the secret 
-    "doot" level of the current room. *)
-let execute_doot adv state phrase = 
-  if phrase = "doot" then begin
-    ANSITerminal.(print_string [yellow] 
-                    ("\n" 
-                     ^ Adventure.doot adv (State.current_room_id state) 
-                     ^ "\n"));
-    None 
-  end else raise Command.Malformed
 
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state].  *)
@@ -101,9 +90,8 @@ let rec execute_command adv state input =
   | Unlock(phrase) -> execute_unlock adv state (String.concat " " phrase)
   | Take(phrase) -> execute_take adv state (String.concat " " phrase)
   | Drop(phrase) -> execute_drop adv state (String.concat " " phrase)
-  | Inventory -> execute_inventory state
+  | Bag -> execute_Bag state
   | Score ->  execute_score adv state
-  | Doot(phrase) -> execute_doot adv state (String.concat " " phrase)
 
 (** [get_command adv state input] *)
 let rec get_command adv state input = 
@@ -124,7 +112,7 @@ let rec get_command adv state input =
     print_string "> ";
     get_command adv state (read_line ())
   | Adventure.UnknownItem it -> 
-    print_string ("\nThere is no item \"" ^ it ^ "\" in the room.\n");
+    print_string ("\nThere is no item \"" ^ it ^ "\" in the town.\n");
     print_string "> ";
     get_command adv state (read_line ())
   | State.ItemNotFound it ->
@@ -145,15 +133,15 @@ let rec in_list el = function
   | [] -> false
   | h::t -> if h=el then true else in_list el t
 
-(** [contains_needed_items adv st] is true if the treasure room has all the
+(** [contains_needed_items adv st] is true if the treasure town has all the
     necessary items to win. *)
 let contains_needed_items adv st = 
   let rec match_item item_lst = begin function
     | [] -> true
     | h::t -> if in_list h item_lst then match_item item_lst t else false
   end
-  in match_item (Adventure.room_items adv (Adventure.treasure_room_id adv))
-    (Adventure.treasure_room_needed_items adv)
+  in match_item (Adventure.town_items adv (Adventure.treasure_town_id adv))
+    (Adventure.treasure_town_needed_items adv)
 
 (** [show_win_msg adv sc] prints the winning message of adventure [adv]
     associated with final score [sc]. *)
@@ -166,9 +154,9 @@ let show_win_msg adv score =
 
 (** [check_win adv state] will print the win message, final score of [state],
     and exit the game if the player has placed all the necessary items 
-    in the treasure room of adventure [adv]. *)
+    in the treasure town of adventure [adv]. *)
 let check_win adv st = 
-  if State.current_room_id st = Adventure.treasure_room_id adv then
+  if State.current_town_id st = Adventure.treasure_town_id adv then
     if contains_needed_items adv st then 
       show_win_msg adv (State.calc_score adv st)
     else () 
@@ -179,8 +167,8 @@ let check_win adv st =
 let rec loop adv state print_desc= 
   print_string "\n";
   if print_desc then begin
-    state |> State.current_room_id |> Adventure.description adv |> print_endline;
-    print_items_in_room adv state;
+    state |> State.current_town_id |> Adventure.description adv |> print_endline;
+    print_items_in_town adv state;
   end
   else ();
   check_win adv state;

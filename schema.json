@@ -1,7 +1,7 @@
 {
   "type": "object",
   "properties": {
-    "rooms": {
+    "towns": {
       "type": "array",
       "items": {
         "type": "object",
@@ -17,7 +17,7 @@
             "items": {
               "type": "object",
               "properties": {
-                "room items": {
+                "town items": {
                   "type": "array",
                   "items": {
                     "type": "string"
@@ -34,9 +34,6 @@
                 }
               }
             }
-          },
-          "doot level": {
-            "type": "string"
           },
           "score": {
             "type": "int"
@@ -58,7 +55,7 @@
                     "type": "string"
                   }
                 },
-                "room id": {
+                "town id": {
                   "type": "string"
                 }
               },
@@ -66,7 +63,7 @@
                 "name",
                 "description",
                 "score",
-                "room id"
+                "town id"
               ]
             }
           }
@@ -79,7 +76,7 @@
         ]
       }
     },
-    "start room": {
+    "start town": {
       "type": "string"
     },
     "adventure items": {
@@ -90,17 +87,17 @@
           "name": {
             "type": "string"
           },
-          "start room": {
+          "start town": {
             "type": "string"
           },
           "score": {
             "type": "int"
           }
         },
-        "treasure room": {
+        "treasure town": {
           "type": "object",
           "properties": {
-            "room id": {
+            "town id": {
               "type": "string"
             },
             "needed items": {
@@ -113,14 +110,14 @@
         },
         "required": [
           "name",
-          "start room",
+          "start town",
           "score"
         ]
       }
     }
   },
   "required": [
-    "rooms",
-    "start room"
+    "towns",
+    "start town"
   ]
 }

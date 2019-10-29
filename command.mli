@@ -32,10 +32,9 @@ type command =
   | Lock of object_phrase
   | Take of object_phrase
   | Drop of object_phrase
-  | Inventory
+  | Bag
   | Score
   | Quit
-  | Doot of object_phrase
 
 (** Raised when an empty command is parsed. *)
 exception Empty

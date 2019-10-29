@@ -1,26 +1,26 @@
 {
-  "rooms": [
+  "towns": [
     {
       "id": "foyer",
       "description": "You are in the foyer of a giant, abandoned mansion. There are 5 empty pedestals in the room. The front door is locked, with a note attached: \"Before I can let you go, I need you to help me. As you can see, my prized possessions are missing. Someone stole them and hid them around my mansion. Help me, and you will leave this place unharmed. Refuse, and you will join me in the afterlife.\"\nThere is a door leading to the east wing, a red door leading to the west wing, and stairs leading upstairs.",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "bust",
             "magic trumpet"
           ],
-          "description": "*DOOT*\nAs you enter the foyer, the ghostly voice from the dining room calls out to you, \"please place my grandfather's bust on one of the pedestals.\"\n*DOOT*"
+          "description": "*DOOT*\nAs you enter the foyer, the ghostly voice from the dining town calls out to you, \"please place my grandfather's bust on one of the pedestals.\"\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "bust"
           ],
-          "description": "As you enter the foyer, the ghostly voice from the dining room calls out to you, \"please place my grandfathers bust on one of the pedestals.\"."
+          "description": "As you enter the foyer, the ghostly voice from the dining town calls out to you, \"please place my grandfathers bust on one of the pedestals.\"."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "pocket watch",
             "magic trumpet"
@@ -28,14 +28,14 @@
           "description": "*DOOT*\nAs you enter the foyer, the ghost once again calls out to you, \"That is my brother's pocket watch, he had it with him always. Please, place it on a pedestal.\"\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "pocket watch"
           ],
           "description": "As you enter the foyer, the ghost once again calls out to you, \"That is my brother's pocket watch, he had it with him always. Please, place it on a pedestal.\""
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "golden ring",
             "magic trumpet"
@@ -43,14 +43,14 @@
           "description": "*DOOT*\nAs you enter the foyer, the ghost once again calls out to you, \"That ring you found belonged to my grandmother. place it on one of the pedestals.\"\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "golden ring"
           ],
           "description": "As you enter the foyer, the ghost once again calls out to you, \"That ring you found belonged to my grandmother. place it on one of the pedestals.\""
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "ruby necklace",
             "magic trumpet"
@@ -58,14 +58,14 @@
           "description": "*DOOT*\nAs you enter the foyer, the ghost once again calls out to you, \"That is my wife's ruby necklace, thank you dearly for reclaiming it. Please, place it on a pedestal.\"\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "ruby necklace"
           ],
           "description": "As you enter the foyer, the ghost once again calls out to you, \"That is my wife's ruby necklace, thank you dearly for reclaiming it. Please, place it on a pedestal.\""
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "old lexicon",
             "magic trumpet"
@@ -73,14 +73,14 @@
           "description": "*DOOT*\nAs you enter the foyer, the ghost once again calls out to you, \"Ah, my old lexicon. I did always cherish this. Please. place it on a pedestal.\"\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "old lexicon"
           ],
           "description": "As you enter the foyer, the ghost once again calls out to you, \"Ah, my old lexicon. I did always cherish this. Please. place it on a pedestal.\""
         },
         {
-          "room items": [
+          "town items": [
             "bust"
           ],
           "player items": [
@@ -89,14 +89,14 @@
           "description": "*DOOT*\nYou are in the mansion's foyer. You can go upstairs, to the east wing, or to the west wing.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "bust"
           ],
           "player items": [],
           "description": "You are in the mansion's foyer. You can go upstairs, to the east wing, or to the west wing."
         },
         {
-          "room items": [
+          "town items": [
             "pocket watch"
           ],
           "player items": [
@@ -105,14 +105,14 @@
           "description": "*DOOT*\nYou are in the mansion's foyer. You can go upstairs, to the east wing, or to the west wing.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "pocket watch"
           ],
           "player items": [],
           "description": "You are in the mansion's foyer. You can go upstairs, to the east wing, or to the west wing."
         },
         {
-          "room items": [
+          "town items": [
             "golden ring"
           ],
           "player items": [
@@ -121,14 +121,14 @@
           "description": "*DOOT*\nYou are in the mansion's foyer. You can go upstairs, to the east wing, or to the west wing.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "golden ring"
           ],
           "player items": [],
           "description": "You are in the mansion's foyer. You can go upstairs, to the east wing, or to the west wing."
         },
         {
-          "room items": [
+          "town items": [
             "ruby necklace"
           ],
           "player items": [
@@ -137,14 +137,14 @@
           "description": "*DOOT*\nYou are in the mansion's foyer. You can go upstairs, to the east wing, or to the west wing.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "ruby necklace"
           ],
           "player items": [],
           "description": "You are in the mansion's foyer. You can go upstairs, to the east wing, or to the west wing."
         },
         {
-          "room items": [
+          "town items": [
             "old lexicon"
           ],
           "player items": [
@@ -153,7 +153,7 @@
           "description": "*DOOT*\nYou are in the mansion's foyer. You can go upstairs, to the east wing, or to the west wing.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "old lexicon"
           ],
           "player items": [],
@@ -169,7 +169,7 @@
           "keys": [
             "red key"
           ],
-          "room id": "east wing"
+          "town id": "east wing"
         },
         {
           "name": "west wing",
@@ -177,13 +177,13 @@
           "keys": [
             "red key"
           ],
-          "room id": "west wing"
+          "town id": "west wing"
         },
         {
           "name": "upstairs",
           "is locked": false,
           "keys": [],
-          "room id": "upstairs"
+          "town id": "upstairs"
         }
       ]
     },
@@ -192,7 +192,7 @@
       "description": "You arrive on a landing. There is a doorway leading to the master bedroom, as well as one leading down a hallway, presumably containing more bedrooms. The entrance to this hallway, however, has long since fallen in on itself. You can also go back downstairs.",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -206,41 +206,41 @@
           "name": "downstairs",
           "is locked": false,
           "keys": [],
-          "room id": "foyer"
+          "town id": "foyer"
         },
         {
-          "name": "master bedroom",
+          "name": "master bedtown",
           "is locked": false,
           "keys": [],
-          "room id": "master bedroom"
+          "town id": "master bedtown"
         }
       ]
     },
     {
-      "id": "master bedroom",
+      "id": "master bedtown",
       "description": "You open the door to the master bedroom, but it is pitch black. The only thing you can make out is an empty fuse box near the door. You should head back until you can find some light.",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "fuse"
           ],
           "player items": [
             "spoopy key",
             "magic trumpet"
           ],
-          "description": "*DOOT*\nUpon re-entering the room with the spoopy key in your possession, the closet key hole lights up faintly.\n*DOOT*"
+          "description": "*DOOT*\nUpon re-entering the town with the spoopy key in your possession, the closet key hole lights up faintly.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "fuse"
           ],
           "player items": [
             "spoopy key"
           ],
-          "description": "Upon re-entering the room with the spoopy key in your possession, the closet key hole lights up faintly. "
+          "description": "Upon re-entering the town with the spoopy key in your possession, the closet key hole lights up faintly. "
         },
         {
-          "room items": [
+          "town items": [
             "fuse"
           ],
           "player items": [
@@ -249,14 +249,14 @@
           "description": "*DOOT*\nWith the fuse in place, the room lights up. you can now see a doorway leading to the master bath, as well as a decaying closet door. You can also go back to the upstairs landing.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "fuse"
           ],
           "player items": [],
           "description": "With the fuse in place, the room lights up. you can now see a doorway leading to the master bath, as well as a decaying closet door. You can also go back to the upstairs landing."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -270,25 +270,25 @@
           "name": "back",
           "is locked": false,
           "keys": [],
-          "room id": "upstairs"
+          "town id": "upstairs"
         },
         {
           "name": "landing",
           "is locked": false,
           "keys": [],
-          "room id": "upstairs"
+          "town id": "upstairs"
         },
         {
           "name": "upstairs landing",
           "is locked": false,
           "keys": [],
-          "room id": "upstairs"
+          "town id": "upstairs"
         },
         {
           "name": "master bath",
           "is locked": false,
           "keys": [],
-          "room id": "master bath"
+          "town id": "master bath"
         },
         {
           "name": "closet",
@@ -296,7 +296,7 @@
           "keys": [
             "spoopy key"
           ],
-          "room id": "skeleton closet"
+          "town id": "skeleton closet"
         }
       ]
     },
@@ -305,7 +305,7 @@
       "description": "the room has pictures of skeletons with trumpets covering every inch of the wall. There is also a note, written in comic sans: \n\"Come join the skeleton army. doot doot until you find the maximum dootage. then go full doot! \"\nYou think you have stumbled upon something, but that the greater mystery still to be found. There are no other doors to this room besides the one to the master bedroom.",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -316,21 +316,21 @@
       "score": 500,
       "exits": [
         {
-          "name": "master bedroom",
+          "name": "master bedtown",
           "is locked": false,
           "keys": [
             "strange key"
           ],
-          "room id": "master bedroom"
+          "town id": "master bedtown"
         }
       ]
     },
     {
       "id": "master bath",
-      "description": "The bathroom is in a state of utter disarray. The toilet, bathtub, and sink are all water stained and covered in cobwebs. The only door is to the master bedroom.",
+      "description": "The bathtown is in a state of utter disarray. The toilet, bathtub, and sink are all water stained and covered in cobwebs. The only door is to the master bedtown.",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "book"
           ],
           "player items": [
@@ -339,14 +339,14 @@
           "description": "*DOOT*\nThe bathroom is in a state of utter disarray. The toilet, bathtub, and sink are all water stained and covered in cobwebs. A book on the back of the toilet catches your eye. The only door is to the master bedroom.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "book"
           ],
           "player items": [],
           "description": "The bathroom is in a state of utter disarray. The toilet, bathtub, and sink are all water stained and covered in cobwebs. A book on the back of the toilet catches your eye. The only door is to the master bedroom."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -357,10 +357,10 @@
       "score": 10,
       "exits": [
         {
-          "name": "master bedroom",
+          "name": "master bedtown",
           "is locked": false,
           "keys": [],
-          "room id": "master bedroom"
+          "town id": "master bedtown"
         }
       ]
     },
@@ -369,7 +369,7 @@
       "description": "You enter a long hallway lined with family photos. The more you look at them, the more you feel them look back at you, angrily. Suddenly, the door behinds you slams shut, and you hear ghostly laughter. You try and open the door, but it is locked. You are trapped. From here you can go to the dining room, kitchen, or parlor.",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "red key",
             "magic trumpet"
@@ -377,26 +377,26 @@
           "description": "*DOOT*\nYou return to the east wing. The ghostly stares in the family photos are gone, as if the ghosts of this place now accept your presence. From here you can go to the dining room, kitchen, parlor, or foyer.\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "red key"
           ],
           "description": "You return to the east wing. The ghostly stares in the family photos are gone, as if the ghosts of this place now accept your presence. From here you can go to the dining room, kitchen, parlor, or foyer."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "bust",
             "magic trumpet"
           ],
-          "description": "*DOOT*\nBack in the east wing, you hear quite the commotion coming from the dining room.\n*DOOT*"
+          "description": "*DOOT*\nBack in the east wing, you hear quite the commotion coming from the dining town.\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "bust"
           ],
-          "description": "Back in the east wing, you hear quite the commotion coming from the dining room. "
+          "description": "Back in the east wing, you hear quite the commotion coming from the dining town. "
         }
       ],
       "doot level": "doot doot doot",
@@ -408,41 +408,41 @@
           "keys": [
             "red key"
           ],
-          "room id": "foyer"
+          "town id": "foyer"
         },
         {
-          "name": "dining room",
+          "name": "dining town",
           "is locked": false,
           "keys": [],
-          "room id": "dining room"
+          "town id": "dining town"
         },
         {
           "name": "kitchen",
           "is locked": false,
           "keys": [],
-          "room id": "kitchen"
+          "town id": "kitchen"
         },
         {
           "name": "parlor",
           "is locked": false,
           "keys": [],
-          "room id": "parlor"
+          "town id": "parlor"
         }
       ]
     },
     {
-      "id": "dining room",
+      "id": "dining town",
       "description": "You enter the dining room. It is utterly decayed with chairs flung randomly around the room. You get strange, ghostly vibe from this place. There is only the door to the east wing. ",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "bust"
           ],
           "description": "Upon entering the dining room, candles immediately light on the table. All the chairs push themselves in except for one at the head of the table. You feel a ghostly presence, urging you to sit down."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -456,13 +456,13 @@
           "name": "east wing",
           "is locked": false,
           "keys": [],
-          "room id": "east wing"
+          "town id": "east wing"
         },
         {
           "name": "sit",
           "is locked": false,
           "keys": [],
-          "room id": "table"
+          "town id": "table"
         }
       ]
     },
@@ -471,7 +471,7 @@
       "description": "You decide to sit in a chair, nothing happens. You can go back to the east wing",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "red key"
           ],
           "player items": [
@@ -480,7 +480,7 @@
           "description": "You take a seat at the end of the long table. With a blink of the eyes, a ghostly apparition appears hovering above where you sit. It drops a red key onto the table. An eerie voice calls out:\n \"Sorry for my brother tormenting you, he doesn't take too kindly to strangers. Thank you for reclaiming the bust of my grandfather. Please take this key, it will let you back into the foyer as well as into the west wing.\""
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "bust",
             "red key"
@@ -488,7 +488,7 @@
           "description": "As you pick of the red key, The ghost vanishes. The events at this table startled you to your core, but you feel a little safer knowing this ghost is looking out for you. You can go back into the east wing."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -502,7 +502,7 @@
           "name": "east wing",
           "is locked": false,
           "keys": [],
-          "room id": "east wing"
+          "town id": "east wing"
         }
       ]
     },
@@ -511,7 +511,7 @@
       "description": "You enter an old kitchen. The only things of note that are not completely decayed are a pantry and a fridge, but the fridge is locked shut by a rusted iron chain. You can go to the east wing.",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -525,7 +525,7 @@
           "name": "pantry",
           "is locked": false,
           "keys": [],
-          "room id": "pantry"
+          "town id": "pantry"
         },
         {
           "name": "fridge",
@@ -533,7 +533,7 @@
           "keys": [
             "bolt cutters"
           ],
-          "room id": "fridge"
+          "town id": "fridge"
         }
       ]
     },
@@ -542,14 +542,14 @@
       "description": "You open the pantry and see rotten food everywhere. There is also a skeleton on the floor, its skull slightly flattened on one side. From here you can go back to the east wing.",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "bust"
           ],
           "player items": [],
           "description": "You open the pantry and see rotten food everywhere. There is also a skeleton on the floor, its skull slightly flattened on one side. A bust lays next to it. From here you can go back to the east wing."
         },
         {
-          "room items": [
+          "town items": [
             "bust"
           ],
           "player items": [
@@ -558,7 +558,7 @@
           "description": "*DOOT*\nYou open the pantry and see rotten food everywhere. There is also a skeleton on the floor, its skull slightly flattened on one side. A bust lays next to it. From here you can go back to the east wing.\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -574,13 +574,13 @@
           "keys": [
             "bolt cutters"
           ],
-          "room id": "fridge"
+          "town id": "fridge"
         },
         {
           "name": "east wing",
           "is locked": false,
           "keys": [],
-          "room id": "east wing"
+          "town id": "east wing"
         }
       ]
     },
@@ -589,14 +589,14 @@
       "description": "You cut the chain off the fridge, opening it to expose a skeleton inside. From here you can go back to the east wing.",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "pocket watch"
           ],
           "player items": [],
           "description": "You cut the chain off the fridge, opening it to expose a skeleton inside with a pocket watch falling out of its tattered coat. From here you can go back to the east wing."
         },
         {
-          "room items": [
+          "town items": [
             "pocket watch"
           ],
           "player items": [
@@ -605,7 +605,7 @@
           "description": "*DOOT*\nYou cut the chain off the fridge, opening it to expose a skeleton inside with a pocket watch falling out of its tattered coat. From here you can go back to the east wing.\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -619,13 +619,13 @@
           "name": "east wing",
           "is locked": false,
           "keys": [],
-          "room id": "east wing"
+          "town id": "east wing"
         },
         {
           "name": "pantry",
           "is locked": false,
           "keys": [],
-          "room id": "pantry"
+          "town id": "pantry"
         }
       ]
     },
@@ -634,7 +634,7 @@
       "description": "You enter an old parlor room. There are chairs that once looked to be comfortable, but now are broken and eaten away. A painting hangs on the wall. There is also a fireplace, and you think you see something shiny inside behind the old iron grate. You can also go back to the east wing. ",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -650,19 +650,19 @@
           "keys": [
             "bolt cutters"
           ],
-          "room id": "fireplace"
+          "town id": "fireplace"
         },
         {
           "name": "painting",
           "is locked": false,
           "keys": [],
-          "room id": "painting"
+          "town id": "painting"
         },
         {
           "name": "east wing",
           "is locked": false,
           "keys": [],
-          "room id": "east wing"
+          "town id": "east wing"
         }
       ]
     },
@@ -671,7 +671,7 @@
       "description": "You cut open the gate of the old fireplace. There are only ashes. From here you can go back into the main area of the parlor.",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "golden ring"
           ],
           "player items": [
@@ -680,14 +680,14 @@
           "description": "*DOOT*\nYou cut open the gate of the old fireplace. In the ashes you spot the gleam of a golden ring. Poking around the ash causes you to discover the ring is around something heavily charred, and a powerful stench of death fills your nostrils. From here you can go back into the main area of the parlor.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "golden ring"
           ],
           "player items": [],
           "description": "You cut open the gate of the old fireplace. In the ashes you spot the gleam of a golden ring. Poking around the ash causes you to discover the ring is around something heavily charred, and a powerful stench of death fills your nostrils. From here you can go back into the main area of the parlor."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -701,7 +701,7 @@
           "name": "parlor",
           "is locked": false,
           "keys": [],
-          "room id": "parlor"
+          "town id": "parlor"
         }
       ]
     },
@@ -710,7 +710,7 @@
       "description": "You approach the painting on the wall. It is in surprisingly good condition, almost perfect in fact. It is a portrait of the man, but the more you stare at it, the more it appears to turn into a skeleton. From here, you can go back to the main area of the parlor",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -724,13 +724,13 @@
           "name": "parlor",
           "is locked": false,
           "keys": [],
-          "room id": "parlor"
+          "town id": "parlor"
         },
         {
           "name": "full doot",
           "is locked": false,
           "keys": [],
-          "room id": "skeleton room"
+          "town id": "skeleton town"
         }
       ]
     },
@@ -739,7 +739,7 @@
       "description": "You finally enter the west side of the mansion. It appears to be in slightly better condition than the rest of the house. From here you can go to the closet, study, garden, or foyer.",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -753,19 +753,19 @@
           "name": "closet",
           "is locked": false,
           "keys": [],
-          "room id": "closet"
+          "town id": "closet"
         },
         {
           "name": "study",
           "is locked": false,
           "keys": [],
-          "room id": "study"
+          "town id": "study"
         },
         {
           "name": "garden",
           "is locked": false,
           "keys": [],
-          "room id": "garden"
+          "town id": "garden"
         },
         {
           "name": "foyer",
@@ -773,7 +773,7 @@
           "keys": [
             "red key"
           ],
-          "room id": "foyer"
+          "town id": "foyer"
         }
       ]
     },
@@ -782,7 +782,7 @@
       "description": "You enter a small utility closet. Nothing of use seems to be here. You can only go to the west wing from here.",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "fuse"
           ],
           "player items": [
@@ -791,14 +791,14 @@
           "description": "*DOOT*\nYou enter a small utility closet. You see a fuse in pretty good condition on one of the shelves. from here you can only go to the west wing.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "fuse"
           ],
           "player items": [],
           "description": "You enter a small utility closet. You see a fuse in pretty good condition on one of the shelves. from here you can only go to the west wing. "
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -812,7 +812,7 @@
           "name": "west wing",
           "is locked": false,
           "keys": [],
-          "room id": "west wing"
+          "town id": "west wing"
         }
       ]
     },
@@ -821,7 +821,7 @@
       "description": "You enter someone's study. Papers are flung around a desk, and an old lamp covered with cobwebs sits on top. There is also a bookshelf in pristine condition, but with a noticeable gap where a book is missing. You can go back into the west wing.",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "book"
           ],
           "player items": [
@@ -830,14 +830,14 @@
           "description": "*DOOT*\nYou place the book back in its rightful place on the shelf. The entire bookcase moves, revealing a secret passage. You can also go back into the west wing.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "book"
           ],
           "player items": [],
           "description": " You place the book back in its rightful place on the shelf. The entire bookcase moves, revealing a secret passage. You can also go back into the west wing."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -851,13 +851,13 @@
           "name": "west wing",
           "is locked": false,
           "keys": [],
-          "room id": "west wing"
+          "town id": "west wing"
         },
         {
           "name": "secret passage",
           "is locked": false,
           "keys": [],
-          "room id": "secret passage"
+          "town id": "secret passage"
         }
       ]
     },
@@ -866,7 +866,7 @@
       "description": "The secret passage leads to a small room untouched by the decay of the rest of the house. In the corner of the room, there is skeleton sitting in a chair. From here you can go back to the study.",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "spoopy key",
             "magic trumpet"
@@ -874,14 +874,14 @@
           "description": "*DOOT*\nYou are in the small room down the secret passage. The skeleton in the corner looks pleased with your decision to seek out the skeleton army. From here you can go back to the study.\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "spoopy key"
           ],
           "description": "You are in the small room down the secret passage. The skeleton in the corner looks pleased with your decision to seek out the skeleton army. From here you can go back to the study."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "old lexicon",
             "magic trumpet"
@@ -889,14 +889,14 @@
           "description": "*DOOT*\nAs you grab the lexicon from the skeleton's hands, you head moves on its own to the blank wall next to the skeleton. Your vision then shifts to the skeleton army, marching. It lasts only a second before your once again see the blank wall in the secret room. Turning back to look at the skeleton, you see it is now pointing at the wall with one hand, and holding a trumpet in the other. The skeleton army calls to you, and you need only call back. You can go back to the study from here, but you feel there is more to this room than meets the eye.\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "old lexicon"
           ],
           "description": "As you grab the lexicon from the skeleton's hands, you head moves on its own to the blank wall next to the skeleton. Your vision then shifts to the skeleton army, marching. It lasts only a second before your once again see the blank wall in the secret room. Turning back to look at the skeleton, you see it is now pointing at the wall with one hand, and holding a trumpet in the other. The skeleton army calls to you, and you need only call back. You can go back to the study from here, but you feel there is more to this room than meets the eye. "
         },
         {
-          "room items": [
+          "town items": [
             "old lexicon"
           ],
           "player items": [
@@ -905,14 +905,14 @@
           "description": "*DOOT*\nThe secret passage leads to a small room untouched by the decay of the rest of the house. In the corner of the room, there is skeleton sitting in a chair, holding an old lexicon. From here you can go back to the study.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "old lexicon"
           ],
           "player items": [],
           "description": "The secret passage leads to a small room untouched by the decay of the rest of the house. In the corner of the room, there is skeleton sitting in a chair, holding an old lexicon. From here you can go back to the study."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -926,22 +926,22 @@
           "name": "doot",
           "is locked": false,
           "keys": [],
-          "room id": "doot room"
+          "town id": "doot town"
         },
         {
           "name": "study",
           "is locked": false,
           "keys": [],
-          "room id": "study"
+          "town id": "study"
         }
       ]
     },
     {
-      "id": "doot room",
-      "description": "The hidden room is now completely dark, as the light shuts off after grabbing the key. From here, you can go back to the secret passage.",
+      "id": "doot town",
+      "description": "The hidden town is now completely dark, as the light shuts off after grabbing the key. From here, you can go back to the secret passage.",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "spoopy key"
           ],
           "player items": [
@@ -950,18 +950,18 @@
           "description": "*DOOT*\nAs you call out the sound of the skeleton army, the wall fades, revealing a hidden door. You walk into a dark room, with a pedestal in the middle. A light shines down directly onto the pedestal, illuminating a key...a spoopy key.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "spoopy key"
           ],
           "player items": [],
           "description": "As you call out the sound of the skeleton army, the wall fades, revealing a hidden door. You walk into a dark room, with a pedestal in the middle. A light shines down directly onto the pedestal, illuminating a key...a spoopy key."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
-          "description": "*DOOT*\nThe hidden room is now completely dark, as the light shuts off after grabbing the key. From here, you can go back to the secret passage.\n*DOOT*"
+          "description": "*DOOT*\nThe hidden town is now completely dark, as the light shuts off after grabbing the key. From here, you can go back to the secret passage.\n*DOOT*"
         }
       ],
       "doot level": "...",
@@ -971,7 +971,7 @@
           "name": "secret passage",
           "is locked": false,
           "keys": [],
-          "room id": "secret passage"
+          "town id": "secret passage"
         }
       ]
     },
@@ -980,7 +980,7 @@
       "description": "You head outside into a garden. Vines and roots cover the entire ground. Ivy is covering every inch of the walls of both the house and a gardening shed. Thick bushes cover most of the garden. You can head back inside to the west wing, or try and carefully walk over to the shed. Something about the garden makes you think its more alive than it should be.",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "shears",
             "magic trumpet"
@@ -988,14 +988,14 @@
           "description": "*DOOT*\nYou enter the garden, shears in hand. The entire garden seems to recoil at just the sight of the shears. The ivy, vines, and roots begin to recede, opening up more of the garden and revealing an overgrown brush. You can go into the shed, back inside to the west wing, or investigate the overgrown brush.\n*DOOT*"
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "shears"
           ],
           "description": "You enter the garden, shears in hand. The entire garden seems to recoil at just the sight of the shears. The ivy, vines, and roots begin to recede, opening up more of the garden and revealing an overgrown brush. You can go into the shed, back inside to the west wing, or investigate the overgrown brush."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -1009,25 +1009,25 @@
           "name": "shed",
           "is locked": false,
           "keys": [],
-          "room id": "shed"
+          "town id": "shed"
         },
         {
           "name": "inside",
           "is locked": false,
           "keys": [],
-          "room id": "west wing"
+          "town id": "west wing"
         },
         {
           "name": "west wing",
           "is locked": false,
           "keys": [],
-          "room id": "west wing"
+          "town id": "west wing"
         },
         {
           "name": "overgrown brush",
           "is locked": false,
           "keys": [],
-          "room id": "overgrown brush"
+          "town id": "overgrown brush"
         }
       ]
     },
@@ -1036,7 +1036,7 @@
       "description": "You enter the gardening shed, and to no surprise find gardening supplies everywhere. Empty bags of fertilizer lie all over the ground, appearing to have each been torn into by something. You can grab some supplies, or go back into the garden.",
       "dynamic descriptions": [
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -1050,13 +1050,13 @@
           "name": "garden",
           "is locked": false,
           "keys": [],
-          "room id": "garden"
+          "town id": "garden"
         },
         {
           "name": "back",
           "is locked": false,
           "keys": [],
-          "room id": "garden"
+          "town id": "garden"
         }
       ]
     },
@@ -1065,7 +1065,7 @@
       "description": "Upon investigating the overgrown brush, you see a skeleton enveloped in roots. You can go back inside to the west wing, go back into the main part of the garden again, or go to the shed. ",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "ruby necklace"
           ],
           "player items": [
@@ -1074,14 +1074,14 @@
           "description": "*DOOT*\nUpon investigating the overgrown brush, you see a skeleton enveloped in roots. Around its neck is a ruby necklace.\n*DOOT*"
         },
         {
-          "room items": [
+          "town items": [
             "ruby necklace"
           ],
           "player items": [],
           "description": "Upon investigating the overgrown brush, you see a skeleton enveloped in roots. Around its neck is a ruby necklace."
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -1095,47 +1095,47 @@
           "name": "garden",
           "is locked": false,
           "keys": [],
-          "room id": "garden"
+          "town id": "garden"
         },
         {
           "name": "back",
           "is locked": false,
           "keys": [],
-          "room id": "garden"
+          "town id": "garden"
         },
         {
           "name": "inside",
           "is locked": false,
           "keys": [],
-          "room id": "west wing"
+          "town id": "west wing"
         },
         {
           "name": "west wing",
           "is locked": false,
           "keys": [],
-          "room id": "west wing"
+          "town id": "west wing"
         },
         {
           "name": "shed",
           "is locked": false,
           "keys": [],
-          "room id": "shed"
+          "town id": "shed"
         }
       ]
     },
     {
-      "id": "skeleton room",
+      "id": "skeleton town",
       "description": "You are at the skeleton rave. You can walk into the light to go back to the foyer. ",
       "dynamic descriptions": [
         {
-          "room items": [
+          "town items": [
             "magic trumpet"
           ],
           "player items": [],
           "description": "You stare at the painting and go full doot. Your vision immediately fades as you black out.\nYou awake in a room with flashing rave lights. the Skeleton army dances all around you, many dooting on their trumpets. Next to you is a magic trumpet with your name on it. It lets out a little doot as you look at it. "
         },
         {
-          "room items": [],
+          "town items": [],
           "player items": [
             "magic trumpet"
           ],
@@ -1149,19 +1149,19 @@
           "name": "foyer",
           "is locked": false,
           "keys": [],
-          "room id": "foyer"
+          "town id": "foyer"
         },
         {
           "name": "into the light",
           "is locked": false,
           "keys": [],
-          "room id": "foyer"
+          "town id": "foyer"
         },
         {
           "name": "light",
           "is locked": false,
           "keys": [],
-          "room id": "foyer"
+          "town id": "foyer"
         }
       ]
     }
@@ -1169,67 +1169,67 @@
   "adventure items": [
     {
       "name": "red key",
-      "start room": "table",
+      "start town": "table",
       "score": 0
     },
     {
       "name": "fuse",
-      "start room": "closet",
+      "start town": "closet",
       "score": 0
     },
     {
       "name": "book",
-      "start room": "master bath",
+      "start town": "master bath",
       "score": 0
     },
     {
       "name": "bolt cutters",
-      "start room": "shed",
+      "start town": "shed",
       "score": 0
     },
     {
       "name": "shears",
-      "start room": "shed",
+      "start town": "shed",
       "score": 0
     },
     {
       "name": "spoopy key",
-      "start room": "doot room",
+      "start town": "doot town",
       "score": 0
     },
     {
       "name": "bust",
-      "start room": "pantry",
+      "start town": "pantry",
       "score": 50
     },
     {
       "name": "pocket watch",
-      "start room": "fridge",
+      "start town": "fridge",
       "score": 100
     },
     {
       "name": "golden ring",
-      "start room": "fireplace",
+      "start town": "fireplace",
       "score": 150
     },
     {
       "name": "old lexicon",
-      "start room": "secret passage",
+      "start town": "secret passage",
       "score": 200
     },
     {
       "name": "ruby necklace",
-      "start room": "overgrown brush",
+      "start town": "overgrown brush",
       "score": 250
     },
     {
       "name": "magic trumpet",
-      "start room": "skeleton room",
+      "start town": "skeleton town",
       "score": 0
     }
   ],
-  "treasure room": {
-    "room id": "foyer",
+  "treasure town": {
+    "town id": "foyer",
     "needed items": [
       "bust",
       "pocket watch",
@@ -1238,7 +1238,7 @@
       "ruby necklace"
     ]
   },
-  "start room": "foyer",
+  "start town": "foyer",
   "win messages": [
     {
       "min score": 2500,

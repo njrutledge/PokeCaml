@@ -8,10 +8,9 @@ type command =
   | Lock of object_phrase
   | Take of object_phrase
   | Drop of object_phrase
-  | Inventory
+  | Bag
   | Score
   | Quit
-  | Doot of object_phrase
 
 exception Empty
 
@@ -28,7 +27,7 @@ let make_command verb phrase =
   if phrase = [] then 
     if verb = "quit" then Quit else 
     if verb = "score" then Score else 
-    if verb = "inventory" || verb = "inv" then Inventory else 
+    if verb = "bag" then Bag else 
       raise Malformed 
   else
   if verb = "go" then Go phrase else
@@ -36,7 +35,6 @@ let make_command verb phrase =
   if verb = "lock" then Lock phrase else 
   if verb = "take" then Take phrase else 
   if verb = "drop" then Drop phrase else 
-  if verb = "doot" then Doot phrase else 
     raise Malformed 
 
 let parse str =

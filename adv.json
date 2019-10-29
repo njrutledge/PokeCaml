@@ -1,0 +1,68 @@
+{
+  "places": [
+    {
+      "id": "Gates Town",
+      "description": "R1",
+      "exits": [
+        {
+          "name": "PokeCenter",
+          "keys": []
+        },
+        {
+          "name": "My house",
+          "keys": []
+        },
+        {
+          "name": "Lab",
+          "keys": []
+        },
+        {
+          "name": "Route 1110",
+          "keys": []
+        }
+      ],
+      "NPCs": []
+    },
+    {
+      "id": "My house",
+      "description": "R1",
+      "exits": [
+        {
+          "name": "Gates Town",
+          "keys": []
+        }
+      ],
+      "NPCs": [
+        "Mom"
+      ]
+    },
+    {
+      "id": "Lab",
+      "description": "R1",
+      "exits": [
+        {
+          "name": "Gates Town",
+          "keys": []
+        }
+      ],
+      "NPCs": [
+        "Professor Oak"
+      ]
+    },
+    {
+      "id": "Route 1110",
+      "description": "R1",
+      "exits": [
+        {
+          "name": "Gates Town",
+          "keys": [
+            "1110 Trainer 1 Key"
+          ]
+        }
+      ],
+      "NPCs": [
+        "1110 Trainer 1"
+      ]
+    }
+  ]
+}

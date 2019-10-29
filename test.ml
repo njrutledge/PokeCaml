@@ -59,11 +59,10 @@ let string_of_command = function
   | Take (lst) -> "grab " ^ pp_list pp_string lst
   | Drop (lst) -> "drop " ^ pp_list pp_string lst
   | Score -> "score"
-  | Inventory -> "inventory"
-  | Doot (lst) -> "doot " ^ pp_list pp_string lst
+  | Bag -> "bag"
 
 let result_of_string = function 
-  | Legal(t) -> "Legal: " ^ current_room_id t ^ " " ^
+  | Legal(t) -> "Legal: " ^ current_town_id t ^ " " ^
                 pp_list pp_string (visited t)
   | Illegal msg -> "Illegal: " ^ msg
 
@@ -81,13 +80,13 @@ let make_go_test_Illegal name exit adv st =
         (go exit adv st)
         ~printer:result_of_string)
 
-(** [get_cur_room res] gets the current room of the [state.t] in [res].
+(** [get_cur_town res] gets the current town of the [state.t] in [res].
     Requires: [res] is [Legal st]. *)
-let get_cur_room = function
-  | Legal st -> current_room_id st
+let get_cur_town = function
+  | Legal st -> current_town_id st
   | Illegal _ -> failwith "Must be Legal"
 
-(** [get_visited res] gets the visited rooms of the [state.t] in [res].
+(** [get_visited res] gets the visited towns of the [state.t] in [res].
     Requires: [res] is [Legal st]. *)
 let get_visited = function
   | Legal st -> visited st
@@ -101,17 +100,17 @@ let make_command_test name cmd exp_cmd =
   name >:: (fun _ ->
       assert_equal exp_cmd (parse cmd) ~printer:string_of_command)
 
-(** [make_go_test_legal_cur name exit adv st exp_room] constructs
+(** [make_go_test_legal_cur name exit adv st exp_town] constructs
     an OUnit test case that asserts the quality of 
-    [exp_room] with that of the current room of [go exit adv st]. *)
-let make_go_test_legal_cur name exit adv st exp_room = 
+    [exp_town] with that of the current town of [go exit adv st]. *)
+let make_go_test_legal_cur name exit adv st exp_town = 
   name >:: (fun _ ->
-      assert_equal exp_room (get_cur_room (go exit adv st))
+      assert_equal exp_town (get_cur_town (go exit adv st))
         ~printer:(fun x -> x))
 
 (** [make_go_test_legal_vis name exit adv st exp_visited] constructs an 
     OUnit test case that asserts the quality of [exp_visited] 
-    with the visited rooms of [go exit adv st]. *)
+    with the visited towns of [go exit adv st]. *)
 let make_go_test_legal_vis name exit adv st exp_visited = 
   name >:: (fun _ ->
       assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
@@ -122,75 +121,75 @@ let make_go_test_legal_vis name exit adv st exp_visited =
    End helper functions.
  ********************************************************************)
 
-let lonely_room = from_json (Yojson.Basic.from_file "lonely_room.json")
+let lonely_town = from_json (Yojson.Basic.from_file "lonely_town.json")
 let ho_plaza = from_json (Yojson.Basic.from_file "ho_plaza.json")
 
 let adventure_tests =
   [
-    "lonely_room start room id" >:: (fun _ -> 
-        assert_equal "the room" (start_room lonely_room)
+    "lonely_town start town id" >:: (fun _ -> 
+        assert_equal "the town" (start_town lonely_town)
           ~printer:(fun x -> x));
-    "ho_plaza start room id" >:: (fun _ -> 
-        assert_equal "ho plaza" (start_room ho_plaza)
+    "ho_plaza start town id" >:: (fun _ -> 
+        assert_equal "ho plaza" (start_town ho_plaza)
           ~printer:(fun x -> x));
 
-    "lonely_room room ids" >:: (fun _ ->
+    "lonely_town town ids" >:: (fun _ ->
         assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-          ["the room"]
-          (room_ids lonely_room));
-    "ho_plaza room ids" >:: (fun _ -> 
+          ["the town"]
+          (town_ids lonely_town));
+    "ho_plaza town ids" >:: (fun _ -> 
         assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
           ["ho plaza"; "health"; "tower"; "nirvana"]
-          (room_ids ho_plaza));
+          (town_ids ho_plaza));
 
-    "Description of lonely_room start room" >:: (fun _ ->
-        assert_equal "A very lonely room." (description lonely_room "the room")
+    "Description of lonely_town start town" >:: (fun _ ->
+        assert_equal "A very lonely town." (description lonely_town "the town")
           ~printer:(fun x -> x));
     "Description of ho_plaza nirvana" >:: (fun _ ->
         assert_equal "You have reached a higher level of existence.  \
                       There are no more words."
           (description ho_plaza "nirvana")
           ~printer:(fun x -> x));
-    "Unknown room test description" >:: (fun _ ->
-        assert_raises (UnknownRoom "room 2")
-          (fun () -> description lonely_room "room 2"));
+    "Unknown town test description" >:: (fun _ ->
+        assert_raises (UnknownTown "town 2")
+          (fun () -> description lonely_town "town 2"));
 
-    "Exits of lonely_room" >:: (fun _ ->
+    "Exits of lonely_town" >:: (fun _ ->
         assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-          [] (exits lonely_room "the room"));
-    "ho_plaza room ids" >:: (fun _ -> 
+          [] (exits lonely_town "the town"));
+    "ho_plaza town ids" >:: (fun _ -> 
         assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
           ["southwest"; "south west"; "Cornell Health"; "Gannett"; "chimes"; 
            "concert"; "clock tower"]
           (exits ho_plaza "ho plaza"));
-    "unknown room test exits" >:: (fun _ ->
-        assert_raises (UnknownRoom "room 2") 
-          (fun () -> exits lonely_room "room 2"));
+    "unknown town test exits" >:: (fun _ ->
+        assert_raises (UnknownTown "town 2") 
+          (fun () -> exits lonely_town "town 2"));
 
     "ho_plaza to ho plaza from health" >:: (fun _ ->
-        assert_equal "ho plaza" (next_room ho_plaza "health" "north east")
+        assert_equal "ho plaza" (next_town ho_plaza "health" "north east")
           ~printer:(fun x -> x));
     "ho_plaza to nirvana from tower" >:: (fun _ ->
-        assert_equal "nirvana" (next_room ho_plaza "tower" "higher")
+        assert_equal "nirvana" (next_town ho_plaza "tower" "higher")
           ~printer:(fun x -> x));
-    "unknown room test next_room" >:: (fun _ ->
-        assert_raises (UnknownRoom "Uris") 
-          (fun () -> next_room ho_plaza "Uris" "bailey"));
-    "unknown exit test next_room" >:: (fun _ ->
+    "unknown town test next_town" >:: (fun _ ->
+        assert_raises (UnknownTown "Uris") 
+          (fun () -> next_town ho_plaza "Uris" "bailey"));
+    "unknown exit test next_town" >:: (fun _ ->
         assert_raises (UnknownExit "bailey") 
-          (fun () -> next_room ho_plaza "ho plaza" "bailey"));
+          (fun () -> next_town ho_plaza "ho plaza" "bailey"));
 
-    "No next rooms of the room in lonely_room" >:: (fun _ ->
+    "No next towns of the town in lonely_town" >:: (fun _ ->
         assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-          [] (next_rooms lonely_room "the room"));
-    "Next rooms of ho plaza in ho_plaza" >:: (fun _ ->
+          [] (next_towns lonely_town "the town"));
+    "Next towns of ho plaza in ho_plaza" >:: (fun _ ->
         assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-          ["tower"; "health"] (next_rooms ho_plaza "ho plaza"));
-    "unknown room test next_rooms" >:: (fun _ ->
-        assert_raises (UnknownRoom "Uris") 
-          (fun () -> next_rooms ho_plaza "Uris"));
-    (*"Score of start room of lonely room" >:: (fun _ -> 
-        assert_equal 10 (score lonely_room "the room")
+          ["tower"; "health"] (next_towns ho_plaza "ho plaza"));
+    "unknown town test next_towns" >:: (fun _ ->
+        assert_raises (UnknownTown "Uris") 
+          (fun () -> next_towns ho_plaza "Uris"));
+    (*"Score of start town of lonely town" >:: (fun _ -> 
+        assert_equal 10 (score lonely_town "the town")
           ~printer:string_of_int);*)
   ]
 
@@ -209,9 +208,8 @@ let command_tests =
     make_command_test "take command" "take key" (Take["key"]);
     make_command_test "drop command" "drop key" (Drop["key"]);
     make_command_test "score command" "score" Score;
-    make_command_test "inventory command" "inventory" Inventory;
-    make_command_test "inv command" "inv" Inventory;
-    make_command_test "doot command" "doot doot" (Doot["doot"]);
+    make_command_test "bag command" "bag" Bag;
+    make_command_test "bag command" "bag" Bag;
 
     make_malformed_test "bad verb" "cheat find exit";
     make_malformed_test "bad quit" "quit now";
@@ -221,11 +219,10 @@ let command_tests =
     make_malformed_test "bad take" "take";
     make_malformed_test "bad drop" "drop";
     make_malformed_test "bad score" "score please";
-    make_malformed_test "bad inventory" "inventory now";
-    make_malformed_test "bad doot" "doot";
+    make_malformed_test "bad bag" "bag now";
   ]
-(* Creating initial state for lonely_room *)
-let lonely_init_st = init_state lonely_room
+(* Creating initial state for lonely_town *)
+let lonely_init_st = init_state lonely_town
 (* Creating initial state for ho_plaza *)
 let ho_init_st = init_state ho_plaza
 (* Creating state of ho_plaza at tower *)
@@ -236,14 +233,14 @@ let tower_st =
 
 let state_tests =
   [
-    "current room at start of lonely_room" >:: (fun _ ->
-        assert_equal "the room" (current_room_id lonely_init_st)
+    "current town at start of lonely_town" >:: (fun _ ->
+        assert_equal "the town" (current_town_id lonely_init_st)
           ~printer:(fun x->x));
-    "current room at start of ho_plaza" >:: (fun _ ->
-        assert_equal "ho plaza" (current_room_id ho_init_st));
+    "current town at start of ho_plaza" >:: (fun _ ->
+        assert_equal "ho plaza" (current_town_id ho_init_st));
 
     make_go_test_Illegal "ho plaza to bailey" "up" ho_plaza ho_init_st;
-    make_go_test_legal_cur "ho plaza to health: current room health" 
+    make_go_test_legal_cur "ho plaza to health: current town health" 
       "Cornell Health" ho_plaza ho_init_st "health";
     make_go_test_legal_vis "ho plaza to health: visited [health; ho plaza]"
       "Gannett" ho_plaza ho_init_st ["health";"ho plaza"];
@@ -252,8 +249,8 @@ let state_tests =
     make_go_test_legal_vis "ho plaza -> tower -> nirvana"
       "higher" ho_plaza tower_st ["tower";"ho plaza";"nirvana"];
 
-    "init score lonely_room" >:: (fun _ ->
-        assert_equal 10 (calc_score lonely_room lonely_init_st)
+    "init score lonely_town" >:: (fun _ ->
+        assert_equal 10 (calc_score lonely_town lonely_init_st)
           ~printer:string_of_int);
     "score tower_st" >:: (fun _ ->
         assert_equal 7 (calc_score ho_plaza tower_st)
