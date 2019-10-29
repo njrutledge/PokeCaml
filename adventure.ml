@@ -179,7 +179,7 @@ let find_town town towns =
   | None -> raise (UnknownTown town)
 
 let description adv town =
-  (adv.towns |> find_town town)
+  (adv.towns |> find_town town).default_desc
 
 let exits adv town = 
   (adv.towns |> find_town town).exits

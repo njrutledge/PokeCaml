@@ -1,9 +1,10 @@
-MODULES=adventure command state main author
+MODULES=adventure command state main author battle
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
+BATTLE=battle.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
 default: build
@@ -17,6 +18,9 @@ test:
 
 play:
 	$(OCAMLBUILD) $(MAIN) && ./$(MAIN)
+
+battle: 
+	$(OCAMLBUILD) $(BATTLE) && ./$(BATTLE)
 
 check:
 	bash checkenv.sh && bash checktypes.sh

@@ -49,8 +49,6 @@ val go : Adventure.exit_name -> Adventure.t -> t -> result
 (* END DO NOT CHANGE
  **********************************************************************)
 
-(** [score adv st] is the current score of the player character. *)
-val calc_score : Adventure.t -> t -> int
 
 (*(** [exit_msg st] is message from the last exit the adventurer has gone through
     in state [st]. *)
@@ -65,13 +63,3 @@ val drop_item : t -> Adventure.item_name -> t
 
 (** [bag st] is the bag of state [st]. *)
 val bag : t -> Adventure.item_name list
-
-(** [lock_door a st e] locks the exit [e] in the current town of [st] in 
-    adventure [a] if the adventurer has one of the keys for [e]. 
-    Raises [KeyNotFound] if the adventurer does not have a valid key for [e]. *)
-val lock_door : Adventure.t -> t -> Adventure.exit_name -> Adventure.t
-
-(** [unlock_door a st e] unlocks the exit [e] in the current town of [st] in 
-    adventure [a] if the adventurer has one of the keys for [e]. 
-    Raises [KeyNotFound] if the adventurer does not have a valid key for [e]. *)
-val unlock_door : Adventure.t -> t -> Adventure.exit_name -> Adventure.t

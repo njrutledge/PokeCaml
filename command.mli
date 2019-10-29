@@ -28,12 +28,8 @@ type object_phrase = string list
     into a verb and possibly an object phrase. *)
 type command = 
   | Go of object_phrase
-  | Unlock of object_phrase
-  | Lock of object_phrase
   | Take of object_phrase
-  | Drop of object_phrase
   | Bag
-  | Score
   | Quit
 
 (** Raised when an empty command is parsed. *)

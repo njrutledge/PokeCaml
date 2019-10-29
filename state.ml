@@ -5,12 +5,14 @@ type t = {
   cur_town : Adventure.town_id;
   visited_towns : Adventure.town_id list;
   bag : string list;
+  money : int;
 }
 
 let init_state adv = {
   cur_town = Adventure.start_town adv;
   visited_towns = [Adventure.start_town adv];
   bag = [];
+  money = 500;
 }
 
 let current_town_id st =
@@ -28,24 +30,17 @@ let go ex adv st =
       visited_towns = List.sort_uniq compare
           (Adventure.next_town adv st.cur_town ex :: st.visited_towns);
       bag = st.bag;
+      money = st.money;
     }
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
 
-let calc_item_score adv = 
-  Adventure.town_items adv (Adventure.treasure_town_id adv)
-  |> List.fold_left (fun acc item -> acc + Adventure.item_score adv item) 0   
-
-let calc_score adv st = 
-  visited st 
-  |> List.map (Adventure.town_score adv)
-  |> List.fold_left (+) 0
-  |> (+) (calc_item_score adv)
-
-let add_item st it = {
-  st with bag = it::st.bag
-}
+let add_item st it = 
+  failwith ("Unimplemented: must check money first")
+    {
+      st with bag = it::st.bag
+    }
 
 (** [remove_item it items] is the list [items] without element [it]. 
     Raises [UnknownItem it] if [it] is not in [items]. *)
@@ -65,13 +60,3 @@ let bag st =
 let rec has_key st = function 
   | [] -> false
   | h::t -> if (List.mem h st.bag) then true else has_key st t
-
-let lock_door adv st ex = 
-  if has_key st (Adventure.keys adv st.cur_town ex) then 
-    Adventure.lock adv st.cur_town ex else
-    raise KeyNotFound
-
-let unlock_door adv st ex = 
-  if has_key st (Adventure.keys adv st.cur_town ex) then
-    Adventure.unlock adv st.cur_town ex else
-    raise KeyNotFound

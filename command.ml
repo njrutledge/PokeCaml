@@ -4,12 +4,8 @@ type object_phrase = string list
 
 type command = 
   | Go of object_phrase
-  | Unlock of object_phrase
-  | Lock of object_phrase
   | Take of object_phrase
-  | Drop of object_phrase
   | Bag
-  | Score
   | Quit
 
 exception Empty
@@ -26,15 +22,11 @@ let rec rem_empty = function
 let make_command verb phrase = 
   if phrase = [] then 
     if verb = "quit" then Quit else 
-    if verb = "score" then Score else 
     if verb = "bag" then Bag else 
       raise Malformed 
   else
   if verb = "go" then Go phrase else
-  if verb = "unlock" then Unlock phrase else
-  if verb = "lock" then Lock phrase else 
   if verb = "take" then Take phrase else 
-  if verb = "drop" then Drop phrase else 
     raise Malformed 
 
 let parse str =
