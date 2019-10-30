@@ -112,11 +112,16 @@ let make_go_test_legal_vis name exit adv st exp_visited =
       assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
         exp_visited (get_visited (go exit adv st)))
 
+let make_type_test name mat atk def hash exp_mult = 
+  name >:: (fun _ ->
+      assert_equal exp_mult (mat.(hash atk).(hash def))
+        ~printer:string_of_float)
+
 
 (********************************************************************
    End helper functions.
  ********************************************************************)
-
+(*
 let lonely_town = from_json (Yojson.Basic.from_file "lonely_town.json")
 let ho_plaza = from_json (Yojson.Basic.from_file "ho_plaza.json")
 
@@ -241,11 +246,36 @@ let state_tests =
     make_go_test_legal_vis "ho plaza -> tower -> nirvana"
       "higher" ho_plaza tower_st ["tower";"ho plaza";"nirvana"];
   ]
+*)
+let mat_fun = "type_matrix.json"
+              |> Yojson.Basic.from_file
+              |> Types.type_matrix_and_hash
+let type_mat = fst mat_fun
+let hash = snd mat_fun
+let type_tests = 
+  [ 
+    make_type_test "fire vs fire" type_mat "fire" "fire" hash 0.5;
+    make_type_test "fire vs grass" type_mat "fire" "grass" hash 2.0;
+    make_type_test "fire vs water" type_mat "fire" "water" hash 0.5;
+    make_type_test "grass vs fire" type_mat "grass" "fire" hash 0.5;
+    make_type_test "grass vs grass" type_mat "grass" "grass" hash 0.5;
+    make_type_test "grass vs water" type_mat "grass" "water" hash 2.0;
+    make_type_test "water vs fire" type_mat "water" "fire" hash 2.0;
+    make_type_test "water vs grass" type_mat "water" "grass" hash 0.5;
+    make_type_test "water vs water" type_mat "water" "water" hash 0.5;
+    make_type_test "normal vs normal" type_mat "normal" "normal" hash 1.0;
+    make_type_test "electric vs ground" type_mat "electric" "ground" hash 0.0;
+    make_type_test "ground vs fire" type_mat "ground" "fire" hash 2.0;
+    "unknown type plasma" >:: (fun _ -> 
+        assert_raises (Types.UnknownType "plasma") 
+          (fun () -> type_mat.(hash "plasma"). (hash "fire")));
+  ]
 let suite =
   "test suite for A2"  >::: List.flatten [
-    adventure_tests;
-    command_tests;
-    state_tests;
+    (*adventure_tests;
+      command_tests;
+      state_tests;*)
+    type_tests
   ]
 
 let _ = run_test_tt_main suite
