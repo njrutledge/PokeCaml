@@ -4,7 +4,20 @@ module type types = sig
   type t = Normal | Fire | Water | Grass | Electric | Ground 
 end
 
+let json_data jdata = 
+  jdata |> member "cols" |> to_list |> List.map to_float
+
+let rec add i j m = function
+  | [] -> ()
+  | h::t -> m.(i).(j) <- h;
+    add (i+1) j m t
+
+let rec cols j m = function
+  | [] -> m
+  | h::t -> add 0 j m h; cols (j+1) m t
+
 let type_matrix json =  
   let n = json |> member "size" |> to_int in 
-  let mat = Array.make_matrix n n 0.0 in 
-  for i=0 to n do 
+  let m = Array.make_matrix n n 0.0 in 
+  let data_lst = json |> member "data" |>to_list|> List.map json_data in 
+  cols 0 m data_lst;
