@@ -1,5 +1,7 @@
-type e_type = Normal|Fire|Water|Grass|Electric|Ground
-open Moves
+open Moves;
+open types;
+
+
 module type PokeSig = sig
   include Moves
   type t = e_type
@@ -9,6 +11,7 @@ module type PokeSig = sig
   type speed = int 
   type moves = Moves list
 end
+
 module MakePokemon (P : PokeSig)= struct
   type t = Type
   val hp
