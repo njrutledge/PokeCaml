@@ -1,5 +1,5 @@
-open Moves;
-open Pokemon;
+open Moves
+open Pokemon
 
 module type Battle = sig
   type t

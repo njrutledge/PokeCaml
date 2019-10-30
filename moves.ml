@@ -1,4 +1,4 @@
-open types;
+open Types
 
 module type Moves = sig
   type ('n, 'p, 'a, 't) t

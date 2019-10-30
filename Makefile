@@ -1,4 +1,4 @@
-MODULES=adventure command state main author battle
+MODULES=adventure command state main author battle types
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

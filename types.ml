@@ -1,7 +1,7 @@
 open Yojson.Basic.Util
 
 module type types = sig
-  type t = Normal | Fire | Water | Grass | Electric | Ground 
+  type t = string
 end
 
 let json_data jdata = 
