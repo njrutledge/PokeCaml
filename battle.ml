@@ -1,5 +1,8 @@
+
+(* 
 open Moves
 open Pokemon
+
 
 module type Battle = sig
   type t
@@ -8,7 +11,7 @@ module type Battle = sig
   type monmoves = moves list
 
   val from_json : Yojson.Basic.t -> t
-  val moves : t -> Moves list
+  val moves : t -> moves list
   val attack : t -> ()
   val item : ()
   val team : t -> t 
@@ -25,3 +28,4 @@ end
 
 let main () = ANSITerminal.(print_string [red]
                               "\n\nStarting battle\n");
+*)

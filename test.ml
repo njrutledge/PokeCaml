@@ -54,11 +54,7 @@ let cmp_demo =
 let string_of_command = function
   | Quit -> "quit"
   | Go (lst) -> "go " ^ pp_list pp_string lst
-  | Lock (lst) -> "lock " ^ pp_list pp_string lst
-  | Unlock (lst) -> "unlock " ^ pp_list pp_string lst
   | Take (lst) -> "grab " ^ pp_list pp_string lst
-  | Drop (lst) -> "drop " ^ pp_list pp_string lst
-  | Score -> "score"
   | Bag -> "bag"
 
 let result_of_string = function 
@@ -203,11 +199,7 @@ let command_tests =
         assert_raises Empty (fun () -> parse "      "));
 
     make_command_test "go command" "go north east" (Go["north";"east"]);
-    make_command_test "lock command" "lock door" (Lock["door"]);
-    make_command_test "unlock command" "unlock door" (Unlock["door"]);
     make_command_test "take command" "take key" (Take["key"]);
-    make_command_test "drop command" "drop key" (Drop["key"]);
-    make_command_test "score command" "score" Score;
     make_command_test "bag command" "bag" Bag;
     make_command_test "bag command" "bag" Bag;
 
@@ -248,13 +240,6 @@ let state_tests =
       "higher" ho_plaza tower_st "nirvana"; 
     make_go_test_legal_vis "ho plaza -> tower -> nirvana"
       "higher" ho_plaza tower_st ["tower";"ho plaza";"nirvana"];
-
-    "init score lonely_town" >:: (fun _ ->
-        assert_equal 10 (calc_score lonely_town lonely_init_st)
-          ~printer:string_of_int);
-    "score tower_st" >:: (fun _ ->
-        assert_equal 7 (calc_score ho_plaza tower_st)
-          ~printer:string_of_int);
   ]
 let suite =
   "test suite for A2"  >::: List.flatten [

@@ -1,8 +1,10 @@
 open Yojson.Basic.Util
 
-module type types = sig
-  type t = string
-end
+type t = string
+
+let rec hash f i= function
+  | [] -> f 
+  | h::t -> hash (fun x -> if x = h then i else f x) (i+1) t
 
 let json_data jdata = 
   jdata |> member "cols" |> to_list |> List.map to_float
