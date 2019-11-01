@@ -1,10 +1,11 @@
-MODULES=adventure command state main author battle types
+MODULES=adventure command state main author battle types moves pokemon
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
 BATTLE=battle.byte
+POKEMON=pokemon.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
 default: build
@@ -21,6 +22,9 @@ play:
 
 battle: 
 	$(OCAMLBUILD) $(BATTLE) && ./$(BATTLE)
+
+mon:
+	$(OCAMLBUILD) $(POKEMON) && ./$(POKEMON)
 
 check:
 	bash checkenv.sh && bash checktypes.sh

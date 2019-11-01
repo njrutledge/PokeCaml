@@ -60,7 +60,7 @@ let rec get_command adv state input =
   try
     execute_command adv state input
   with 
-  |Command.Empty -> 
+  | Command.Empty -> 
     ANSITerminal.(print_string [red]
                     "\nError: please give command.\n ");
     print_string "> ";
@@ -123,14 +123,14 @@ let rec loop adv state print_desc=
 
 (** [play_game f] starts the adventure in file [f]. *)
 let play_game f =
-  try
-    loop 
-      (Adventure.from_json (Yojson.Basic.from_file f))
-      (State.init_state (Adventure.from_json (Yojson.Basic.from_file f)))
-      true
-  with _ -> ANSITerminal.(print_string [red]
-                            "\nEncountered Error while grabbing file. Please \
-                             rerun and try a new file.\n")
+  (*try*)
+  loop 
+    (Adventure.from_json (Yojson.Basic.from_file f))
+    (State.init_state (Adventure.from_json (Yojson.Basic.from_file f)))
+    true
+(*with _ -> ANSITerminal.(print_string [red]
+                          "\nEncountered Error while grabbing file. Please \
+                           rerun and try a new file.\n")*)
 
 
 (** [main ()] prompts for the game to play, then starts it. *)

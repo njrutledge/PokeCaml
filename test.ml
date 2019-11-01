@@ -2,6 +2,7 @@ open OUnit2
 open Adventure
 open Command
 open State
+open Pokemon 
 
 (********************************************************************
    Here are some helper functions for your testing of set-like lists. 
@@ -112,14 +113,22 @@ let make_go_test_legal_vis name exit adv st exp_visited =
       assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
         exp_visited (get_visited (go exit adv st)))
 
+let make_type_test name mat atk def hash exp_mult = 
+  name >:: (fun _ ->
+      assert_equal exp_mult (mat.(hash atk).(hash def))
+        ~printer:string_of_float)
 
+let set_mon_name mon =
+  Stats.mon := mon
+
+module Mon1 = Pokemon (Stats)
+module Mon2 = Pokemon (Stats)
 (********************************************************************
    End helper functions.
  ********************************************************************)
-
+(*
 let lonely_town = from_json (Yojson.Basic.from_file "lonely_town.json")
 let ho_plaza = from_json (Yojson.Basic.from_file "ho_plaza.json")
-
 let adventure_tests =
   [
     "lonely_town start town id" >:: (fun _ -> 
@@ -128,7 +137,6 @@ let adventure_tests =
     "ho_plaza start town id" >:: (fun _ -> 
         assert_equal "ho plaza" (start_town ho_plaza)
           ~printer:(fun x -> x));
-
     "lonely_town town ids" >:: (fun _ ->
         assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
           ["the town"]
@@ -137,7 +145,6 @@ let adventure_tests =
         assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
           ["ho plaza"; "health"; "tower"; "nirvana"]
           (town_ids ho_plaza));
-
     "Description of lonely_town start town" >:: (fun _ ->
         assert_equal "A very lonely town." (description lonely_town "the town")
           ~printer:(fun x -> x));
@@ -149,7 +156,6 @@ let adventure_tests =
     "Unknown town test description" >:: (fun _ ->
         assert_raises (UnknownTown "town 2")
           (fun () -> description lonely_town "town 2"));
-
     "Exits of lonely_town" >:: (fun _ ->
         assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
           [] (exits lonely_town "the town"));
@@ -161,7 +167,6 @@ let adventure_tests =
     "unknown town test exits" >:: (fun _ ->
         assert_raises (UnknownTown "town 2") 
           (fun () -> exits lonely_town "town 2"));
-
     "ho_plaza to ho plaza from health" >:: (fun _ ->
         assert_equal "ho plaza" (next_town ho_plaza "health" "north east")
           ~printer:(fun x -> x));
@@ -174,7 +179,6 @@ let adventure_tests =
     "unknown exit test next_town" >:: (fun _ ->
         assert_raises (UnknownExit "bailey") 
           (fun () -> next_town ho_plaza "ho plaza" "bailey"));
-
     "No next towns of the town in lonely_town" >:: (fun _ ->
         assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
           [] (next_towns lonely_town "the town"));
@@ -188,21 +192,17 @@ let adventure_tests =
         assert_equal 10 (score lonely_town "the town")
           ~printer:string_of_int);*)
   ]
-
 let command_tests =
   [
     make_command_test "quit command" "quit" Quit;
-
     "Empty input" >:: (fun _ -> 
         assert_raises Empty (fun () -> parse ""));
     "Spaces only" >:: (fun _ -> 
         assert_raises Empty (fun () -> parse "      "));
-
     make_command_test "go command" "go north east" (Go["north";"east"]);
     make_command_test "take command" "take key" (Take["key"]);
     make_command_test "bag command" "bag" Bag;
     make_command_test "bag command" "bag" Bag;
-
     make_malformed_test "bad verb" "cheat find exit";
     make_malformed_test "bad quit" "quit now";
     make_malformed_test "bad go" "go";
@@ -222,7 +222,6 @@ let tower_st =
   match (go "chimes" ho_plaza ho_init_st) with
   | Legal st -> st
   | Illegal _-> failwith "ERROR"
-
 let state_tests =
   [
     "current town at start of lonely_town" >:: (fun _ ->
@@ -230,7 +229,6 @@ let state_tests =
           ~printer:(fun x->x));
     "current town at start of ho_plaza" >:: (fun _ ->
         assert_equal "ho plaza" (current_town_id ho_init_st));
-
     make_go_test_Illegal "ho plaza to bailey" "up" ho_plaza ho_init_st;
     make_go_test_legal_cur "ho plaza to health: current town health" 
       "Cornell Health" ho_plaza ho_init_st "health";
@@ -241,11 +239,44 @@ let state_tests =
     make_go_test_legal_vis "ho plaza -> tower -> nirvana"
       "higher" ho_plaza tower_st ["tower";"ho plaza";"nirvana"];
   ]
+*)
+let mat_fun = "type_matrix.json"
+              |> Yojson.Basic.from_file
+              |> Types.type_matrix_and_hash
+let type_mat = fst mat_fun
+let hash = snd mat_fun
+let type_tests = 
+  [ 
+    make_type_test "fire vs fire" type_mat "fire" "fire" hash 0.5;
+    make_type_test "fire vs grass" type_mat "fire" "grass" hash 2.0;
+    make_type_test "fire vs water" type_mat "fire" "water" hash 0.5;
+    make_type_test "grass vs fire" type_mat "grass" "fire" hash 0.5;
+    make_type_test "grass vs grass" type_mat "grass" "grass" hash 0.5;
+    make_type_test "grass vs water" type_mat "grass" "water" hash 2.0;
+    make_type_test "water vs fire" type_mat "water" "fire" hash 2.0;
+    make_type_test "water vs grass" type_mat "water" "grass" hash 0.5;
+    make_type_test "water vs water" type_mat "water" "water" hash 0.5;
+    make_type_test "normal vs normal" type_mat "normal" "normal" hash 1.0;
+    make_type_test "electric vs ground" type_mat "electric" "ground" hash 0.0;
+    make_type_test "ground vs fire" type_mat "ground" "fire" hash 2.0;
+    "unknown type plasma" >:: (fun _ -> 
+        assert_raises (Types.UnknownType "plasma") 
+          (fun () -> type_mat.(hash "plasma"). (hash "fire")));
+  ]
+
+let pokemon_tests = 
+  [
+    "hp = 4">:: (fun _ -> 
+        assert_equal 4 (Mon1.get_hp Mon1.stats)~printer:string_of_int) 
+  ]
+
 let suite =
   "test suite for A2"  >::: List.flatten [
-    adventure_tests;
-    command_tests;
-    state_tests;
+    (*adventure_tests;
+      command_tests;
+      state_tests;*)
+    type_tests;
+    pokemon_tests;
   ]
 
 let _ = run_test_tt_main suite

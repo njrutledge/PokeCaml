@@ -26,7 +26,7 @@ type dynamic_desc = {
 type town = {
   id : town_id;
   default_desc : string;
-  dynamic_desc : dynamic_desc list;
+  (*dynamic_desc : dynamic_desc list;*)
   exits : exit list;
 }
 
@@ -46,9 +46,9 @@ type win = {
 type t = {
   towns : town list;
   start : town_id;
-  items : item list;
-  treasure_town : t_town;
-  win_msgs : win list;
+  (*items : item list;*)
+  (*treasure_town : t_town;*)
+  (*win_msgs : win list;*)
 
 }
 
@@ -66,7 +66,7 @@ let json_exit j_exit = {
     |> List.map to_string;
   exit_town = 
     j_exit 
-    |> member "town id" 
+    |> member "name" 
     |> to_string;
 }
 
@@ -98,11 +98,11 @@ let json_town j_town = {
     j_town 
     |> member "description" 
     |> to_string;
-  dynamic_desc = 
+  (*dynamic_desc = 
     j_town
     |> member "dynamic descriptions"
     |> to_list
-    |> List.map json_dynamic_desc;
+    |> List.map json_dynamic_desc;*)
   exits = 
     j_town 
     |> member "exits" 
@@ -117,50 +117,22 @@ let json_item j_item = {
     |> to_string;
 }
 
-let json_t_town j_t_town= {
-  t_id = 
-    j_t_town
-    |> member "town id"
-    |> to_string;
-  needed_items = 
-    j_t_town
-    |> member "needed items"
-    |> to_list
-    |> List.map to_string;
-}
-
-let json_win j_win = {
-  win_message = 
-    j_win
-    |> member "message"
-    |> to_string;
-}
-
 let from_json json = 
   {
     towns = 
       json 
-      |> member "towns" 
+      |> member "places" 
       |> to_list 
       |> List.map json_town;
     start = 
       json 
       |> member "start town"  
       |> to_string;
-    items = 
+    (*items = 
       json
       |> member "adventure items"
       |> to_list
-      |> List.map json_item;
-    treasure_town = 
-      json
-      |> member "treasure town"
-      |> json_t_town;
-    win_msgs = 
-      json
-      |> member "win messages"
-      |> to_list
-      |> List.map json_win;
+      |> List.map json_item;*)
   }
 
 let start_town adv =
@@ -218,7 +190,7 @@ let win_msg adv score =
   let rec check_win = function
     | [] -> "you win!"
     | h::t -> "you win!"
-  in check_win adv.win_msgs
+  in check_win []
 
 let keys adv town ex = 
   ((adv.towns |> find_town town).exits |> find_exit ex).exit_keys

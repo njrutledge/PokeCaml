@@ -38,9 +38,9 @@ let go ex adv st =
 
 let add_item st it = 
   failwith ("Unimplemented: must check money first")
-    {
-      st with bag = it::st.bag
-    }
+(*  {
+    st with bag = it::st.bag
+    }*)
 
 (** [remove_item it items] is the list [items] without element [it]. 
     Raises [UnknownItem it] if [it] is not in [items]. *)

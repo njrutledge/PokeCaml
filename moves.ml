@@ -1,9 +1,9 @@
-(*open Types*)
+open Types
 
-module type Moves = sig
-  type ('n, 'p, 'a, 't) t
+module type MoveSig = sig
+  type t
 end
 
-module Moves = struct
-  type t = Move of (string * float * float (* * type*)) list
+module Moves : MoveSig = struct
+  type t = Move of (string * int * int * string list)
 end

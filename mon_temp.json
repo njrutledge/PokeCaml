@@ -1,21 +1,15 @@
 {
-  "": [
-    {
-      "Type": [
-        ""
-      ],
-      "Stats": [
-        {
-          "ATK": "",
-          "DEF": "",
-          "SPE": "",
-          "HP": "",
-          "SPA": "",
-          "SPD": ""
-        }
-      ],
-      "Moves": [],
-      "Evolution": ""
-    }
-  ]
+  "": {
+    "Type": "",
+    "Stats": {
+      "ATK": "",
+      "DEF": "",
+      "SPE": "",
+      "HP": "",
+      "SPA": "",
+      "SPD": ""
+    },
+    "Moves": [],
+    "Evolution": ""
+  }
 }

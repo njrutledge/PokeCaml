@@ -2,7 +2,7 @@
   "places": [
     {
       "id": "Gates Town",
-      "description": "R1",
+      "description": "Gates Town",
       "exits": [
         {
           "name": "PokeCenter",
@@ -25,7 +25,7 @@
     },
     {
       "id": "My house",
-      "description": "R1",
+      "description": "My house",
       "exits": [
         {
           "name": "Gates Town",
@@ -38,7 +38,7 @@
     },
     {
       "id": "Lab",
-      "description": "R1",
+      "description": "Lab",
       "exits": [
         {
           "name": "Gates Town",
@@ -51,7 +51,7 @@
     },
     {
       "id": "Route 1110",
-      "description": "R1",
+      "description": "Route 1110",
       "exits": [
         {
           "name": "Gates Town",
@@ -64,5 +64,6 @@
         "1110 Trainer 1"
       ]
     }
-  ]
+  ],
+  "start town": "My house"
 }
