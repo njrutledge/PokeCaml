@@ -121,125 +121,11 @@ let make_type_test name mat atk def hash exp_mult =
 let set_mon_name mon =
   Stats.mon := mon
 
-module Mon1 = Pokemon (Stats)
 module Mon2 = Pokemon (Stats)
 (********************************************************************
    End helper functions.
  ********************************************************************)
-(*
-let lonely_town = from_json (Yojson.Basic.from_file "lonely_town.json")
-let ho_plaza = from_json (Yojson.Basic.from_file "ho_plaza.json")
-let adventure_tests =
-  [
-    "lonely_town start town id" >:: (fun _ -> 
-        assert_equal "the town" (start_town lonely_town)
-          ~printer:(fun x -> x));
-    "ho_plaza start town id" >:: (fun _ -> 
-        assert_equal "ho plaza" (start_town ho_plaza)
-          ~printer:(fun x -> x));
-    "lonely_town town ids" >:: (fun _ ->
-        assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-          ["the town"]
-          (town_ids lonely_town));
-    "ho_plaza town ids" >:: (fun _ -> 
-        assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-          ["ho plaza"; "health"; "tower"; "nirvana"]
-          (town_ids ho_plaza));
-    "Description of lonely_town start town" >:: (fun _ ->
-        assert_equal "A very lonely town." (description lonely_town "the town")
-          ~printer:(fun x -> x));
-    "Description of ho_plaza nirvana" >:: (fun _ ->
-        assert_equal "You have reached a higher level of existence.  \
-                      There are no more words."
-          (description ho_plaza "nirvana")
-          ~printer:(fun x -> x));
-    "Unknown town test description" >:: (fun _ ->
-        assert_raises (UnknownTown "town 2")
-          (fun () -> description lonely_town "town 2"));
-    "Exits of lonely_town" >:: (fun _ ->
-        assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-          [] (exits lonely_town "the town"));
-    "ho_plaza town ids" >:: (fun _ -> 
-        assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-          ["southwest"; "south west"; "Cornell Health"; "Gannett"; "chimes"; 
-           "concert"; "clock tower"]
-          (exits ho_plaza "ho plaza"));
-    "unknown town test exits" >:: (fun _ ->
-        assert_raises (UnknownTown "town 2") 
-          (fun () -> exits lonely_town "town 2"));
-    "ho_plaza to ho plaza from health" >:: (fun _ ->
-        assert_equal "ho plaza" (next_town ho_plaza "health" "north east")
-          ~printer:(fun x -> x));
-    "ho_plaza to nirvana from tower" >:: (fun _ ->
-        assert_equal "nirvana" (next_town ho_plaza "tower" "higher")
-          ~printer:(fun x -> x));
-    "unknown town test next_town" >:: (fun _ ->
-        assert_raises (UnknownTown "Uris") 
-          (fun () -> next_town ho_plaza "Uris" "bailey"));
-    "unknown exit test next_town" >:: (fun _ ->
-        assert_raises (UnknownExit "bailey") 
-          (fun () -> next_town ho_plaza "ho plaza" "bailey"));
-    "No next towns of the town in lonely_town" >:: (fun _ ->
-        assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-          [] (next_towns lonely_town "the town"));
-    "Next towns of ho plaza in ho_plaza" >:: (fun _ ->
-        assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-          ["tower"; "health"] (next_towns ho_plaza "ho plaza"));
-    "unknown town test next_towns" >:: (fun _ ->
-        assert_raises (UnknownTown "Uris") 
-          (fun () -> next_towns ho_plaza "Uris"));
-    (*"Score of start town of lonely town" >:: (fun _ -> 
-        assert_equal 10 (score lonely_town "the town")
-          ~printer:string_of_int);*)
-  ]
-let command_tests =
-  [
-    make_command_test "quit command" "quit" Quit;
-    "Empty input" >:: (fun _ -> 
-        assert_raises Empty (fun () -> parse ""));
-    "Spaces only" >:: (fun _ -> 
-        assert_raises Empty (fun () -> parse "      "));
-    make_command_test "go command" "go north east" (Go["north";"east"]);
-    make_command_test "take command" "take key" (Take["key"]);
-    make_command_test "bag command" "bag" Bag;
-    make_command_test "bag command" "bag" Bag;
-    make_malformed_test "bad verb" "cheat find exit";
-    make_malformed_test "bad quit" "quit now";
-    make_malformed_test "bad go" "go";
-    make_malformed_test "bad lock" "lock";
-    make_malformed_test "bad unlock" "unlock";
-    make_malformed_test "bad take" "take";
-    make_malformed_test "bad drop" "drop";
-    make_malformed_test "bad score" "score please";
-    make_malformed_test "bad bag" "bag now";
-  ]
-(* Creating initial state for lonely_town *)
-let lonely_init_st = init_state lonely_town
-(* Creating initial state for ho_plaza *)
-let ho_init_st = init_state ho_plaza
-(* Creating state of ho_plaza at tower *)
-let tower_st = 
-  match (go "chimes" ho_plaza ho_init_st) with
-  | Legal st -> st
-  | Illegal _-> failwith "ERROR"
-let state_tests =
-  [
-    "current town at start of lonely_town" >:: (fun _ ->
-        assert_equal "the town" (current_town_id lonely_init_st)
-          ~printer:(fun x->x));
-    "current town at start of ho_plaza" >:: (fun _ ->
-        assert_equal "ho plaza" (current_town_id ho_init_st));
-    make_go_test_Illegal "ho plaza to bailey" "up" ho_plaza ho_init_st;
-    make_go_test_legal_cur "ho plaza to health: current town health" 
-      "Cornell Health" ho_plaza ho_init_st "health";
-    make_go_test_legal_vis "ho plaza to health: visited [health; ho plaza]"
-      "Gannett" ho_plaza ho_init_st ["health";"ho plaza"];
-    make_go_test_legal_cur "ho plaza tower -> nirvana"
-      "higher" ho_plaza tower_st "nirvana"; 
-    make_go_test_legal_vis "ho plaza -> tower -> nirvana"
-      "higher" ho_plaza tower_st ["tower";"ho plaza";"nirvana"];
-  ]
-*)
+
 let mat_fun = "type_matrix.json"
               |> Yojson.Basic.from_file
               |> Types.type_matrix_and_hash
@@ -264,9 +150,12 @@ let type_tests =
           (fun () -> type_mat.(hash "plasma"). (hash "fire")));
   ]
 
+let _ = 
+  Stats.mon := "Mon1" 
+module Mon1 = Pokemon (Stats)
 let pokemon_tests = 
   [
-    "hp = 4">:: (fun _ -> 
+    "hp = 4" >:: (fun _ -> 
         assert_equal 4 (Mon1.get_hp Mon1.stats)~printer:string_of_int) 
   ]
 

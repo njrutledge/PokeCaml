@@ -2,10 +2,10 @@
   "Mon1": {
     "Type": "Normal",
     "Stats": {
-      "ATK": "1",
-      "DEF": "2",
-      "SPE": "3",
-      "HP": "4"
+      "ATK": 1,
+      "DEF": 2,
+      "SPE": 3,
+      "HP": 4
     },
     "Moves": [
       "hyper beam",
@@ -17,10 +17,10 @@
   "Mon2": {
     "Type": "Normal",
     "Stats": {
-      "ATK": "5",
-      "DEF": "6",
-      "SPE": "7",
-      "HP": "8"
+      "ATK": 5,
+      "DEF": 6,
+      "SPE": 7,
+      "HP": 8
     },
     "Moves": [
       "hyper beam",

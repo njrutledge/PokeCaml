@@ -13,7 +13,7 @@ module Stats : StatsSig = struct
   let json = 
     "testmons.json"
     |> Yojson.Basic.from_file
-  let mon = ref ""
+  let mon = ref "Mon1"
   let get_data mon_name = json |> member mon_name 
 end
 
@@ -62,6 +62,8 @@ module Pokemon (S: StatsSig) = struct
 
   }
   let stats = 
+    let () = print_endline !S.mon in 
+    let () = print_endline "NAME PRINTED ABOVE" in 
     let json = S.get_data !S.mon in 
     {
       el_type = 

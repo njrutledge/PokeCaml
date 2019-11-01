@@ -2,12 +2,12 @@
   "Squirtle": {
     "Type": "Water",
     "Stats": {
-      "ATK": "48",
-      "DEF": "65",
-      "SPE": "43",
-      "HP": "44",
-      "SPA": "50",
-      "SPD": "64"
+      "ATK": 48,
+      "DEF": 65,
+      "SPE": 43,
+      "HP": 44,
+      "SPA": 50,
+      "SPD": 64
     },
     "Moves": [
       "mega-punch",
@@ -106,12 +106,12 @@
   "Bulbasaur": {
     "Type": "Grass",
     "Stats": {
-      "ATK": "49",
-      "DEF": "49",
-      "SPE": "45",
-      "HP": "45",
-      "SPA": "65",
-      "SPD": "65"
+      "ATK": 49,
+      "DEF": 49,
+      "SPE": 45,
+      "HP": 45,
+      "SPA": 65,
+      "SPD": 65
     },
     "Moves": [
       "swords-dance",
@@ -197,12 +197,12 @@
   "Charmander": {
     "Type": "Fire",
     "Stats": {
-      "ATK": "52",
-      "DEF": "43",
-      "SPE": "65",
-      "HP": "39",
-      "SPA": "60",
-      "SPD": "50"
+      "ATK": 52,
+      "DEF": 43,
+      "SPE": 65,
+      "HP": 39,
+      "SPA": 60,
+      "SPD": 50
     },
     "Moves": [
       "mega-punch",
