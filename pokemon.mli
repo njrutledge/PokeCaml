@@ -9,28 +9,39 @@ end
 module Stats : StatsSig
 
 module type PokeSig = sig
-  include MoveSig
-  type t
   type t_type = string 
-  type t_hp = int
-  type t_attack = int
-  type t_defense = int
-  type t_speed = int 
+  type t_hp = float
+  type t_attack = float
+  type t_defense = float
+  type t_speed = float 
   type t_moves = Moves.t list
+  type t = {
+    el_type: t_type;
+    mutable name : string;
+    mutable max_hp : t_hp;
+    mutable hp: t_hp;
+    mutable lvl: float;
+    mutable attack: t_attack;
+    mutable defense: t_defense;
+    mutable speed: t_speed;
+    mutable moves: t_moves;
+    evolution: string;
+  }
 
-  val stats : t
-  val change_hp : t -> int -> unit
+  val set_file : string -> unit
+  val create_pokemon: string -> float -> t
+  val change_hp : t -> t_hp -> unit
   val incr_stats : t -> unit
   val fainted : t -> bool 
+  val get_name : t -> string
   val get_type : t -> t_type
   val get_moves : t -> Moves.t list
-  val get_hp : t -> int
-  val get_max_hp : t -> int 
-  val get_attack : t -> int
-  val get_defense : t -> int
-  val get_speed : t -> int
+  val get_hp : t -> t_hp
+  val get_max_hp : t -> t_hp
+  val get_attack : t -> t_attack
+  val get_defense : t -> t_defense
+  val get_speed : t -> t_speed
+  val get_move : t -> string -> Moves.t
 end
 
-module type PokemonMaker = functor (S: StatsSig) -> PokeSig
-
-module Pokemon : PokemonMaker
+module Pokemon : PokeSig

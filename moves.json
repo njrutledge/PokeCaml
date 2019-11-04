@@ -1,0 +1,56 @@
+{
+  "pulverizing pancake": {
+    "desc": "splat",
+    "power": 210.0,
+    "accuracy": 100.0,
+    "types": [
+      "normal"
+    ],
+    "uses": 5
+  },
+  "blast burn": {
+    "desc": "hot. very very hot.",
+    "power": 2.0,
+    "accuracy": 100.0,
+    "types": [
+      "fire"
+    ],
+    "uses": 10
+  },
+  "hydro cannon": {
+    "desc": "drown your enemies in sorrow.",
+    "power": 3.0,
+    "accuracy": 100.0,
+    "types": [
+      "water"
+    ],
+    "uses": 15
+  },
+  "thunder": {
+    "desc": "zap",
+    "power": 4.0,
+    "accuracy": 100.0,
+    "types": [
+      "electric"
+    ],
+    "uses": 20
+  },
+  "tackle": {
+    "desc": "bam",
+    "power": 1.0,
+    "accuracy": 100.0,
+    "types": [
+      "normal"
+    ],
+    "uses": 30
+  },
+  "struggle": {
+    "desc": "zap",
+    "power": 50.0,
+    "accuracy": 100.0,
+    "types": [
+      "normal"
+    ],
+    "uses": 100
+  }
+}

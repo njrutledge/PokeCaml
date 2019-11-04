@@ -1,31 +1,30 @@
 {
   "Mon1": {
-    "Type": "Normal",
+    "Type": "normal",
     "Stats": {
-      "ATK": 1,
-      "DEF": 2,
-      "SPE": 3,
-      "HP": 4
+      "ATK": 1.0,
+      "DEF": 2.0,
+      "SPE": 3.0,
+      "HP": 100.0
     },
     "Moves": [
-      "hyper beam",
+      "pulverizing pancake",
       "blast burn",
-      "hydro cannon"
+      "hydro cannon",
+      "thunder"
     ],
     "Evolution": "Mon3"
   },
   "Mon2": {
-    "Type": "Normal",
+    "Type": "water",
     "Stats": {
-      "ATK": 5,
-      "DEF": 6,
-      "SPE": 7,
-      "HP": 8
+      "ATK": 5.0,
+      "DEF": 6.0,
+      "SPE": 7.0,
+      "HP": 50.0
     },
     "Moves": [
-      "hyper beam",
-      "blast burn",
-      "hydro cannon"
+      "tackle"
     ],
     "Evolution": "Mon4"
   }

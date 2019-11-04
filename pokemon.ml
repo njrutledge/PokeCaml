@@ -18,94 +18,121 @@ module Stats : StatsSig = struct
 end
 
 module type PokeSig = sig
-  include MoveSig
-
-  type t
   type t_type = string 
-  type t_hp = int
-  type t_attack = int
-  type t_defense = int
-  type t_speed = int 
-  type t_moves = Moves.t list
-
-  val stats: t
-  val change_hp : t -> int -> unit
-  val incr_stats : t -> unit
-  val fainted : t -> bool 
-  val get_type : t -> t_type
-  val get_moves : t -> Moves.t list
-  val get_hp : t -> int
-  val get_max_hp : t -> int 
-  val get_attack : t -> int
-  val get_defense : t -> int
-  val get_speed : t -> int
-end
-
-module type PokemonMaker = functor (S: StatsSig) -> PokeSig
-
-module Pokemon (S: StatsSig) = struct
-  type t_type = string
-  type t_hp = int
-  type t_attack = int
-  type t_defense = int
-  type t_speed = int 
+  type t_hp = float
+  type t_attack = float
+  type t_defense = float
+  type t_speed = float 
   type t_moves = Moves.t list
   type t = {
     el_type: t_type;
+    mutable name : string;
     mutable max_hp : t_hp;
     mutable hp: t_hp;
+    mutable lvl: float;
     mutable attack: t_attack;
     mutable defense: t_defense;
     mutable speed: t_speed;
     mutable moves: t_moves;
     evolution: string;
-
   }
-  let stats = 
-    let () = print_endline !S.mon in 
-    let () = print_endline "NAME PRINTED ABOVE" in 
-    let json = S.get_data !S.mon in 
+
+  val set_file : string -> unit
+  val create_pokemon: string -> float -> t
+  val change_hp : t -> t_hp -> unit
+  val incr_stats : t -> unit
+  val fainted : t -> bool 
+  val get_name : t -> string
+  val get_type : t -> t_type
+  val get_moves : t -> Moves.t list
+  val get_hp : t -> t_hp
+  val get_max_hp : t -> t_hp
+  val get_attack : t -> t_attack
+  val get_defense : t -> t_defense
+  val get_speed : t -> t_speed
+  val get_move : t -> string -> Moves.t
+end
+
+module M = Moves
+
+module Pokemon : PokeSig = struct
+  type t_type = string
+  type t_hp = float
+  type t_attack = float
+  type t_defense = float
+  type t_speed = float
+  type t_moves = M.t list
+  type t = {
+    el_type: t_type;
+    mutable name : string;
+    mutable max_hp : t_hp;
+    mutable hp: t_hp;
+    mutable lvl: float;
+    mutable attack: t_attack;
+    mutable defense: t_defense;
+    mutable speed: t_speed;
+    mutable moves: t_moves;
+    evolution: string;
+  }
+  let file_name = ref ""
+
+  let set_file str = 
+    file_name := str
+
+  let get_data mon = 
+    let json = Yojson.Basic.from_file !file_name in 
+    json |> member mon
+
+  let create_pokemon mon_name start_lvl = 
+    let json = get_data mon_name in 
     {
       el_type = 
         json 
         |> member "Type"
         |> to_string;
+      name = mon_name;
       max_hp = 
         json 
         |> member "Stats"
         |> member "HP"
-        |> to_int;
+        |> to_float;
       hp = 
         json 
         |> member "Stats"
         |> member "HP"
-        |> to_int;
+        |> to_float;
       attack = 
         json 
         |> member "Stats"
         |> member "ATK"
-        |> to_int; 
+        |> to_float; 
       speed = 
         json 
         |> member "Stats"
         |> member "SPE"
-        |> to_int;
+        |> to_float;
       defense = 
         json 
         |> member "Stats"
         |> member "DEF"
-        |> to_int;
-      moves = [];
-      evolution = ""
+        |> to_float;
+      moves = 
+        json
+        |> member "Moves"
+        |> to_list
+        |> List.map to_string 
+        |> List.map Moves.create_move;
+      evolution = "";
       (*json
         |> member "Evolution"
         |> to_string;*)
+      lvl = start_lvl;
     }
   let get_max_hp mon = mon.max_hp
 
   let change_hp mon hp = 
     mon.hp <- (      
-      let new_hp = mon.hp + hp in
+      let new_hp = mon.hp +. hp in
       if new_hp < get_max_hp mon 
       then new_hp 
       else get_max_hp mon
@@ -113,7 +140,9 @@ module Pokemon (S: StatsSig) = struct
 
   let incr_stats mon = failwith "Unimplemented"
 
-  let fainted mon = mon.hp <= 0
+  let fainted mon = mon.hp <= 0.
+
+  let get_name mon = mon.name
 
   let get_type mon = mon.el_type
 
@@ -128,5 +157,12 @@ module Pokemon (S: StatsSig) = struct
   let get_defense mon = mon.defense
 
   let get_speed mon = mon.speed
+
+  let get_move mon move = 
+    let rec find_move (lst : M.t list) =
+      match lst with 
+      | [] -> failwith "move not in moveset"
+      | h :: t -> if move = h.move_name then h else find_move t
+    in find_move mon.moves
 
 end

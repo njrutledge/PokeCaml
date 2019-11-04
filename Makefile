@@ -1,4 +1,4 @@
-MODULES=adventure command state main author battle types moves pokemon
+MODULES=adventure command state main author types battle moves pokemon btlcmd
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)

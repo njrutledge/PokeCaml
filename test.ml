@@ -117,11 +117,6 @@ let make_type_test name mat atk def hash exp_mult =
   name >:: (fun _ ->
       assert_equal exp_mult (mat.(hash atk).(hash def))
         ~printer:string_of_float)
-
-let set_mon_name mon =
-  Stats.mon := mon
-
-module Mon2 = Pokemon (Stats)
 (********************************************************************
    End helper functions.
  ********************************************************************)
@@ -150,14 +145,17 @@ let type_tests =
           (fun () -> type_mat.(hash "plasma"). (hash "fire")));
   ]
 
-let _ = 
-  Stats.mon := "Mon1" 
-module Mon1 = Pokemon (Stats)
+module PM = Pokemon
+let _ = PM.set_file "testmons.json"
+let mon1 = PM.create_pokemon "Mon1" 1.
 let pokemon_tests = 
   [
     "hp = 4" >:: (fun _ -> 
-        assert_equal 4 (Mon1.get_hp Mon1.stats)~printer:string_of_int) 
+        assert_equal 4. (mon1.hp)~printer:string_of_float);
+    "name = Mon1">:: (fun _ ->
+        assert_equal "Mon1" (mon1.name));
   ]
+
 
 let suite =
   "test suite for A2"  >::: List.flatten [
