@@ -156,7 +156,6 @@ let pokemon_tests =
         assert_equal "Mon1" (mon1.name));
   ]
 
-
 let suite =
   "test suite for A2"  >::: List.flatten [
     (*adventure_tests;
