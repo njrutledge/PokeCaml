@@ -76,7 +76,7 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_name =
     print_endline ("It has no effect!") 
   else if modifier < 1. then 
     print_endline ("It's not very effective...")
-  else if modifier > 2. then
+  else if modifier >= 2. then
     print_endline ("It's super effectrive!")
   else ();
   def_mon.hp <- def_mon.hp -. move_damage
