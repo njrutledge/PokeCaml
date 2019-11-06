@@ -119,16 +119,16 @@ let rec loop (player_mon : PM.t) (cpu_mon : PM.t) =
   print_string "> ";
   get_command player_mon cpu_mon (read_line ());
   if PM.fainted cpu_mon then begin 
-    print_endline "player wins!";
     print_endline Ascii.caml;
+    print_endline "player wins!";
     execute_quit cpu_mon
   end
   else ();
   print_string "\n";
   execute_cpu_turn player_mon cpu_mon;
   if PM.fainted player_mon then begin
-    print_endline "player loses!";
     print_endline Ascii.suprise;
+    print_endline "player loses!";
     execute_quit player_mon
   end
   else ();
@@ -139,8 +139,11 @@ let rec loop (player_mon : PM.t) (cpu_mon : PM.t) =
 let play_game f =
   PM.set_file f;
   print_endline Ascii.pokemon_opening;
+  print_endline "Which pokemon?";
+  print_string "> ";
+  let def = read_line () in
   let atk_mon = PM.create_pokemon "Mon1" 1. in
-  let def_mon = PM.create_pokemon "Mon2" 1. in 
+  let def_mon = PM.create_pokemon def 1. in 
   loop atk_mon def_mon
 
 let main () = ANSITerminal.(print_string [red] "\n\nStarting battle\n");

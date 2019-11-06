@@ -19,7 +19,7 @@
   },
   "Mon2": {
     "Types": [
-      "normal"
+      "water"
     ],
     "Stats": {
       "ATK": 75.0,
@@ -37,7 +37,7 @@
   },
   "Mon3": {
     "Types": [
-      "normal"
+      "ground"
     ],
     "Stats": {
       "ATK": 120.0,
