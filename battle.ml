@@ -94,7 +94,7 @@ let rec get_command atk_mon def_mon input =
   | Pokemon.UnknownMove m -> 
     ANSITerminal.(print_string [red] "\nError: move not valid. Please input a valid command.\n");
     print_string "> ";
-    execute_command atk_mon def_mon (read_line ())
+    get_command atk_mon def_mon (read_line ())
 
 let execute_cpu_turn player_mon cpu_mon = 
   Random.self_init();
