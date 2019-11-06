@@ -92,7 +92,9 @@ let rec get_command atk_mon def_mon input =
     print_string "> ";
     get_command atk_mon def_mon (read_line ())
   | Pokemon.UnknownMove m -> 
-    ANSITerminal.(print_string [red] "\nError: move not valid\n")
+    ANSITerminal.(print_string [red] "\nError: move not valid. Please input a valid command.\n");
+    print_string "> ";
+    execute_command atk_mon def_mon (read_line ())
 
 let execute_cpu_turn player_mon cpu_mon = 
   Random.self_init();
@@ -110,7 +112,8 @@ let rec loop (player_mon : PM.t) (cpu_mon : PM.t) =
   print_string "\n";
   print_endline ("--" ^ player_mon.name ^ "--");
   print_endline ("< hp" ^ ": " ^ string_of_float player_mon.hp ^ " >");
-  print_endline "Choose your move";
+  print_string "\n";
+  print_endline "Choose your move:";
   print_endline (PM.format_moves_names player_mon);
   print_string "\n";
   print_string "> ";
