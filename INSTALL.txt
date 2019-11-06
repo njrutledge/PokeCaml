@@ -1,1 +1,10 @@
 run make build, then run make battle. 
+You will be prompted to input a pokemon name to battle. The possible choices
+are currently Mon1 (a copy of your pokemon), Mon2, or Mon3
+
+commands:
+ attack [move name] 
+  - attacks the pokemon with the inputted move
+  - ex: attack tackle
+ moves
+  - prints out a detailed description of each of your pokemon's known moves. 
