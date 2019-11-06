@@ -29,6 +29,7 @@ type object_phrase = string list
 type command = 
   | Attack of object_phrase
   | Item of object_phrase
+  | MovesInfo
   | Quit
 
 (** Raised when an empty command is parsed. *)

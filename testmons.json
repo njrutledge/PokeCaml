@@ -1,11 +1,13 @@
 {
   "Mon1": {
-    "Type": "normal",
+    "Types": [
+      "normal"
+    ],
     "Stats": {
-      "ATK": 1.0,
-      "DEF": 2.0,
-      "SPE": 3.0,
-      "HP": 100.0
+      "ATK": 112.73,
+      "DEF": 100.85,
+      "SPE": 94.69,
+      "HP": 97.10
     },
     "Moves": [
       "pulverizing pancake",
@@ -16,15 +18,38 @@
     "Evolution": "Mon3"
   },
   "Mon2": {
-    "Type": "water",
+    "Types": [
+      "normal"
+    ],
     "Stats": {
-      "ATK": 5.0,
-      "DEF": 6.0,
-      "SPE": 7.0,
-      "HP": 50.0
+      "ATK": 75.0,
+      "DEF": 75.0,
+      "SPE": 75.0,
+      "HP": 75.0
     },
     "Moves": [
-      "tackle"
+      "tackle",
+      "ember",
+      "vine whip",
+      "zippy zap"
+    ],
+    "Evolution": "Mon4"
+  },
+  "Mon3": {
+    "Types": [
+      "normal"
+    ],
+    "Stats": {
+      "ATK": 120.0,
+      "DEF": 110.0,
+      "SPE": 100.0,
+      "HP": 120.0
+    },
+    "Moves": [
+      "pulverizing pancake",
+      "leaf blade",
+      "precipice blades",
+      "10,000,000 Volt Thunderbolt"
     ],
     "Evolution": "Mon4"
   }

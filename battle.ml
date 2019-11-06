@@ -1,39 +1,20 @@
-(* TODO: print move list, make sure it doesn't crash when invalid move is
-   entered, add moves for cpu *)
+(* TODO: ascii art, add moves for cpu, stab, better ai, certain abilities,
+   items, crits, stat affecting moves, self damaging moves, variable damage moves,
+   more types, special vs physical *)
 
 open Moves
 open Pokemon
+open Random
 module PM = Pokemon
+
 (** Raised when the player tries to do something illegal. *)
 exception IllegalMove of string
 
 type update = 
-    State of State.t 
+  | State of State.t 
   | Adv of Adventure.t 
-  | Both of Adventure.t*State.t
+  | Both of Adventure.t * State.t
   | None
-
-module type Battle = sig
-  type t
-  type mymon = Pokemon
-  type enemymon = Pokemon
-  type monmoves = Moves.t list
-
-  val from_json : Yojson.Basic.t -> t
-  val moves : t -> Moves.t list
-  val attack : t -> unit
-  val item : unit
-  val team : t -> t 
-  val run : t -> int
-end
-
-module Battle = struct
-  let moves mov = failwith ""
-  let attack atk = failwith ""
-  let item it = failwith ""
-  let team battle = failwith ""
-  let run battle = 0
-end
 
 (** [execute_quit] quits the adventure. *)
 let execute_quit mon = 
@@ -49,9 +30,9 @@ let damage level power attack defense modifier =
     |> ( *. ) modifier*)
   modifier*.((((((2.*.level)/.5.)+. 2.)*.power*.(attack/.defense))/. 50.) +. 2.)
 
-let rec get_modifier def_type acc mat hash = function
+let rec get_modifier move_type acc mat hash = function
   | [] -> acc
-  | h::t -> get_modifier def_type (acc*.mat.(hash h).(hash def_type)) mat hash t
+  | h::t -> get_modifier move_type (acc*.mat.(hash move_type).(hash h)) mat hash t
 
 (** [execute_go adv st ph] is the state update of the adventure after running 
     [state.go adv st ph'], where [ph'] is the string representation of 
@@ -63,7 +44,7 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_name =
   let type_mat = fst type_mat_and_hash in 
   let hash = snd type_mat_and_hash in 
   let move = PM.get_move atk_mon move_name in 
-  let modifier = (get_modifier def_mon.el_type 1. type_mat hash move.el_type) in
+  let modifier = (get_modifier move.el_type 1. type_mat hash def_mon.el_type) in
   let move_damage = damage 
       atk_mon.lvl 
       move.power
@@ -77,7 +58,7 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_name =
   else if modifier < 1. then 
     print_endline ("It's not very effective...")
   else if modifier >= 2. then
-    print_endline ("It's super effectrive!")
+    print_endline ("It's super effective!")
   else ();
   def_mon.hp <- def_mon.hp -. move_damage
 
@@ -90,6 +71,11 @@ let rec execute_command atk_mon def_mon input =
   | Quit -> execute_quit atk_mon
   | Attack(phrase) -> execute_attack atk_mon def_mon (String.concat " " phrase)
   | Item(phrase) -> execute_item atk_mon def_mon (String.concat " " phrase)
+  | MovesInfo ->
+    ANSITerminal.(print_string [green] 
+                    ("Move info: \n" ^ (PM.format_moves_all atk_mon) ^ "\n"));
+    print_string "> ";
+    execute_command atk_mon def_mon (read_line ())
 
 let rec get_command atk_mon def_mon input = 
   try
@@ -105,36 +91,51 @@ let rec get_command atk_mon def_mon input =
                     "\nError: please input valid command.\n");
     print_string "> ";
     get_command atk_mon def_mon (read_line ())
+  | Pokemon.UnknownMove m -> 
+    ANSITerminal.(print_string [red] "\nError: move not valid\n")
+
+let execute_cpu_turn player_mon cpu_mon = 
+  Random.self_init();
+  let cpu_moves = PM.get_moves cpu_mon in 
+  let used_move = List.nth cpu_moves (Random.int (List.length cpu_moves)) 
+                  |> Moves.name in 
+  execute_attack cpu_mon player_mon used_move
 
 (** [loop adv state] executes a REPL for the game. Quits on recieving 
     "quit". *)
-let rec loop (player_mon : PM.t) (cp_mon : PM.t) = 
+let rec loop (player_mon : PM.t) (cpu_mon : PM.t) = 
   print_string "\n";
-  print_endline cp_mon.name;
-  print_endline ("hp" ^ ": " ^ string_of_float cp_mon.hp);
+  print_endline ("--" ^ cpu_mon.name ^ "--");
+  print_endline ("< hp" ^ ": " ^ string_of_float cpu_mon.hp ^ " >");
   print_string "\n";
-  print_endline player_mon.name;
-  print_endline ("hp" ^ ": " ^ string_of_float player_mon.hp);
+  print_endline ("--" ^ player_mon.name ^ "--");
+  print_endline ("< hp" ^ ": " ^ string_of_float player_mon.hp ^ " >");
   print_endline "Choose your move";
+  print_endline (PM.format_moves_names player_mon);
   print_string "\n";
   print_string "> ";
-  get_command player_mon cp_mon (read_line ());
-  if PM.fainted cp_mon then begin 
+  get_command player_mon cpu_mon (read_line ());
+  if PM.fainted cpu_mon then begin 
     print_endline "player wins!";
-    execute_quit cp_mon
+    print_endline Ascii.caml;
+    execute_quit cpu_mon
   end
   else ();
-  execute_attack cp_mon player_mon "tackle";
+  print_string "\n";
+  execute_cpu_turn player_mon cpu_mon;
   if PM.fainted player_mon then begin
     print_endline "player loses!";
+    print_endline Ascii.suprise;
     execute_quit player_mon
   end
   else ();
-  loop player_mon cp_mon
+  print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
+  loop player_mon cpu_mon
 
 (** [play_game f] starts the adventure in file [f]. *)
 let play_game f =
   PM.set_file f;
+  print_endline Ascii.pokemon_opening;
   let atk_mon = PM.create_pokemon "Mon1" 1. in
   let def_mon = PM.create_pokemon "Mon2" 1. in 
   loop atk_mon def_mon

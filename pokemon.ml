@@ -1,6 +1,7 @@
 open Moves
 open Types
 open Yojson.Basic.Util
+exception UnknownMove of string
 
 module type StatsSig = sig
   type t = Yojson.Basic.t
@@ -18,6 +19,7 @@ module Stats : StatsSig = struct
 end
 
 module type PokeSig = sig
+  exception UnknownMove of string
   type t_type = string 
   type t_hp = float
   type t_attack = float
@@ -25,7 +27,7 @@ module type PokeSig = sig
   type t_speed = float 
   type t_moves = Moves.t list
   type t = {
-    el_type: t_type;
+    el_type: t_type list;
     mutable name : string;
     mutable max_hp : t_hp;
     mutable hp: t_hp;
@@ -43,7 +45,7 @@ module type PokeSig = sig
   val incr_stats : t -> unit
   val fainted : t -> bool 
   val get_name : t -> string
-  val get_type : t -> t_type
+  val get_type : t -> t_type list
   val get_moves : t -> Moves.t list
   val get_hp : t -> t_hp
   val get_max_hp : t -> t_hp
@@ -51,11 +53,14 @@ module type PokeSig = sig
   val get_defense : t -> t_defense
   val get_speed : t -> t_speed
   val get_move : t -> string -> Moves.t
+  val format_moves_names : t -> string
+  val format_moves_all: t -> string
 end
 
 module M = Moves
 
 module Pokemon : PokeSig = struct
+  exception UnknownMove of string
   type t_type = string
   type t_hp = float
   type t_attack = float
@@ -63,7 +68,7 @@ module Pokemon : PokeSig = struct
   type t_speed = float
   type t_moves = M.t list
   type t = {
-    el_type: t_type;
+    el_type: t_type list;
     mutable name : string;
     mutable max_hp : t_hp;
     mutable hp: t_hp;
@@ -88,8 +93,9 @@ module Pokemon : PokeSig = struct
     {
       el_type = 
         json 
-        |> member "Type"
-        |> to_string;
+        |> member "Types"
+        |> to_list
+        |> List.map to_string;
       name = mon_name;
       max_hp = 
         json 
@@ -161,8 +167,25 @@ module Pokemon : PokeSig = struct
   let get_move mon move = 
     let rec find_move (lst : M.t list) =
       match lst with 
-      | [] -> failwith "move not in moveset"
+      | [] -> raise (UnknownMove move)
       | h :: t -> if move = h.move_name then h else find_move t
     in find_move mon.moves
+
+  let format_moves_names mon = 
+    let rec format_moves_names' moves acc =
+      match moves with 
+      | [] -> acc
+      | h :: [] -> format_moves_names' [] (acc ^ (Moves.name h))
+      | h :: t -> format_moves_names' t (acc ^ (Moves.name h) ^ "\n")
+    in (format_moves_names' (get_moves mon) "\n")
+
+  let format_moves_all mon = 
+    let rec format_moves_all' moves acc =
+      match moves with 
+      | [] -> acc
+      | h :: [] -> format_moves_all' [] (acc ^ (Moves.to_string h))
+      | h :: t -> format_moves_all' t (acc ^ Moves.to_string h ^ "\n")
+    in (format_moves_all' (get_moves mon) "\n") 
+
 
 end

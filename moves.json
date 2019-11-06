@@ -1,56 +1,114 @@
 {
+  "tackle": {
+    "desc": "bam",
+    "power": 40.0,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 35
+  },
+  "struggle": {
+    "desc": "ouch bam",
+    "power": 50.0,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 100
+  },
   "pulverizing pancake": {
     "desc": "splat",
     "power": 210.0,
     "accuracy": 100.0,
-    "types": [
-      "normal"
-    ],
+    "type": "normal",
     "uses": 5
   },
   "blast burn": {
-    "desc": "hot. very very hot.",
-    "power": 2.0,
+    "desc": "hot. very very hot. dante would be proud.",
+    "power": 150.0,
+    "accuracy": 90.0,
+    "type": "fire",
+    "uses": 5
+  },
+  "ember": {
+    "desc": "barely hot.",
+    "power": 25.0,
     "accuracy": 100.0,
-    "types": [
-      "fire"
-    ],
-    "uses": 10
+    "type": "fire",
+    "uses": 40
+  },
+  "leaf blade": {
+    "desc": "slicey slice.",
+    "power": 90.0,
+    "accuracy": 100.0,
+    "type": "grass",
+    "uses": 15
+  },
+  "vine whip": {
+    "desc": "slash",
+    "power": 45.0,
+    "accuracy": 100.0,
+    "type": "grass",
+    "uses": 25
+  },
+  "bubble": {
+    "desc": "bloop bloop.",
+    "power": 40.0,
+    "accuracy": 100.0,
+    "type": "water",
+    "uses": 30
   },
   "hydro cannon": {
     "desc": "drown your enemies in sorrow.",
-    "power": 3.0,
+    "power": 150.0,
+    "accuracy": 90.0,
+    "type": "water",
+    "uses": 5
+  },
+  "Oceanic Operetta": {
+    "desc": "super glub glub",
+    "power": 195.0,
+    "accuracy": 100000.0,
+    "type": "water",
+    "uses": 1
+  },
+  "thunder shock": {
+    "desc": "lil' zap",
+    "power": 40.0,
     "accuracy": 100.0,
-    "types": [
-      "water"
-    ],
+    "type": "electric",
+    "uses": 30
+  },
+  "zippy zap": {
+    "desc": "zippy zap",
+    "power": 50.0,
+    "accuracy": 100.0,
+    "type": "electric",
     "uses": 15
   },
   "thunder": {
-    "desc": "zap",
-    "power": 4.0,
-    "accuracy": 100.0,
-    "types": [
-      "electric"
-    ],
+    "desc": "bigly zap",
+    "power": 110.0,
+    "accuracy": 70.0,
+    "type": "electric",
+    "uses": 5
+  },
+  "10,000,000 Volt Thunderbolt": {
+    "desc": "super zap",
+    "power": 195.0,
+    "accuracy": 100000.0,
+    "type": "electric",
+    "uses": 1
+  },
+  "bone club": {
+    "desc": "thwock",
+    "power": 65.0,
+    "accuracy": 85.0,
+    "type": "ground",
     "uses": 20
   },
-  "tackle": {
-    "desc": "bam",
-    "power": 1.0,
-    "accuracy": 100.0,
-    "types": [
-      "normal"
-    ],
-    "uses": 30
-  },
-  "struggle": {
-    "desc": "zap",
-    "power": 50.0,
-    "accuracy": 100.0,
-    "types": [
-      "normal"
-    ],
-    "uses": 100
+  "precipice blades": {
+    "desc": "cracka-boom",
+    "power": 120.0,
+    "accuracy": 85.0,
+    "type": "ground",
+    "uses": 5
   }
 }
