@@ -18,3 +18,6 @@ _build
 \#*\#
 .DS_Store
 
+#other
+.idea
+
