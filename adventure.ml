@@ -1,4 +1,5 @@
 open Yojson.Basic.Util
+open Battle
 
 type town_id = string
 type exit_name = string
@@ -43,9 +44,20 @@ type win = {
   win_message : string;
 }
 
+type bat = 
+  | Wild of int 
+  | Trainer of string
+
+type route = {
+  route_name : string;
+  battles : bat list
+}
+
 type t = {
   towns : town list;
+  routes : route list;
   start : town_id;
+  poke_file : string;
   (*items : item list;*)
   (*treasure_town : t_town;*)
   (*win_msgs : win list;*)
@@ -68,6 +80,7 @@ let json_exit j_exit = {
     j_exit 
     |> member "name" 
     |> to_string;
+
 }
 
 let json_dynamic_desc j_dy_desc = {
@@ -117,23 +130,52 @@ let json_item j_item = {
     |> to_string;
 }
 
-let from_json json = 
-  {
-    towns = 
-      json 
-      |> member "places" 
-      |> to_list 
-      |> List.map json_town;
-    start = 
-      json 
-      |> member "start town"  
-      |> to_string;
-    (*items = 
-      json
-      |> member "adventure items"
-      |> to_list
-      |> List.map json_item;*)
-  }
+let rec make_bats acc = function 
+  | [] ->  acc
+  | h :: t -> if h = "wild" then make_bats (Wild 1 :: acc) t 
+    else make_bats (Trainer h :: acc) t
+
+let json_route j_route = {
+  route_name = 
+    j_route 
+    |> member "name"
+    |> to_string;
+  battles = 
+    j_route 
+    |> member "battles" 
+    |> to_list 
+    |> List.map to_string 
+    |> make_bats [];
+}
+
+let from_json json = {
+  towns = 
+    json 
+    |> member "places" 
+    |> to_list 
+    |> List.map json_town;
+  start = 
+    json 
+    |> member "start town"  
+    |> to_string;
+  routes = 
+    json
+    |> member "route_file" 
+    |> to_string
+    |> Yojson.Basic.from_file
+    |> member "routes"
+    |> to_list
+    |> List.map json_route;
+  poke_file = 
+    json
+    |> member "pokemon_file" 
+    |> to_string;
+  (*items = 
+    json
+    |> member "adventure items"
+    |> to_list
+    |> List.map json_item;*)
+}
 
 let start_town adv =
   adv.start
@@ -216,3 +258,20 @@ let modify_town_exit mod_f adv town ex =
     | h::t -> if h.id = town then modify_exit mod_f h ex :: t else 
         h :: find_town t
   in find_town adv.towns
+
+(** [find_route adv town r] is the route associated with route_name [r].
+    Raises [UnknownTown town] if [town] is not a town identifier in [a]. 
+    Raises [UnknownExit e] if [e] is not an exit identifier of town [r], or if 
+    [r] is not a valid route for the current town. *)
+let get_battles adv town r = 
+  if (adv.towns |> find_town town).exits 
+     |> List.map (fun x -> x.name) 
+     |> List.mem r then 
+    adv.routes 
+    |> List.find (fun x -> x.route_name = r) 
+    |> (fun x -> x.battles) 
+  else raise(UnknownExit r)
+
+let take_route adv town r = 
+  let next = next_town adv town r in 
+  (get_battles adv town r, next)

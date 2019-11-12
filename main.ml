@@ -58,12 +58,16 @@ let execute_party adv st =
   in print_endline (print_party party "");
   None
 
+let execute_go_route adv st route = None
+
+
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state].  *)
 let rec execute_command adv state input = 
   match Command.parse input with 
   | Quit -> execute_quit adv
   | Go(phrase) -> execute_go adv state (String.concat " " phrase)
+  | GoRoute(phrase) -> execute_go_route adv state (String.concat " " phrase)
   | Take(phrase) -> execute_take adv state (String.concat " " phrase)
   | Party -> execute_party adv state
   | Bag -> execute_Bag state
@@ -116,7 +120,6 @@ let show_win_msg adv score =
   print_int (score);
   print_endline "";
   exit 0
-
 
 (** [loop adv state] executes a REPL for the game. Quits on recieving 
     "quit". *)

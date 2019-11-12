@@ -4,6 +4,7 @@
 
 open Moves
 open Pokemon
+open Random
 module PM = Pokemon
 
 (** Raised when the player tries to do something illegal. *)
@@ -118,7 +119,7 @@ let rec loop (player_mon : PM.t) (cpu_mon : PM.t) =
   print_string "> ";
   get_command player_mon cpu_mon (read_line ());
   if PM.fainted cpu_mon then begin 
-    (*print_endline Ascii.caml;*)
+    print_endline Ascii.caml;
     print_endline "player wins!";
     execute_quit cpu_mon
   end
@@ -126,7 +127,7 @@ let rec loop (player_mon : PM.t) (cpu_mon : PM.t) =
   print_string "\n";
   execute_cpu_turn player_mon cpu_mon;
   if PM.fainted player_mon then begin
-    (*print_endline Ascii.suprise;*)
+    print_endline Ascii.suprise;
     print_endline "player loses!";
     execute_quit player_mon
   end
@@ -135,19 +136,18 @@ let rec loop (player_mon : PM.t) (cpu_mon : PM.t) =
   loop player_mon cpu_mon
 
 (** [play_game f] starts the adventure in file [f]. *)
-let play_game file state enemy_mons =
-  PM.set_file file ;
-  (*print_endline Ascii.pokemon_opening;
-    print_endline "Which pokemon?";
-    print_string "> ";
-    let def = read_line () in*)
-  let atk_mons = State.get_party state in
-  match atk_mons, enemy_mons with
-  | (h1 :: t1), (h2 :: t2) -> let fst_mon = h1 in 
-    let fst_enemy_mon = h2 in loop fst_mon fst_enemy_mon
-  | _ -> failwith "Empty mons"
+let play_game f =
+  PM.set_file f;
+  print_endline Ascii.pokemon_opening;
+  print_endline "Which pokemon?";
+  print_string "> ";
+  let def = read_line () in
+  let atk_mon = PM.create_pokemon "Mon1" 1. in
+  let def_mon = PM.create_pokemon def 1. in 
+  loop atk_mon def_mon
 
-let main st enemy_mons= ANSITerminal.(print_string [red] "\n\nStarting battle\n");
-  play_game "testmons.json" st enemy_mons
+let main () = ANSITerminal.(print_string [red] "\n\nStarting battle\n");
+  play_game "testmons.json"
 
 (* Execute the game engine. *)
+let () = main ()

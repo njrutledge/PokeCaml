@@ -31,10 +31,9 @@ val init_state : Adventure.t -> t
     currently is located in state [st]. *)
 val current_town_id : t -> string
 
-(** [visited st] is a set-like list of the town identifiers the adventurer has 
-    visited in state [st]. The adventurer has visited a town [rm] if their
-    current town location is or has ever been [rm]. *)
-val visited : t -> string list
+(** [last st] is the town identifier of the last town the adventurer has 
+    visited in state [st]. *)
+val last : t -> string
 
 (** The type representing the result of an attempted movement. *)
 type result = Legal of t | Illegal of string
@@ -46,6 +45,8 @@ type result = Legal of t | Illegal of string
     the result is [Illegal]. 
     Effects: none.  [go] is not permitted to do any printing. *)
 val go : Adventure.exit_name -> Adventure.t -> t -> result
+
+val route : Adventure.exit_name -> Adventure.t -> t -> result
 
 (* END DO NOT CHANGE
  **********************************************************************)

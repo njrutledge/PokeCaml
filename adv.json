@@ -65,5 +65,7 @@
       ]
     }
   ],
-  "start town": "My house"
+  "start town": "My house",
+  "route_file": "routes.json",
+  "pokemon_file": "testmons.json"
 }

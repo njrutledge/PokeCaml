@@ -1,17 +1,53 @@
 {
-  "route 1": {
-    "battles": [
-      "wild",
-      "Youngster Joey",
-      "wild",
-      "wild"
-    ]
-  },
-  "gym 1": {
-    "battles": [
-      "Trainer Alaia",
-      "Trainer Kerri",
-      "Gym Leader Clarkson"
-    ]
-  }
+  "routes": [
+    {
+      "name": "route 1110",
+      "battles": [
+        "wild",
+        "Youngster Joey",
+        "wild",
+        "wild"
+      ]
+    },
+    {
+      "name": "gym 1",
+      "battles": [
+        "TA Alaia",
+        "TA Kerri",
+        "Boss Clarkson"
+      ]
+    }
+  ],
+  "trainers": [
+    {
+      "name": "Youngster Joey",
+      "pokemon": [
+        "Mon2"
+      ]
+    },
+    {
+      "name": "TA Alaia",
+      "pokemon": [
+        "Mon2"
+      ]
+    },
+    {
+      "name": "TA Kerri",
+      "pokemon": [
+        "Mon2"
+      ]
+    },
+    {
+      "name": "Boss Clarkson",
+      "pokemon": [
+        "Mon3"
+      ]
+    },
+    {
+      "name": "wild",
+      "pokemon": [
+        "Mon2"
+      ]
+    }
+  ]
 }

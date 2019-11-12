@@ -40,10 +40,10 @@
       "ground"
     ],
     "Stats": {
-      "ATK": 120.0,
+      "ATK": 110.0,
       "DEF": 110.0,
       "SPE": 100.0,
-      "HP": 120.0
+      "HP": 100.0
     },
     "Moves": [
       "pulverizing pancake",

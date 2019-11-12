@@ -8,7 +8,7 @@ exception KeyNotFound
 
 type t = {
   cur_town : Adventure.town_id;
-  visited_towns : Adventure.town_id list;
+  last_town : Adventure.town_id;
   bag : string list;
   money : int;
   party: PM.t list
@@ -16,17 +16,17 @@ type t = {
 
 let init_state adv = {
   cur_town = Adventure.start_town adv;
-  visited_towns = [Adventure.start_town adv];
+  last_town = Adventure.start_town adv;
   bag = [];
   money = 500;
-  party = [PM.create_pokemon "Mon1" 1. ];
+  party = [PM.create_pokemon "Mon1" 1.];
 }
 
 let current_town_id st =
   st.cur_town
 
-let visited st =
-  st.visited_towns
+let last st =
+  st.last_town
 
 type result = Legal of t | Illegal of string
 
@@ -34,12 +34,22 @@ let go ex adv st =
   try 
     Legal{
       cur_town = Adventure.next_town adv st.cur_town ex;
-      visited_towns = List.sort_uniq compare
-          (Adventure.next_town adv st.cur_town ex :: st.visited_towns);
+      last_town = Adventure.next_town adv st.cur_town ex;
       bag = st.bag;
       money = st.money;
       party = st.party;
     }
+  with 
+  | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
+  | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
+
+let route ex adv st = 
+  try 
+    let (bats, next) = Adventure.take_route adv st.cur_town ex in 
+    let rec run_battles st' = function 
+      | [] -> Legal st'
+      | h::t -> run_battles (Battle.main st' [PM.create_mon h 1.]) t
+    in run_battles st bats
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")

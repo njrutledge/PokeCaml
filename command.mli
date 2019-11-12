@@ -31,6 +31,7 @@ type command =
   | Take of object_phrase
   | Bag
   | Party
+  | GoRoute of object_phrase
   | Quit
 
 (** Raised when an empty command is parsed. *)

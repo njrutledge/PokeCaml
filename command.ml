@@ -7,6 +7,7 @@ type command =
   | Take of object_phrase
   | Bag
   | Party
+  | GoRoute of object_phrase
   | Quit
 
 exception Empty
@@ -28,6 +29,7 @@ let make_command verb phrase =
       raise Malformed 
   else
   if verb = "go" then Go phrase else
+  if verb = "route" then GoRoute phrase else
   if verb = "take" then Take phrase else 
     raise Malformed 
 

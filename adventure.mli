@@ -17,7 +17,10 @@ exception UnknownItem of item_name
  * submission.
 *)
 
-(** The abstract type of values representing adventures. *)
+type bat = 
+  | Wild of int 
+  | Trainer of string
+  (** The abstract type of values representing adventures. *)
 type t
 
 (** The type of town identifiers. *)
@@ -90,3 +93,5 @@ val win_msg : t -> int -> string
     Raises [UnknownTown r] if [r] is not a town identifier in [a].
     Raises [UnknownExit e] if [e] is not an exit from town [r] in [a]. *)
 val keys : t -> town_id -> exit_name -> item_name list
+
+val take_route : t -> town_id -> exit_name -> bat list * town_id
