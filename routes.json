@@ -1,0 +1,17 @@
+{
+  "route 1": {
+    "battles": [
+      "wild",
+      "Youngster Joey",
+      "wild",
+      "wild"
+    ]
+  },
+  "gym 1": {
+    "battles": [
+      "Trainer Alaia",
+      "Trainer Kerri",
+      "Gym Leader Clarkson"
+    ]
+  }
+}

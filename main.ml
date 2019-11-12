@@ -1,3 +1,6 @@
+open Pokemon
+module PM = Pokemon
+
 (** Raised when the player tries to do something illegal. *)
 exception IllegalMove of string
 
@@ -46,6 +49,15 @@ let execute_Bag st =
                   ("bag: " ^ pp_list pp_string (State.bag st)));
   None
 
+let execute_party adv st = 
+  let party = State.get_party st in
+  let rec print_party (party : PM.t list) (acc : string) =
+    match party with 
+    | h :: t -> print_party t ((PM.get_name h) ^ " " ^ acc)
+    | [] -> acc 
+  in print_endline (print_party party "");
+  None
+
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state].  *)
 let rec execute_command adv state input = 
@@ -53,6 +65,7 @@ let rec execute_command adv state input =
   | Quit -> execute_quit adv
   | Go(phrase) -> execute_go adv state (String.concat " " phrase)
   | Take(phrase) -> execute_take adv state (String.concat " " phrase)
+  | Party -> execute_party adv state
   | Bag -> execute_Bag state
 
 (** [get_command adv state input] *)

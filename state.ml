@@ -1,3 +1,8 @@
+open Pokemon
+module PM = Pokemon
+
+let () = PM.set_file "testmons.json"
+
 exception ItemNotFound of Adventure.item_name
 exception KeyNotFound
 
@@ -6,6 +11,7 @@ type t = {
   visited_towns : Adventure.town_id list;
   bag : string list;
   money : int;
+  party: PM.t list
 }
 
 let init_state adv = {
@@ -13,6 +19,7 @@ let init_state adv = {
   visited_towns = [Adventure.start_town adv];
   bag = [];
   money = 500;
+  party = [PM.create_pokemon "Mon1" 1. ];
 }
 
 let current_town_id st =
@@ -31,6 +38,7 @@ let go ex adv st =
           (Adventure.next_town adv st.cur_town ex :: st.visited_towns);
       bag = st.bag;
       money = st.money;
+      party = st.party;
     }
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
@@ -54,6 +62,8 @@ let drop_item st it = {
 
 let bag st = 
   st.bag
+
+let get_party st = st.party
 
 (** [has_key st keys] is true if the adventurer currently has an item of [keys]
     in their bag in [st]. *)

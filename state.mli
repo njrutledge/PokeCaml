@@ -5,7 +5,8 @@
    including the adventurer's current town, the towns that have been visited,
    and functions that cause the state to change.
 *)
-
+open Pokemon
+module PM = Pokemon
 (** Raised when an item is not found in the adventurer's bag. *)
 exception ItemNotFound of Adventure.item_name
 
@@ -63,3 +64,6 @@ val drop_item : t -> Adventure.item_name -> t
 
 (** [bag st] is the bag of state [st]. *)
 val bag : t -> Adventure.item_name list
+
+(** [get_party st] is the current party (Pokemon.t list) of the player. *)
+val get_party : t -> PM.t list

@@ -6,6 +6,7 @@ type command =
   | Go of object_phrase
   | Take of object_phrase
   | Bag
+  | Party
   | Quit
 
 exception Empty
@@ -23,6 +24,7 @@ let make_command verb phrase =
   if phrase = [] then 
     if verb = "quit" then Quit else 
     if verb = "bag" then Bag else 
+    if verb = "party" then Party else
       raise Malformed 
   else
   if verb = "go" then Go phrase else

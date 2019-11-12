@@ -30,6 +30,7 @@ type command =
   | Go of object_phrase
   | Take of object_phrase
   | Bag
+  | Party
   | Quit
 
 (** Raised when an empty command is parsed. *)
