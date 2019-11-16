@@ -7,6 +7,28 @@
         "Youngster Joey",
         "wild",
         "wild"
+      ],
+      "wilds": [
+        {
+          "name": "Mon4",
+          "lvl": 1.0,
+          "chance": 30
+        },
+        {
+          "name": "Mon4",
+          "lvl": 2.0,
+          "chance": 20
+        },
+        {
+          "name": "Mon3",
+          "lvl": 1.0,
+          "chance": 20
+        },
+        {
+          "name": "Mon1",
+          "lvl": 1.0,
+          "chance": 30
+        }
       ]
     },
     {
@@ -15,7 +37,8 @@
         "TA Alaia",
         "TA Kerri",
         "Boss Clarkson"
-      ]
+      ],
+      "wilds": []
     }
   ],
   "trainers": [

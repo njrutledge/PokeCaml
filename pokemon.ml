@@ -82,7 +82,7 @@ module Pokemon : PokeSig = struct
     evolution: string;
   }
 
-  let file_name = ref ""
+  let file_name = ref "testsmons.json"
 
   let set_file str = 
     file_name := str

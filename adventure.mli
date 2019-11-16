@@ -1,3 +1,5 @@
+open Pokemon
+module PM = Pokemon
 (** 
    Representation of static adventure data.
 
@@ -18,7 +20,7 @@ exception UnknownItem of item_name
 *)
 
 type bat = 
-  | Wild of int 
+  | Wild
   | Trainer of string
   (** The abstract type of values representing adventures. *)
 type t
@@ -95,3 +97,7 @@ val win_msg : t -> int -> string
 val keys : t -> town_id -> exit_name -> item_name list
 
 val take_route : t -> town_id -> exit_name -> bat list * town_id
+
+(** [get_wild a r] is a randomly selected pokemon from the route [r]'s wild 
+    pokmemon list in adventure [a]. *)
+val get_wild : t-> exit_name -> PM.t list

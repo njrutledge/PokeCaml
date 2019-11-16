@@ -1,4 +1,6 @@
 open Yojson.Basic.Util
+open Pokemon
+module PM = Pokemon
 
 type town_id = string
 type exit_name = string
@@ -44,12 +46,13 @@ type win = {
 }
 
 type bat = 
-  | Wild of int 
+  | Wild 
   | Trainer of string
 
 type route = {
   route_name : string;
-  battles : bat list
+  battles : bat list;
+  wilds : (PM.t * int * int) list;
 }
 
 type t = {
@@ -60,8 +63,15 @@ type t = {
   (*items : item list;*)
   (*treasure_town : t_town;*)
   (*win_msgs : win list;*)
-
 }
+
+(** [get_ranges acc prev lst] is the list of wild pokemon taken from [lst] 
+    in a tuple with their start and end ranges for randomizing. 
+    Requires: [prev] starts at 0 and [acc] starts empty.  *)
+let rec get_ranges acc prev = function
+  | [] -> acc
+  | (pm, chance) :: t -> let next = prev + 1 + chance in 
+    get_ranges ((pm, prev + 1, next) :: acc) next t
 
 (** [json_exit j] is the adventure town exit that [j] represents. 
     Requires: [j] is a valid JSON adventure exit representation. *)
@@ -128,9 +138,24 @@ let json_item j_item = {
     |> to_string;
 }
 
+let json_wilds j_item = 
+  let name = 
+    j_item 
+    |> member "name"
+    |> to_string in
+  let lvl = 
+    j_item
+    |> member "lvl"
+    |> to_float in
+  let chance = 
+    j_item
+    |> member "chance"
+    |> to_int in
+  let mon = (PM.create_pokemon name lvl) in (mon, chance)
+
 let rec make_bats acc = function 
   | [] ->  acc
-  | h :: t -> if h = "wild" then make_bats (Wild 1 :: acc) t 
+  | h :: t -> if h = "wild" then make_bats (Wild :: acc) t 
     else make_bats (Trainer h :: acc) t
 
 let json_route j_route = {
@@ -144,6 +169,12 @@ let json_route j_route = {
     |> to_list 
     |> List.map to_string 
     |> make_bats [];
+  wilds =
+    j_route
+    |> member "wilds"
+    |> to_list
+    |> List.map json_wilds
+    |> get_ranges [] 0;
 }
 
 let from_json json = {
@@ -273,3 +304,13 @@ let get_battles adv town r =
 let take_route adv town r = 
   let next = next_town adv town r in 
   (get_battles adv town r, next)
+
+let get_wild adv route = 
+  let wilds = (adv.routes |> List.find (fun x -> x.route_name = route)).wilds in
+  Random.self_init (); let rand = Random.int 100 in
+  let rec find_wild = function 
+    | [] -> failwith "bad math (aka wild random error)"
+    | (mon, st, nd) :: t -> 
+      if st <= rand && rand <= nd then [mon] 
+      else find_wild t
+  in find_wild wilds

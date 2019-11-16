@@ -52,12 +52,11 @@ let route ex adv st =
                       (st.party, 
                        st.bag, 
                        st.money, 
-                       [PM.create_pokemon "Mon4" 1.]) 
+                       (Adventure.get_wild adv ex)) 
         in let st'' = {st with party = p; bag = b; money = m} in 
         if keep_going then run_battles st'' t 
         else 
           Legal st''
-
     in run_battles st bats
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
