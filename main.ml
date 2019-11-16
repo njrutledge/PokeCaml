@@ -58,7 +58,10 @@ let execute_party adv st =
   in print_endline (print_party party "");
   None
 
-let execute_go_route adv st route = None
+let execute_go_route adv st route = 
+  match State.route route adv st with 
+  | Legal (t) -> State t
+  | Illegal (msg) -> raise (IllegalMove msg)
 
 
 (** [execute_command adv state input] is the update created by executing

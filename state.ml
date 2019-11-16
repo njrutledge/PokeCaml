@@ -47,8 +47,17 @@ let route ex adv st =
   try 
     let (bats, next) = Adventure.take_route adv st.cur_town ex in 
     let rec run_battles st' = function 
-      | [] -> Legal st'
-      | h::t -> run_battles (Battle.main st' [PM.create_mon h 1.]) t
+      | [] -> go ex adv st
+      | h :: t -> let (p, b, m, keep_going) = Battle.main
+                      (st.party, 
+                       st.bag, 
+                       st.money, 
+                       [PM.create_pokemon "Mon4" 1.]) 
+        in let st'' = {st with party = p; bag = b; money = m} in 
+        if keep_going then run_battles st'' t 
+        else 
+          Legal st''
+
     in run_battles st bats
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")

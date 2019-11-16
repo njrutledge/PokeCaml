@@ -5,20 +5,24 @@
       "description": "Gates Town",
       "exits": [
         {
-          "name": "PokeCenter",
-          "keys": []
+          "name": "pokecenter",
+          "keys": [],
+          "place": "PokeCenter GTown"
         },
         {
-          "name": "My house",
-          "keys": []
+          "name": "my house",
+          "keys": [],
+          "place": "my house"
         },
         {
-          "name": "Lab",
-          "keys": []
+          "name": "lab",
+          "keys": [],
+          "place": "lab"
         },
         {
-          "name": "Route 1110",
-          "keys": []
+          "name": "route 1110",
+          "keys": [],
+          "place": "python town"
         }
       ],
       "NPCs": []
@@ -28,8 +32,9 @@
       "description": "My house",
       "exits": [
         {
-          "name": "Gates Town",
-          "keys": []
+          "name": "gates town",
+          "keys": [],
+          "place": "Gates Town"
         }
       ],
       "NPCs": [
@@ -41,8 +46,9 @@
       "description": "Lab",
       "exits": [
         {
-          "name": "Gates Town",
-          "keys": []
+          "name": "gates town",
+          "keys": [],
+          "place": "Gates Town"
         }
       ],
       "NPCs": [
@@ -50,14 +56,13 @@
       ]
     },
     {
-      "id": "Route 1110",
-      "description": "Route 1110",
+      "id": "python town",
+      "description": "Python Town!",
       "exits": [
         {
-          "name": "Gates Town",
-          "keys": [
-            "1110 Trainer 1 Key"
-          ]
+          "name": "route 1110",
+          "keys": [],
+          "place": "Gates Town"
         }
       ],
       "NPCs": [
@@ -65,7 +70,7 @@
       ]
     }
   ],
-  "start town": "My house",
+  "start town": "Gates Town",
   "route_file": "routes.json",
   "pokemon_file": "testmons.json"
 }

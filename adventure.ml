@@ -1,5 +1,4 @@
 open Yojson.Basic.Util
-open Battle
 
 type town_id = string
 type exit_name = string
@@ -78,9 +77,8 @@ let json_exit j_exit = {
     |> List.map to_string;
   exit_town = 
     j_exit 
-    |> member "name" 
+    |> member "place" 
     |> to_string;
-
 }
 
 let json_dynamic_desc j_dy_desc = {

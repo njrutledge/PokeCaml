@@ -1,19 +1,13 @@
 (* TODO: ascii art, add moves for cpu, stab, better ai, certain abilities,
    items, crits, stat affecting moves, self damaging moves, variable damage moves,
    more types, special vs physical *)
-
+exception BattleOver
 open Moves
 open Pokemon
 module PM = Pokemon
 
 (** Raised when the player tries to do something illegal. *)
 exception IllegalMove of string
-
-type update = 
-  | State of State.t 
-  | Adv of Adventure.t 
-  | Both of Adventure.t * State.t
-  | None
 
 (** [execute_quit] quits the adventure. *)
 let execute_quit mon = 
@@ -43,15 +37,15 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_name =
   let type_mat = fst type_mat_and_hash in 
   let hash = snd type_mat_and_hash in 
   let move = PM.get_move atk_mon move_name in 
-  let modifier = (get_modifier move.el_type 1. type_mat hash def_mon.el_type) in
+  let modifier = (get_modifier move.el_type 1. type_mat hash (PM.get_type def_mon)) in
   let move_damage = damage 
-      atk_mon.lvl 
+      (PM.get_lvl atk_mon)
       move.power
-      atk_mon.attack 
-      def_mon.defense
+      (PM.get_attack atk_mon)
+      (PM.get_defense def_mon)
       modifier
   in
-  print_endline (atk_mon.name ^ " used " ^ move_name);
+  print_endline (PM.get_name atk_mon ^ " used " ^ move_name);
   if modifier = 0. then 
     print_endline ("It has no effect!") 
   else if modifier < 1. then 
@@ -59,7 +53,7 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_name =
   else if modifier >= 2. then
     print_endline ("It's super effective!")
   else ();
-  def_mon.hp <- def_mon.hp -. move_damage
+  PM.change_hp def_mon (-.move_damage)
 
 let execute_item atk_mon def_mon item = 
   failwith "unimplemented"
@@ -106,11 +100,11 @@ let execute_cpu_turn player_mon cpu_mon =
     "quit". *)
 let rec loop (player_mon : PM.t) (cpu_mon : PM.t) = 
   print_string "\n";
-  print_endline ("--" ^ cpu_mon.name ^ "--");
-  print_endline ("< hp" ^ ": " ^ string_of_float cpu_mon.hp ^ " >");
+  print_endline ("--" ^ (PM.get_name cpu_mon) ^ "--");
+  print_endline ("< hp" ^ ": " ^ string_of_float (PM.get_hp cpu_mon) ^ " >");
   print_string "\n";
-  print_endline ("--" ^ player_mon.name ^ "--");
-  print_endline ("< hp" ^ ": " ^ string_of_float player_mon.hp ^ " >");
+  print_endline ("--" ^ PM.get_name player_mon ^ "--");
+  print_endline ("< hp" ^ ": " ^ string_of_float (PM.get_hp player_mon) ^ " >");
   print_string "\n";
   print_endline "Choose your move:";
   print_endline (PM.format_moves_names player_mon);
@@ -120,7 +114,7 @@ let rec loop (player_mon : PM.t) (cpu_mon : PM.t) =
   if PM.fainted cpu_mon then begin 
     (*print_endline Ascii.caml;*)
     print_endline "player wins!";
-    execute_quit cpu_mon
+    raise BattleOver
   end
   else ();
   print_string "\n";
@@ -128,26 +122,41 @@ let rec loop (player_mon : PM.t) (cpu_mon : PM.t) =
   if PM.fainted player_mon then begin
     (*print_endline Ascii.suprise;*)
     print_endline "player loses!";
-    execute_quit player_mon
+    raise BattleOver
   end
   else ();
   print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
   loop player_mon cpu_mon
 
 (** [play_game f] starts the adventure in file [f]. *)
-let play_game file state enemy_mons =
+let play_game file p_mons bag money enemy_mons =
   PM.set_file file ;
   (*print_endline Ascii.pokemon_opening;
     print_endline "Which pokemon?";
     print_string "> ";
     let def = read_line () in*)
-  let atk_mons = State.get_party state in
-  match atk_mons, enemy_mons with
+  match p_mons, enemy_mons with
   | (h1 :: t1), (h2 :: t2) -> let fst_mon = h1 in 
-    let fst_enemy_mon = h2 in loop fst_mon fst_enemy_mon
+    let fst_enemy_mon = h2 in 
+    begin try loop fst_mon fst_enemy_mon
+      with BattleOver -> 
+        if (PM.retreat p_mons) then (p_mons, bag, money, false) else begin 
+          ANSITerminal.(print_string [green] 
+                          ("\nDo you want to keep going? [Y/N]\n"));
+          let rec get_response () =
+            print_string "> ";
+            match read_line () with 
+            | "Yes" | "Y" | "y"-> true
+            | "No" | "N" | "n"-> false
+            | _ -> get_response ()
+          in (p_mons, bag, money, get_response ())
+        end
+    end 
   | _ -> failwith "Empty mons"
 
-let main st enemy_mons= ANSITerminal.(print_string [red] "\n\nStarting battle\n");
-  play_game "testmons.json" st enemy_mons
+let main (player_team, bag, money, enemy_team) = 
+
+  ANSITerminal.(print_string [red] "\n\nStarting battle\n");
+  play_game "testmons.json" player_team bag money enemy_team
 
 (* Execute the game engine. *)

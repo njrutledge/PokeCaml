@@ -28,7 +28,12 @@ let make_command verb phrase =
     if verb = "party" then Party else
       raise Malformed 
   else
-  if verb = "go" then Go phrase else
+  if verb = "go" then begin 
+    match phrase with 
+    | [] -> raise Malformed
+    | h :: t -> if h = "route" then GoRoute phrase else Go phrase
+  end 
+  else 
   if verb = "route" then GoRoute phrase else
   if verb = "take" then Take phrase else 
     raise Malformed 

@@ -52,5 +52,23 @@
       "10,000,000 Volt Thunderbolt"
     ],
     "Evolution": "Mon4"
+  },
+  "Mon4": {
+    "Types": [
+      "water"
+    ],
+    "Stats": {
+      "ATK": 25.0,
+      "DEF": 25.0,
+      "SPE": 25.0,
+      "HP": 25.0
+    },
+    "Moves": [
+      "tackle",
+      "ember",
+      "vine whip",
+      "zippy zap"
+    ],
+    "Evolution": "Mon4"
   }
 }

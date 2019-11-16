@@ -26,18 +26,18 @@ module type PokeSig = sig
   type t_defense = float
   type t_speed = float 
   type t_moves = Moves.t list
-  type t = {
-    el_type: t_type list;
-    mutable name : string;
-    mutable max_hp : t_hp;
-    mutable hp: t_hp;
-    mutable lvl: float;
-    mutable attack: t_attack;
-    mutable defense: t_defense;
-    mutable speed: t_speed;
-    mutable moves: t_moves;
-    evolution: string;
-  }
+  type t (*= {
+           el_type: t_type list;
+           mutable name : string;
+           mutable max_hp : t_hp;
+           mutable hp: t_hp;
+           mutable lvl: float;
+           mutable attack: t_attack;
+           mutable defense: t_defense;
+           mutable speed: t_speed;
+           mutable moves: t_moves;
+           evolution: string;
+           }*)
 
   val set_file : string -> unit
   val create_pokemon: string -> float -> t
@@ -53,8 +53,10 @@ module type PokeSig = sig
   val get_defense : t -> t_defense
   val get_speed : t -> t_speed
   val get_move : t -> string -> Moves.t
+  val get_lvl: t -> float
   val format_moves_names : t -> string
   val format_moves_all: t -> string
+  val retreat: t list -> bool
 end
 
 module M = Moves
@@ -79,6 +81,7 @@ module Pokemon : PokeSig = struct
     mutable moves: t_moves;
     evolution: string;
   }
+
   let file_name = ref ""
 
   let set_file str = 
@@ -140,8 +143,8 @@ module Pokemon : PokeSig = struct
     mon.hp <- (      
       let new_hp = mon.hp +. hp in
       if new_hp < get_max_hp mon 
-      then new_hp 
-      else get_max_hp mon
+      then max 0.0 new_hp else 
+        get_max_hp mon
     )
 
   let incr_stats mon = failwith "Unimplemented"
@@ -187,5 +190,9 @@ module Pokemon : PokeSig = struct
       | h :: t -> format_moves_all' t (acc ^ Moves.to_string h ^ "\n")
     in (format_moves_all' (get_moves mon) "\n") 
 
+  let retreat party = 
+    List.fold_left (fun acc p -> acc && fainted p) true party
 
+  let get_lvl mon = 
+    mon.lvl
 end
