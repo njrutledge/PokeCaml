@@ -166,10 +166,18 @@ let rec loop p_team cpu_team (player_mon : PM.t) (cpu_mon : PM.t)
     (bag : (Item.t * int) list) = 
   print_string "\n";
   print_endline ("--" ^ (PM.get_name cpu_mon) ^ "--");
-  print_endline ("< hp" ^ ": " ^ string_of_float (PM.get_hp cpu_mon) ^ " >");
+  print_endline ("< hp" ^ ": " 
+                 ^ (PM.get_hp cpu_mon |> Int.of_float |>
+                    string_of_int) ^ "/" 
+                 ^ (PM.get_max_hp cpu_mon |> Int.of_float |>
+                    string_of_int) ^ " >");
   print_string "\n";
   print_endline ("--" ^ PM.get_name player_mon ^ "--");
-  print_endline ("< hp" ^ ": " ^ string_of_float (PM.get_hp player_mon) ^ " >");
+  print_endline ("< hp" ^ ": " 
+                 ^ (PM.get_hp player_mon |> Int.of_float |>
+                    string_of_int) ^ "/" 
+                 ^ (PM.get_max_hp player_mon |> Int.of_float |> 
+                    string_of_int) ^ " >");
   print_string "\n";
   print_endline "Choose your move:";
   print_endline (PM.format_moves_names player_mon);
