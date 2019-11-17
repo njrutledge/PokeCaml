@@ -101,3 +101,7 @@ val take_route : t -> town_id -> exit_name -> bat list * town_id
 (** [get_wild a r] is a randomly selected pokemon from the route [r]'s wild 
     pokmemon list in adventure [a]. *)
 val get_wild : t-> exit_name -> PM.t list
+
+(** [get_t_mons a tr] is the pokemon list associated with trainer [tr] in 
+    adventure [a]. *)
+val get_t_mons : t -> string -> PM.t list

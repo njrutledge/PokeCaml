@@ -30,6 +30,7 @@ type command =
   | Attack of object_phrase
   | Item of object_phrase
   | MovesInfo
+  | Party
   | Quit
 
 (** Raised when an empty command is parsed. *)

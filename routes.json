@@ -45,31 +45,45 @@
     {
       "name": "Youngster Joey",
       "pokemon": [
-        "Mon2"
+        {
+          "name": "Mon2",
+          "lvl": 1.0
+        },
+        {
+          "name": "Mon4",
+          "lvl": 1.0
+        },
+        {
+          "name": "Mon4",
+          "lvl": 1.0
+        }
       ]
     },
     {
       "name": "TA Alaia",
       "pokemon": [
-        "Mon2"
+        {
+          "name": "Mon2",
+          "lvl": 1.0
+        }
       ]
     },
     {
       "name": "TA Kerri",
       "pokemon": [
-        "Mon2"
+        {
+          "name": "Mon2",
+          "lvl": 1.0
+        }
       ]
     },
     {
       "name": "Boss Clarkson",
       "pokemon": [
-        "Mon3"
-      ]
-    },
-    {
-      "name": "wild",
-      "pokemon": [
-        "Mon2"
+        {
+          "name": "Mon3",
+          "lvl": 1.0
+        }
       ]
     }
   ]

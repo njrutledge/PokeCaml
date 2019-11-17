@@ -51,7 +51,6 @@ val route : Adventure.exit_name -> Adventure.t -> t -> result
 (* END DO NOT CHANGE
  **********************************************************************)
 
-
 (*(** [exit_msg st] is message from the last exit the adventurer has gone through
     in state [st]. *)
   val exit_msg : t -> string*)
@@ -64,7 +63,7 @@ val add_item : t -> Adventure.item_name -> t
 val drop_item : t -> Adventure.item_name -> t
 
 (** [bag st] is the bag of state [st]. *)
-val bag : t -> Adventure.item_name list
+val bag : t -> (Item.t * int) list
 
 (** [get_party st] is the current party (Pokemon.t list) of the player. *)
 val get_party : t -> PM.t list

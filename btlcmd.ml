@@ -6,6 +6,7 @@ type command =
   | Attack of object_phrase
   | Item of object_phrase
   | MovesInfo
+  | Party
   | Quit
 
 exception Empty
@@ -22,7 +23,8 @@ let rec rem_empty = function
 let make_command verb phrase = 
   if phrase = [] then 
     if verb = "quit" then Quit else
-    if verb = "moves" then MovesInfo else 
+    if verb = "moves" then MovesInfo else
+    if verb = "party" then Party else 
       raise Malformed 
   else
   if verb = "attack" then Attack phrase else

@@ -60,6 +60,7 @@ type t = {
   routes : route list;
   start : town_id;
   poke_file : string;
+  trainers : (string * PM.t list) list
   (*items : item list;*)
   (*treasure_town : t_town;*)
   (*win_msgs : win list;*)
@@ -153,6 +154,29 @@ let json_wilds j_item =
     |> to_int in
   let mon = (PM.create_pokemon name lvl) in (mon, chance)
 
+let json_t_pokemon j_item = 
+  let name = 
+    j_item 
+    |> member "name"
+    |> to_string in
+  let lvl = 
+    j_item
+    |> member "lvl"
+    |> to_float in
+  (PM.create_pokemon name lvl)
+
+let json_trainers j_item = 
+  let name = 
+    j_item 
+    |> member "name"
+    |> to_string in
+  let pokemon_list = 
+    j_item
+    |> member "pokemon"
+    |> to_list 
+    |> List.map json_t_pokemon in
+  (name, pokemon_list)
+
 let rec make_bats acc = function 
   | [] ->  acc
   | h :: t -> if h = "wild" then make_bats (Wild :: acc) t 
@@ -199,11 +223,19 @@ let from_json json = {
     json
     |> member "pokemon_file" 
     |> to_string;
-  (*items = 
+  trainers =
     json
-    |> member "adventure items"
+    |> member "route_file" 
+    |> to_string
+    |> Yojson.Basic.from_file
+    |> member "trainers"
     |> to_list
-    |> List.map json_item;*)
+    |> List.map json_trainers
+    (*items = 
+      json
+      |> member "adventure items"
+      |> to_list
+      |> List.map json_item;*)
 }
 
 let start_town adv =
@@ -314,3 +346,8 @@ let get_wild adv route =
       if st <= rand && rand <= nd then [mon] 
       else find_wild t
   in find_wild wilds
+
+let get_t_mons adv name = 
+  match (List.assoc_opt name adv.trainers) with 
+  | None -> failwith "trainer does not exi"
+  | Some v -> v

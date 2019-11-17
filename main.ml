@@ -8,11 +8,13 @@ exception IllegalMove of string
 type update = 
     State of State.t 
   | Adv of Adventure.t 
-  | Both of Adventure.t*State.t
+  | Both of Adventure.t * State.t
   | None
 
 (** [pp_string s] pretty-prints string [s], as given in test.ml *)
 let pp_string s = "\"" ^ s ^ "\""
+let pp_tuple (s, t) = "\"" ^ Item.string_of_item s 
+                      ^ "\"" ^ " : " ^ string_of_int t
 
 (** [pp_list pp_elt lst] pretty-prints list [lst], using [pp_elt]
     to pretty-print each element of [lst], as given in test.ml *)
@@ -46,7 +48,7 @@ let execute_take adv st item =
 
 let execute_Bag st = 
   ANSITerminal.(print_string [cyan] 
-                  ("bag: " ^ pp_list pp_string (State.bag st)));
+                  ("bag: " ^ pp_list pp_tuple (State.bag st)));
   None
 
 let execute_party adv st = 
@@ -154,13 +156,12 @@ let play_game f =
 
 (** [main ()] prompts for the game to play, then starts it. *)
 let main () =
-  ANSITerminal.(print_string [red]
-                  "\n\nWelcome to the 3110 Text Adventure Game engine.\n");
-  print_endline "Please enter the name of the game file you want to load.\n";
-  print_string  "> ";
-  match read_line () with
-  | exception End_of_file -> ()
-  | file_name -> play_game file_name
+  ANSITerminal.(print_string [blue]
+                  Ascii.pokemon_opening);
+  (*print_string  "> ";
+    match read_line () with
+    | exception End_of_file -> ()
+    | file_name ->*) play_game "adv.json"
 
 (* Execute the game engine. *)
 let () = main ()

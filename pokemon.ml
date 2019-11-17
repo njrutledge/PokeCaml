@@ -57,6 +57,9 @@ module type PokeSig = sig
   val format_moves_names : t -> string
   val format_moves_all: t -> string
   val retreat: t list -> bool
+  val alive_pmons: t list -> t list 
+  val string_of_mon: t -> string
+  val string_of_mons: t list -> string
 end
 
 module M = Moves
@@ -140,12 +143,12 @@ module Pokemon : PokeSig = struct
   let get_max_hp mon = mon.max_hp
 
   let change_hp mon hp = 
-    mon.hp <- (      
+    mon.hp <- begin 
       let new_hp = mon.hp +. hp in
       if new_hp < get_max_hp mon 
-      then max 0.0 new_hp else 
-        get_max_hp mon
-    )
+      then max 0.0 new_hp 
+      else get_max_hp mon
+    end
 
   let incr_stats mon = failwith "Unimplemented"
 
@@ -195,4 +198,15 @@ module Pokemon : PokeSig = struct
 
   let get_lvl mon = 
     mon.lvl
+
+  let rec alive_pmons mons = 
+    List.filter (fun x -> not (fainted x)) mons 
+
+  let string_of_mon (mon:t) =
+    ("{" ^ (get_name mon) ^ " - hp: " ^ (string_of_float (get_hp mon)) ^ 
+     "| level: " ^ (string_of_float (get_lvl mon)) ^ "}")
+
+  let rec string_of_mons = function
+    | [] -> ""
+    | p :: t -> (string_of_mon p) ^ "\n" ^ (string_of_mons t)
 end

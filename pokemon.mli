@@ -42,7 +42,6 @@ module type PokeSig = sig
   (** [change_hp mon hp] modifies the hp of [mon] by [hp].*)
   val change_hp : t -> t_hp -> unit
 
-
   val incr_stats : t -> unit
 
   (** [fainted mon] is whether the hp of [mon] is 0. *)
@@ -87,6 +86,17 @@ module type PokeSig = sig
 
   (** [retreat party] is true if all mons in [party] are fainted. *)
   val retreat: t list -> bool
+
+  (** [alive_pmons mon_lst] returns a list of the pokemon in the party that 
+      are alive (not fainted). *)
+  val alive_pmons: t list -> t list
+
+  (** [string_of_mon mon] is the string representation of pokemon [mon]. *)
+  val string_of_mon: t -> string 
+
+  (** [string_of_mons mons] is the string representation of the list of 
+      pokemons [mons]*)
+  val string_of_mons: t list -> string 
 
 end
 

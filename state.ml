@@ -9,7 +9,7 @@ exception KeyNotFound
 type t = {
   cur_town : Adventure.town_id;
   last_town : Adventure.town_id;
-  bag : string list;
+  bag : (Item.t * int) list;
   money : int;
   party: PM.t list
 }
@@ -17,9 +17,10 @@ type t = {
 let init_state adv = {
   cur_town = Adventure.start_town adv;
   last_town = Adventure.start_town adv;
-  bag = [];
+  bag = [(Potion, 5); (PokeBall, 3)];
   money = 500;
-  party = [PM.create_pokemon "Mon1" 1.];
+  party = [PM.create_pokemon "Mon1" 1.; PM.create_pokemon "Mon2" 2.;
+           PM.create_pokemon "Mon3" 3.;]
 }
 
 let current_town_id st =
@@ -43,21 +44,29 @@ let go ex adv st =
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
 
-let route ex adv st = 
+let rec run_battles town route adv st = function 
+  | [] -> go town adv st
+  | Adventure.Wild :: t -> make_battle town route adv st "wild" (Adventure.get_wild adv route) t
+  | Adventure.Trainer tr :: t -> 
+    let t_mons = Adventure.get_t_mons adv tr in 
+    make_battle town route adv st tr t_mons t
+
+and make_battle town route adv st cpu_name cpu_mons bats = 
+  let (p, b, m, keep_going) = Battle.main
+      (st.party, 
+       st.bag, 
+       st.money, 
+       (cpu_mons),
+       cpu_name) 
+  in let st' = {st with party = p; bag = b; money = m} in 
+  if keep_going then run_battles town route adv st' bats
+  else 
+    Legal st'
+
+let route r adv st = 
   try 
-    let (bats, next) = Adventure.take_route adv st.cur_town ex in 
-    let rec run_battles st' = function 
-      | [] -> go ex adv st
-      | h :: t -> let (p, b, m, keep_going) = Battle.main
-                      (st.party, 
-                       st.bag, 
-                       st.money, 
-                       (Adventure.get_wild adv ex)) 
-        in let st'' = {st with party = p; bag = b; money = m} in 
-        if keep_going then run_battles st'' t 
-        else 
-          Legal st''
-    in run_battles st bats
+    let (bats, next_town) = Adventure.take_route adv st.cur_town r in 
+    run_battles next_town r adv st bats
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
@@ -74,9 +83,10 @@ let rec remove_item it = function
   | [] -> raise (ItemNotFound it)
   | h::t -> if h = it then t else h::remove_item it t
 
-let drop_item st it = {
-  st with bag = remove_item it st.bag
-}
+let drop_item st it = failwith "drop unimplemented" 
+(*{
+    st with bag = remove_item it st.bag
+  }*)
 
 let bag st = 
   st.bag
