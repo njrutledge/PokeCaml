@@ -39,6 +39,37 @@
         "Boss Clarkson"
       ],
       "wilds": []
+    },
+    {
+      "name": "route 2110",
+      "battles": [
+        "wild",
+        "Pokemaniac Philip",
+        "wild",
+        "wild"
+      ],
+      "wilds": [
+        {
+          "name": "Mon4",
+          "lvl": 3.0,
+          "chance": 30
+        },
+        {
+          "name": "Mon4",
+          "lvl": 3.0,
+          "chance": 20
+        },
+        {
+          "name": "Mon3",
+          "lvl": 3.0,
+          "chance": 10
+        },
+        {
+          "name": "Mon1",
+          "lvl": 3.0,
+          "chance": 40
+        }
+      ]
     }
   ],
   "trainers": [
@@ -64,7 +95,7 @@
       "pokemon": [
         {
           "name": "Mon2",
-          "lvl": 1.0
+          "lvl": 4.0
         }
       ]
     },
@@ -73,7 +104,7 @@
       "pokemon": [
         {
           "name": "Mon2",
-          "lvl": 1.0
+          "lvl": 4.0
         }
       ]
     },
@@ -82,7 +113,24 @@
       "pokemon": [
         {
           "name": "Mon3",
-          "lvl": 1.0
+          "lvl": 5.0
+        }
+      ]
+    },
+    {
+      "name": "Pokemaniac Philip",
+      "pokemon": [
+        {
+          "name": "Mon4",
+          "lvl": 4.0
+        },
+        {
+          "name": "Mon4",
+          "lvl": 4.0
+        },
+        {
+          "name": "Mon4",
+          "lvl": 5.0
         }
       ]
     }

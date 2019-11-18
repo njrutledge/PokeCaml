@@ -14,8 +14,11 @@ type update =
 
 (** [pp_string s] pretty-prints string [s], as given in test.ml *)
 let pp_string s = "\"" ^ s ^ "\""
-let pp_tuple (s, t) = "\"" ^ Item.string_of_item s 
-                      ^ "\"" ^ " : " ^ string_of_int t
+
+(** [pp_bag_entry (s,t)] pretty prints the entry of bag with item [s] and number
+    of that item [t]. *)
+let pp_bag_entry (s, t) = "\"" ^ Item.string_of_item s 
+                          ^ "\"" ^ " : " ^ string_of_int !t
 
 (** [pp_list pp_elt lst] pretty-prints list [lst], using [pp_elt]
     to pretty-print each element of [lst], as given in test.ml *)
@@ -49,16 +52,11 @@ let execute_take adv st item =
 
 let execute_Bag st = 
   ANSITerminal.(print_string [cyan] 
-                  ("bag: " ^ pp_list pp_tuple (State.bag st)));
+                  ("bag: " ^ pp_list pp_bag_entry (State.bag st)));
   None
 
 let execute_party adv st = 
-  let party = State.get_party st in
-  let rec print_party (party : PM.t list) (acc : string) =
-    match party with 
-    | h :: t -> print_party t ((PM.get_name h) ^ " " ^ acc)
-    | [] -> acc 
-  in print_endline (print_party party "");
+  print_endline (PM.string_of_mons (State.get_party st));
   None
 
 let execute_go_route adv st route = 

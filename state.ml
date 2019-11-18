@@ -9,18 +9,18 @@ exception KeyNotFound
 type t = {
   cur_town : Adventure.town_id;
   last_town : Adventure.town_id;
-  bag : (Item.t * int) list;
+  bag : (Item.t * int ref) list;
   money : int;
-  party: PM.t list
+  party: PM.t ref list
 }
 
 let init_state adv = {
   cur_town = Adventure.start_town adv;
   last_town = Adventure.start_town adv;
-  bag = [(Potion, 5); (PokeBall, 3)];
+  bag = [(Potion, ref 5); (PokeBall, ref 3)];
   money = 500;
-  party = [PM.create_pokemon "Mon1" 1.; PM.create_pokemon "Mon2" 2.;
-           PM.create_pokemon "Mon3" 3.;]
+  party = [ref (PM.create_pokemon "Mon1" 1.); ref (PM.create_pokemon "Mon2" 2.);
+           ref (PM.create_pokemon "Mon3" 3.;)]
 }
 
 let current_town_id st =
@@ -96,4 +96,4 @@ let get_party st = st.party
     in their bag in [st]. *)
 let rec has_key st = function 
   | [] -> false
-  | h::t -> if (List.mem h st.bag) then true else has_key st t
+  | h :: t -> if (List.mem h st.bag) then true else has_key st t

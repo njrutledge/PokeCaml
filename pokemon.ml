@@ -25,7 +25,7 @@ module type PokeSig = sig
   type t_attack = float
   type t_defense = float
   type t_speed = float 
-  type t_moves = Moves.t list
+  type t_moves = Moves.t array
   type t (*= {
            el_type: t_type list;
            mutable name : string;
@@ -47,22 +47,22 @@ module type PokeSig = sig
   val fainted : t -> bool 
   val get_name : t -> string
   val get_type : t -> t_type list
-  val get_moves : t -> Moves.t list
+  val get_moves : t -> Moves.t array 
   val get_hp : t -> t_hp
   val get_attack : t -> t_attack
   val get_defense : t -> t_defense
   val get_speed : t -> t_speed
-  val get_move : t -> string -> Moves.t
+  val get_move : t -> int -> Moves.t
   val get_lvl: t -> float
   val get_xp: t -> float
   val set_hp : t -> t_hp -> unit
   val format_moves_names : t -> string
   val format_moves_all: t -> string
-  val retreat: t list -> bool
-  val alive_pmons: t list -> t list 
+  val retreat: t ref list -> bool
+  val alive_pmons: t ref list -> t ref list 
   val string_of_mon: t -> string
-  val string_of_mons: t list -> string
-  val restore_mons: t list -> unit
+  val string_of_mons: t ref list -> string
+  val restore_mons: t ref list -> unit
   val give_xp: t -> float -> bool -> unit
   val lvl_up: t -> bool
 end
@@ -76,7 +76,7 @@ module Pokemon : PokeSig = struct
   type t_attack = float
   type t_defense = float
   type t_speed = float
-  type t_moves = M.t list
+  type t_moves = M.t array 
   type t = {
     el_type: t_type list;
     mutable name : string;
@@ -101,6 +101,14 @@ module Pokemon : PokeSig = struct
   let get_data mon = 
     let json = Yojson.Basic.from_file !file_name in 
     json |> member mon
+
+  (** [fix_move_array a] is an array of length 4 containing all moves in [a]. *)
+  let fix_move_array arr = 
+    let moves = Array.make 4 arr.(0) in 
+    for i = 0 to Array.length arr do 
+      moves.(i) <- arr.(i)
+    done;
+    moves
 
   let create_pokemon mon_name start_lvl = 
     let json = get_data mon_name in 
@@ -141,7 +149,9 @@ module Pokemon : PokeSig = struct
         |> member "Moves"
         |> to_list
         |> List.map to_string 
-        |> List.map Moves.create_move;
+        |> List.map Moves.create_move
+        |> Array.of_list;
+      (*|> fix_move_array;*)
       evolution = "";
       (*json
         |> member "Evolution"
@@ -180,42 +190,42 @@ module Pokemon : PokeSig = struct
 
   let get_speed mon = mon.speed
 
-  let get_move mon move = 
-    let rec find_move (lst : M.t list) =
-      match lst with 
-      | [] -> raise (UnknownMove move)
-      | h :: t -> if move = h.move_name then h else find_move t
-    in find_move mon.moves
+  let get_move mon move = mon.moves.(move)
 
-  let get_lvl mon = 
-    mon.lvl
+  let get_lvl mon = mon.lvl
 
-  let get_xp mon = 
-    mon.xp
+  let get_xp mon = mon.xp
 
   let set_hp mon hp = mon.hp <- hp
 
   let format_moves_names mon = 
-    let rec format_moves_names' moves acc =
-      match moves with 
-      | [] -> acc
-      | h :: [] -> format_moves_names' [] (acc ^ (Moves.name h))
-      | h :: t -> format_moves_names' t (acc ^ (Moves.name h) ^ "\n")
-    in (format_moves_names' (get_moves mon) "\n")
+    let acc = ref "" in 
+    for i = 0 to (Array.length mon.moves) - 1 do 
+      acc := 
+        !acc ^ string_of_int (i + 1) ^ ". " ^ Moves.name mon.moves.(i) ^ "\n"
+    done;
+    !acc
 
   let format_moves_all mon = 
-    let rec format_moves_all' moves acc =
+    let acc = ref "" in 
+    for i = 0 to (Array.length mon.moves) - 1 do 
+      acc := 
+        !acc ^ string_of_int (i + 1) ^ ". " ^ Moves.to_string mon.moves.(i) ^ "\n"
+    done;
+    !acc
+
+  (*  let rec format_moves_all' moves acc =
       match moves with 
       | [] -> acc
       | h :: [] -> format_moves_all' [] (acc ^ (Moves.to_string h))
       | h :: t -> format_moves_all' t (acc ^ Moves.to_string h ^ "\n")
-    in (format_moves_all' (get_moves mon) "\n") 
-
+      in (format_moves_all' (get_moves mon) "\n") 
+  *)
   let retreat party = 
-    List.fold_left (fun acc p -> acc && fainted p) true party
+    List.fold_left (fun acc p -> acc && fainted !p) true party
 
   let rec alive_pmons mons = 
-    List.filter (fun x -> not (fainted x)) mons 
+    List.filter (fun x -> not (fainted !x)) mons 
 
   let string_of_mon (mon : t) =
     ("{" ^ (get_name mon) ^ " - hp: " ^ (string_of_float (get_hp mon))
@@ -225,12 +235,12 @@ module Pokemon : PokeSig = struct
 
   let rec string_of_mons = function
     | [] -> ""
-    | p :: t -> (string_of_mon p) ^ "\n" ^ (string_of_mons t)
+    | p :: t -> (string_of_mon !p) ^ "\n" ^ (string_of_mons t)
 
-  let rec restore_mons (mons : t list) =
+  let rec restore_mons mons =
     match mons with
     | [] -> ()
-    | h :: t -> set_hp h (get_max_hp h); restore_mons t
+    | h :: t -> set_hp !h (get_max_hp !h); restore_mons t
 
   let give_xp mon cp_mon_lvl wild = 
     let a = if wild then 1.0 else 1.5 in  
@@ -242,7 +252,7 @@ module Pokemon : PokeSig = struct
 
   let stat_update mon = 
     mon.lvl <- mon.lvl +. 1.;
-    mon.hp <- mon.hp *. 1.02; 
+    mon.max_hp <- mon.max_hp *. 1.02; 
     mon.attack <- mon.attack *. 1.02; 
     mon.defense <- mon.defense *. 1.02; 
     mon.speed <- mon.speed *. 1.02

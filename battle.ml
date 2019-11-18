@@ -4,53 +4,65 @@
 
 open Moves
 open Pokemon
-let sleep = 0.001
 module PM = Pokemon
-exception BattleWon of PM.t list 
-exception BattleLost
-exception PlayerDown of string 
-exception CPUDown of string 
 
-(** Raised when the player tries to do something illegal. *)
-exception IllegalMove of string
+(** Raised when battle is won. *)
+exception BattleWon of PM.t ref list 
+(** Raised when battle is lost *)
+exception BattleLost
+(** Raised when a player pokemon faints. *)
+exception PlayerDown of string 
+(** Raised when a cpu pokemon faints. *)
+exception CPUDown of string 
+(** Raised when the player tries to use illegal item or has run out. *)
+exception IllegalItem of string
+
+(** sleep is used for delay in text printing. *)
+let sleep = 0.001
 
 (** [execute_quit] quits the adventure. *)
 let execute_quit mon = 
   ANSITerminal.(print_string [cyan] "\nThanks for playing!\n "); 
   exit 0
 
+let critical_hit speed = 
+  let t = speed /. 2. in
+  let t_round = t |> Int.of_float |> Float.of_int in
+  Random.self_init();
+  let r = Random.float 256. in
+  if r < t_round then true else false
+
 (* https://bulbapedia.bulbagarden.net/wiki/Damage *)
-let damage level power attack defense modifier = 
-  (*2.*.level/.5.+.2.
-    |> ( *. ) (power*.(attack/.defense))
-    |> (/.) 50.
-    |> (+.) 2. 
-    |> ( *. ) modifier*)
-  modifier*.((((((2.*.level)/.5.)+. 2.)*.power*.(attack/.defense))/. 50.) +. 2.)
+let damage level power attack defense speed modifier = 
+  let level' = if critical_hit speed then begin 
+      print_endline "\nIt's a critical hit!\n"; 2. *. level end 
+    else level in  
+  modifier*.((((((2.*.level')/.5.)+. 2.)*.power*.(attack/.defense))/. 50.) +. 2.)
 
 let rec get_modifier move_type acc mat hash = function
   | [] -> acc
-  | h::t -> get_modifier move_type (acc*.mat.(hash move_type).(hash h)) mat hash t
+  | h :: t -> get_modifier move_type (acc*.mat.(hash move_type).(hash h)) mat hash t
 
 (** [execute_go adv st ph] is the state update of the adventure after running 
     [state.go adv st ph'], where [ph'] is the string representation of 
     string list [ph].
     Raises [IllegalMove msg] if the move is invalid. *)
-let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_name = 
+let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_id = 
   let json = Yojson.Basic.from_file "type_matrix.json" in 
   let type_mat_and_hash = Types.type_matrix_and_hash json in
   let type_mat = fst type_mat_and_hash in 
   let hash = snd type_mat_and_hash in 
-  let move = PM.get_move atk_mon move_name in 
+  let move = PM.get_move atk_mon (move_id) in 
   let modifier = (get_modifier move.el_type 1. type_mat hash (PM.get_type def_mon)) in
   let move_damage = damage 
       (PM.get_lvl atk_mon)
       move.power
       (PM.get_attack atk_mon)
       (PM.get_defense def_mon)
+      (PM.get_speed atk_mon)
       modifier
   in
-  print_endline (PM.get_name atk_mon ^ " used " ^ move_name);
+  print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move));
   if modifier = 0. then 
     print_endline ("It has no effect!") 
   else if modifier < 1. then 
@@ -124,34 +136,43 @@ let catch mon ball (rate : float) =
   end
 
 let execute_item atk_mon def_mon item bag party cpu= 
-  match (List.assoc item bag) > 0 with 
-  | exception Not_found -> print_endline ("You don't have any " ^ Item.string_of_item item ^ " to use!")
-  | _ ->  match item with 
-    | Item.Potion -> PM.change_hp atk_mon ((PM.get_max_hp atk_mon)*. 0.3);
-      print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 30%.")
-    | Item.HyperPotion -> PM.change_hp atk_mon ((PM.get_max_hp atk_mon)*. 0.6);
-      print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 60%.")
-    | Item.FullRestore -> PM.change_hp atk_mon (PM.get_max_hp atk_mon);
-      print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 100%. ")
-    | Item.PokeBall | Item.GreatBall | Item.UltraBall | Item.MasterBall -> begin
-        if cpu = "wild" then 
-          let caught = catch def_mon item 255. in 
-          if caught then begin 
-            print_endline ("\n" ^ (PM.get_name def_mon) ^ " was caught!\n");
-            raise (BattleWon (party@[def_mon]))
-          end 
-          else print_endline ("\n" ^ (PM.get_name def_mon) ^ " wasn't caught.\n") 
-        else print_endline ("\n" ^ cpu ^ " blocked the ball!")
-      end
+  let i_count = 
+    try (List.assoc item bag) 
+    with Not_found ->
+      raise (IllegalItem ("You don't have any " ^ Item.string_of_item item 
+                          ^ "s to use!\n")) in
+  if !i_count <= 0 
+  then raise (IllegalItem ("You don't have any " ^ Item.string_of_item item 
+                           ^ "s to use!\n"))
+  else 
+    i_count := !i_count - 1;
+  match item with 
+  | Item.Potion -> PM.change_hp atk_mon ((PM.get_max_hp atk_mon)*. 0.3);
+    print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 30%.")
+  | Item.HyperPotion -> PM.change_hp atk_mon ((PM.get_max_hp atk_mon)*. 0.6);
+    print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 60%.")
+  | Item.FullRestore -> PM.change_hp atk_mon (PM.get_max_hp atk_mon);
+    print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 100%. ")
+  | Item.PokeBall | Item.GreatBall | Item.UltraBall | Item.MasterBall ->
+    begin
+      if cpu = "wild" then 
+        let caught = catch def_mon item 255. in 
+        if caught then begin 
+          print_endline ("\n" ^ (PM.get_name def_mon) ^ " was caught!\n");
+          raise (BattleWon (party@[ref def_mon]))
+        end 
+        else print_endline ("\n" ^ (PM.get_name def_mon) ^ " wasn't caught.\n") 
+      else print_endline ("\n" ^ cpu ^ " blocked the ball!")
+    end
 
-let string_of_bag (bag : (Item.t * int) list) =
+let string_of_bag bag =
   let rec string_of_bag' bag (acc : string) = 
     match bag with
     | [] -> acc
     | (i, n) :: t -> begin
-        if n > 0 then 
+        if !n > 0 then 
           string_of_bag' t (acc ^ (Item.string_of_item i) ^ ": " ^
-                            (string_of_int n) ^ "\n")
+                            (string_of_int !n) ^ "\n")
         else string_of_bag' t acc
       end
   in (string_of_bag' bag "\n") ^ "\n"
@@ -159,7 +180,9 @@ let string_of_bag (bag : (Item.t * int) list) =
 let rec execute_command party atk_mon def_mon bag cpu input = 
   match Btlcmd.parse input with 
   | Quit -> execute_quit atk_mon
-  | Attack(phrase) -> execute_attack atk_mon def_mon (String.concat " " phrase)
+  | Attack(i) -> if 0 <= i && i <= Array.length (PM.get_moves atk_mon) then 
+      execute_attack atk_mon def_mon i
+    else raise (Pokemon.UnknownMove (string_of_int i))
   | Item(phrase) -> 
     execute_item atk_mon def_mon 
       (Item.item_of_string (String.concat " " phrase))
@@ -192,26 +215,29 @@ let rec get_command party atk_mon def_mon bag cpu input =
     print_string "> ";
     get_command party atk_mon def_mon bag cpu (read_line ())
   | Pokemon.UnknownMove m -> 
-    ANSITerminal.(print_string [red] "\nError: move not valid. Please input a
-    valid command.\n");
+    ANSITerminal.(print_string [red] 
+                    ("\nError: move not valid. Please input a "
+                     ^ "valid move number.\n"));
     print_string "> ";
     get_command party atk_mon def_mon bag cpu (read_line ())
   | Item.InvalidItem i -> 
     ANSITerminal.(print_string [red] "\nError: invalid item name.\n");
     print_string "> ";
     get_command party atk_mon def_mon bag cpu (read_line ())
+  | IllegalItem i -> 
+    ANSITerminal.(print_string [red] ("\nError: " ^ i));
+    print_string "> ";
+    get_command party atk_mon def_mon bag cpu (read_line ())
 
 let execute_cpu_turn player_mon cpu_mon = 
   Random.self_init();
   let cpu_moves = PM.get_moves cpu_mon in 
-  let used_move = List.nth cpu_moves (Random.int (List.length cpu_moves)) 
-                  |> Moves.name in 
+  let used_move = (Random.int (Array.length cpu_moves)) in 
   execute_attack cpu_mon player_mon used_move
 
 (** [loop adv state] executes a REPL for the game. Quits on recieving 
     "quit". *)
-let rec loop p_team cpu_team (player_mon : PM.t) (cpu_mon : PM.t) 
-    (bag : (Item.t * int) list) cpu = 
+let rec loop p_team cpu_team player_mon cpu_mon bag cpu = 
   print_string "\n";
   print_endline ("--" ^ (PM.get_name cpu_mon) ^ "--");
   print_endline ("< hp" ^ ": " 
@@ -255,8 +281,8 @@ let rec loop p_team cpu_team (player_mon : PM.t) (cpu_mon : PM.t)
 let rec get_next_pm mons = 
   print_string "> ";
   let next = read_line () in 
-  match List.find_opt (fun x -> PM.get_name x = next) mons with 
-  | Some p -> p
+  match List.find_opt (fun x -> PM.get_name !x = next) mons with 
+  | Some p -> !p
   | None -> ANSITerminal.(print_string [red] "Invalid Pokemon.");
     get_next_pm mons 
 
@@ -269,12 +295,16 @@ let rec get_y_n () =
 
 let rec give_xp_all cpu_lvl wild = function
   | [] -> ()
-  | h :: t -> PM.give_xp h cpu_lvl wild; 
-    if PM.lvl_up h then print_endline (PM.get_name h ^ " leveled up!")
+  | h :: t -> PM.give_xp !h cpu_lvl wild; 
+    if PM.lvl_up !h then print_endline (PM.get_name !h ^ " leveled up!")
     else ();
     give_xp_all cpu_lvl wild t
 
 let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon = 
+  if cpu <> "wild" then
+    ANSITerminal.(print_string [yellow] 
+                    (cpu ^ " sends out " ^ (PM.get_name cpumon) ^ "!\n"))
+  else ();
   try loop p_mons cpu_mons pmon cpumon b cpu 
   with 
   | BattleLost -> PM.restore_mons cpu_mons; 
@@ -301,20 +331,23 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon =
       ANSITerminal.
         (print_string [yellow]
            ("\n" ^ mon ^ " fainted! " ^ cpu 
-            ^ " is about to send out " ^ PM.get_name next 
+            ^ " is about to send out " ^ PM.get_name !next 
             ^ ". Do you want to switch pokemon? [Y/N]\n"));
       if get_y_n () then begin 
         print_endline (PM.string_of_mons alive_mons);
-        battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) next 
+        battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) !next 
       end 
-      else battle_handler b m cpu p_mons cpu_mons pmon next 
+      else battle_handler b m cpu p_mons cpu_mons pmon !next 
 
 let main (player_team, bag, money, cpu_team, cpu) = 
-  ANSITerminal.(print_string [red] "\n\nStarting battle\n");
   PM.set_file "testmons.json";
   match player_team, cpu_team with
   | (pmon :: _), (cpumon :: _) -> 
-    battle_handler bag money cpu player_team cpu_team pmon cpumon 
+    if cpu = "wild" then 
+      ANSITerminal.(print_string [yellow] ("\nA wild " ^ (PM.get_name !cpumon) ^ " appeared!\n"))
+    else 
+      ANSITerminal.(print_string [yellow] (cpu ^ " challenges you to a battle!\n"));
+    battle_handler bag money cpu player_team cpu_team !pmon !cpumon 
   | _ -> failwith "Empty mons"
 
 (* Execute the game engine. *) 

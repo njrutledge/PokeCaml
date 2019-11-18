@@ -63,7 +63,7 @@ val add_item : t -> Adventure.item_name -> t
 val drop_item : t -> Adventure.item_name -> t
 
 (** [bag st] is the bag of state [st]. *)
-val bag : t -> (Item.t * int) list
+val bag : t -> (Item.t * int ref) list
 
 (** [get_party st] is the current party (Pokemon.t list) of the player. *)
-val get_party : t -> PM.t list
+val get_party : t -> PM.t ref list

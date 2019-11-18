@@ -27,7 +27,7 @@ type object_phrase = string list
 (** The type [command] represents a player command that is decomposed
     into a verb and possibly an object phrase. *)
 type command = 
-  | Attack of object_phrase
+  | Attack of int
   | Item of object_phrase
   | Bag
   | MovesInfo

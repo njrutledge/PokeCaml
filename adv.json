@@ -22,7 +22,7 @@
         {
           "name": "route 1110",
           "keys": [],
-          "place": "python town"
+          "place": "Python Town"
         }
       ],
       "NPCs": []
@@ -70,18 +70,62 @@
       ]
     },
     {
-      "id": "python town",
-      "description": "Python Town!",
+      "id": "Python Town",
+      "description": "Python Town",
       "exits": [
+        {
+          "name": "pokecenter",
+          "keys": [],
+          "place": "PokeCenter PTown"
+        },
+        {
+          "name": "route 2110",
+          "keys": [],
+          "place": "Java Town"
+        },
         {
           "name": "route 1110",
           "keys": [],
           "place": "Gates Town"
+        },
+        {
+          "name": "gym 1",
+          "keys": [],
+          "place": "Python Town"
+        }
+      ],
+      "NPCs": []
+    },
+    {
+      "id": "PokeCenter PTown",
+      "description": "PT PC",
+      "exits": [
+        {
+          "name": "python town",
+          "keys": [],
+          "place": "Python Town"
         }
       ],
       "NPCs": [
-        "1110 Trainer 1"
+        "Nurse Joy"
       ]
+    },
+    {
+      "id": "Java Town",
+      "description": "Java Town",
+      "exits": [
+        {
+          "name": "pokecenter",
+          "keys": [],
+          "place": "PokeCenter JTown"
+        },
+        {
+          "name": "route 2110",
+          "keys": [],
+          "place": "Python Town"
+        }
+      ],
+      "NPCs": []
     }
   ],
   "start town": "Gates Town",

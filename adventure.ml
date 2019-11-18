@@ -60,7 +60,7 @@ type t = {
   routes : route list;
   start : town_id;
   poke_file : string;
-  trainers : (string * PM.t list) list
+  trainers : (string * PM.t ref list) list
   (*items : item list;*)
   (*treasure_town : t_town;*)
   (*win_msgs : win list;*)
@@ -163,7 +163,7 @@ let json_t_pokemon j_item =
     j_item
     |> member "lvl"
     |> to_float in
-  (PM.create_pokemon name lvl)
+  ref (PM.create_pokemon name lvl)
 
 let json_trainers j_item = 
   let name = 
@@ -338,13 +338,14 @@ let take_route adv town r =
 
 let get_wild adv route = 
   let wilds = (adv.routes |> List.find (fun x -> x.route_name = route)).wilds in
-  Random.self_init (); let rand = Random.int 100 in
+  Random.self_init (); let rand = Random.int 100 + 1 in
   let rec find_wild = function 
     | [] -> failwith "bad math (aka wild random error)"
     | ((name,lvl), st, nd) :: t -> 
-      if st <= rand && rand <= nd then [PM.create_pokemon name lvl] 
+      if st <= rand && rand <= nd then [ref (PM.create_pokemon name lvl)] 
       else find_wild t
-  in find_wild wilds
+  in 
+  find_wild wilds
 
 let get_t_mons adv name = 
   match (List.assoc_opt name adv.trainers) with 

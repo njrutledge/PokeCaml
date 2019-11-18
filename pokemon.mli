@@ -17,7 +17,7 @@ module type PokeSig = sig
   type t_attack = float
   type t_defense = float
   type t_speed = float 
-  type t_moves = Moves.t list
+  type t_moves = Moves.t array
   type t (*= {
              el_type: t_type list;
              mutable name : string;
@@ -45,6 +45,7 @@ module type PokeSig = sig
   (** [change_hp mon hp] modifies the hp of [mon] by [hp].*)
   val change_hp : t -> t_hp -> unit
 
+  (** incr_stats mon] increases the stats of [mon] based on its level. *)
   val incr_stats : t -> unit
 
   (** [fainted mon] is whether the hp of [mon] is 0. *)
@@ -57,7 +58,7 @@ module type PokeSig = sig
   val get_type : t -> t_type list
 
   (** [get_moves mon] is a list of the moves for [mon]. *)
-  val get_moves : t -> Moves.t list
+  val get_moves : t -> Moves.t array
 
   (** [get_hp mon] is the current hp of [mon]. *)
   val get_hp : t -> t_hp
@@ -72,7 +73,7 @@ module type PokeSig = sig
   val get_speed : t -> t_speed
 
   (** [get_move mon move] is the move with name [move] in [mon]'s moveset. *)
-  val get_move : t -> string -> Moves.t
+  val get_move : t -> int -> Moves.t
 
   (** [get_lvl mon] is the level of [mon]. *)
   val get_lvl : t -> float
@@ -91,21 +92,21 @@ module type PokeSig = sig
   val format_moves_all: t -> string
 
   (** [retreat party] is true if all mons in [party] are fainted. *)
-  val retreat: t list -> bool
+  val retreat: t ref list -> bool
 
   (** [alive_pmons mon_lst] returns a list of the pokemon in the party that 
       are alive (not fainted). *)
-  val alive_pmons: t list -> t list
+  val alive_pmons: t ref list -> t ref list
 
   (** [string_of_mon mon] is the string representation of pokemon [mon]. *)
   val string_of_mon: t -> string 
 
   (** [string_of_mons mons] is the string representation of the list of 
       pokemons [mons]*)
-  val string_of_mons: t list -> string 
+  val string_of_mons: t ref list -> string 
 
   (** [restore mons] restores all mons to full health*)
-  val restore_mons: t list -> unit
+  val restore_mons: t ref list -> unit
 
   (** [give_xp mon cpu_lvl wild] gives [mon] the correct ammount of experience
       after defeating the pokemon of lvl [cpu_lvl]. [wild] is true 
