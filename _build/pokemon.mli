@@ -78,7 +78,7 @@ module type PokeSig = sig
   val get_lvl : t -> float
 
   (** [get_xp mon is the current experience of [mon]. *)
-  val get_xp : t -> int
+  val get_xp : t -> float
 
   (** [set_hp mon hp] sets the hp of [mon] to [hp].*)
   val set_hp : t -> t_hp -> unit
@@ -110,10 +110,10 @@ module type PokeSig = sig
   (** [give_xp mon cpu_lvl wild] gives [mon] the correct ammount of experience
       after defeating the pokemon of lvl [cpu_lvl]. [wild] is true 
       if this pokemon was a wild pokemon, and false otherwise. *)
-  val give_xp: t -> float -> unit
+  val give_xp: t -> float -> bool -> unit
 
-  (** [lvl_up mons] restores all mons to full health*)
-  val lvl_up: t -> unit
+  (** [lvl_up mon] levels up mon *)
+  val lvl_up: t -> bool
 
 end
 

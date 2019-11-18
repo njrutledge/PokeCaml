@@ -267,6 +267,13 @@ let rec get_y_n () =
   | "No" | "N" | "n" | "no" -> false
   | _ -> get_y_n ()
 
+let rec give_xp_all cpu_lvl wild = function
+  | [] -> ()
+  | h :: t -> PM.give_xp h cpu_lvl wild; 
+    if PM.lvl_up h then print_endline (PM.get_name h ^ " leveled up!")
+    else ();
+    give_xp_all cpu_lvl wild t
+
 let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon = 
   try loop p_mons cpu_mons pmon cpumon b cpu 
   with 
@@ -274,8 +281,9 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon =
     ANSITerminal.(print_string [red] 
                     ("\nYou lost! retreating back to town...\n"));
     (p_mons, b, m, false) 
-  | BattleWon party -> ANSITerminal.(print_string [green] 
-                                       ("\nDo you want to keep going? [Y/N]\n"));
+  | BattleWon party -> 
+    give_xp_all (PM.get_lvl cpumon) (cpu = "wild") (PM.alive_pmons p_mons);
+    ANSITerminal.(print_string [green] ("\nDo you want to keep going? [Y/N]\n"));
     (party, b, m, get_y_n ())
   | PlayerDown mon -> 
     ANSITerminal.(print_string [yellow]
@@ -285,18 +293,20 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon =
     print_endline (PM.string_of_mons alive_mons);
     battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) cpumon
   | CPUDown mon ->
+    let alive_mons = PM.alive_pmons p_mons in 
     match (PM.alive_pmons cpu_mons) with 
     | [] -> failwith "Did not successfully end battle."
-    | next::_ -> 
+    | next :: _ -> 
+      give_xp_all (PM.get_lvl cpumon) false alive_mons;
       ANSITerminal.
         (print_string [yellow]
            ("\n" ^ mon ^ " fainted! " ^ cpu 
             ^ " is about to send out " ^ PM.get_name next 
             ^ ". Do you want to switch pokemon? [Y/N]\n"));
-      if get_y_n () then 
-        let alive_mons = PM.alive_pmons p_mons in 
+      if get_y_n () then begin 
         print_endline (PM.string_of_mons alive_mons);
         battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) next 
+      end 
       else battle_handler b m cpu p_mons cpu_mons pmon next 
 
 let main (player_team, bag, money, cpu_team, cpu) = 

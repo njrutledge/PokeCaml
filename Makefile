@@ -4,8 +4,6 @@ MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
-BATTLE=battle.byte
-POKEMON=pokemon.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
 
 default: build
@@ -20,12 +18,6 @@ test:
 play:
 	$(OCAMLBUILD) $(MAIN) && ./$(MAIN)
 
-battle: 
-	$(OCAMLBUILD) $(BATTLE) && ./$(BATTLE)
-
-mon:
-	$(OCAMLBUILD) $(POKEMON) && ./$(POKEMON)
-
 check:
 	bash checkenv.sh && bash checktypes.sh
 	
@@ -34,7 +26,7 @@ finalcheck: check
 	bash finalcheck.sh
 
 zip:
-	zip ms1.zip *.ml* *.json *txt _tags Makefile
+	zip ms2.zip *.ml* *.json *txt _tags Makefile
 	
 docs: docs-public docs-private
 	

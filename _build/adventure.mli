@@ -96,7 +96,7 @@ val win_msg : t -> int -> string
     Raises [UnknownExit e] if [e] is not an exit from town [r] in [a]. *)
 val keys : t -> town_id -> exit_name -> item_name list
 
-val take_route : t -> town_id -> exit_name -> bat list * town_id
+val take_route : t -> town_id -> exit_name -> bat list
 
 (** [get_wild a r] is a randomly selected pokemon from the route [r]'s wild 
     pokmemon list in adventure [a]. *)

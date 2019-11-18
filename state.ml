@@ -44,14 +44,14 @@ let go ex adv st =
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
 
-let rec run_battles town route adv st = function 
-  | [] -> go town adv st
-  | Adventure.Wild :: t -> make_battle town route adv st "wild" (Adventure.get_wild adv route) t
+let rec run_battles route adv st = function 
+  | [] -> go route adv st
+  | Adventure.Wild :: t -> make_battle route adv st "wild" (Adventure.get_wild adv route) t
   | Adventure.Trainer tr :: t -> 
     let t_mons = Adventure.get_t_mons adv tr in 
-    make_battle town route adv st tr t_mons t
+    make_battle route adv st tr t_mons t
 
-and make_battle town route adv st cpu_name cpu_mons bats = 
+and make_battle route adv st cpu_name cpu_mons bats = 
   let (p, b, m, keep_going) = Battle.main
       (st.party, 
        st.bag, 
@@ -59,14 +59,14 @@ and make_battle town route adv st cpu_name cpu_mons bats =
        (cpu_mons),
        cpu_name) 
   in let st' = {st with party = p; bag = b; money = m} in 
-  if keep_going then run_battles town route adv st' bats
+  if keep_going then run_battles route adv st' bats
   else 
     Legal st'
 
 let route r adv st = 
   try 
-    let (bats, next_town) = Adventure.take_route adv st.cur_town r in 
-    run_battles next_town r adv st bats
+    let bats = Adventure.take_route adv st.cur_town r in 
+    run_battles r adv st bats
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
@@ -81,7 +81,7 @@ let add_item st it =
     Raises [UnknownItem it] if [it] is not in [items]. *)
 let rec remove_item it = function
   | [] -> raise (ItemNotFound it)
-  | h::t -> if h = it then t else h::remove_item it t
+  | h :: t -> if h = it then t else h::remove_item it t
 
 let drop_item st it = failwith "drop unimplemented" 
 (*{

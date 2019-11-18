@@ -1,1 +1,1 @@
-pokemon.ml: Int List Moves Types Yojson
+pokemon.ml: Float Int List Moves Types Yojson

@@ -334,8 +334,7 @@ let get_battles adv town r =
   else raise(UnknownExit r)
 
 let take_route adv town r = 
-  let next = next_town adv town r in 
-  (get_battles adv town r, next)
+  get_battles adv town r
 
 let get_wild adv route = 
   let wilds = (adv.routes |> List.find (fun x -> x.route_name = route)).wilds in

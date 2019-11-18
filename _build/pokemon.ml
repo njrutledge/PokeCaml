@@ -54,7 +54,7 @@ module type PokeSig = sig
   val get_speed : t -> t_speed
   val get_move : t -> string -> Moves.t
   val get_lvl: t -> float
-  val get_xp: t -> int
+  val get_xp: t -> float
   val set_hp : t -> t_hp -> unit
   val format_moves_names : t -> string
   val format_moves_all: t -> string
@@ -63,8 +63,8 @@ module type PokeSig = sig
   val string_of_mon: t -> string
   val string_of_mons: t list -> string
   val restore_mons: t list -> unit
-  val give_xp: t -> float -> unit
-  val lvl_up: t -> unit
+  val give_xp: t -> float -> bool -> unit
+  val lvl_up: t -> bool
 end
 
 module M = Moves
@@ -83,7 +83,7 @@ module Pokemon : PokeSig = struct
     mutable max_hp : t_hp;
     mutable hp: t_hp;
     mutable lvl: float;
-    mutable xp: int;
+    mutable xp: float;
     mutable attack: t_attack;
     mutable defense: t_defense;
     mutable speed: t_speed;
@@ -147,7 +147,7 @@ module Pokemon : PokeSig = struct
         |> member "Evolution"
         |> to_string;*)
       lvl = start_lvl;
-      xp = 0;
+      xp = 0.;
     }
 
   let get_max_hp mon = mon.max_hp
@@ -217,9 +217,11 @@ module Pokemon : PokeSig = struct
   let rec alive_pmons mons = 
     List.filter (fun x -> not (fainted x)) mons 
 
-  let string_of_mon (mon:t) =
-    ("{" ^ (get_name mon) ^ " - hp: " ^ (string_of_float (get_hp mon)) ^ 
-     " | level: " ^ (mon |> get_lvl |> Int.of_float |> string_of_int) ^ "}")
+  let string_of_mon (mon : t) =
+    ("{" ^ (get_name mon) ^ " - hp: " ^ (string_of_float (get_hp mon))
+     ^ " | level: " ^ (mon |> get_lvl |> Int.of_float |> string_of_int) 
+     ^ " | xp: " ^ (mon.xp /. (Float.pow mon.lvl 3.)*.100.|> Int.of_float |>
+                    string_of_int) ^ "%" ^ "}")
 
   let rec string_of_mons = function
     | [] -> ""
@@ -230,9 +232,27 @@ module Pokemon : PokeSig = struct
     | [] -> ()
     | h :: t -> set_hp h (get_max_hp h); restore_mons t
 
-  let give_xp mon cp_mon_lvl = 
-    failwith "Unimplemented"
+  let give_xp mon cp_mon_lvl wild = 
+    let a = if wild then 1.0 else 1.5 in  
+    let b = 50. in 
+    let frac = (Float.pow (2. *. cp_mon_lvl +. 10.) 2.5) 
+               /. (Float.pow (cp_mon_lvl +. mon.lvl +. 10.) 2.5) in 
+    let exp = (a *. b *. cp_mon_lvl /. 5. *. frac +. 1.) in 
+    mon.xp <- mon.xp +. exp
 
-  let lvl_up mon = 
-    failwith "Unimplemented"
+  let stat_update mon = 
+    mon.lvl <- mon.lvl +. 1.;
+    mon.hp <- mon.hp *. 1.02; 
+    mon.attack <- mon.attack *. 1.02; 
+    mon.defense <- mon.defense *. 1.02; 
+    mon.speed <- mon.speed *. 1.02
+
+  let lvl_up mon =
+    let rec lvl_up' change =  
+      if mon.xp >= Float.pow mon.lvl 3. 
+      then begin 
+        stat_update mon; lvl_up' true 
+      end
+      else change in 
+    lvl_up' false 
 end
