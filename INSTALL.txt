@@ -1,10 +1,28 @@
-run make build, then run make battle. 
-You will be prompted to input a pokemon name to battle. The possible choices
-are currently Mon1 (a copy of your pokemon), Mon2, or Mon3
+run make build, then run make play.
+the game will start up from the beginning.
 
 commands:
+
+ overworld: 
+ go [place]
+  - go to location [place]
+  - ex: go route 1110
+ heal
+  - heal all your pokemon if you are in a pokecenter
+ party
+  - prints out a description of your party's pokemon. 
+ bag 
+  - prints out a description of your bag and number of each item. 
+ 
+ battle:
  attack [move name] 
   - attacks the pokemon with the inputted move
   - ex: attack tackle
  moves
   - prints out a detailed description of each of your pokemon's known moves. 
+ item [item']
+  - uses an [item'] as appropiate if you have at least one in your bag
+  - ex: "item potion" uses a potion on your current pokemon.
+  - ex: "item pokeball" uses a pokeball on the opposing pokemon
+ party
+  - prints out a description of your party's pokemon.
