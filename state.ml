@@ -88,8 +88,7 @@ let drop_item st it = failwith "drop unimplemented"
     st with bag = remove_item it st.bag
   }*)
 
-let bag st = 
-  st.bag
+let bag st = st.bag
 
 let get_party st = st.party
 

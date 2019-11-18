@@ -5,6 +5,7 @@ type object_phrase = string list
 type command = 
   | Attack of object_phrase
   | Item of object_phrase
+  | Bag
   | MovesInfo
   | Party
   | Quit
@@ -25,6 +26,7 @@ let make_command verb phrase =
     if verb = "quit" then Quit else
     if verb = "moves" then MovesInfo else
     if verb = "party" then Party else 
+    if verb = "bag" then Bag else
       raise Malformed 
   else
   if verb = "attack" then Attack phrase else

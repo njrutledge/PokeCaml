@@ -39,6 +39,9 @@ module type PokeSig = sig
       [name] and level [lvl]. *)
   val create_pokemon: string -> float -> t
 
+  (** [get_max_hp mon] is the maximum hp of [mon]. *)
+  val get_max_hp : t -> t_hp
+
   (** [change_hp mon hp] modifies the hp of [mon] by [hp].*)
   val change_hp : t -> t_hp -> unit
 
@@ -59,9 +62,6 @@ module type PokeSig = sig
   (** [get_hp mon] is the current hp of [mon]. *)
   val get_hp : t -> t_hp
 
-  (** [get_max_hp mon] is the maximum hp of [mon]. *)
-  val get_max_hp : t -> t_hp
-
   (** [get_attack mon] is the base attack of [mon]. *)
   val get_attack : t -> t_attack
 
@@ -76,6 +76,12 @@ module type PokeSig = sig
 
   (** [get_lvl mon] is the level of [mon]. *)
   val get_lvl : t -> float
+
+  (** [get_xp mon is the current experience of [mon]. *)
+  val get_xp : t -> int
+
+  (** [set_hp mon hp] sets the hp of [mon] to [hp].*)
+  val set_hp : t -> t_hp -> unit
 
   (** [format_moves_names mon] is a formatted output of names of [mon]'s  moves.*)
   val format_moves_names : t -> string
@@ -97,6 +103,17 @@ module type PokeSig = sig
   (** [string_of_mons mons] is the string representation of the list of 
       pokemons [mons]*)
   val string_of_mons: t list -> string 
+
+  (** [restore mons] restores all mons to full health*)
+  val restore_mons: t list -> unit
+
+  (** [give_xp mon cpu_lvl wild] gives [mon] the correct ammount of experience
+      after defeating the pokemon of lvl [cpu_lvl]. [wild] is true 
+      if this pokemon was a wild pokemon, and false otherwise. *)
+  val give_xp: t -> float -> bool -> unit
+
+  (** [lvl_up mons] restores all mons to full health*)
+  val lvl_up: t -> unit
 
 end
 

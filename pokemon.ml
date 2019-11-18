@@ -41,6 +41,7 @@ module type PokeSig = sig
 
   val set_file : string -> unit
   val create_pokemon: string -> float -> t
+  val get_max_hp : t -> t_hp
   val change_hp : t -> t_hp -> unit
   val incr_stats : t -> unit
   val fainted : t -> bool 
@@ -48,18 +49,22 @@ module type PokeSig = sig
   val get_type : t -> t_type list
   val get_moves : t -> Moves.t list
   val get_hp : t -> t_hp
-  val get_max_hp : t -> t_hp
   val get_attack : t -> t_attack
   val get_defense : t -> t_defense
   val get_speed : t -> t_speed
   val get_move : t -> string -> Moves.t
   val get_lvl: t -> float
+  val get_xp: t -> int
+  val set_hp : t -> t_hp -> unit
   val format_moves_names : t -> string
   val format_moves_all: t -> string
   val retreat: t list -> bool
   val alive_pmons: t list -> t list 
   val string_of_mon: t -> string
   val string_of_mons: t list -> string
+  val restore_mons: t list -> unit
+  val give_xp: t -> float -> bool -> unit
+  val lvl_up: t -> unit
 end
 
 module M = Moves
@@ -78,18 +83,21 @@ module Pokemon : PokeSig = struct
     mutable max_hp : t_hp;
     mutable hp: t_hp;
     mutable lvl: float;
+    mutable xp: int;
     mutable attack: t_attack;
     mutable defense: t_defense;
     mutable speed: t_speed;
     mutable moves: t_moves;
     evolution: string;
   }
-
+  (**[file_name] is the name of the file containing all the pokemon. *)
   let file_name = ref "testsmons.json"
 
   let set_file str = 
     file_name := str
 
+  (** [get_data m] is the Yojson.Basic.t that matches 
+      the pokemon of name [mon]. *)
   let get_data mon = 
     let json = Yojson.Basic.from_file !file_name in 
     json |> member mon
@@ -139,7 +147,9 @@ module Pokemon : PokeSig = struct
         |> member "Evolution"
         |> to_string;*)
       lvl = start_lvl;
+      xp = 0;
     }
+
   let get_max_hp mon = mon.max_hp
 
   let change_hp mon hp = 
@@ -177,6 +187,14 @@ module Pokemon : PokeSig = struct
       | h :: t -> if move = h.move_name then h else find_move t
     in find_move mon.moves
 
+  let get_lvl mon = 
+    mon.lvl
+
+  let get_xp mon = 
+    mon.xp
+
+  let set_hp mon hp = mon.hp <- hp
+
   let format_moves_names mon = 
     let rec format_moves_names' moves acc =
       match moves with 
@@ -196,17 +214,25 @@ module Pokemon : PokeSig = struct
   let retreat party = 
     List.fold_left (fun acc p -> acc && fainted p) true party
 
-  let get_lvl mon = 
-    mon.lvl
-
   let rec alive_pmons mons = 
     List.filter (fun x -> not (fainted x)) mons 
 
   let string_of_mon (mon:t) =
     ("{" ^ (get_name mon) ^ " - hp: " ^ (string_of_float (get_hp mon)) ^ 
-     "| level: " ^ (string_of_float (get_lvl mon)) ^ "}")
+     " | level: " ^ (mon |> get_lvl |> Int.of_float |> string_of_int) ^ "}")
 
   let rec string_of_mons = function
     | [] -> ""
     | p :: t -> (string_of_mon p) ^ "\n" ^ (string_of_mons t)
+
+  let rec restore_mons (mons : t list) =
+    match mons with
+    | [] -> ()
+    | h :: t -> set_hp h (get_max_hp h); restore_mons t
+
+  let give_xp mon cp_mon_lvl wild = 
+    failwith "Unimplemented"
+
+  let lvl_up mon = 
+    failwith "Unimplemented"
 end

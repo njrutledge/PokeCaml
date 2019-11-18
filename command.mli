@@ -32,6 +32,8 @@ type command =
   | Bag
   | Party
   | GoRoute of object_phrase
+  | Heal
+  | Buy of object_phrase
   | Quit
 
 (** Raised when an empty command is parsed. *)

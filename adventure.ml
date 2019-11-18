@@ -52,7 +52,7 @@ type bat =
 type route = {
   route_name : string;
   battles : bat list;
-  wilds : (PM.t * int * int) list;
+  wilds : ((string * float) * int * int) list;
 }
 
 type t = {
@@ -71,8 +71,8 @@ type t = {
     Requires: [prev] starts at 0 and [acc] starts empty.  *)
 let rec get_ranges acc prev = function
   | [] -> acc
-  | (pm, chance) :: t -> let next = prev + 1 + chance in 
-    get_ranges ((pm, prev + 1, next) :: acc) next t
+  | (name,lvl , chance) :: t -> let next = prev + 1 + chance in 
+    get_ranges (((name,lvl), prev + 1, next) :: acc) next t
 
 (** [json_exit j] is the adventure town exit that [j] represents. 
     Requires: [j] is a valid JSON adventure exit representation. *)
@@ -152,7 +152,7 @@ let json_wilds j_item =
     j_item
     |> member "chance"
     |> to_int in
-  let mon = (PM.create_pokemon name lvl) in (mon, chance)
+  (name, lvl, chance)
 
 let json_t_pokemon j_item = 
   let name = 
@@ -342,12 +342,12 @@ let get_wild adv route =
   Random.self_init (); let rand = Random.int 100 in
   let rec find_wild = function 
     | [] -> failwith "bad math (aka wild random error)"
-    | (mon, st, nd) :: t -> 
-      if st <= rand && rand <= nd then [mon] 
+    | ((name,lvl), st, nd) :: t -> 
+      if st <= rand && rand <= nd then [PM.create_pokemon name lvl] 
       else find_wild t
   in find_wild wilds
 
 let get_t_mons adv name = 
   match (List.assoc_opt name adv.trainers) with 
-  | None -> failwith "trainer does not exi"
+  | None -> failwith "trainer does not exist"
   | Some v -> v

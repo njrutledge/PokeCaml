@@ -29,6 +29,7 @@ type object_phrase = string list
 type command = 
   | Attack of object_phrase
   | Item of object_phrase
+  | Bag
   | MovesInfo
   | Party
   | Quit

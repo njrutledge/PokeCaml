@@ -8,6 +8,8 @@ type command =
   | Bag
   | Party
   | GoRoute of object_phrase
+  | Heal 
+  | Buy of object_phrase
   | Quit
 
 exception Empty
@@ -26,6 +28,7 @@ let make_command verb phrase =
     if verb = "quit" then Quit else 
     if verb = "bag" then Bag else 
     if verb = "party" then Party else
+    if verb = "heal" then Heal else
       raise Malformed 
   else
   if verb = "go" then begin 
@@ -36,6 +39,7 @@ let make_command verb phrase =
   else 
   if verb = "route" then GoRoute phrase else
   if verb = "take" then Take phrase else 
+  if verb = "buy" then Buy phrase else
     raise Malformed 
 
 let parse str =

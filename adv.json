@@ -28,6 +28,20 @@
       "NPCs": []
     },
     {
+      "id": "PokeCenter GTown",
+      "description": "GT PC",
+      "exits": [
+        {
+          "name": "gates town",
+          "keys": [],
+          "place": "Gates Town"
+        }
+      ],
+      "NPCs": [
+        "Nurse Joy"
+      ]
+    },
+    {
       "id": "My house",
       "description": "My house",
       "exits": [

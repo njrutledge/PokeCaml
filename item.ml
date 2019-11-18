@@ -24,7 +24,7 @@ let item_of_string i =
   | "potion" -> Potion
   | "hyper potion" -> HyperPotion
   | "full restore" -> FullRestore
-  | "poke ball" -> PokeBall
+  | "pokeball" -> PokeBall
   | "great ball" -> GreatBall
   | "ultra ball" -> UltraBall
   | "master ball" -> MasterBall

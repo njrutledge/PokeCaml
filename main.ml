@@ -3,6 +3,7 @@ module PM = Pokemon
 
 (** Raised when the player tries to do something illegal. *)
 exception IllegalMove of string
+exception NotInPC
 
 (** [update] is the type of update to the game. *) 
 type update = 
@@ -65,6 +66,21 @@ let execute_go_route adv st route =
   | Legal (t) -> State t
   | Illegal (msg) -> raise (IllegalMove msg)
 
+let in_pokecenter state = 
+  let state_name = state |> State.current_town_id |> String.split_on_char ' ' in
+  match List.hd state_name with
+  | "PokeCenter" -> true
+  | _ -> false
+
+let execute_heal state = state |> State.get_party |> PM.restore_mons; None
+
+let execute_buy state phrase = failwith "Bag Unimplemented"
+(*try begin
+  let amt = int_of_string (phrase |> List.rev |> List.hd) in
+  end
+  with begin
+  failure int_of_string
+  end*)
 
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state].  *)
@@ -76,10 +92,14 @@ let rec execute_command adv state input =
   | Take(phrase) -> execute_take adv state (String.concat " " phrase)
   | Party -> execute_party adv state
   | Bag -> execute_Bag state
+  | Heal -> if in_pokecenter state then execute_heal state else raise NotInPC
+  | Buy(phrase) -> 
+    if in_pokecenter state then execute_buy state (String.concat " " phrase) 
+    else raise NotInPC
 
 (** [get_command adv state input] *)
 let rec get_command adv state input = 
-  try
+  try 
     execute_command adv state input
   with 
   | Command.Empty -> 

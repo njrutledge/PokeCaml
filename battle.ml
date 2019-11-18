@@ -1,13 +1,15 @@
 (* TODO: ascii art, add moves for cpu, stab, better ai, certain abilities,
    items, crits, stat affecting moves, self damaging moves, variable damage moves,
    more types, special vs physical *)
-exception BattleWon
+
+open Moves
+open Pokemon
+let sleep = 0.001
+module PM = Pokemon
+exception BattleWon of PM.t list 
 exception BattleLost
 exception PlayerDown of string 
 exception CPUDown of string 
-open Moves
-open Pokemon
-module PM = Pokemon
 
 (** Raised when the player tries to do something illegal. *)
 exception IllegalMove of string
@@ -58,32 +60,52 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_name =
   else ();
   PM.change_hp def_mon (-.move_damage)
 
+let b_calc ball =  
+  match ball with 
+  | Item.PokeBall -> 255.
+  | Item.GreatBall -> 200. 
+  | Item.UltraBall -> 150.
+  | _ -> failwith "Only ball can shake, never should have this error"
+
+(** [print_shake] prints "*shake*" with a delay afterwards. *)
+let print_shake () = print_endline "*shake*"; Unix.sleep 1
+
+(** [shake ball f] is the handler for printing how many times the ball should
+    shake if the pokemon is not caught. *)
 let shake ball f = 
-  let b = begin 
-    match ball with 
-    | Item.PokeBall -> 255.
-    | Item.GreatBall -> 200. 
-    | Item.UltraBall -> 150.
-    | _ -> failwith "Only ball can shake"
-  end in
-  let d = (255. *. 100.) /. b in
+  let b = b_calc ball in 
+  let d = (128. *. 100.) /. b in
   let d_round = d |> Float.to_int |> Int.to_float in begin
-    if d_round >= 256. then print_endline "The ball shakes 3 times."
-    else let x = d_round *. f /. 255. in 
-      let x_round = x |> Float.to_int |> Int.to_float in begin
-        if x_round < 10. then print_endline "The ball missed!"
-        else if x_round < 30. then print_endline "The ball shakes 1 time."
-        else if x_round < 70. then print_endline "The ball shakes 2 times."
-        else print_endline "The ball shakes 3 times."
-      end;
+    if d_round >= 256. then begin
+      print_shake (); print_shake (); print_shake ();
+      print_endline "The pokemon broke free!"
+    end 
+    else begin
+      let x = d_round *. f /. 255. in 
+      let x_round = x |> Float.to_int |> Int.to_float in 
+      if x_round < 10. then print_endline "The ball missed!"
+      else if x_round < 30. then begin
+        print_shake (); print_endline "The pokemon broke free!" 
+      end
+      else if x_round < 70. then begin
+        print_shake(); print_shake(); print_endline "The pokemon broke free!" 
+      end
+      else begin
+        print_shake(); print_shake () ; print_shake ();
+        print_endline "The pokemon broke free!"
+      end
+    end
   end;
   false
 
 (* [catch def_mon ball] determines whether or not a wild pokemon is
    caught, using the gen 1 catch formula here: https://bulbapedia.bulbagarden.net/wiki/Catch_rate#Capture_method_.28Generation_I.29  *)
 let catch mon ball (rate : float) = 
-  if ball = Item.MasterBall then true
-  else begin Random.self_init(); 
+  if ball = Item.MasterBall then begin 
+    print_shake(); print_shake(); print_shake(); true
+  end
+  else begin 
+    Random.self_init(); 
     (*let n = begin 
       match ball with 
       | Item.PokeBall -> Random.float 256.
@@ -91,14 +113,17 @@ let catch mon ball (rate : float) =
       | Item.UltraBall -> Random.float 151.
       | _ -> failwith "Ball only to catch"
       end in *)
-    let m = Random.float 256. in
+    let m = Random.float 256. in 
     let b = (if ball = Item.GreatBall then 8. else 12.) in
     let f = (PM.get_max_hp mon *. 255. *. 4.) /. (PM.get_hp mon *. b) in
     let f_round = f |> Float.to_int |> Int.to_float in 
-    if f >= m then true else shake ball f_round 
+    if f_round >= m then begin 
+      print_shake(); print_shake(); print_shake(); true 
+    end
+    else shake ball f_round 
   end
 
-let execute_item atk_mon def_mon item bag = 
+let execute_item atk_mon def_mon item bag party cpu= 
   match (List.assoc item bag) > 0 with 
   | exception Not_found -> print_endline ("You don't have any " ^ Item.string_of_item item ^ " to use!")
   | _ ->  match item with 
@@ -109,49 +134,72 @@ let execute_item atk_mon def_mon item bag =
     | Item.FullRestore -> PM.change_hp atk_mon (PM.get_max_hp atk_mon);
       print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 100%. ")
     | Item.PokeBall | Item.GreatBall | Item.UltraBall | Item.MasterBall -> begin
-        let caught = catch def_mon item 255. in begin
-          if caught then print_endline ("\n" ^ (PM.get_name def_mon) ^ " was caught!\n") 
+        if cpu = "wild" then 
+          let caught = catch def_mon item 255. in 
+          if caught then begin 
+            print_endline ("\n" ^ (PM.get_name def_mon) ^ " was caught!\n");
+            raise (BattleWon (party@[def_mon]))
+          end 
           else print_endline ("\n" ^ (PM.get_name def_mon) ^ " wasn't caught.\n") 
-        end
+        else print_endline ("\n" ^ cpu ^ " blocked the ball!")
       end
 
-let rec execute_command party atk_mon def_mon bag input = 
+let string_of_bag (bag : (Item.t * int) list) =
+  let rec string_of_bag' bag (acc : string) = 
+    match bag with
+    | [] -> acc
+    | (i, n) :: t -> begin
+        if n > 0 then 
+          string_of_bag' t (acc ^ (Item.string_of_item i) ^ ": " ^
+                            (string_of_int n) ^ "\n")
+        else string_of_bag' t acc
+      end
+  in (string_of_bag' bag "\n") ^ "\n"
+
+let rec execute_command party atk_mon def_mon bag cpu input = 
   match Btlcmd.parse input with 
   | Quit -> execute_quit atk_mon
   | Attack(phrase) -> execute_attack atk_mon def_mon (String.concat " " phrase)
-  | Item(phrase) -> execute_item atk_mon def_mon (Item.item_of_string (String.concat " " phrase)) bag
+  | Item(phrase) -> 
+    execute_item atk_mon def_mon 
+      (Item.item_of_string (String.concat " " phrase))
+      bag party cpu 
+  | Bag -> ANSITerminal.(print_string [cyan] (string_of_bag bag));
+    print_string "> ";
+    execute_command party atk_mon def_mon bag cpu (read_line ())
   | MovesInfo ->
-    ANSITerminal.(print_string [green] 
-                    ("Move info: \n" ^ (PM.format_moves_all atk_mon) ^ "\n"));
+    ANSITerminal.(print_string [cyan] 
+                    ((PM.format_moves_all atk_mon) ^ "\n"));
     print_string "> ";
-    execute_command party atk_mon def_mon bag (read_line ())
-  | Party -> ANSITerminal.(print_string [blue] (PM.string_of_mons party));
+    execute_command party atk_mon def_mon bag cpu (read_line ())
+  | Party -> ANSITerminal.(print_string [cyan] 
+                             ("\n" ^ (PM.string_of_mons party) ^ "\n"));
     print_string "> ";
-    execute_command party atk_mon def_mon bag (read_line ()) 
+    execute_command party atk_mon def_mon bag cpu (read_line ()) 
 
-let rec get_command party atk_mon def_mon bag input = 
+let rec get_command party atk_mon def_mon bag cpu input = 
   try
-    execute_command party atk_mon def_mon bag input
+    execute_command party atk_mon def_mon bag cpu input
   with 
   | Btlcmd.Empty -> 
     ANSITerminal.(print_string [red]
                     "\nError: please give command.\n ");
     print_string "> ";
-    get_command party atk_mon def_mon bag (read_line ())
+    get_command party atk_mon def_mon bag cpu (read_line ())
   | Btlcmd.Malformed ->
     ANSITerminal.(print_string [red]
                     "\nError: please input valid command.\n");
     print_string "> ";
-    get_command party atk_mon def_mon bag (read_line ())
+    get_command party atk_mon def_mon bag cpu (read_line ())
   | Pokemon.UnknownMove m -> 
     ANSITerminal.(print_string [red] "\nError: move not valid. Please input a
     valid command.\n");
     print_string "> ";
-    get_command party atk_mon def_mon bag (read_line ())
+    get_command party atk_mon def_mon bag cpu (read_line ())
   | Item.InvalidItem i -> 
     ANSITerminal.(print_string [red] "\nError: invalid item name.\n");
     print_string "> ";
-    get_command party atk_mon def_mon bag (read_line ())
+    get_command party atk_mon def_mon bag cpu (read_line ())
 
 let execute_cpu_turn player_mon cpu_mon = 
   Random.self_init();
@@ -163,7 +211,7 @@ let execute_cpu_turn player_mon cpu_mon =
 (** [loop adv state] executes a REPL for the game. Quits on recieving 
     "quit". *)
 let rec loop p_team cpu_team (player_mon : PM.t) (cpu_mon : PM.t) 
-    (bag : (Item.t * int) list) = 
+    (bag : (Item.t * int) list) cpu = 
   print_string "\n";
   print_endline ("--" ^ (PM.get_name cpu_mon) ^ "--");
   print_endline ("< hp" ^ ": " 
@@ -183,14 +231,16 @@ let rec loop p_team cpu_team (player_mon : PM.t) (cpu_mon : PM.t)
   print_endline (PM.format_moves_names player_mon);
   print_string "\n";
   print_string "> ";
-  get_command p_team player_mon cpu_mon bag (read_line ());
+  get_command p_team player_mon cpu_mon bag cpu (read_line ());
+  Unix.sleepf sleep;
   if PM.fainted cpu_mon then 
     if PM.retreat cpu_team then
-      raise BattleWon
+      raise (BattleWon p_team)
     else raise (CPUDown (PM.get_name cpu_mon))
   else ();
   print_string "\n";
   execute_cpu_turn player_mon cpu_mon;
+  Unix.sleepf sleep;
   if PM.fainted player_mon then begin
     if PM.retreat p_team then
       raise BattleLost
@@ -198,7 +248,7 @@ let rec loop p_team cpu_team (player_mon : PM.t) (cpu_mon : PM.t)
   end
   else ();
   print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
-  loop p_team cpu_team player_mon cpu_mon bag
+  loop p_team cpu_team player_mon cpu_mon bag cpu 
 
 (** [get_next_pm mons] is the next pokemon to go out after prompting the 
     player to select their next pokemon from [mons]. *)
@@ -218,14 +268,15 @@ let rec get_y_n () =
   | _ -> get_y_n ()
 
 let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon = 
-  try loop p_mons cpu_mons pmon cpumon b
+  try loop p_mons cpu_mons pmon cpumon b cpu 
   with 
-  | BattleLost -> ANSITerminal.(print_string [red] 
-                                  ("\nYou lost! retreating back to town...\n"));
+  | BattleLost -> PM.restore_mons cpu_mons; 
+    ANSITerminal.(print_string [red] 
+                    ("\nYou lost! retreating back to town...\n"));
     (p_mons, b, m, false) 
-  | BattleWon -> ANSITerminal.(print_string [green] 
-                                 ("\nDo you want to keep going? [Y/N]\n"));
-    (p_mons, b, m, get_y_n ())
+  | BattleWon party -> ANSITerminal.(print_string [green] 
+                                       ("\nDo you want to keep going? [Y/N]\n"));
+    (party, b, m, get_y_n ())
   | PlayerDown mon -> 
     ANSITerminal.(print_string [yellow]
                     ("\n"^mon^ 
