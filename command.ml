@@ -10,6 +10,7 @@ type command =
   | GoRoute of object_phrase
   | Heal 
   | Buy of object_phrase
+  | Map 
   | Quit
 
 exception Empty
@@ -29,12 +30,13 @@ let make_command verb phrase =
     if verb = "bag" then Bag else 
     if verb = "party" then Party else
     if verb = "heal" then Heal else
+    if verb = "map" then Map else
       raise Malformed 
   else
   if verb = "go" then begin 
     match phrase with 
     | [] -> raise Malformed
-    | h :: t -> if h = "route" then GoRoute phrase else Go phrase
+    | h :: t -> if h = "route" || h = "gym" then GoRoute phrase else Go phrase
   end 
   else 
   if verb = "route" then GoRoute phrase else

@@ -60,7 +60,7 @@ type t = {
   routes : route list;
   start : town_id;
   poke_file : string;
-  trainers : (string * PM.t ref list) list
+  trainers : (string * (bool * PM.t ref list)) list
   (*items : item list;*)
   (*treasure_town : t_town;*)
   (*win_msgs : win list;*)
@@ -175,7 +175,7 @@ let json_trainers j_item =
     |> member "pokemon"
     |> to_list 
     |> List.map json_t_pokemon in
-  (name, pokemon_list)
+  (name, (false, pokemon_list))
 
 let rec make_bats acc = function 
   | [] ->  acc
@@ -331,6 +331,7 @@ let get_battles adv town r =
     adv.routes 
     |> List.find (fun x -> x.route_name = r) 
     |> (fun x -> x.battles) 
+    |> List.rev
   else raise(UnknownExit r)
 
 let take_route adv town r = 
@@ -350,4 +351,10 @@ let get_wild adv route =
 let get_t_mons adv name = 
   match (List.assoc_opt name adv.trainers) with 
   | None -> failwith "trainer does not exist"
-  | Some v -> v
+  | Some (false, v) -> v
+  | Some (true, _ ) -> [] 
+
+let get_defeat adv name = 
+  match (List.assoc_opt name adv.trainers) with 
+  | None -> failwith "trainer does not exist"
+  | Some v -> fst v

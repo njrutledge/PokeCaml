@@ -35,6 +35,9 @@ module type PokeSig = sig
       then returns unit. *)
   val set_file : string -> unit
 
+  (** [lvl_up mon] levels up mon *)
+  val lvl_up: t -> bool
+
   (** [create_pokemon name lvl] is the representation of the pokemon species 
       [name] and level [lvl]. *)
   val create_pokemon: string -> float -> t
@@ -98,6 +101,10 @@ module type PokeSig = sig
       are alive (not fainted). *)
   val alive_pmons: t ref list -> t ref list
 
+  (** [hp_string m] is a string representation of pokemon [m]'s 
+      health and max health. *)
+  val hp_string: t -> string 
+
   (** [string_of_mon mon] is the string representation of pokemon [mon]. *)
   val string_of_mon: t -> string 
 
@@ -113,8 +120,6 @@ module type PokeSig = sig
       if this pokemon was a wild pokemon, and false otherwise. *)
   val give_xp: t -> float -> bool -> unit
 
-  (** [lvl_up mon] levels up mon *)
-  val lvl_up: t -> bool
 
 end
 

@@ -34,6 +34,7 @@ type command =
   | GoRoute of object_phrase
   | Heal
   | Buy of object_phrase
+  | Map
   | Quit
 
 (** Raised when an empty command is parsed. *)

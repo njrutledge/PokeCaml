@@ -1,8 +1,6 @@
 open Pokemon
 module PM = Pokemon
 
-let () = PM.set_file "testmons.json"
-
 exception ItemNotFound of Adventure.item_name
 exception KeyNotFound
 
@@ -19,8 +17,8 @@ let init_state adv = {
   last_town = Adventure.start_town adv;
   bag = [(Potion, ref 5); (PokeBall, ref 3)];
   money = 500;
-  party = [ref (PM.create_pokemon "Mon1" 1.); ref (PM.create_pokemon "Mon2" 2.);
-           ref (PM.create_pokemon "Mon3" 3.;)]
+  party = [ref (PM.create_pokemon "Pikachu" 5.); ref (PM.create_pokemon "Charmander" 5.);
+           ref (PM.create_pokemon "Squirtle" 5.;)]
 }
 
 let current_town_id st =
@@ -47,9 +45,11 @@ let go ex adv st =
 let rec run_battles route adv st = function 
   | [] -> go route adv st
   | Adventure.Wild :: t -> make_battle route adv st "wild" (Adventure.get_wild adv route) t
-  | Adventure.Trainer tr :: t -> 
+  | Adventure.Trainer tr :: t ->  
     let t_mons = Adventure.get_t_mons adv tr in 
-    make_battle route adv st tr t_mons t
+    if t_mons <> [] then 
+      make_battle route adv st tr t_mons t
+    else run_battles route adv st t
 
 and make_battle route adv st cpu_name cpu_mons bats = 
   let (p, b, m, keep_going) = Battle.main

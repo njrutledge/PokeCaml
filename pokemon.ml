@@ -12,7 +12,7 @@ end
 module Stats : StatsSig = struct
   type t = Yojson.Basic.t
   let json = 
-    "testmons.json"
+    "pokemon.json"
     |> Yojson.Basic.from_file
   let mon = ref "Mon1"
   let get_data mon_name = json |> member mon_name 
@@ -38,8 +38,8 @@ module type PokeSig = sig
            mutable moves: t_moves;
            evolution: string;
            }*)
-
-  val set_file : string -> unit
+  val set_file : string -> unit 
+  val lvl_up: t -> bool
   val create_pokemon: string -> float -> t
   val get_max_hp : t -> t_hp
   val change_hp : t -> t_hp -> unit
@@ -60,11 +60,11 @@ module type PokeSig = sig
   val format_moves_all: t -> string
   val retreat: t ref list -> bool
   val alive_pmons: t ref list -> t ref list 
+  val hp_string: t -> string 
   val string_of_mon: t -> string
   val string_of_mons: t ref list -> string
   val restore_mons: t ref list -> unit
   val give_xp: t -> float -> bool -> unit
-  val lvl_up: t -> bool
 end
 
 module M = Moves
@@ -91,7 +91,7 @@ module Pokemon : PokeSig = struct
     evolution: string;
   }
   (**[file_name] is the name of the file containing all the pokemon. *)
-  let file_name = ref "testsmons.json"
+  let file_name = ref "pokemon.json"
 
   let set_file str = 
     file_name := str
@@ -110,55 +110,76 @@ module Pokemon : PokeSig = struct
     done;
     moves
 
+  (** [stat_update m] updates the stats of [m] for leveling up. *)
+  let stat_update mon = 
+    mon.lvl <- mon.lvl +. 1.;
+    mon.max_hp <- mon.max_hp *. 1.02; 
+    mon.attack <- mon.attack *. 1.02; 
+    mon.defense <- mon.defense *. 1.02; 
+    mon.speed <- mon.speed *. 1.02
+
+  let lvl_up mon =
+    let rec lvl_up' change =  
+      if mon.xp >= Float.pow mon.lvl 3. 
+      then begin 
+        stat_update mon; lvl_up' true 
+      end
+      else change in 
+    lvl_up' false 
+
   let create_pokemon mon_name start_lvl = 
     let json = get_data mon_name in 
-    {
-      el_type = 
-        json 
-        |> member "Types"
-        |> to_list
-        |> List.map to_string;
-      name = mon_name;
-      max_hp = 
-        json 
-        |> member "Stats"
-        |> member "HP"
-        |> to_float;
-      hp = 
-        json 
-        |> member "Stats"
-        |> member "HP"
-        |> to_float;
-      attack = 
-        json 
-        |> member "Stats"
-        |> member "ATK"
-        |> to_float; 
-      speed = 
-        json 
-        |> member "Stats"
-        |> member "SPE"
-        |> to_float;
-      defense = 
-        json 
-        |> member "Stats"
-        |> member "DEF"
-        |> to_float;
-      moves = 
-        json
-        |> member "Moves"
-        |> to_list
-        |> List.map to_string 
-        |> List.map Moves.create_move
-        |> Array.of_list;
-      (*|> fix_move_array;*)
-      evolution = "";
-      (*json
-        |> member "Evolution"
-        |> to_string;*)
-      lvl = start_lvl;
-      xp = 0.;
-    }
+    let pmon = 
+      {
+        el_type = 
+          json 
+          |> member "Types"
+          |> to_list
+          |> List.map to_string;
+        name = mon_name;
+        max_hp = 
+          json 
+          |> member "Stats"
+          |> member "HP"
+          |> to_float;
+        hp = 
+          json 
+          |> member "Stats"
+          |> member "HP"
+          |> to_float;
+        attack = 
+          json 
+          |> member "Stats"
+          |> member "ATK"
+          |> to_float; 
+        speed = 
+          json 
+          |> member "Stats"
+          |> member "SPE"
+          |> to_float;
+        defense = 
+          json 
+          |> member "Stats"
+          |> member "DEF"
+          |> to_float;
+        moves = 
+          json
+          |> member "Moves"
+          |> to_list
+          |> List.map to_string 
+          |> List.map Moves.create_move
+          |> Array.of_list;
+        (*|> fix_move_array;*)
+        evolution = "";
+        (*json
+          |> member "Evolution"
+          |> to_string;*)
+        lvl = 1.;
+        xp = Float.pow (start_lvl-.1.) 3.;
+      } in 
+    ignore (lvl_up pmon);
+    pmon.hp <- pmon.max_hp;
+    pmon 
 
   let get_max_hp mon = mon.max_hp
 
@@ -214,24 +235,31 @@ module Pokemon : PokeSig = struct
     done;
     !acc
 
-  (*  let rec format_moves_all' moves acc =
-      match moves with 
-      | [] -> acc
-      | h :: [] -> format_moves_all' [] (acc ^ (Moves.to_string h))
-      | h :: t -> format_moves_all' t (acc ^ Moves.to_string h ^ "\n")
-      in (format_moves_all' (get_moves mon) "\n") 
-  *)
   let retreat party = 
     List.fold_left (fun acc p -> acc && fainted !p) true party
 
   let rec alive_pmons mons = 
     List.filter (fun x -> not (fainted !x)) mons 
 
+  let calc_xp_percent mon = 
+    (mon.xp -. (Float.pow (mon.lvl-.1.) 3.)) /. (Float.pow mon.lvl 3.)*. 100.
+    |> Int.of_float 
+    |> string_of_int
+
+  (** [hp_string m] is a string representation of pokemon [m]'s 
+      health and max health. *)
+  let hp_string mon = 
+    if fainted mon then "fainted"
+    else  
+      let curr_hp = 
+        if 0. < (get_hp mon) && (get_hp mon) <= 1. then "1"
+        else (string_of_int (Int.of_float (get_hp mon))) 
+      in "hp: " ^ curr_hp ^ "/" ^ (string_of_int (Int.of_float (get_max_hp mon)))
+
   let string_of_mon (mon : t) =
-    ("{" ^ (get_name mon) ^ " - hp: " ^ (string_of_float (get_hp mon))
+    ("{" ^ (get_name mon) ^ " - " ^ hp_string mon
      ^ " | level: " ^ (mon |> get_lvl |> Int.of_float |> string_of_int) 
-     ^ " | xp: " ^ (mon.xp /. (Float.pow mon.lvl 3.)*.100.|> Int.of_float |>
-                    string_of_int) ^ "%" ^ "}")
+     ^ " | xp: " ^ calc_xp_percent mon ^ "%" ^ "}")
 
   let rec string_of_mons = function
     | [] -> ""
@@ -250,19 +278,4 @@ module Pokemon : PokeSig = struct
     let exp = (a *. b *. cp_mon_lvl /. 5. *. frac +. 1.) in 
     mon.xp <- mon.xp +. exp
 
-  let stat_update mon = 
-    mon.lvl <- mon.lvl +. 1.;
-    mon.max_hp <- mon.max_hp *. 1.02; 
-    mon.attack <- mon.attack *. 1.02; 
-    mon.defense <- mon.defense *. 1.02; 
-    mon.speed <- mon.speed *. 1.02
-
-  let lvl_up mon =
-    let rec lvl_up' change =  
-      if mon.xp >= Float.pow mon.lvl 3. 
-      then begin 
-        stat_update mon; lvl_up' true 
-      end
-      else change in 
-    lvl_up' false 
 end

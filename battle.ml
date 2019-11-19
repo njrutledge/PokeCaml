@@ -1,6 +1,6 @@
 (* TODO: ascii art, add moves for cpu, stab, better ai, certain abilities,
-   items, crits, stat affecting moves, self damaging moves, variable damage moves,
-   more types, special vs physical *)
+   items, crits, stat affecting moves, self damaging moves, variable damage
+   moves, more types, special vs physical *)
 
 open Moves
 open Pokemon
@@ -53,14 +53,17 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_id =
   let type_mat = fst type_mat_and_hash in 
   let hash = snd type_mat_and_hash in 
   let move = PM.get_move atk_mon (move_id) in 
-  let modifier = (get_modifier move.el_type 1. type_mat hash (PM.get_type def_mon)) in
-  let move_damage = damage 
-      (PM.get_lvl atk_mon)
-      move.power
-      (PM.get_attack atk_mon)
-      (PM.get_defense def_mon)
-      (PM.get_speed atk_mon)
-      modifier
+  let modifier = (get_modifier move.el_type 1. type_mat hash (PM.get_type
+                                                                def_mon)) in
+  let move_damage = if (Moves.name move) = "super fang" 
+    then ((PM.get_hp atk_mon) /. 2.)
+    else damage 
+        (PM.get_lvl atk_mon)
+        move.power
+        (PM.get_attack atk_mon)
+        (PM.get_defense def_mon)
+        (PM.get_speed atk_mon)
+        modifier
   in
   print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move));
   if modifier = 0. then 
@@ -235,27 +238,49 @@ let execute_cpu_turn player_mon cpu_mon =
   let used_move = (Random.int (Array.length cpu_moves)) in 
   execute_attack cpu_mon player_mon used_move
 
+(** [percent_hp_color precent hp_str] prints the string of the hp in the
+correct color.*)
+let percent_hp_color percent hp_str = 
+  if percent >= 50 then 
+    ANSITerminal.(print_string [green] hp_str)
+  else if percent >= 20 then 
+    ANSITerminal.(print_string [yellow] hp_str)
+  else 
+    ANSITerminal.(print_string [red] hp_str)
+
+(** [cpu_hp_percent cpu_mon] prints the hp of [cpu_mon] as a percent. *)
+let cpu_hp_percent cpu_mon = 
+  let num = (PM.get_hp cpu_mon) in
+  let denom = (PM.get_max_hp cpu_mon) in
+  let percent_float = (num /. denom) *. 100. in
+  let percent = if 0.<= percent_float && percent_float <= 1. then 1 else
+    Int.of_float percent_float in 
+  let str_percent = "< hp: " ^ (string_of_int percent) ^ "% >" in
+  percent_hp_color percent str_percent
+
+(** [player_hp_percent p_mon] prints the hp of [p_mon] as a percent. *)
+let player_hp_percent p_mon = 
+  let num = (PM.get_hp p_mon) in
+  let denom = (PM.get_max_hp p_mon) in
+  let percent_float = (num /. denom) *. 100. in
+  let percent = if 0.<= percent_float && percent_float <= 1. then 1 else
+    Int.of_float percent_float in 
+  let hp_str = "< " ^ PM.hp_string p_mon ^ " >" in
+  percent_hp_color percent hp_str
+
 (** [loop adv state] executes a REPL for the game. Quits on recieving 
     "quit". *)
 let rec loop p_team cpu_team player_mon cpu_mon bag cpu = 
   print_string "\n";
   print_endline ("--" ^ (PM.get_name cpu_mon) ^ "--");
-  print_endline ("< hp" ^ ": " 
-                 ^ (PM.get_hp cpu_mon |> Int.of_float |>
-                    string_of_int) ^ "/" 
-                 ^ (PM.get_max_hp cpu_mon |> Int.of_float |>
-                    string_of_int) ^ " >");
-  print_string "\n";
+  cpu_hp_percent cpu_mon;
+  print_endline "\n";
   print_endline ("--" ^ PM.get_name player_mon ^ "--");
-  print_endline ("< hp" ^ ": " 
-                 ^ (PM.get_hp player_mon |> Int.of_float |>
-                    string_of_int) ^ "/" 
-                 ^ (PM.get_max_hp player_mon |> Int.of_float |> 
-                    string_of_int) ^ " >");
-  print_string "\n";
+  player_hp_percent player_mon;
+  print_endline "\n";
   print_endline "Choose your move:";
   print_endline (PM.format_moves_names player_mon);
-  print_string "\n";
+  print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
   print_string "> ";
   get_command p_team player_mon cpu_mon bag cpu (read_line ());
   Unix.sleepf sleep;
@@ -273,7 +298,6 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
     else raise (PlayerDown (PM.get_name player_mon))
   end
   else ();
-  print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
   loop p_team cpu_team player_mon cpu_mon bag cpu 
 
 (** [get_next_pm mons] is the next pokemon to go out after prompting the 
@@ -334,14 +358,15 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon =
             ^ " is about to send out " ^ PM.get_name !next 
             ^ ". Do you want to switch pokemon? [Y/N]\n"));
       if get_y_n () then begin 
+        print_endline ("Who do you want to send out next?");
         print_endline (PM.string_of_mons alive_mons);
         battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) !next 
       end 
       else battle_handler b m cpu p_mons cpu_mons pmon !next 
 
 let main (player_team, bag, money, cpu_team, cpu) = 
-  PM.set_file "testmons.json";
-  match player_team, cpu_team with
+  let alive_p_team = PM.alive_pmons player_team in 
+  match alive_p_team, cpu_team with
   | (pmon :: _), (cpumon :: _) -> 
     if cpu = "wild" then 
       ANSITerminal.(print_string [yellow] ("\nA wild " ^ (PM.get_name !cpumon) ^ " appeared!\n"))

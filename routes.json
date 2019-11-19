@@ -10,24 +10,14 @@
       ],
       "wilds": [
         {
-          "name": "Mon4",
-          "lvl": 1.0,
-          "chance": 30
+          "name": "Rattata",
+          "lvl": 3.0,
+          "chance": 50
         },
         {
-          "name": "Mon4",
-          "lvl": 2.0,
-          "chance": 20
-        },
-        {
-          "name": "Mon3",
-          "lvl": 1.0,
-          "chance": 20
-        },
-        {
-          "name": "Mon1",
-          "lvl": 1.0,
-          "chance": 30
+          "name": "Pidgey",
+          "lvl": 3.0,
+          "chance": 50
         }
       ]
     },
@@ -50,24 +40,14 @@
       ],
       "wilds": [
         {
-          "name": "Mon4",
-          "lvl": 3.0,
-          "chance": 30
+          "name": "Rattata",
+          "lvl": 5.0,
+          "chance": 50
         },
         {
-          "name": "Mon4",
-          "lvl": 3.0,
-          "chance": 20
-        },
-        {
-          "name": "Mon3",
-          "lvl": 3.0,
-          "chance": 10
-        },
-        {
-          "name": "Mon1",
-          "lvl": 3.0,
-          "chance": 40
+          "name": "Pidgey",
+          "lvl": 5.0,
+          "chance": 50
         }
       ]
     }
@@ -77,16 +57,16 @@
       "name": "Youngster Joey",
       "pokemon": [
         {
-          "name": "Mon2",
-          "lvl": 1.0
+          "name": "Rattata",
+          "lvl": 4.0
         },
         {
-          "name": "Mon4",
-          "lvl": 1.0
+          "name": "Rattata",
+          "lvl": 4.0
         },
         {
-          "name": "Mon4",
-          "lvl": 1.0
+          "name": "Pidgey",
+          "lvl": 4.0
         }
       ]
     },
@@ -94,8 +74,8 @@
       "name": "TA Alaia",
       "pokemon": [
         {
-          "name": "Mon2",
-          "lvl": 4.0
+          "name": "Pidgey",
+          "lvl": 5.0
         }
       ]
     },
@@ -103,8 +83,8 @@
       "name": "TA Kerri",
       "pokemon": [
         {
-          "name": "Mon2",
-          "lvl": 4.0
+          "name": "Rattata",
+          "lvl": 5.0
         }
       ]
     },
@@ -112,8 +92,8 @@
       "name": "Boss Clarkson",
       "pokemon": [
         {
-          "name": "Mon3",
-          "lvl": 5.0
+          "name": "Bulbasaur",
+          "lvl": 10.0
         }
       ]
     },
@@ -121,16 +101,16 @@
       "name": "Pokemaniac Philip",
       "pokemon": [
         {
-          "name": "Mon4",
-          "lvl": 4.0
-        },
-        {
-          "name": "Mon4",
-          "lvl": 4.0
-        },
-        {
-          "name": "Mon4",
+          "name": "Pidgey",
           "lvl": 5.0
+        },
+        {
+          "name": "Rattata",
+          "lvl": 5.0
+        },
+        {
+          "name": "Pikachu",
+          "lvl": 10.0
         }
       ]
     }

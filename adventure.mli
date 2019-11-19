@@ -105,3 +105,6 @@ val get_wild : t-> exit_name -> PM.t ref list
 (** [get_t_mons a tr] is the pokemon list associated with trainer [tr] in 
     adventure [a]. *)
 val get_t_mons : t -> string -> PM.t ref list
+
+(** [get_defeat a tr] is whether trainer [tr] has been defeated. *)
+val get_defeat : t -> string -> bool

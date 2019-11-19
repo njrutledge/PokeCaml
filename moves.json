@@ -34,6 +34,13 @@
     "type": "fire",
     "uses": 40
   },
+  "flamethrower": {
+    "desc": "kinda hot.",
+    "power": 90.0,
+    "accuracy": 100.0,
+    "type": "fire",
+    "uses": 15
+  },
   "leaf blade": {
     "desc": "slicey slice.",
     "power": 90.0,
@@ -110,5 +117,47 @@
     "accuracy": 85.0,
     "type": "ground",
     "uses": 5
+  },
+  "thunderbolt": {
+    "desc": "A strong electric blast crashes down on the target.",
+    "power": 90.0,
+    "accuracy": 100.0,
+    "type": "electric",
+    "uses": 15
+  },
+  "water gun": {
+    "desc": "The target is blasted with a forceful shot of water.",
+    "power": 40.0,
+    "accuracy": 100.0,
+    "type": "water",
+    "uses": 25
+  },
+  "bubble beam": {
+    "desc": "A spray of bubbles is forcefully ejected at the target.",
+    "power": 65.0,
+    "accuracy": 100.0,
+    "type": "water",
+    "uses": 20
+  },
+  "gust": {
+    "desc": "little gusty wind",
+    "power": 40.0,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 35
+  },
+  "super fang": {
+    "desc": "chomp",
+    "power": 0.0,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 10
+  },
+  "slam": {
+    "desc": "big bam",
+    "power": 80.0,
+    "accuracy": 75.0,
+    "type": "normal",
+    "uses": 20
   }
 }

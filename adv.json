@@ -2,7 +2,7 @@
   "places": [
     {
       "id": "Gates Town",
-      "description": "Gates Town",
+      "description": "Gates Town -- your home town!",
       "exits": [
         {
           "name": "pokecenter",
@@ -29,7 +29,7 @@
     },
     {
       "id": "PokeCenter GTown",
-      "description": "GT PC",
+      "description": "\"Welcome to Gates Town's Pokecenter!\" - Nurse Joy",
       "exits": [
         {
           "name": "gates town",
@@ -43,10 +43,10 @@
     },
     {
       "id": "My house",
-      "description": "My house",
+      "description": "You are in your house. Your entire room is lined in video games and posters. \n\"You don't need these anymore now that you are starting your own pokemon adventure! You should go ahead and go outside and head to the lab. Professor Oak is waiting!\" - Mom",
       "exits": [
         {
-          "name": "gates town",
+          "name": "outside",
           "keys": [],
           "place": "Gates Town"
         }
@@ -57,7 +57,7 @@
     },
     {
       "id": "Lab",
-      "description": "Lab",
+      "description": "Professor Oak calls to you as you enter \n\"Ah there you are! Its time that you start your pokemon adventure. I have 3 great pokemon here for you to choose from, pick your favorite!\"",
       "exits": [
         {
           "name": "gates town",
@@ -71,7 +71,7 @@
     },
     {
       "id": "Python Town",
-      "description": "Python Town",
+      "description": "\"As you leave the route, you see a sign: \n\"Welcome to Python Town! Don't forget to take a look at your map to find your way around!\"",
       "exits": [
         {
           "name": "pokecenter",
@@ -98,7 +98,7 @@
     },
     {
       "id": "PokeCenter PTown",
-      "description": "PT PC",
+      "description": "\"Welcome to Gates Town's Pokecenter!\" - Nurse Joy",
       "exits": [
         {
           "name": "python town",
@@ -126,9 +126,23 @@
         }
       ],
       "NPCs": []
+    },
+    {
+      "id": "PokeCenter JTown",
+      "description": "\"Welcome to Java Town's Pokecenter!\" - Nurse Joy",
+      "exits": [
+        {
+          "name": "java town",
+          "keys": [],
+          "place": "Java Town"
+        }
+      ],
+      "NPCs": [
+        "Nurse Joy"
+      ]
     }
   ],
-  "start town": "Gates Town",
+  "start town": "My house",
   "route_file": "routes.json",
-  "pokemon_file": "testmons.json"
+  "pokemon_file": "pokemon.json"
 }

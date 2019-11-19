@@ -1,303 +1,178 @@
 {
-  "Squirtle": {
-    "Type": "Water",
-    "Stats": {
-      "ATK": 48,
-      "DEF": 65,
-      "SPE": 43,
-      "HP": 44,
-      "SPA": 50,
-      "SPD": 64
-    },
-    "Moves": [
-      "mega-punch",
-      "mega-kick",
-      "tackle",
-      "body-slam",
-      "take-down",
-      "double-edge",
-      "tail-whip",
-      "bite",
-      "water-gun",
-      "hydro-pump",
-      "surf",
-      "ice-beam",
-      "blizzard",
-      "bubble-beam",
-      "submission",
-      "counter",
-      "seismic-toss",
-      "strength",
-      "dig",
-      "toxic",
-      "rage",
-      "mimic",
-      "double-team",
-      "withdraw",
-      "reflect",
-      "bide",
-      "skull-bash",
-      "bubble",
-      "rest",
-      "substitute",
-      "ice-punch",
-      "headbutt",
-      "mist",
-      "confusion",
-      "defense-curl",
-      "haze",
-      "waterfall",
-      "snore",
-      "curse",
-      "flail",
-      "protect",
-      "mud-slap",
-      "foresight",
-      "icy-wind",
-      "endure",
-      "rollout",
-      "swagger",
-      "attract",
-      "sleep-talk",
-      "return",
-      "frustration",
-      "dynamic-punch",
-      "rapid-spin",
-      "iron-tail",
-      "hidden-power",
-      "rain-dance",
-      "mirror-coat",
-      "rock-smash",
-      "whirlpool",
-      "hail",
-      "facade",
-      "focus-punch",
-      "brick-break",
-      "yawn",
-      "refresh",
-      "secret-power",
-      "dive",
-      "mud-sport",
-      "water-pulse",
-      "fake-out",
-      "rock-tomb",
-      "muddy-water",
-      "gyro-ball",
-      "brine",
-      "natural-gift",
-      "fling",
-      "aqua-ring",
-      "aqua-tail",
-      "captivate",
-      "aqua-jet",
-      "iron-defense",
-      "zen-headbutt",
-      "water-spout",
-      "round",
-      "scald",
-      "water-pledge",
-      "aura-sphere",
-      "dragon-pulse",
-      "confide",
-      "power-up-punch"
-    ],
-    "Evolution": "Wartortle"
-  },
   "Bulbasaur": {
-    "Type": "Grass",
+    "Types": [
+      "grass"
+    ],
     "Stats": {
-      "ATK": 49,
-      "DEF": 49,
-      "SPE": 45,
-      "HP": 45,
-      "SPA": 65,
-      "SPD": 65
+      "ATK": 49.0,
+      "DEF": 49.0,
+      "SPE": 45.0,
+      "HP": 45.0,
+      "SPA": 65.0,
+      "SPD": 65.0
     },
     "Moves": [
-      "swords-dance",
-      "cut",
-      "vine-whip",
       "tackle",
-      "body-slam",
-      "take-down",
-      "double-edge",
-      "growl",
-      "mega-drain",
-      "leech-seed",
-      "growth",
-      "razor-leaf",
-      "solar-beam",
-      "poison-powder",
-      "sleep-powder",
-      "toxic",
-      "rage",
-      "mimic",
-      "double-team",
-      "reflect",
-      "bide",
-      "rest",
-      "substitute",
-      "razor-wind",
-      "headbutt",
-      "petal-dance",
-      "defense-curl",
-      "light-screen",
-      "skull-bash",
-      "flash",
-      "snore",
-      "curse",
-      "protect",
-      "mud-slap",
-      "giga-drain",
-      "endure",
-      "charm",
-      "swagger",
-      "fury-cutter",
-      "attract",
-      "sleep-talk",
-      "return",
-      "frustration",
-      "safeguard",
-      "sweet-scent",
-      "synthesis",
-      "hidden-power",
-      "sunny-day",
-      "strength",
-      "sludge-bomb",
-      "rock-smash",
-      "facade",
-      "secret-power",
-      "grass-whistle",
-      "bullet-seed",
-      "magical-leaf",
-      "amnesia",
-      "nature-power",
-      "ingrain",
-      "natural-gift",
-      "worry-seed",
-      "seed-bomb",
-      "energy-ball",
-      "leaf-storm",
-      "captivate",
-      "grass-knot",
-      "knock-off",
-      "string-shot",
-      "sludge",
-      "power-whip",
-      "venoshock",
-      "round",
-      "echoed-voice",
-      "grass-pledge",
-      "bind",
-      "grassy-terrain",
-      "confide"
+      "vine whip"
     ],
     "Evolution": "Ivysaur"
   },
   "Charmander": {
-    "Type": "Fire",
+    "Types": [
+      "fire"
+    ],
     "Stats": {
-      "ATK": 52,
-      "DEF": 43,
-      "SPE": 65,
-      "HP": 39,
-      "SPA": 60,
-      "SPD": 50
+      "ATK": 52.0,
+      "DEF": 43.0,
+      "SPE": 65.0,
+      "HP": 39.0,
+      "SPA": 60.0,
+      "SPD": 50.0
     },
     "Moves": [
-      "mega-punch",
-      "scratch",
-      "swords-dance",
-      "cut",
-      "mega-kick",
-      "body-slam",
-      "take-down",
-      "double-edge",
-      "leer",
-      "growl",
+      "tackle",
       "ember",
-      "flamethrower",
-      "submission",
-      "counter",
-      "seismic-toss",
-      "strength",
-      "dragon-rage",
-      "fire-spin",
-      "dig",
-      "toxic",
-      "rage",
-      "mimic",
-      "double-team",
-      "reflect",
-      "bide",
-      "fire-blast",
-      "swift",
-      "skull-bash",
-      "rest",
-      "slash",
-      "substitute",
-      "fire-punch",
-      "headbutt",
-      "bite",
-      "smokescreen",
-      "defense-curl",
-      "rock-slide",
-      "snore",
-      "curse",
-      "protect",
-      "scary-face",
-      "belly-drum",
-      "mud-slap",
-      "outrage",
-      "endure",
-      "swagger",
-      "fury-cutter",
-      "attract",
-      "sleep-talk",
-      "return",
-      "frustration",
-      "dynamic-punch",
-      "dragon-breath",
-      "iron-tail",
-      "hidden-power",
-      "sunny-day",
-      "ancient-power",
-      "rock-smash",
-      "beat-up",
-      "facade",
-      "focus-punch",
-      "brick-break",
-      "secret-power",
-      "overheat",
-      "aerial-ace",
-      "dragon-claw",
-      "dragon-dance",
-      "metal-claw",
-      "crunch",
-      "will-o-wisp",
-      "rock-tomb",
-      "natural-gift",
-      "fling",
-      "flare-blitz",
-      "dragon-rush",
-      "shadow-claw",
-      "fire-fang",
-      "captivate",
-      "thunder-punch",
-      "heat-wave",
-      "dragon-pulse",
-      "hone-claws",
-      "flame-burst",
-      "flame-charge",
-      "round",
-      "echoed-voice",
-      "incinerate",
-      "inferno",
-      "fire-pledge",
-      "air-cutter",
-      "confide",
-      "power-up-punch"
+      "flamethrower"
     ],
     "Evolution": "Charmeleon"
+  },
+  "Squirtle": {
+    "Types": [
+      "water"
+    ],
+    "Stats": {
+      "ATK": 48.0,
+      "DEF": 65.0,
+      "SPE": 43.0,
+      "HP": 44.0,
+      "SPA": 50.0,
+      "SPD": 64.0
+    },
+    "Moves": [
+      "tackle",
+      "water gun",
+      "bubble beam"
+    ],
+    "Evolution": "Wartortle"
+  },
+  "Pidgey": {
+    "Types": [
+      "normal"
+    ],
+    "Stats": {
+      "ATK": 40.0,
+      "DEF": 45.0,
+      "SPE": 56.0,
+      "HP": 40.0
+    },
+    "Moves": [
+      "tackle",
+      "gust",
+      "slam"
+    ],
+    "Evolution": "Pidgeot"
+  },
+  "Rattata": {
+    "Types": [
+      "normal"
+    ],
+    "Stats": {
+      "ATK": 56.0,
+      "DEF": 35.0,
+      "SPE": 72.0,
+      "HP": 30.0
+    },
+    "Moves": [
+      "tackle"
+    ],
+    "Evolution": "Raticate"
+  },
+  "Pikachu": {
+    "Types": [
+      "electric"
+    ],
+    "Stats": {
+      "ATK": 55.0,
+      "DEF": 40.0,
+      "SPE": 90.0,
+      "HP": 35.0
+    },
+    "Moves": [
+      "tackle",
+      "thunderbolt"
+    ],
+    "Evolution": "Raichu"
+  },
+  "Mon1": {
+    "Types": [
+      "normal"
+    ],
+    "Stats": {
+      "ATK": 112.73,
+      "DEF": 100.85,
+      "SPE": 94.69,
+      "HP": 97.10
+    },
+    "Moves": [
+      "pulverizing pancake",
+      "blast burn",
+      "hydro cannon",
+      "thunder"
+    ],
+    "Evolution": "Mon3"
+  },
+  "Mon2": {
+    "Types": [
+      "water"
+    ],
+    "Stats": {
+      "ATK": 75.0,
+      "DEF": 75.0,
+      "SPE": 75.0,
+      "HP": 75.0
+    },
+    "Moves": [
+      "tackle",
+      "ember",
+      "vine whip",
+      "zippy zap"
+    ],
+    "Evolution": "Mon4"
+  },
+  "Mon3": {
+    "Types": [
+      "ground"
+    ],
+    "Stats": {
+      "ATK": 110.0,
+      "DEF": 110.0,
+      "SPE": 100.0,
+      "HP": 100.0
+    },
+    "Moves": [
+      "pulverizing pancake",
+      "leaf blade",
+      "precipice blades",
+      "10,000,000 Volt Thunderbolt"
+    ],
+    "Evolution": "Mon4"
+  },
+  "Mon4": {
+    "Types": [
+      "water"
+    ],
+    "Stats": {
+      "ATK": 25.0,
+      "DEF": 25.0,
+      "SPE": 25.0,
+      "HP": 25.0
+    },
+    "Moves": [
+      "tackle",
+      "ember",
+      "vine whip",
+      "zippy zap"
+    ],
+    "Evolution": "Mon4"
   }
 }

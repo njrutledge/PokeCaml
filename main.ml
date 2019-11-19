@@ -72,13 +72,20 @@ let in_pokecenter state =
 
 let execute_heal state = state |> State.get_party |> PM.restore_mons; None
 
-let execute_buy state phrase = failwith "Bag Unimplemented"
+let execute_buy state phrase = failwith "Buy Unimplemented"
 (*try begin
   let amt = int_of_string (phrase |> List.rev |> List.hd) in
   end
   with begin
   failure int_of_string
   end*)
+
+let execute_map adv state = failwith "Map unimplemented"
+(*let exits = Adventure.exits adv (State.current_town_id state) in
+  let rec print_exits acc e = 
+  match e with
+  | [] -> acc ^ "]"
+  | h :: t -> print_exits (h ^ )*)
 
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state].  *)
@@ -91,6 +98,7 @@ let rec execute_command adv state input =
   | Party -> execute_party adv state
   | Bag -> execute_Bag state
   | Heal -> if in_pokecenter state then execute_heal state else raise NotInPC
+  | Map -> execute_map adv state
   | Buy(phrase) -> 
     if in_pokecenter state then execute_buy state (String.concat " " phrase) 
     else raise NotInPC
@@ -174,8 +182,12 @@ let play_game f =
 
 (** [main ()] prompts for the game to play, then starts it. *)
 let main () =
-  ANSITerminal.(print_string [blue]
+  ANSITerminal.(print_string [yellow]
                   Ascii.pokemon_opening);
+  (*print_endline "\n\n";
+  ANSITerminal.(print_string [red]
+                  Ascii.str3110);*)
+  print_endline "\n\n";
   (*print_string  "> ";
     match read_line () with
     | exception End_of_file -> ()

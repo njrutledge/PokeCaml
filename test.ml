@@ -146,7 +146,6 @@ let type_tests =
   ]
 
 module PM = Pokemon
-let _ = PM.set_file "testmons.json"
 let mon1 = PM.create_pokemon "Mon1" 1.
 let pokemon_tests = 
   [
