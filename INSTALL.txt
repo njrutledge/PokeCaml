@@ -26,3 +26,19 @@ commands:
   - ex: "item pokeball" uses a pokeball on the opposing pokemon
  party
   - prints out a description of your party's pokemon.
+ run
+  - tries to run away, cannot run from trainer
+  switch 
+  - this will prompt you with a list of pokemon to choose from to switch to 
+    in the battle, type the number next to the desired pokemon in the list.
+    This is also prompted when you defeat a trainer's pokemon that is not 
+    the trainer's final pokemon. 
+
+  since we do not yet have map command implemented, here is a quick map:
+  in house, [go outside] to get to Gates Town.
+  in Gates Town, your choices for places are :
+     lab, pokecenter, My house, route 1110
+  in Python Town, your choices for places are : 
+    gym 1, pokecenter, route 1110, route 2110
+  in Java Town, your choices for places are :
+    gym 2, pokecenter, route 2110

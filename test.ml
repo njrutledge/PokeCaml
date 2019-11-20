@@ -59,8 +59,7 @@ let string_of_command = function
   | Bag -> "bag"
 
 let result_of_string = function 
-  | Legal(t) -> "Legal: " ^ current_town_id t ^ " " ^
-                pp_list pp_string (visited t)
+  | Legal(t) -> "Legal: " ^ current_town_id t
   | Illegal msg -> "Illegal: " ^ msg
 
 (** [make_malform_test name input] constructs an OUnit test named [name]
@@ -83,12 +82,6 @@ let get_cur_town = function
   | Legal st -> current_town_id st
   | Illegal _ -> failwith "Must be Legal"
 
-(** [get_visited res] gets the visited towns of the [state.t] in [res].
-    Requires: [res] is [Legal st]. *)
-let get_visited = function
-  | Legal st -> visited st
-  | Illegal _ -> failwith "must be legal"
-
 let get_state = function
   | Legal st -> st
   | Illegal _ -> failwith "must be legal"
@@ -104,14 +97,6 @@ let make_go_test_legal_cur name exit adv st exp_town =
   name >:: (fun _ ->
       assert_equal exp_town (get_cur_town (go exit adv st))
         ~printer:(fun x -> x))
-
-(** [make_go_test_legal_vis name exit adv st exp_visited] constructs an 
-    OUnit test case that asserts the quality of [exp_visited] 
-    with the visited towns of [go exit adv st]. *)
-let make_go_test_legal_vis name exit adv st exp_visited = 
-  name >:: (fun _ ->
-      assert_equal ~cmp:cmp_set_like_lists ~printer:(pp_list pp_string)
-        exp_visited (get_visited (go exit adv st)))
 
 let make_type_test name mat atk def hash exp_mult = 
   name >:: (fun _ ->
@@ -150,9 +135,9 @@ let mon1 = PM.create_pokemon "Mon1" 1.
 let pokemon_tests = 
   [
     "hp = 4" >:: (fun _ -> 
-        assert_equal 4. (mon1.hp)~printer:string_of_float);
+        assert_equal 4. (PM.get_hp mon1)~printer:string_of_float);
     "name = Mon1">:: (fun _ ->
-        assert_equal "Mon1" (mon1.name));
+        assert_equal "Mon1" (PM.get_name mon1));
   ]
 
 let suite =
