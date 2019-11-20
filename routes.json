@@ -24,9 +24,9 @@
     {
       "name": "gym 1",
       "battles": [
-        "TA Alaia",
-        "TA Kerri",
-        "Boss Clarkson"
+        "TA Alice",
+        "TA Bob",
+        "Leader Walker White"
       ],
       "wilds": []
     },
@@ -50,6 +50,15 @@
           "chance": 50
         }
       ]
+    },
+    {
+      "name": "gym 2",
+      "battles": [
+        "TA Charlie",
+        "TA David",
+        "Leader David Gries"
+      ],
+      "wilds": []
     }
   ],
   "trainers": [
@@ -71,29 +80,104 @@
       ]
     },
     {
-      "name": "TA Alaia",
-      "pokemon": [
-        {
-          "name": "Pidgey",
-          "lvl": 5.0
-        }
-      ]
-    },
-    {
-      "name": "TA Kerri",
+      "name": "TA Alice",
       "pokemon": [
         {
           "name": "Rattata",
           "lvl": 5.0
+        },
+        {
+          "name": "Rattata",
+          "lvl": 6.0
+        },
+        {
+          "name": "Rattata",
+          "lvl": 7.0
         }
       ]
     },
     {
-      "name": "Boss Clarkson",
+      "name": "TA Bob",
+      "pokemon": [
+        {
+          "name": "Pidgey",
+          "lvl": 5.0
+        },
+        {
+          "name": "Pidgey",
+          "lvl": 6.0
+        },
+        {
+          "name": "Pidgey",
+          "lvl": 7.0
+        }
+      ]
+    },
+    {
+      "name": "TA Charlie",
+      "pokemon": [
+        {
+          "name": "Rattata",
+          "lvl": 12.0
+        },
+        {
+          "name": "Rattata",
+          "lvl": 12.0
+        },
+        {
+          "name": "Rattata",
+          "lvl": 12.0
+        }
+      ]
+    },
+    {
+      "name": "TA David",
+      "pokemon": [
+        {
+          "name": "Pidgey",
+          "lvl": 8.0
+        },
+        {
+          "name": "Pidgey",
+          "lvl": 9.0
+        },
+        {
+          "name": "Pidgey",
+          "lvl": 10.0
+        }
+      ]
+    },
+    {
+      "name": "Leader Walker White",
       "pokemon": [
         {
           "name": "Bulbasaur",
-          "lvl": 10.0
+          "lvl": 15.0
+        },
+        {
+          "name": "Charmander",
+          "lvl": 15.0
+        },
+        {
+          "name": "Squirtle",
+          "lvl": 15.0
+        }
+      ]
+    },
+    {
+      "name": "Leader David Gries",
+      "pokemon": [
+        {
+          "name": "Bulbasaur",
+          "lvl": 15.0
+        },
+        {
+          "name": "Charmander",
+          "lvl": 15.0
+        },
+        {
+          "name": "Squirtle",
+          "lvl": 15.0
         }
       ]
     },
@@ -102,15 +186,15 @@
       "pokemon": [
         {
           "name": "Pidgey",
-          "lvl": 5.0
+          "lvl": 7.0
         },
         {
           "name": "Rattata",
-          "lvl": 5.0
+          "lvl": 7.0
         },
         {
           "name": "Pikachu",
-          "lvl": 10.0
+          "lvl": 8.0
         }
       ]
     }

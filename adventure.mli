@@ -13,16 +13,13 @@ type item_name = string
 (** Raised when an unkown item is encountered. *)
 exception UnknownItem of item_name
 
-(**********************************************************************
- * DO NOT CHANGE THIS CODE
- * It is part of the interface the course staff will use to test your 
- * submission.
-*)
+(***********************************************************************)
 
 type bat = 
   | Wild
   | Trainer of string
-  (** The abstract type of values representing adventures. *)
+
+(** The abstract type of values representing adventures. *)
 type t
 
 (** The type of town identifiers. *)
@@ -72,8 +69,7 @@ val next_town : t -> town_id -> exit_name -> town_id
     Raises [UnknownTown r] if [r] is not a town identifier in [a].*)
 val next_towns : t -> town_id -> town_id list
 
-(* END DO NOT CHANGE
- **********************************************************************)
+(***********************************************************************)
 
 (*(** [msg a r ex] is the [msg] of the exit [ex] of town [r] in adventure [a]. 
     Raises [Unkowntown r] if [r] is not a town identifier in [a]. 
@@ -100,11 +96,15 @@ val take_route : t -> town_id -> exit_name -> bat list
 
 (** [get_wild a r] is a randomly selected pokemon from the route [r]'s wild 
     pokmemon list in adventure [a]. *)
-val get_wild : t-> exit_name -> PM.t ref list
+val get_wild : t-> exit_name -> PM.t array
 
 (** [get_t_mons a tr] is the pokemon list associated with trainer [tr] in 
     adventure [a]. *)
-val get_t_mons : t -> string -> PM.t ref list
+val get_t_mons : t -> string -> PM.t array
 
 (** [get_defeat a tr] is whether trainer [tr] has been defeated. *)
 val get_defeat : t -> string -> bool
+
+(** [defeat_trainers a trs] is the adventure [a] with 
+    trainers [trs] set as defeated.*)
+val defeat_trainers : t -> string list -> t

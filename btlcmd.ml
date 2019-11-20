@@ -8,6 +8,8 @@ type command =
   | Bag
   | MovesInfo
   | Party
+  | Run
+  | Switch
   | Quit
 
 exception Empty
@@ -26,13 +28,15 @@ let make_command verb phrase =
     if verb = "quit" then Quit else
     if verb = "moves" then MovesInfo else
     if verb = "party" then Party else 
+    if verb = "run" then Run else 
+    if verb = "switch" then Switch else 
     if verb = "bag" then Bag else
       raise Malformed 
   else
   if verb = "attack" then begin
     match phrase with 
     | h :: [] -> begin
-        try Attack (int_of_string h - 1)
+        try Attack (int_of_string h)
         with _ -> raise Malformed 
       end
     | _ -> raise Malformed end

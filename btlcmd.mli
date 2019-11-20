@@ -32,6 +32,8 @@ type command =
   | Bag
   | MovesInfo
   | Party
+  | Run
+  | Switch
   | Quit
 
 (** Raised when an empty command is parsed. *)

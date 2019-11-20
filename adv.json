@@ -43,7 +43,7 @@
     },
     {
       "id": "My house",
-      "description": "You are in your house. Your entire room is lined in video games and posters. \n\"You don't need these anymore now that you are starting your own pokemon adventure! You should go ahead and go outside and head to the lab. Professor Oak is waiting!\" - Mom",
+      "description": "You are in your house. Your entire room is lined in video games and posters. \n\"You don't need these anymore now that you are starting your own pokemon adventure! You should go outside and head to the lab. Professor Oak is waiting!\" - Mom",
       "exits": [
         {
           "name": "outside",
@@ -98,7 +98,7 @@
     },
     {
       "id": "PokeCenter PTown",
-      "description": "\"Welcome to Gates Town's Pokecenter!\" - Nurse Joy",
+      "description": "\"Welcome to Python Town's Pokecenter!\" - Nurse Joy",
       "exits": [
         {
           "name": "python town",
@@ -123,6 +123,11 @@
           "name": "route 2110",
           "keys": [],
           "place": "Python Town"
+        },
+        {
+          "name": "gym 2",
+          "keys": [],
+          "place": "Java Town"
         }
       ],
       "NPCs": []
@@ -142,7 +147,7 @@
       ]
     }
   ],
-  "start town": "My house",
+  "start town": "Java Town",
   "route_file": "routes.json",
   "pokemon_file": "pokemon.json"
 }

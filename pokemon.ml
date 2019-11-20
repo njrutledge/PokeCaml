@@ -58,13 +58,14 @@ module type PokeSig = sig
   val set_hp : t -> t_hp -> unit
   val format_moves_names : t -> string
   val format_moves_all: t -> string
-  val retreat: t ref list -> bool
-  val alive_pmons: t ref list -> t ref list 
+  val retreat: t array -> bool
+  val alive_pmons: t array -> t array 
   val hp_string: t -> string 
   val string_of_mon: t -> string
-  val string_of_mons: t ref list -> string
-  val restore_mons: t ref list -> unit
+  val string_of_mons: t array -> string
+  val restore_mons: t array -> unit
   val give_xp: t -> float -> bool -> unit
+  val add_mon: t array -> t -> t array 
 end
 
 module M = Moves
@@ -236,10 +237,13 @@ module Pokemon : PokeSig = struct
     !acc
 
   let retreat party = 
-    List.fold_left (fun acc p -> acc && fainted !p) true party
+    Array.fold_left (fun acc p -> acc && fainted p) true party
 
   let rec alive_pmons mons = 
-    List.filter (fun x -> not (fainted !x)) mons 
+    mons
+    |> Array.to_list
+    |> List.filter (fun x -> not (fainted x))
+    |> Array.of_list
 
   let calc_xp_percent mon = 
     (mon.xp -. (Float.pow (mon.lvl-.1.) 3.)) /. (Float.pow mon.lvl 3.)*. 100.
@@ -261,14 +265,17 @@ module Pokemon : PokeSig = struct
      ^ " | level: " ^ (mon |> get_lvl |> Int.of_float |> string_of_int) 
      ^ " | xp: " ^ calc_xp_percent mon ^ "%" ^ "}")
 
-  let rec string_of_mons = function
-    | [] -> ""
-    | p :: t -> (string_of_mon !p) ^ "\n" ^ (string_of_mons t)
+  let rec string_of_mons mons =
+    (*Array.fold_left (fun acc p -> acc ^ "\n" ^ (string_of_mon p)) "" mons*)
+    let acc = ref "" in 
+    for i = 0 to (Array.length mons) - 1 do 
+      acc := 
+        !acc ^ string_of_int (i + 1) ^ ". " ^ string_of_mon mons.(i) ^ "\n"
+    done;
+    !acc
 
   let rec restore_mons mons =
-    match mons with
-    | [] -> ()
-    | h :: t -> set_hp !h (get_max_hp !h); restore_mons t
+    Array.iter (fun x -> x.hp <- x.max_hp) mons
 
   let give_xp mon cp_mon_lvl wild = 
     let a = if wild then 1.0 else 1.5 in  
@@ -278,4 +285,8 @@ module Pokemon : PokeSig = struct
     let exp = (a *. b *. cp_mon_lvl /. 5. *. frac +. 1.) in 
     mon.xp <- mon.xp +. exp
 
+  let add_mon mons new_mon= 
+    let len = Array.length mons in 
+    if len >= 6 then failwith "trying to create a party of more than 6" else
+      Array.init (len + 1) (fun i -> if i <> len then mons.(i) else new_mon) 
 end

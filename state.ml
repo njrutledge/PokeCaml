@@ -9,16 +9,20 @@ type t = {
   last_town : Adventure.town_id;
   bag : (Item.t * int ref) list;
   money : int;
-  party: PM.t ref list
+  party: PM.t array;
+  defeated_trainers: string list;
 }
 
 let init_state adv = {
   cur_town = Adventure.start_town adv;
   last_town = Adventure.start_town adv;
-  bag = [(Potion, ref 5); (PokeBall, ref 3)];
+  bag = [(Potion, ref 5); (HyperPotion, ref 5); (FullRestore, ref 5);
+         (PokeBall, ref 10); (GreatBall, ref 5); (UltraBall, ref 5); (MasterBall, ref 1)];
   money = 500;
-  party = [ref (PM.create_pokemon "Pikachu" 5.); ref (PM.create_pokemon "Charmander" 5.);
-           ref (PM.create_pokemon "Squirtle" 5.;)]
+  party = [|(PM.create_pokemon "Pikachu" 5.); 
+            (PM.create_pokemon "Charmander" 5.);
+            (PM.create_pokemon "Squirtle" 5.);|];
+  defeated_trainers = []
 }
 
 let current_town_id st =
@@ -37,6 +41,7 @@ let go ex adv st =
       bag = st.bag;
       money = st.money;
       party = st.party;
+      defeated_trainers = st.defeated_trainers
     }
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
@@ -47,7 +52,7 @@ let rec run_battles route adv st = function
   | Adventure.Wild :: t -> make_battle route adv st "wild" (Adventure.get_wild adv route) t
   | Adventure.Trainer tr :: t ->  
     let t_mons = Adventure.get_t_mons adv tr in 
-    if t_mons <> [] then 
+    if t_mons <> [||] then 
       make_battle route adv st tr t_mons t
     else run_battles route adv st t
 
@@ -58,7 +63,11 @@ and make_battle route adv st cpu_name cpu_mons bats =
        st.money, 
        (cpu_mons),
        cpu_name) 
-  in let st' = {st with party = p; bag = b; money = m} in 
+  in 
+  let dt = if cpu_name <> "wild" 
+    then cpu_name :: st.defeated_trainers 
+    else st.defeated_trainers in 
+  let st' = {st with party = p; bag = b; money = m; defeated_trainers = dt} in 
   if keep_going then run_battles route adv st' bats
   else 
     Legal st'
@@ -66,7 +75,7 @@ and make_battle route adv st cpu_name cpu_mons bats =
 let route r adv st = 
   try 
     let bats = Adventure.take_route adv st.cur_town r in 
-    run_battles r adv st bats
+    run_battles r adv {st with defeated_trainers = []} bats
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
@@ -97,3 +106,6 @@ let get_party st = st.party
 let rec has_key st = function 
   | [] -> false
   | h :: t -> if (List.mem h st.bag) then true else has_key st t
+
+let get_def_tr st = 
+  st.defeated_trainers

@@ -61,8 +61,10 @@ let execute_party adv st =
 
 let execute_go_route adv st route = 
   match State.route route adv st with 
-  | Legal (t) -> State t
   | Illegal (msg) -> raise (IllegalMove msg)
+  | Legal (t) -> 
+    let adv' = t |> State.get_def_tr |> Adventure.defeat_trainers adv in 
+    Both (adv', t)
 
 let in_pokecenter state = 
   let state_name = state |> State.current_town_id |> String.split_on_char ' ' in
@@ -70,7 +72,9 @@ let in_pokecenter state =
   | "PokeCenter" -> true
   | _ -> false
 
-let execute_heal state = state |> State.get_party |> PM.restore_mons; None
+let execute_heal state = state |> State.get_party |> PM.restore_mons;
+  print_endline ("\nThank you for waiting. Your Pokemon have been restored to"
+                 ^ " full health. We hope to see you again!"); None
 
 let execute_buy state phrase = failwith "Buy Unimplemented"
 (*try begin
@@ -137,11 +141,16 @@ let rec get_command adv state input =
     print_string("\nExit \"" ^ ex ^ "\" does not exist.\n");
     print_string "> ";
     get_command adv state (read_line ())
+  | NotInPC -> 
+    print_string("\n You're not in a Pokemon Center.\n");
+    print_string "> ";
+    get_command adv state (read_line ())
+
 
 (** [in_list el lst] is true if [el] is in the list [lst]. *)
 let rec in_list el = function
   | [] -> false
-  | h::t -> if h=el then true else in_list el t
+  | h :: t -> if h = el then true else in_list el t
 
 (** [show_win_msg adv sc] prints the winning message of adventure [adv]
     associated with final score [sc]. *)
@@ -185,7 +194,7 @@ let main () =
   ANSITerminal.(print_string [yellow]
                   Ascii.pokemon_opening);
   (*print_endline "\n\n";
-  ANSITerminal.(print_string [red]
+    ANSITerminal.(print_string [red]
                   Ascii.str3110);*)
   print_endline "\n\n";
   (*print_string  "> ";

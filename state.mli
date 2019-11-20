@@ -66,4 +66,7 @@ val drop_item : t -> Adventure.item_name -> t
 val bag : t -> (Item.t * int ref) list
 
 (** [get_party st] is the current party (Pokemon.t list) of the player. *)
-val get_party : t -> PM.t ref list
+val get_party : t -> PM.t array
+
+(** [get_def_tr st] returns the defeated trainers in state st.*)
+val get_def_tr: t -> string list

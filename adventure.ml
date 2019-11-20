@@ -60,7 +60,7 @@ type t = {
   routes : route list;
   start : town_id;
   poke_file : string;
-  trainers : (string * (bool * PM.t ref list)) list
+  trainers : (string * (bool * PM.t array)) list
   (*items : item list;*)
   (*treasure_town : t_town;*)
   (*win_msgs : win list;*)
@@ -163,7 +163,7 @@ let json_t_pokemon j_item =
     j_item
     |> member "lvl"
     |> to_float in
-  ref (PM.create_pokemon name lvl)
+  PM.create_pokemon name lvl
 
 let json_trainers j_item = 
   let name = 
@@ -175,7 +175,7 @@ let json_trainers j_item =
     |> member "pokemon"
     |> to_list 
     |> List.map json_t_pokemon in
-  (name, (false, pokemon_list))
+  (name, (false, Array.of_list pokemon_list))
 
 let rec make_bats acc = function 
   | [] ->  acc
@@ -343,7 +343,7 @@ let get_wild adv route =
   let rec find_wild = function 
     | [] -> failwith "bad math (aka wild random error)"
     | ((name,lvl), st, nd) :: t -> 
-      if st <= rand && rand <= nd then [ref (PM.create_pokemon name lvl)] 
+      if st <= rand && rand <= nd then [|PM.create_pokemon name lvl|] 
       else find_wild t
   in 
   find_wild wilds
@@ -352,9 +352,17 @@ let get_t_mons adv name =
   match (List.assoc_opt name adv.trainers) with 
   | None -> failwith "trainer does not exist"
   | Some (false, v) -> v
-  | Some (true, _ ) -> [] 
+  | Some (true, _ ) -> [||]
 
 let get_defeat adv name = 
   match (List.assoc_opt name adv.trainers) with 
   | None -> failwith "trainer does not exist"
   | Some v -> fst v
+
+let defeat_trainers adv names =
+  {
+    adv with 
+    trainers = List.map 
+        (fun (n,(d,pms)) -> if List.mem n names then (n,(true,pms)) 
+          else (n,(d,pms))) adv.trainers
+  }

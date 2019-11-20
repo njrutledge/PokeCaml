@@ -95,11 +95,11 @@ module type PokeSig = sig
   val format_moves_all: t -> string
 
   (** [retreat party] is true if all mons in [party] are fainted. *)
-  val retreat: t ref list -> bool
+  val retreat: t array -> bool
 
   (** [alive_pmons mon_lst] returns a list of the pokemon in the party that 
       are alive (not fainted). *)
-  val alive_pmons: t ref list -> t ref list
+  val alive_pmons: t array -> t array
 
   (** [hp_string m] is a string representation of pokemon [m]'s 
       health and max health. *)
@@ -110,16 +110,19 @@ module type PokeSig = sig
 
   (** [string_of_mons mons] is the string representation of the list of 
       pokemons [mons]*)
-  val string_of_mons: t ref list -> string 
+  val string_of_mons: t array -> string 
 
   (** [restore mons] restores all mons to full health*)
-  val restore_mons: t ref list -> unit
+  val restore_mons: t array -> unit
 
   (** [give_xp mon cpu_lvl wild] gives [mon] the correct ammount of experience
       after defeating the pokemon of lvl [cpu_lvl]. [wild] is true 
       if this pokemon was a wild pokemon, and false otherwise. *)
   val give_xp: t -> float -> bool -> unit
 
+  (** [add_mon mons m] is the array resulting from adding [m] to array [mons].
+      Requires: length of [mons] is less than 6. *)
+  val add_mon: t array -> t -> t array 
 
 end
 
