@@ -26,14 +26,13 @@ exception IllegalItem of string
 exception BattleRun
 
 (** sleep is used for delay in text printing. *)
-let sleep = 0.001
+let sleep = 1.0
 
 let count = ref 0.
 
 (** [execute_quit] quits the adventure. *)
 let execute_quit () = 
   ANSITerminal.(print_string [cyan] "\nThanks for playing!\n "); 
-  print_endline Ascii.caml;
   exit 0
 
 (** [get_y_n ()] is true if the user inputs an affirmative, false if negative, 
@@ -416,6 +415,11 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon =
     PM.restore_mons p_mons;
     (p_mons, b, m, false) 
   | BattleWon party -> 
+    if cpu = "wild" then 
+      ANSITerminal.(print_string [yellow] ("You defeated the wild " ^ PM.get_name cpumon ^ "!\n"))
+    else 
+      ANSITerminal.(print_string [yellow] ("You defeated " ^ cpu ^ "!\n"));
+    print_endline "The pokemon in your party gain experience!";
     give_xp_all (PM.get_lvl cpumon) (cpu = "wild") (PM.alive_pmons p_mons);
     ANSITerminal.(print_string [green] ("\nDo you want to keep going? [Y/N]\n"));
     (party, b, m, get_y_n ())
