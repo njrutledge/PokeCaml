@@ -1,7 +1,8 @@
 {
   "Bulbasaur": {
     "Types": [
-      "grass"
+      "grass",
+      "poison"
     ],
     "Stats": {
       "ATK": 49.0,
@@ -11,9 +12,19 @@
       "SPA": 65.0,
       "SPD": 65.0
     },
-    "Moves": [
-      "tackle",
-      "vine whip"
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "vine whip",
+        "lvl": 8
+      },
+      {
+        "name": "leaf blade",
+        "lvl": 12
+      }
     ],
     "Evolution": "Ivysaur"
   },
@@ -29,10 +40,19 @@
       "SPA": 60.0,
       "SPD": 50.0
     },
-    "Moves": [
-      "tackle",
-      "ember",
-      "flamethrower"
+    "Moveset": [
+      {
+        "name": "scratch",
+        "lvl": 1
+      },
+      {
+        "name": "ember",
+        "lvl": 6
+      },
+      {
+        "name": "flamethrower",
+        "lvl": 10
+      }
     ],
     "Evolution": "Charmeleon"
   },
@@ -48,16 +68,26 @@
       "SPA": 50.0,
       "SPD": 64.0
     },
-    "Moves": [
-      "tackle",
-      "water gun",
-      "bubble beam"
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "water gun",
+        "lvl": 6
+      },
+      {
+        "name": "bubble beam",
+        "lvl": 10
+      }
     ],
     "Evolution": "Wartortle"
   },
   "Pidgey": {
     "Types": [
-      "normal"
+      "normal",
+      "flying"
     ],
     "Stats": {
       "ATK": 40.0,
@@ -65,10 +95,19 @@
       "SPE": 56.0,
       "HP": 40.0
     },
-    "Moves": [
-      "tackle",
-      "gust",
-      "slam"
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "gust",
+        "lvl": 5
+      },
+      {
+        "name": "slam",
+        "lvl": 7
+      }
     ],
     "Evolution": "Pidgeot"
   },
@@ -82,8 +121,19 @@
       "SPE": 72.0,
       "HP": 30.0
     },
-    "Moves": [
-      "tackle"
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "bite",
+        "lvl": 12
+      },
+      {
+        "name": "super fang",
+        "lvl": 15
+      }
     ],
     "Evolution": "Raticate"
   },
@@ -97,82 +147,20 @@
       "SPE": 90.0,
       "HP": 35.0
     },
-    "Moves": [
-      "tackle",
-      "thunderbolt"
+    "Moveset": [
+      {
+        "name": "thundershock",
+        "lvl": 1
+      },
+      {
+        "name": "spark",
+        "lvl": 6
+      },
+      {
+        "name": "thunderbolt",
+        "lvl": 20
+      }
     ],
     "Evolution": "Raichu"
-  },
-  "Mon1": {
-    "Types": [
-      "normal"
-    ],
-    "Stats": {
-      "ATK": 112.73,
-      "DEF": 100.85,
-      "SPE": 94.69,
-      "HP": 97.10
-    },
-    "Moves": [
-      "pulverizing pancake",
-      "blast burn",
-      "hydro cannon",
-      "thunder"
-    ],
-    "Evolution": "Mon3"
-  },
-  "Mon2": {
-    "Types": [
-      "water"
-    ],
-    "Stats": {
-      "ATK": 75.0,
-      "DEF": 75.0,
-      "SPE": 75.0,
-      "HP": 75.0
-    },
-    "Moves": [
-      "tackle",
-      "ember",
-      "vine whip",
-      "zippy zap"
-    ],
-    "Evolution": "Mon4"
-  },
-  "Mon3": {
-    "Types": [
-      "ground"
-    ],
-    "Stats": {
-      "ATK": 110.0,
-      "DEF": 110.0,
-      "SPE": 100.0,
-      "HP": 100.0
-    },
-    "Moves": [
-      "pulverizing pancake",
-      "leaf blade",
-      "precipice blades",
-      "10,000,000 Volt Thunderbolt"
-    ],
-    "Evolution": "Mon4"
-  },
-  "Mon4": {
-    "Types": [
-      "water"
-    ],
-    "Stats": {
-      "ATK": 25.0,
-      "DEF": 25.0,
-      "SPE": 25.0,
-      "HP": 25.0
-    },
-    "Moves": [
-      "tackle",
-      "ember",
-      "vine whip",
-      "zippy zap"
-    ],
-    "Evolution": "Mon4"
   }
 }

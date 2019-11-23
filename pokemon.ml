@@ -26,21 +26,11 @@ module type PokeSig = sig
   type t_defense = float
   type t_speed = float 
   type t_moves = Moves.t array
-  type t (*= {
-           el_type: t_type list;
-           mutable name : string;
-           mutable max_hp : t_hp;
-           mutable hp: t_hp;
-           mutable lvl: float;
-           mutable attack: t_attack;
-           mutable defense: t_defense;
-           mutable speed: t_speed;
-           mutable moves: t_moves;
-           evolution: string;
-           }*)
+  type t_lvl = int
+  type t
   val set_file : string -> unit 
   val lvl_up: t -> bool
-  val create_pokemon: string -> float -> t
+  val create_pokemon: string -> int -> Moves.t list -> t
   val get_max_hp : t -> t_hp
   val change_hp : t -> t_hp -> unit
   val incr_stats : t -> unit
@@ -53,7 +43,7 @@ module type PokeSig = sig
   val get_defense : t -> t_defense
   val get_speed : t -> t_speed
   val get_move : t -> int -> Moves.t
-  val get_lvl: t -> float
+  val get_lvl: t -> t_lvl
   val get_xp: t -> float
   val set_hp : t -> t_hp -> unit
   val format_moves_names : t -> string
@@ -64,8 +54,10 @@ module type PokeSig = sig
   val string_of_mon: t -> string
   val string_of_mons: t array -> string
   val restore_mons: t array -> unit
-  val give_xp: t -> float -> bool -> unit
+  val give_xp: t -> t_lvl -> bool -> unit
   val add_mon: t array -> t -> t array 
+  val get_new_move: t -> t_lvl -> Moves.t option
+  val add_move: t-> int -> Moves.t -> unit
 end
 
 module M = Moves
@@ -78,17 +70,19 @@ module Pokemon : PokeSig = struct
   type t_defense = float
   type t_speed = float
   type t_moves = M.t array 
+  type t_lvl = int
   type t = {
     el_type: t_type list;
     mutable name : string;
     mutable max_hp : t_hp;
     mutable hp: t_hp;
-    mutable lvl: float;
+    mutable lvl: t_lvl;
     mutable xp: float;
     mutable attack: t_attack;
     mutable defense: t_defense;
     mutable speed: t_speed;
     mutable moves: t_moves;
+    moveset: (int*M.t) list;
     evolution: string;
   }
   (**[file_name] is the name of the file containing all the pokemon. *)
@@ -113,22 +107,36 @@ module Pokemon : PokeSig = struct
 
   (** [stat_update m] updates the stats of [m] for leveling up. *)
   let stat_update mon = 
-    mon.lvl <- mon.lvl +. 1.;
+    mon.lvl <- mon.lvl + 1;
     mon.max_hp <- mon.max_hp *. 1.02; 
+    mon.hp <- mon.hp +. (mon.max_hp *. 0.02);
     mon.attack <- mon.attack *. 1.02; 
     mon.defense <- mon.defense *. 1.02; 
     mon.speed <- mon.speed *. 1.02
 
   let lvl_up mon =
     let rec lvl_up' change =  
-      if mon.xp >= Float.pow mon.lvl 3. 
+      if mon.xp >= Float.pow (Float.of_int mon.lvl) 3. 
       then begin 
         stat_update mon; lvl_up' true 
       end
       else change in 
     lvl_up' false 
 
-  let create_pokemon mon_name start_lvl = 
+
+  let json_moveset j = 
+    let move = 
+      j
+      |> member "name"
+      |> to_string
+      |> Moves.create_move in 
+    let lvl = 
+      j
+      |> member "lvl"
+      |> to_int in 
+    (lvl, move)
+
+  let create_pokemon mon_name start_lvl moves = 
     let json = get_data mon_name in 
     let pmon = 
       {
@@ -163,20 +171,18 @@ module Pokemon : PokeSig = struct
           |> member "Stats"
           |> member "DEF"
           |> to_float;
-        moves = 
+        moves = Array.of_list moves;
+        moveset = 
           json
-          |> member "Moves"
+          |> member "Moveset"
           |> to_list
-          |> List.map to_string 
-          |> List.map Moves.create_move
-          |> Array.of_list;
-        (*|> fix_move_array;*)
-        evolution = "";
-        (*json
+          |> List.map json_moveset;
+        evolution = 
+          json
           |> member "Evolution"
-          |> to_string;*)
-        lvl = 1.;
-        xp = Float.pow (start_lvl-.1.) 3.;
+          |> to_string;
+        lvl = 1;
+        xp = Float.pow (start_lvl-1|>Float.of_int) 3.;
       } in 
     ignore (lvl_up pmon);
     pmon.hp <- pmon.max_hp;
@@ -232,7 +238,8 @@ module Pokemon : PokeSig = struct
     let acc = ref "" in 
     for i = 0 to (Array.length mon.moves) - 1 do 
       acc := 
-        !acc ^ string_of_int (i + 1) ^ ". " ^ Moves.to_string mon.moves.(i) ^ "\n"
+        !acc ^ string_of_int (i + 1) ^ ". " 
+        ^ Moves.to_string mon.moves.(i) ^ "\n"
     done;
     !acc
 
@@ -246,7 +253,8 @@ module Pokemon : PokeSig = struct
     |> Array.of_list
 
   let calc_xp_percent mon = 
-    (mon.xp -. (Float.pow (mon.lvl-.1.) 3.)) /. (Float.pow mon.lvl 3.)*. 100.
+    (mon.xp -. (Float.pow (mon.lvl-1|>Float.of_int) 3.)) 
+    /. (Float.pow (Float.of_int mon.lvl) 3.)*. 100.
     |> Int.of_float 
     |> string_of_int
 
@@ -262,7 +270,7 @@ module Pokemon : PokeSig = struct
 
   let string_of_mon (mon : t) =
     ("{" ^ (get_name mon) ^ " - " ^ hp_string mon
-     ^ " | level: " ^ (mon |> get_lvl |> Int.of_float |> string_of_int) 
+     ^ " | level: " ^ (mon |> get_lvl |> string_of_int) 
      ^ " | xp: " ^ calc_xp_percent mon ^ "%" ^ "}")
 
   let rec string_of_mons mons =
@@ -280,13 +288,25 @@ module Pokemon : PokeSig = struct
   let give_xp mon cp_mon_lvl wild = 
     let a = if wild then 1.0 else 1.5 in  
     let b = 50. in 
-    let frac = (Float.pow (2. *. cp_mon_lvl +. 10.) 2.5) 
-               /. (Float.pow (cp_mon_lvl +. mon.lvl +. 10.) 2.5) in 
-    let exp = (a *. b *. cp_mon_lvl /. 5. *. frac +. 1.) in 
+    let frac = (Float.pow (2. *. (Float.of_int cp_mon_lvl) +. 10.) 2.5) 
+               /. (Float.pow ((Float.of_int cp_mon_lvl) +. (mon.lvl|>Float.of_int) +. 10.) 2.5) in 
+    let exp = (a *. b *. (cp_mon_lvl|>Float.of_int) /. 5. *. frac +. 1.) in 
     mon.xp <- mon.xp +. exp
 
-  let add_mon mons new_mon= 
+  let add_mon mons new_mon = 
     let len = Array.length mons in 
     if len >= 6 then failwith "trying to create a party of more than 6" else
       Array.init (len + 1) (fun i -> if i <> len then mons.(i) else new_mon) 
+
+  let get_new_move mon lvl = 
+    List.assoc_opt lvl mon.moveset
+
+  let add_move mon n move = 
+    let num_moves = Array.length mon.moves in 
+    if num_moves < 4 then begin 
+      let new_moves = Array.make (num_moves+1) (mon.moves.(0)) in 
+      mon.moves <- Array.mapi (fun n x -> if n = num_moves then move else mon.moves.(n)) new_moves
+    end
+    else 
+      mon.moves.(n) <- move
 end

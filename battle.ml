@@ -26,7 +26,7 @@ exception IllegalItem of string
 exception BattleRun
 
 (** sleep is used for delay in text printing. *)
-let sleep = 1.0
+let sleep = 0.001
 
 let count = ref 0.
 
@@ -44,6 +44,22 @@ let rec get_y_n () =
   | "No" | "N" | "n" | "no" -> false
   | "quit" -> execute_quit ()
   | _ -> get_y_n ()
+
+let rec get_move_num () = 
+  print_string "> ";
+  try 
+    let next = int_of_string (read_line ()) in 
+    if next >= 1 && next <= 5 then
+      next
+    else begin 
+      ANSITerminal.(print_string [red] ("Invalid move. Please enter a number " ^
+                                        " 1 to 5.\n"));
+      get_move_num ()
+    end 
+  with _ -> 
+    ANSITerminal.(print_string [red] ("Invalid move. Please enter a valid " ^
+                                      "number 1 to 5.\n"));
+    get_move_num ()  
 
 let rec next_mon mons = 
   print_string "> ";
@@ -92,7 +108,7 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_id =
     if (Moves.name move) = "super fang" 
     then ((PM.get_hp def_mon) /. 2.)
     else damage 
-        (PM.get_lvl atk_mon)
+        (PM.get_lvl atk_mon |> Float.of_int)
         move.power
         (PM.get_attack atk_mon)
         (PM.get_defense def_mon)
@@ -396,11 +412,55 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
   | Some p -> loop p_team cpu_team p cpu_mon bag cpu
   | None -> loop p_team cpu_team player_mon cpu_mon bag cpu 
 
+let rec learn_moves mon st_lvl end_lvl =
+  if st_lvl > end_lvl then () 
+  else begin 
+    match PM.get_new_move mon st_lvl with 
+    | Some move -> begin 
+        let num_moves = Array.length (PM.get_moves mon) in 
+        let mon_name = PM.get_name mon in 
+        let move_name = (Moves.name move) in
+        if num_moves < 4 then begin 
+          print_endline (mon_name ^ " learned " ^ move_name ^ "!");
+          PM.add_move mon (num_moves) move
+        end 
+        else begin 
+          print_endline (mon_name ^ " wants to learn the move " 
+                         ^ move_name ^ ", but already knows four moves. " ^
+                         "Should a move be deleted and replaced with " ^
+                         move_name ^ "? [Y/N]");
+          if get_y_n () then begin
+            print_endline ("What move should " ^ mon_name ^ " forget?");
+            print_string (PM.format_moves_all mon);
+            print_string ("5. " ^ Moves.to_string move ^ "\n");
+            let n = get_move_num () in 
+            print_endline ("1, 2, 3, and ... poof!\n"^ mon_name ^ " forgot " 
+                           ^ Moves.name (PM.get_moves mon).(n) ^ " and learned "
+                           ^ move_name ^"!");
+            (PM.get_moves mon).(n)<-move
+          end
+          else begin 
+            print_endline (PM.get_name mon ^ " did not learn " ^ move_name
+                           ^ ".");
+            learn_moves mon (st_lvl +1) end_lvl
+          end 
+
+        end
+      end 
+    | None -> learn_moves mon (st_lvl+1) end_lvl
+  end
+
+let give_xp cpu_lvl wild mon =  
+  let st_lvl = PM.get_lvl mon + 1 in 
+  PM.give_xp mon cpu_lvl wild; 
+  if PM.lvl_up mon then begin
+    print_endline (PM.get_name mon ^ " leveled up!");
+    learn_moves mon st_lvl (PM.get_lvl mon);
+  end
+  else ()
+
 let rec give_xp_all cpu_lvl wild mons = 
-  let give_xp = (fun m -> PM.give_xp m cpu_lvl wild; 
-                  if PM.lvl_up m then print_endline (PM.get_name m ^ " leveled up!")
-                  else ();) in
-  Array.iter (give_xp) mons
+  Array.iter (give_xp cpu_lvl wild) mons
 
 let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon = 
   if cpu <> "wild" then

@@ -6,6 +6,13 @@
     "type": "normal",
     "uses": 35
   },
+  "scratch": {
+    "desc": "scrape",
+    "power": 40.0,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 35
+  },
   "struggle": {
     "desc": "ouch bam",
     "power": 50.0,
@@ -76,12 +83,19 @@
     "type": "water",
     "uses": 1
   },
-  "thunder shock": {
+  "thundershock": {
     "desc": "lil' zap",
     "power": 40.0,
     "accuracy": 100.0,
     "type": "electric",
     "uses": 30
+  },
+  "spark": {
+    "desc": "bam zap",
+    "power": 65.0,
+    "accuracy": 100.0,
+    "type": "electric",
+    "uses": 20
   },
   "zippy zap": {
     "desc": "zippy zap",
@@ -89,6 +103,13 @@
     "accuracy": 100.0,
     "type": "electric",
     "uses": 15
+  },
+  "bite": {
+    "desc": "chomp",
+    "power": 60.0,
+    "accuracy": 100.0,
+    "type": "dark",
+    "uses": 25
   },
   "thunder": {
     "desc": "bigly zap",

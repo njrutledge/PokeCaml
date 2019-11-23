@@ -11,13 +11,19 @@
       "wilds": [
         {
           "name": "Rattata",
-          "lvl": 3.0,
-          "chance": 50
+          "lvl": 3,
+          "chance": 50,
+          "moves": [
+            "tackle"
+          ]
         },
         {
           "name": "Pidgey",
-          "lvl": 3.0,
-          "chance": 50
+          "lvl": 3,
+          "chance": 50,
+          "moves": [
+            "tackle"
+          ]
         }
       ]
     },
@@ -41,13 +47,20 @@
       "wilds": [
         {
           "name": "Rattata",
-          "lvl": 5.0,
-          "chance": 50
+          "lvl": 3,
+          "chance": 50,
+          "moves": [
+            "tackle"
+          ]
         },
         {
           "name": "Pidgey",
-          "lvl": 5.0,
-          "chance": 50
+          "lvl": 5,
+          "chance": 50,
+          "moves": [
+            "tackle",
+            "gust"
+          ]
         }
       ]
     },
@@ -67,15 +80,25 @@
       "pokemon": [
         {
           "name": "Rattata",
-          "lvl": 4.0
+          "lvl": 4,
+          "moves": [
+            "tackle"
+          ]
         },
         {
           "name": "Rattata",
-          "lvl": 4.0
+          "lvl": 4,
+          "moves": [
+            "tackle"
+          ]
         },
         {
           "name": "Pidgey",
-          "lvl": 4.0
+          "lvl": 5,
+          "moves": [
+            "tackle",
+            "gust"
+          ]
         }
       ]
     },
@@ -84,15 +107,24 @@
       "pokemon": [
         {
           "name": "Rattata",
-          "lvl": 5.0
+          "lvl": 5,
+          "moves": [
+            "tackle"
+          ]
         },
         {
           "name": "Rattata",
-          "lvl": 6.0
+          "lvl": 6,
+          "moves": [
+            "tackle"
+          ]
         },
         {
           "name": "Rattata",
-          "lvl": 7.0
+          "lvl": 7,
+          "moves": [
+            "tackle"
+          ]
         }
       ]
     },
@@ -101,15 +133,25 @@
       "pokemon": [
         {
           "name": "Pidgey",
-          "lvl": 5.0
+          "lvl": 5,
+          "moves": [
+            "tackle"
+          ]
         },
         {
           "name": "Pidgey",
-          "lvl": 6.0
+          "lvl": 6,
+          "moves": [
+            "tackle"
+          ]
         },
         {
           "name": "Pidgey",
-          "lvl": 7.0
+          "lvl": 8,
+          "moves": [
+            "tackle",
+            "gust"
+          ]
         }
       ]
     },
@@ -118,15 +160,27 @@
       "pokemon": [
         {
           "name": "Rattata",
-          "lvl": 12.0
+          "lvl": 15,
+          "moves": [
+            "tackle",
+            "bite"
+          ]
         },
         {
           "name": "Rattata",
-          "lvl": 12.0
+          "lvl": 15,
+          "moves": [
+            "tackle",
+            "bite"
+          ]
         },
         {
           "name": "Rattata",
-          "lvl": 12.0
+          "lvl": 15,
+          "moves": [
+            "tackle",
+            "bite"
+          ]
         }
       ]
     },
@@ -135,15 +189,27 @@
       "pokemon": [
         {
           "name": "Pidgey",
-          "lvl": 8.0
+          "lvl": 10,
+          "moves": [
+            "tackle",
+            "gust"
+          ]
         },
         {
           "name": "Pidgey",
-          "lvl": 9.0
+          "lvl": 10,
+          "moves": [
+            "tackle",
+            "gust"
+          ]
         },
         {
           "name": "Pidgey",
-          "lvl": 10.0
+          "lvl": 12,
+          "moves": [
+            "tackle",
+            "gust"
+          ]
         }
       ]
     },
@@ -152,15 +218,27 @@
       "pokemon": [
         {
           "name": "Bulbasaur",
-          "lvl": 15.0
+          "lvl": 20,
+          "moves": [
+            "tackle",
+            "vine whip"
+          ]
         },
         {
           "name": "Charmander",
-          "lvl": 15.0
+          "lvl": 20,
+          "moves": [
+            "scratch",
+            "ember"
+          ]
         },
         {
           "name": "Squirtle",
-          "lvl": 15.0
+          "lvl": 20,
+          "moves": [
+            "tackle",
+            "water gun"
+          ]
         }
       ]
     },
@@ -169,15 +247,27 @@
       "pokemon": [
         {
           "name": "Bulbasaur",
-          "lvl": 15.0
+          "lvl": 30,
+          "moves": [
+            "tackle",
+            "water gun"
+          ]
         },
         {
           "name": "Charmander",
-          "lvl": 15.0
+          "lvl": 30,
+          "moves": [
+            "tackle",
+            "ember"
+          ]
         },
         {
           "name": "Squirtle",
-          "lvl": 15.0
+          "lvl": 30,
+          "moves": [
+            "tackle",
+            "bubble beam"
+          ]
         }
       ]
     },
@@ -186,15 +276,25 @@
       "pokemon": [
         {
           "name": "Pidgey",
-          "lvl": 7.0
+          "lvl": 15,
+          "moves": [
+            "tackle",
+            "gust"
+          ]
         },
         {
           "name": "Rattata",
-          "lvl": 7.0
+          "lvl": 15,
+          "moves": [
+            "tackle"
+          ]
         },
         {
           "name": "Pikachu",
-          "lvl": 8.0
+          "lvl": 20,
+          "moves": [
+            "thundershock"
+          ]
         }
       ]
     }

@@ -18,18 +18,8 @@ module type PokeSig = sig
   type t_defense = float
   type t_speed = float 
   type t_moves = Moves.t array
-  type t (*= {
-             el_type: t_type list;
-             mutable name : string;
-             mutable max_hp : t_hp;
-             mutable hp: t_hp;
-             mutable lvl: float;
-             mutable attack: t_attack;
-             mutable defense: t_defense;
-             mutable speed: t_speed;
-             mutable moves: t_moves;
-             evolution: string;
-             }*)
+  type t_lvl = int
+  type t
 
   (** [set_file s] sets the json file containing all the pokemon, and 
       then returns unit. *)
@@ -40,7 +30,7 @@ module type PokeSig = sig
 
   (** [create_pokemon name lvl] is the representation of the pokemon species 
       [name] and level [lvl]. *)
-  val create_pokemon: string -> float -> t
+  val create_pokemon: string -> int -> Moves.t list -> t
 
   (** [get_max_hp mon] is the maximum hp of [mon]. *)
   val get_max_hp : t -> t_hp
@@ -79,7 +69,7 @@ module type PokeSig = sig
   val get_move : t -> int -> Moves.t
 
   (** [get_lvl mon] is the level of [mon]. *)
-  val get_lvl : t -> float
+  val get_lvl : t -> t_lvl
 
   (** [get_xp mon is the current experience of [mon]. *)
   val get_xp : t -> float
@@ -118,11 +108,18 @@ module type PokeSig = sig
   (** [give_xp mon cpu_lvl wild] gives [mon] the correct ammount of experience
       after defeating the pokemon of lvl [cpu_lvl]. [wild] is true 
       if this pokemon was a wild pokemon, and false otherwise. *)
-  val give_xp: t -> float -> bool -> unit
+  val give_xp: t -> t_lvl -> bool -> unit
 
   (** [add_mon mons m] is the array resulting from adding [m] to array [mons].
       Requires: length of [mons] is less than 6. *)
   val add_mon: t array -> t -> t array 
+
+  (** [get_new_move mon lvl] is [Some m] if the pokemon can learn move [m]
+      at level [lvl], and is None if no move can be learned at this level. *)
+  val get_new_move: t -> t_lvl -> Moves.t option
+
+  (** [add_move mon i mov] adds move [mov] to [mon]'s move list at spot [i]. *)
+  val add_move: t-> int -> Moves.t -> unit
 
 end
 

@@ -1,4 +1,5 @@
 open Pokemon
+open Moves
 module PM = Pokemon
 
 exception ItemNotFound of Adventure.item_name
@@ -16,12 +17,12 @@ type t = {
 let init_state adv = {
   cur_town = Adventure.start_town adv;
   last_town = Adventure.start_town adv;
-  bag = [(Potion, ref 5); (HyperPotion, ref 5); (FullRestore, ref 5);
-         (PokeBall, ref 10); (GreatBall, ref 5); (UltraBall, ref 5); (MasterBall, ref 1)];
+  bag = [(Potion, ref 5); (HyperPotion, ref 3); (FullRestore, ref 1);
+         (PokeBall, ref 10); (GreatBall, ref 5); (UltraBall, ref 3); (MasterBall, ref 1)];
   money = 500;
-  party = [|(PM.create_pokemon "Pikachu" 5.); 
-            (PM.create_pokemon "Charmander" 5.);
-            (PM.create_pokemon "Squirtle" 5.);|];
+  party = [|(PM.create_pokemon "Pikachu" 5 [Moves.create_move "thundershock"; Moves.create_move "thundershock"; Moves.create_move "thundershock"; Moves.create_move "thundershock"]); 
+            (PM.create_pokemon "Charmander" 5 [Moves.create_move "scratch"]);
+            (PM.create_pokemon "Squirtle" 5 [Moves.create_move "tackle";Moves.create_move "tackle";Moves.create_move "tackle";Moves.create_move "tackle"]);|];
   defeated_trainers = []
 }
 

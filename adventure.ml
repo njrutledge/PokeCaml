@@ -1,5 +1,6 @@
 open Yojson.Basic.Util
 open Pokemon
+open Moves
 module PM = Pokemon
 
 type town_id = string
@@ -52,7 +53,7 @@ type bat =
 type route = {
   route_name : string;
   battles : bat list;
-  wilds : ((string * float) * int * int) list;
+  wilds : ((string * int * Moves.t list) * int * int) list;
 }
 
 type t = {
@@ -71,8 +72,8 @@ type t = {
     Requires: [prev] starts at 0 and [acc] starts empty.  *)
 let rec get_ranges acc prev = function
   | [] -> acc
-  | (name,lvl , chance) :: t -> let next = prev + 1 + chance in 
-    get_ranges (((name,lvl), prev + 1, next) :: acc) next t
+  | (name, lvl, chance, moves) :: t -> let next = prev + 1 + chance in 
+    get_ranges (((name, lvl, moves), prev + 1, next) :: acc) next t
 
 (** [json_exit j] is the adventure town exit that [j] represents. 
     Requires: [j] is a valid JSON adventure exit representation. *)
@@ -147,12 +148,17 @@ let json_wilds j_item =
   let lvl = 
     j_item
     |> member "lvl"
-    |> to_float in
+    |> to_int in
   let chance = 
     j_item
     |> member "chance"
     |> to_int in
-  (name, lvl, chance)
+  let moves = 
+    j_item
+    |> member "moves"
+    |> to_list
+    |> List.map (fun x -> x|> to_string |> Moves.create_move) in 
+  (name, lvl, chance, moves)
 
 let json_t_pokemon j_item = 
   let name = 
@@ -162,8 +168,13 @@ let json_t_pokemon j_item =
   let lvl = 
     j_item
     |> member "lvl"
-    |> to_float in
-  PM.create_pokemon name lvl
+    |> to_int in
+  let moves = 
+    j_item
+    |> member "moves"
+    |> to_list
+    |> List.map (fun x -> x|> to_string |> Moves.create_move) in 
+  PM.create_pokemon name lvl moves
 
 let json_trainers j_item = 
   let name = 
@@ -342,8 +353,8 @@ let get_wild adv route =
   Random.self_init (); let rand = Random.int 100 + 1 in
   let rec find_wild = function 
     | [] -> failwith "bad math (aka wild random error)"
-    | ((name,lvl), st, nd) :: t -> 
-      if st <= rand && rand <= nd then [|PM.create_pokemon name lvl|] 
+    | ((name, lvl, moves), st, nd) :: t -> 
+      if st <= rand && rand <= nd then [|PM.create_pokemon name lvl moves|] 
       else find_wild t
   in 
   find_wild wilds

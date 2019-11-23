@@ -136,7 +136,7 @@ let type_tests =
   ]
 
 module PM = Pokemon
-let mon1 = PM.create_pokemon "Mon1" 1.
+let mon1 = PM.create_pokemon "Mon1" 1 []
 let pokemon_tests = 
   [
     "hp = 97.1" >:: (fun _ -> 

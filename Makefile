@@ -5,6 +5,9 @@ MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
 OCAMLBUILD=ocamlbuild -use-ocamlfind
+CLOC=cloc *
+CLOCML=cloc *.ml *.mli
+CLOCZIP=cloc ms3.zip
 
 default: build
 	utop
@@ -18,15 +21,17 @@ test:
 play:
 	$(OCAMLBUILD) $(MAIN) && ./$(MAIN)
 
-check:
-	bash checkenv.sh && bash checktypes.sh
-	
-finalcheck: check
-	bash checkzip.sh
-	bash finalcheck.sh
+cloc:
+	$(CLOC)
+
+clocml:
+	$(CLOCML)
+
+cloczip:
+	$(CLOCZIP)
 
 zip:
-	zip ms2.zip *.ml* *.json *txt _tags Makefile
+	zip ms3.zip *.ml* *.json *txt _tags Makefile
 	
 docs: docs-public docs-private
 	
@@ -44,3 +49,4 @@ docs-private: build
 clean:
 	ocamlbuild -clean
 	rm -rf doc.public doc.private adventure.zip
+	rm -rf _build
