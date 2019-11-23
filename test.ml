@@ -57,6 +57,11 @@ let string_of_command = function
   | Go (lst) -> "go " ^ pp_list pp_string lst
   | Take (lst) -> "grab " ^ pp_list pp_string lst
   | Bag -> "bag"
+  | Party -> "party"
+  | Heal -> "heal"
+  | Map -> "map"
+  | GoRoute (lst) -> "go " ^ pp_list pp_string lst
+  | Buy (lst) -> "buy " ^ pp_list pp_string lst
 
 let result_of_string = function 
   | Legal(t) -> "Legal: " ^ current_town_id t
@@ -134,8 +139,8 @@ module PM = Pokemon
 let mon1 = PM.create_pokemon "Mon1" 1.
 let pokemon_tests = 
   [
-    "hp = 4" >:: (fun _ -> 
-        assert_equal 4. (PM.get_hp mon1)~printer:string_of_float);
+    "hp = 97.1" >:: (fun _ -> 
+        assert_equal 97.1 (PM.get_hp mon1)~printer:string_of_float);
     "name = Mon1">:: (fun _ ->
         assert_equal "Mon1" (PM.get_name mon1));
   ]
@@ -150,3 +155,4 @@ let suite =
   ]
 
 let _ = run_test_tt_main suite
+let _ = Types.test_print_type_mat type_mat hash

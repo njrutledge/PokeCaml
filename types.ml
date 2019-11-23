@@ -34,6 +34,31 @@ let rec cols j m = function
     add 0 j m h; 
     cols (j+1) m t
 
+(** [type_names] is a list of the type names in order, for testing purposes. *)
+let type_names = ["NORM"; "FIGT"; "FLYN"; "PISN"; "GRND"; "ROCK"; "BUG "; 
+                  "GHST"; "STEL"; "FIRE"; "WATR"; "GRSS"; "ELCT"; "PSYC";
+                  "ICE "; "DRGN"; "DARK"; "FARY"]
+
+
+let test_print_type_mat m hf = 
+  print_string ("    |");
+  for i = 0 to Array.length m-1 do 
+    print_string (List.nth type_names i ^ "|");
+  done;
+  print_endline ("");
+  for i = 0 to Array.length m-1 do 
+    print_string (List.nth type_names i ^ "|");
+    for j = 0 to Array.length m.(0)-1 do
+      let n = m.(i).(j) in
+      if n = 0.5 then 
+        print_string ((m.(i).(j)|>string_of_float)^" |")
+      else 
+        print_string ((m.(i).(j)|>string_of_float)^"  |")
+    done;
+    ignore (read_line ());
+  done
+
+
 let type_matrix_and_hash json =  
   let n = json |> member "size" |> to_int in 
   let m = Array.make_matrix n n 0.0 in 
