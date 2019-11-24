@@ -4,24 +4,34 @@ open Yojson.Basic.Util
 module type MoveSig = sig
   type t = 
     {
-      move_name: string;
-      description: string;
+      move_name : string;
+      description : string;
       power : float;
       accuracy: float;
       el_type: Types.t;
+      mutable pp : int;
+      max_pp : int
     }
   val create_move: string -> t
   val name: t -> string 
+  val to_string: t -> string
+  val get_pp: t -> int
+  val get_max_pp: t -> int
+  val set_pp: t -> int -> unit
+  val decr_pp: t -> unit
+  val to_string_name : t -> string
   val to_string: t -> string
 end
 
 module Moves : MoveSig = struct
   type t = {
-    move_name: string;
-    description: string;
+    move_name : string;
+    description : string;
     power : float;
-    accuracy: float;
-    el_type: Types.t;
+    accuracy : float;
+    el_type : Types.t;
+    mutable pp : int;
+    max_pp : int;
   }
 
   (** [json] is the json file holding all pokemon moves. *)
@@ -34,14 +44,27 @@ module Moves : MoveSig = struct
       power = m_j |> member "power" |> to_float;
       accuracy = m_j |> member "accuracy" |> to_float;
       el_type = m_j |> member "type" |> to_string;
+      pp = m_j |> member "uses" |> to_int;
+      max_pp = m_j |> member "uses" |> to_int;
     }
 
   let name m = 
     m.move_name
 
+  let get_pp m = m.pp
+
+  let get_max_pp m = m.max_pp
+
+  let set_pp m pp = m.pp <- pp
+
+  let decr_pp m = m.pp <- m.pp - 1
+
+  let to_string_name m = "Name: " ^ m.move_name ^ " | PP: " ^ string_of_int m.pp ^ "/" ^ string_of_int m.max_pp
+
   let to_string m = 
     "Name: " ^ m.move_name ^ "\nPower: " ^ string_of_float m.power ^ ", ACC: " ^
-    string_of_float m.accuracy ^ ", Type: " ^ m.el_type ^ "\n" ^
+    string_of_float m.accuracy ^ ", Type: " ^ m.el_type ^ ", PP: " ^
+    string_of_int m.pp ^ "/" ^ string_of_int m.max_pp ^ "\n" ^
     "\tDescription: " ^ m.description ^ "\n"
 
 end

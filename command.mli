@@ -34,6 +34,7 @@ type command =
   | GoRoute of object_phrase
   | Heal
   | Buy of object_phrase
+  | Moves of object_phrase
   | Map
   | Quit
 

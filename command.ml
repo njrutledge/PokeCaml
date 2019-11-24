@@ -10,6 +10,7 @@ type command =
   | GoRoute of object_phrase
   | Heal 
   | Buy of object_phrase
+  | Moves of object_phrase
   | Map 
   | Quit
 
@@ -42,6 +43,7 @@ let make_command verb phrase =
   if verb = "route" then GoRoute phrase else
   if verb = "take" then Take phrase else 
   if verb = "buy" then Buy phrase else
+  if verb = "moves" then Moves phrase else
     raise Malformed 
 
 let parse str =

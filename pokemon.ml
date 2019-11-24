@@ -27,6 +27,7 @@ module type PokeSig = sig
   type t_speed = float 
   type t_moves = Moves.t array
   type t_lvl = int
+  type t_xp = float
   type t
   val set_file : string -> unit 
   val lvl_up: t -> bool
@@ -46,6 +47,7 @@ module type PokeSig = sig
   val get_lvl: t -> t_lvl
   val get_xp: t -> float
   val set_hp : t -> t_hp -> unit
+  val set_xp : t -> t_xp -> unit
   val format_moves_names : t -> string
   val format_moves_all: t -> string
   val retreat: t array -> bool
@@ -58,6 +60,7 @@ module type PokeSig = sig
   val add_mon: t array -> t -> t array 
   val get_new_move: t -> t_lvl -> Moves.t option
   val add_move: t-> int -> Moves.t -> unit
+  val evolve: t -> t * bool
 end
 
 module M = Moves
@@ -71,19 +74,20 @@ module Pokemon : PokeSig = struct
   type t_speed = float
   type t_moves = M.t array 
   type t_lvl = int
+  type t_xp = float
   type t = {
     el_type: t_type list;
     mutable name : string;
     mutable max_hp : t_hp;
     mutable hp: t_hp;
     mutable lvl: t_lvl;
-    mutable xp: float;
+    mutable xp: t_xp;
     mutable attack: t_attack;
     mutable defense: t_defense;
     mutable speed: t_speed;
     mutable moves: t_moves;
     moveset: (int*M.t) list;
-    evolution: string;
+    evolution: string * int;
   }
   (**[file_name] is the name of the file containing all the pokemon. *)
   let file_name = ref "pokemon.json"
@@ -136,6 +140,18 @@ module Pokemon : PokeSig = struct
       |> to_int in 
     (lvl, move)
 
+  let json_evo j = 
+    let evo = 
+      j
+      |> member "name"
+      |> to_string in
+    let level = 
+      j
+      |> member "lvl"
+      |> to_int in
+    (evo, level)
+
+
   let create_pokemon mon_name start_lvl moves = 
     let json = get_data mon_name in 
     let pmon = 
@@ -180,7 +196,7 @@ module Pokemon : PokeSig = struct
         evolution = 
           json
           |> member "Evolution"
-          |> to_string;
+          |> json_evo;
         lvl = 1;
         xp = Float.pow (start_lvl-1|>Float.of_int) 3.;
       } in 
@@ -226,11 +242,13 @@ module Pokemon : PokeSig = struct
 
   let set_hp mon hp = mon.hp <- hp
 
+  let set_xp mon xp = mon.xp <- xp
+
   let format_moves_names mon = 
     let acc = ref "" in 
     for i = 0 to (Array.length mon.moves) - 1 do 
       acc := 
-        !acc ^ string_of_int (i + 1) ^ ". " ^ Moves.name mon.moves.(i) ^ "\n"
+        !acc ^ string_of_int (i + 1) ^ ". " ^ Moves.to_string_name mon.moves.(i)
     done;
     !acc
 
@@ -239,7 +257,7 @@ module Pokemon : PokeSig = struct
     for i = 0 to (Array.length mon.moves) - 1 do 
       acc := 
         !acc ^ string_of_int (i + 1) ^ ". " 
-        ^ Moves.to_string mon.moves.(i) ^ "\n"
+        ^ Moves.to_string mon.moves.(i)
     done;
     !acc
 
@@ -282,8 +300,15 @@ module Pokemon : PokeSig = struct
     done;
     !acc
 
+  (** [restore_helper m] is the helper function to set a pokemon to max health 
+      and restore each move to full pp
+  *)
+  let restore_helper mon = 
+    mon.hp <- mon.max_hp;
+    Array.iter (fun move -> Moves.set_pp move (Moves.get_max_pp move)) mon.moves
+
   let rec restore_mons mons =
-    Array.iter (fun x -> x.hp <- x.max_hp) mons
+    Array.iter (restore_helper) mons
 
   let give_xp mon cp_mon_lvl wild = 
     let a = if wild then 1.0 else 1.5 in  
@@ -305,8 +330,18 @@ module Pokemon : PokeSig = struct
     let num_moves = Array.length mon.moves in 
     if num_moves < 4 then begin 
       let new_moves = Array.make (num_moves+1) (mon.moves.(0)) in 
-      mon.moves <- Array.mapi (fun n x -> if n = num_moves then move else mon.moves.(n)) new_moves
+      mon.moves <- Array.mapi (fun n x -> if n = num_moves then move 
+                                else mon.moves.(n)) new_moves
     end
     else 
       mon.moves.(n) <- move
+
+  let evolve mon = 
+    if mon.lvl >= snd mon.evolution then begin 
+      let evo = create_pokemon (fst mon.evolution) 
+          mon.lvl (Array.to_list mon.moves) in 
+      evo.xp <- mon.xp;
+      (evo, true)
+    end 
+    else (mon, false)
 end

@@ -91,6 +91,21 @@ let execute_map adv state = failwith "Map unimplemented"
   | [] -> acc ^ "]"
   | h :: t -> print_exits (h ^ )*)
 
+(** [execute_moves adv state num] prints the moves of the pokemon corresponding
+    to [num] in the players current party in [state].*)
+let execute_moves adv state num_txt = begin
+  try
+    let num = int_of_string (num_txt) in 
+    if num >= 1 && num <= Array.length (State.get_party state) then begin
+      let mon = (State.get_party state).(num - 1) in
+      let moves =  mon |> PM.format_moves_all in
+      print_endline ((PM.get_name mon) ^ ":\n" ^ moves); end
+    else 
+      ANSITerminal.(print_string [red] "Invalid Pokemon.\n");
+  with _ -> 
+    ANSITerminal.(print_string [red] "Invalid Pokemon.\n"); 
+end
+
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state].  *)
 let rec execute_command adv state input = 
@@ -106,6 +121,7 @@ let rec execute_command adv state input =
   | Buy(phrase) -> 
     if in_pokecenter state then execute_buy state (String.concat " " phrase) 
     else raise NotInPC
+  | Moves(phrase) -> execute_moves adv state (String.concat " " phrase); None
 
 (** [get_command adv state input] *)
 let rec get_command adv state input = 

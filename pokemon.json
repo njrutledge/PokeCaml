@@ -26,7 +26,10 @@
         "lvl": 12
       }
     ],
-    "Evolution": "Ivysaur"
+    "Evolution": {
+      "name": "Ivysaur",
+      "lvl": 16
+    }
   },
   "Charmander": {
     "Types": [
@@ -54,7 +57,10 @@
         "lvl": 10
       }
     ],
-    "Evolution": "Charmeleon"
+    "Evolution": {
+      "name": "Charmeleon",
+      "lvl": 16
+    }
   },
   "Squirtle": {
     "Types": [
@@ -82,7 +88,41 @@
         "lvl": 10
       }
     ],
-    "Evolution": "Wartortle"
+    "Evolution": {
+      "name": "Wartortle",
+      "lvl": 6
+    }
+  },
+  "Wartortle": {
+    "Types": [
+      "water"
+    ],
+    "Stats": {
+      "ATK": 63.0,
+      "DEF": 80.0,
+      "SPE": 58.0,
+      "HP": 59.0,
+      "SPA": 65.0,
+      "SPD": 80.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "water gun",
+        "lvl": 6
+      },
+      {
+        "name": "bubble beam",
+        "lvl": 10
+      }
+    ],
+    "Evolution": {
+      "name": "Blastoise",
+      "lvl": 36
+    }
   },
   "Pidgey": {
     "Types": [
@@ -109,7 +149,10 @@
         "lvl": 7
       }
     ],
-    "Evolution": "Pidgeot"
+    "Evolution": {
+      "name": "Pidgeotto",
+      "lvl": 18
+    }
   },
   "Rattata": {
     "Types": [
@@ -135,7 +178,10 @@
         "lvl": 15
       }
     ],
-    "Evolution": "Raticate"
+    "Evolution": {
+      "name": "Raticate",
+      "lvl": 20
+    }
   },
   "Pikachu": {
     "Types": [
@@ -161,6 +207,9 @@
         "lvl": 20
       }
     ],
-    "Evolution": "Raichu"
+    "Evolution": {
+      "name": "Raichu",
+      "lvl": 100
+    }
   }
 }

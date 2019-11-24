@@ -3,6 +3,7 @@ open Adventure
 open Command
 open State
 open Pokemon 
+open Moves
 
 (********************************************************************
    Here are some helper functions for your testing of set-like lists. 
@@ -62,6 +63,7 @@ let string_of_command = function
   | Map -> "map"
   | GoRoute (lst) -> "go " ^ pp_list pp_string lst
   | Buy (lst) -> "buy " ^ pp_list pp_string lst
+  | Moves (lst) -> "moves " ^ pp_list pp_string lst
 
 let result_of_string = function 
   | Legal(t) -> "Legal: " ^ current_town_id t
@@ -103,10 +105,23 @@ let make_go_test_legal_cur name exit adv st exp_town =
       assert_equal exp_town (get_cur_town (go exit adv st))
         ~printer:(fun x -> x))
 
+(** [make_type_test name mat atk def hash exp_mult] constructs an 
+    OUnit test case that asserts the quality of [exp_mult] with 
+    [mat.(hash atk).(hash def)]. *)
 let make_type_test name mat atk def hash exp_mult = 
   name >:: (fun _ ->
       assert_equal exp_mult (mat.(hash atk).(hash def))
         ~printer:string_of_float)
+
+let make_mon_creation_test name mon pname atk def speed hp moves = 
+  name >:: (fun _ ->
+      assert_equal pname (PM.get_name mon) ~printer:(fun x -> x);
+      assert_equal atk (PM.get_attack mon) ~printer:string_of_float;
+      assert_equal def (PM.get_defense mon) ~printer:string_of_float;
+      assert_equal speed (PM.get_speed mon) ~printer:string_of_float;
+      assert_equal hp (PM.get_hp mon) ~printer:string_of_float;
+      assert_equal hp (PM.get_max_hp mon) ~printer:string_of_float;
+      assert_equal moves (PM.get_moves mon))
 (********************************************************************
    End helper functions.
  ********************************************************************)
@@ -136,13 +151,20 @@ let type_tests =
   ]
 
 module PM = Pokemon
-let mon1 = PM.create_pokemon "Mon1" 1 []
+let thun_lst = [Moves.create_move "thundershock"]
+let w_gun_lst = [Moves.create_move "water gun"]
+let mon1 = PM.create_pokemon "Pikachu" 1 thun_lst
+let squirt1 = PM.create_pokemon "Squirtle" 1 w_gun_lst
+let _ = PM.set_xp squirt1 4096.0; PM.lvl_up squirt1
+let squirt2 = PM.evolve squirt1
+let warto16 = PM.create_pokemon "Wartortle" 16 w_gun_lst
+let move_arr = Array.of_list thun_lst
 let pokemon_tests = 
   [
-    "hp = 97.1" >:: (fun _ -> 
-        assert_equal 97.1 (PM.get_hp mon1)~printer:string_of_float);
-    "name = Mon1">:: (fun _ ->
-        assert_equal "Mon1" (PM.get_name mon1));
+    make_mon_creation_test "Pikachu test" 
+      mon1 "Pikachu" 55.0 40.0 90.0 35.0 move_arr;
+    "evolve test">:: (fun _ ->
+        assert_equal "Wartortle" (PM.get_name squirt2)~printer:(fun x -> x));
   ]
 
 let suite =
@@ -155,4 +177,4 @@ let suite =
   ]
 
 let _ = run_test_tt_main suite
-let _ = Types.test_print_type_mat type_mat hash
+(*let _ = Types.test_print_type_mat type_mat hash*)

@@ -25,6 +25,9 @@ exception IllegalItem of string
 (** [BattleRun] is raised when the player successfully runs from a battle. *)
 exception BattleRun
 
+(** *)
+exception NoPP
+
 (** sleep is used for delay in text printing. *)
 let sleep = 0.001
 
@@ -45,6 +48,9 @@ let rec get_y_n () =
   | "quit" -> execute_quit ()
   | _ -> get_y_n ()
 
+(** [get_move_num] asks the user to input a number from 1 to 5 inclusive.
+    If a valid number is entered, it returns the number, otherwise it asks the
+    user to try input a valid number. *)
 let rec get_move_num () = 
   print_string "> ";
   try 
@@ -61,6 +67,10 @@ let rec get_move_num () =
                                       "number 1 to 5.\n"));
     get_move_num ()  
 
+(** [next_mon mons] asks the user to input a number corresponding to the 
+    pokemon in [mons] they want to send out. If a valid number is entered, that
+    number - 1 is returned (which will be a number between 0 and 3 inclusive).
+    Otherwise, it prompts the user to input a valid number. *)
 let rec next_mon mons = 
   print_string "> ";
   try 
@@ -74,6 +84,8 @@ let rec next_mon mons =
     (ANSITerminal.(print_string [red] "Invalid Pokemon.\n");
      next_mon mons) 
 
+(** [critical_hit speed] is whether a critical hit occurred using [speed] in 
+    the calculation. *)
 let critical_hit speed = 
   let t = speed /. 2. in
   let t_round = t |> Int.of_float |> Float.of_int in
@@ -81,26 +93,35 @@ let critical_hit speed =
   let r = Random.float 256. in
   if r < t_round then begin print_endline "A critical hit!\n"; true end else false
 
-(* https://bulbapedia.bulbagarden.net/wiki/Damage *)
+(** [damage level power attack defense speed modifier] is the damage done using
+    the calulation provided by https://bulbapedia.bulbagarden.net/wiki/Damage *)
 let damage level power attack defense speed modifier = 
   let level' = if critical_hit speed then 2. *. level 
     else level in
   modifier*.((((((2.*.level')/.5.)+. 2.)*.power*.(attack/.defense))/. 50.) +. 2.)
 
+(** [get_modifier move_type acc mat hash def_type] is the damage modifier 
+    of based on [move_type] and [def_type]. *)
 let rec get_modifier move_type acc mat hash = function
   | [] -> acc
-  | h :: t -> get_modifier move_type (acc*.mat.(hash move_type).(hash h)) mat hash t
+  | h :: t -> get_modifier move_type (acc *. mat.(hash move_type).(hash h)) mat hash t
+
+let check_zero_pp_all moves = Array.for_all (fun x -> (Moves.get_pp x) = 0) moves
 
 (** [execute_go adv st ph] is the state update of the adventure after running 
     [state.go adv st ph'], where [ph'] is the string representation of 
     string list [ph].
     Raises [IllegalMove msg] if the move is invalid. *)
-let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_id = 
+let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_idx = 
+  let new_pp = (PM.get_moves (atk_mon)).(move_idx) |> Moves.get_pp in
+  if new_pp <= 0 then raise NoPP
+  else Moves.decr_pp (PM.get_moves (atk_mon)).(move_idx); 
+  count := 0.0; 
   let json = Yojson.Basic.from_file "type_matrix.json" in 
   let type_mat_and_hash = Types.type_matrix_and_hash json in
   let type_mat = fst type_mat_and_hash in 
   let hash = snd type_mat_and_hash in 
-  let move = PM.get_move atk_mon (move_id) in 
+  let move = PM.get_move atk_mon (move_idx) in 
   print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move) ^ "!");
   let modifier = (get_modifier move.el_type 1. type_mat hash (PM.get_type
                                                                 def_mon)) in
@@ -124,6 +145,8 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_id =
   else ();
   PM.change_hp def_mon (-.move_damage)
 
+(** [b_calc ball] calculates the value that b should have in the capture formula
+    depending on which Pokeball [ball] is used. *)
 let b_calc ball =  
   match ball with 
   | Item.PokeBall -> 255.
@@ -187,6 +210,8 @@ let catch mon ball (rate : float) =
     else shake ball f_round 
   end
 
+(** [handle_add_mon party mon] is the helper that handles adding a new pokemon
+    [mon] to the party [party]. *)
 let handle_add_mon party mon = 
   if Array.length party = 6 then begin 
     print_endline ("Do you want to add " ^ PM.get_name mon 
@@ -207,7 +232,9 @@ let handle_add_mon party mon =
   end 
   else raise (BattleWon (PM.add_mon party mon))
 
-let execute_item atk_mon def_mon item bag party cpu= 
+(** [execute_item atk_mon def_mon item bag party cpu] handles using an item from
+    the player's bag [bag]. *)
+let execute_item atk_mon def_mon item bag party cpu = 
   let i_count = 
     try (List.assoc item bag) 
     with Not_found ->
@@ -237,6 +264,7 @@ let execute_item atk_mon def_mon item bag party cpu=
       else print_endline ("\n" ^ cpu ^ " blocked the ball!")
     end
 
+(** [string_of_bag] is the string representation of bag [bag]. *)
 let string_of_bag bag =
   let rec string_of_bag' bag (acc : string) = 
     match bag with
@@ -256,6 +284,8 @@ let get_next_pm mons =
   print_endline (PM.string_of_mons mons);
   mons.(next_mon mons)
 
+(** [execute_run party p_mon cpu_mon bag] is the calculator helper for if the
+    player tries to run. *)
 let execute_run party p_mon cpu_mon bag = 
   let p_speed = PM.get_speed p_mon in
   let cpu_speed = PM.get_speed cpu_mon in 
@@ -279,9 +309,13 @@ let execute_run party p_mon cpu_mon bag =
 let rec execute_command party atk_mon def_mon bag cpu input = 
   match Btlcmd.parse input with 
   | Quit -> execute_quit ()
-  | Attack(i) -> (if 1 <= i && i <= Array.length (PM.get_moves atk_mon) then 
-                    begin count := 0.0; execute_attack atk_mon def_mon (i-1) end
-                  else raise (Pokemon.UnknownMove (string_of_int i))); None
+  | Attack(i) -> begin 
+      if 1 <= i && i <= Array.length (PM.get_moves atk_mon) 
+      then begin 
+        execute_attack atk_mon def_mon (i-1);
+      end
+      else raise (Pokemon.UnknownMove (string_of_int i)); None 
+    end
   | Item(phrase) -> 
     (execute_item atk_mon def_mon
        (Item.item_of_string (String.concat " " phrase))
@@ -338,7 +372,12 @@ let rec get_command party atk_mon def_mon bag cpu input =
     ANSITerminal.(print_string [red] ("\nError: " ^ i));
     print_string "> ";
     get_command party atk_mon def_mon bag cpu (read_line ())
+  | NoPP -> 
+    ANSITerminal.(print_string [red] ("\nYou have no PPs left for this move!\n"));
+    print_string "> ";
+    get_command party atk_mon def_mon bag cpu (read_line ())
 
+(** [execute_cpu_turn player_mon cpu_mon] is the helper to run the cpu's turn. *)
 let execute_cpu_turn player_mon cpu_mon = 
   Random.self_init();
   let cpu_moves = PM.get_moves cpu_mon in 
@@ -412,6 +451,8 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
   | Some p -> loop p_team cpu_team p cpu_mon bag cpu
   | None -> loop p_team cpu_team player_mon cpu_mon bag cpu 
 
+(** [learn_moves mon st_lvl end_lvl] is the helper for when the pokemon levels
+    up and needs to learn moves. *)
 let rec learn_moves mon st_lvl end_lvl =
   if st_lvl > end_lvl then () 
   else begin 
@@ -442,25 +483,37 @@ let rec learn_moves mon st_lvl end_lvl =
           else begin 
             print_endline (PM.get_name mon ^ " did not learn " ^ move_name
                            ^ ".");
-            learn_moves mon (st_lvl +1) end_lvl
+            learn_moves mon (st_lvl + 1) end_lvl
           end 
-
         end
       end 
-    | None -> learn_moves mon (st_lvl+1) end_lvl
+    | None -> learn_moves mon (st_lvl + 1) end_lvl
   end
 
+(** [give_xp cpu_lvl wild mon] is the helper that handles giving xp to a
+     member of the party. *)
 let give_xp cpu_lvl wild mon =  
   let st_lvl = PM.get_lvl mon + 1 in 
   PM.give_xp mon cpu_lvl wild; 
   if PM.lvl_up mon then begin
-    print_endline (PM.get_name mon ^ " leveled up!");
+    print_endline ("\n" ^ PM.get_name mon ^ " leveled up!");
     learn_moves mon st_lvl (PM.get_lvl mon);
   end
   else ()
 
-let rec give_xp_all cpu_lvl wild mons = 
-  Array.iter (give_xp cpu_lvl wild) mons
+(** [give_xp_all cpu_lvl wild mons] is the function that handles giving xp to
+    members of the party. *)
+let rec give_xp_all cpu_lvl wild party = 
+  Array.iter (give_xp cpu_lvl wild) party;
+  Array.iteri (fun i mon -> party.(i) <- begin
+      match PM.evolve mon with
+      | (new_mon, true) -> 
+        ANSITerminal.(print_string [green]
+                        (("\nCongratulations! Your " ^ PM.get_name mon) 
+                         ^ " evolved into " ^ (PM.get_name new_mon) ^ "!\n"));
+        new_mon
+      | _ -> mon
+    end) party
 
 let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon = 
   if cpu <> "wild" then
@@ -476,7 +529,8 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon =
     (p_mons, b, m, false) 
   | BattleWon party -> 
     if cpu = "wild" then 
-      ANSITerminal.(print_string [yellow] ("You defeated the wild " ^ PM.get_name cpumon ^ "!\n"))
+      ANSITerminal.(print_string [yellow] ("\nYou defeated the wild " 
+                                           ^ PM.get_name cpumon ^ "!\n"))
     else 
       ANSITerminal.(print_string [yellow] ("You defeated " ^ cpu ^ "!\n"));
     print_endline "The pokemon in your party gain experience!";
@@ -518,4 +572,5 @@ let main (player_team, bag, money, cpu_team, cpu) =
   else 
     ANSITerminal.(print_string [yellow] (cpu ^ " challenges you to a battle!\n"));
   battle_handler bag money cpu player_team cpu_team pmon cpumon 
+
 (* Execute the game engine. *) 

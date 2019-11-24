@@ -19,6 +19,7 @@ module type PokeSig = sig
   type t_speed = float 
   type t_moves = Moves.t array
   type t_lvl = int
+  type t_xp = float
   type t
 
   (** [set_file s] sets the json file containing all the pokemon, and 
@@ -77,6 +78,9 @@ module type PokeSig = sig
   (** [set_hp mon hp] sets the hp of [mon] to [hp].*)
   val set_hp : t -> t_hp -> unit
 
+  (** [set_xp mon xp] sets the xp of [mon] to [xp]. *)
+  val set_xp : t -> t_xp -> unit
+
   (** [format_moves_names mon] is a formatted output of names of [mon]'s  moves.*)
   val format_moves_names : t -> string
 
@@ -120,6 +124,11 @@ module type PokeSig = sig
 
   (** [add_move mon i mov] adds move [mov] to [mon]'s move list at spot [i]. *)
   val add_move: t-> int -> Moves.t -> unit
+
+  (** [evolve m] is the evolution of pokemon [m] if [m] is at a 
+      high enough level. If not at a high enough level or cannot evolve,
+      returns [m]. *)
+  val evolve: t -> t * bool
 
 end
 
