@@ -2,6 +2,7 @@
   "routes": [
     {
       "name": "route 1110",
+      "badge": "",
       "battles": [
         "wild",
         "Youngster Joey",
@@ -29,6 +30,7 @@
     },
     {
       "name": "gym 1",
+      "badge": "Python Badge",
       "battles": [
         "TA Alice",
         "TA Bob",
@@ -38,6 +40,7 @@
     },
     {
       "name": "route 2110",
+      "badge": "",
       "battles": [
         "wild",
         "Pokemaniac Philip",
@@ -66,6 +69,7 @@
     },
     {
       "name": "gym 2",
+      "badge": "Java Badge",
       "battles": [
         "TA Charlie",
         "TA David",
@@ -77,6 +81,7 @@
   "trainers": [
     {
       "name": "Youngster Joey",
+      "money": 100,
       "pokemon": [
         {
           "name": "Rattata",
@@ -104,6 +109,7 @@
     },
     {
       "name": "TA Alice",
+      "money": 100,
       "pokemon": [
         {
           "name": "Rattata",
@@ -130,6 +136,7 @@
     },
     {
       "name": "TA Bob",
+      "money": 200,
       "pokemon": [
         {
           "name": "Pidgey",
@@ -157,6 +164,7 @@
     },
     {
       "name": "TA Charlie",
+      "money": 100,
       "pokemon": [
         {
           "name": "Rattata",
@@ -186,6 +194,7 @@
     },
     {
       "name": "TA David",
+      "money": 150,
       "pokemon": [
         {
           "name": "Pidgey",
@@ -215,6 +224,7 @@
     },
     {
       "name": "Leader Walker White",
+      "money": 300,
       "pokemon": [
         {
           "name": "Bulbasaur",
@@ -244,6 +254,7 @@
     },
     {
       "name": "Leader David Gries",
+      "money": 500,
       "pokemon": [
         {
           "name": "Bulbasaur",
@@ -273,6 +284,7 @@
     },
     {
       "name": "Pokemaniac Philip",
+      "money": 200,
       "pokemon": [
         {
           "name": "Pidgey",

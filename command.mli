@@ -27,14 +27,14 @@ type object_phrase = string list
 (** The type [command] represents a player command that is decomposed
     into a verb and possibly an object phrase. *)
 type command = 
-  | Go of object_phrase
-  | Take of object_phrase
-  | Bag
-  | Party
-  | GoRoute of object_phrase
-  | Heal
   | Buy of object_phrase
   | Moves of object_phrase
+  | Go of object_phrase
+  | GoRoute of object_phrase
+  | Badges
+  | Bag
+  | Heal
+  | Party
   | Map
   | Quit
 

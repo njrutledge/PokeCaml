@@ -3,27 +3,29 @@ open Moves
 module PM = Pokemon
 
 exception ItemNotFound of Adventure.item_name
-exception KeyNotFound
+exception BadgeNotFound
 
 type t = {
   cur_town : Adventure.town_id;
   last_town : Adventure.town_id;
   bag : (Item.t * int ref) list;
-  money : int;
+  money : int ref;
   party: PM.t array;
   defeated_trainers: string list;
+  badges: string list;
 }
 
 let init_state adv = {
   cur_town = Adventure.start_town adv;
   last_town = Adventure.start_town adv;
-  bag = [(Potion, ref 5); (HyperPotion, ref 3); (FullRestore, ref 1);
-         (PokeBall, ref 10); (GreatBall, ref 5); (UltraBall, ref 3); (MasterBall, ref 1)];
-  money = 500;
-  party = [|(PM.create_pokemon "Pikachu" 5 [Moves.create_move "thundershock";]); 
+  bag = [(Potion, ref 5); (HyperPotion, ref 1);
+         (PokeBall, ref 5); (GreatBall, ref 1)];
+  money = ref 1000;
+  party = [|(PM.create_pokemon "Pikachu" 5 [Moves.create_move "thundershock";]);
             (PM.create_pokemon "Charmander" 5 [Moves.create_move "scratch"]);
             (PM.create_pokemon "Squirtle" 5 [Moves.create_move "tackle";]);|];
-  defeated_trainers = []
+  defeated_trainers = [];
+  badges = []
 }
 
 let current_town_id st =
@@ -42,14 +44,21 @@ let go ex adv st =
       bag = st.bag;
       money = st.money;
       party = st.party;
-      defeated_trainers = st.defeated_trainers
+      defeated_trainers = st.defeated_trainers;
+      badges = st.badges
     }
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
 
 let rec run_battles route adv st = function 
-  | [] -> go route adv st
+  | [] -> begin 
+      if (String.split_on_char ' ' route |> List.hd) =  "gym" then 
+        go route adv 
+          {st with badges = Adventure.get_badge adv route :: st.badges}  
+      else 
+        go route adv st
+    end 
   | Adventure.Wild :: t -> make_battle route adv st "wild" (Adventure.get_wild adv route) t
   | Adventure.Trainer tr :: t ->  
     let t_mons = Adventure.get_t_mons adv tr in 
@@ -58,12 +67,15 @@ let rec run_battles route adv st = function
     else run_battles route adv st t
 
 and make_battle route adv st cpu_name cpu_mons bats = 
+  let cpu_money = if cpu_name = "wild" then 0 else 
+      Adventure.get_trainer_money adv cpu_name in 
   let (p, b, m, keep_going) = Battle.main
       (st.party, 
        st.bag, 
        st.money, 
        (cpu_mons),
-       cpu_name) 
+       cpu_name,
+       cpu_money)
   in 
   let dt = if cpu_name <> "wild" 
     then cpu_name :: st.defeated_trainers 
@@ -81,11 +93,12 @@ let route r adv st =
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
 
-let add_item st it = 
-  failwith ("Unimplemented: must check money first")
-(*  {
-    st with bag = it::st.bag
-    }*)
+(** [add_item st item new_amt] adds [new_amt] of [item] into the player's bag
+    [st.bag]. *)
+let add_item st item new_amt =
+  match List.assoc_opt item st.bag with 
+  | Some amt -> amt := (!amt + new_amt); st
+  | None -> {st with bag = (item, ref new_amt) :: st.bag}
 
 (** [remove_item it items] is the list [items] without element [it]. 
     Raises [UnknownItem it] if [it] is not in [items]. *)
@@ -102,11 +115,17 @@ let bag st = st.bag
 
 let get_party st = st.party
 
-(** [has_key st keys] is true if the adventurer currently has an item of [keys]
-    in their bag in [st]. *)
-let rec has_key st = function 
+(** [has_badge st badges] is true if the player currently has an item of
+    [badges] in their bag in [st]. *)
+let rec has_badge st = function 
   | [] -> false
-  | h :: t -> if (List.mem h st.bag) then true else has_key st t
+  | h :: t -> if (List.mem h st.bag) then true else has_badge st t
 
 let get_def_tr st = 
   st.defeated_trainers
+
+let get_money st = 
+  st.money
+
+let get_badges st = 
+  st.badges

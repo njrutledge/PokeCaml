@@ -56,7 +56,6 @@ let cmp_demo =
 let string_of_command = function
   | Quit -> "quit"
   | Go (lst) -> "go " ^ pp_list pp_string lst
-  | Take (lst) -> "grab " ^ pp_list pp_string lst
   | Bag -> "bag"
   | Party -> "party"
   | Heal -> "heal"
@@ -64,6 +63,7 @@ let string_of_command = function
   | GoRoute (lst) -> "go " ^ pp_list pp_string lst
   | Buy (lst) -> "buy " ^ pp_list pp_string lst
   | Moves (lst) -> "moves " ^ pp_list pp_string lst
+  | Badges -> "badges"
 
 let result_of_string = function 
   | Legal(t) -> "Legal: " ^ current_town_id t
@@ -156,7 +156,7 @@ let w_gun_lst = [Moves.create_move "water gun"]
 let mon1 = PM.create_pokemon "Pikachu" 1 thun_lst
 let squirt1 = PM.create_pokemon "Squirtle" 1 w_gun_lst
 let _ = PM.set_xp squirt1 4096.0; PM.lvl_up squirt1
-let squirt2 = PM.evolve squirt1
+let squirt2,_ = PM.evolve squirt1
 let warto16 = PM.create_pokemon "Wartortle" 16 w_gun_lst
 let move_arr = Array.of_list thun_lst
 let pokemon_tests = 

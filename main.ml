@@ -4,6 +4,8 @@ module PM = Pokemon
 (** Raised when the player tries to do something illegal. *)
 exception IllegalMove of string
 exception NotInPC
+exception InvalidBuyNum
+exception InsuffFunds
 
 (** [update] is the type of update to the game. *) 
 type update = 
@@ -14,6 +16,14 @@ type update =
 
 (** [pp_string s] pretty-prints string [s], as given in test.ml *)
 let pp_string s = "\"" ^ s ^ "\""
+
+(** [pp_int n] pretty-prints the number [n]. *)
+let pp_int x =
+  let rec form_str n acc =
+    if n >= 1000 then form_str (n mod 100) (string_of_int (n / 100) ^ "," ^ acc) 
+    else (string_of_int n) ^ "," ^ acc
+  in if x >= 1000 then form_str (x mod 100) (x / 100|> string_of_int) 
+  else string_of_int x
 
 (** [pp_bag_entry (s,t)] pretty prints the entry of bag with item [s] and number
     of that item [t]. *)
@@ -29,7 +39,7 @@ let pp_list pp_elt lst =
       | [h] -> acc ^ pp_elt h
       | h1::(h2::t as t') ->
         if n=100 then acc ^ "..."  (* stop printing long list *)
-        else loop (n+1) (acc ^ (pp_elt h1) ^ "; ") t'
+        else loop (n+1) (acc ^ (pp_elt h1) ^ "\n") t'
     in loop 0 "" lst
   in  pp_elts lst
 
@@ -47,12 +57,13 @@ let execute_go adv state exit =
   | Legal (t) -> State t
   | Illegal (msg) -> raise (IllegalMove msg)
 
-let execute_take adv st item = 
-  State (State.add_item st item)
-
 let execute_Bag st = 
   ANSITerminal.(print_string [cyan] 
-                  ("bag: " ^ pp_list pp_bag_entry (State.bag st)));
+                  ("bag : \n" 
+                   ^ "money : $" 
+                   ^ pp_int !(State.get_money st) 
+                   ^ "\n" 
+                   ^ pp_list pp_bag_entry (State.bag st)));
   None
 
 let execute_party adv st = 
@@ -76,13 +87,24 @@ let execute_heal state = state |> State.get_party |> PM.restore_mons;
   print_endline ("\nThank you for waiting. Your Pokemon have been restored to"
                  ^ " full health. We hope to see you again!"); None
 
-let execute_buy state phrase = failwith "Buy Unimplemented"
-(*try begin
-  let amt = int_of_string (phrase |> List.rev |> List.hd) in
+let execute_buy state phrase = 
+  try begin
+    let amt = int_of_string (phrase |> List.hd) in
+    let item = List.tl phrase |> String.concat " " in 
+    let item_cost = Item.cost_of_item item in
+    let money = (State.get_money state) in 
+    let total = item_cost * amt in
+    if !money - total > 0 then begin 
+      money := (!money - total);
+      print_endline("\nBought " ^ string_of_int amt ^ " " ^ item ^ ".");
+      State (State.add_item state (Item.item_of_string item) amt)
+    end 
+    else raise InsuffFunds
   end
-  with begin
-  failure int_of_string
-  end*)
+  with 
+  | InsuffFunds -> raise InsuffFunds
+  | _ -> raise InvalidBuyNum
+
 
 let execute_map adv state = failwith "Map unimplemented"
 (*let exits = Adventure.exits adv (State.current_town_id state) in
@@ -104,7 +126,18 @@ let execute_moves adv state num_txt = begin
       ANSITerminal.(print_string [red] "Invalid Pokemon.\n");
   with _ -> 
     ANSITerminal.(print_string [red] "Invalid Pokemon.\n"); 
-end
+end;
+  None 
+
+(** [execute_badges state] is the string representation of what badges the
+    player has. *)
+let execute_badges state = 
+  begin 
+    match State.get_badges state with
+    | [] -> print_endline "\nYou don't have any badges yet!"
+    | badges -> print_endline (pp_list pp_string badges)
+  end;
+  None
 
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state].  *)
@@ -113,15 +146,15 @@ let rec execute_command adv state input =
   | Quit -> execute_quit adv
   | Go(phrase) -> execute_go adv state (String.concat " " phrase)
   | GoRoute(phrase) -> execute_go_route adv state (String.concat " " phrase)
-  | Take(phrase) -> execute_take adv state (String.concat " " phrase)
   | Party -> execute_party adv state
   | Bag -> execute_Bag state
   | Heal -> if in_pokecenter state then execute_heal state else raise NotInPC
   | Map -> execute_map adv state
   | Buy(phrase) -> 
-    if in_pokecenter state then execute_buy state (String.concat " " phrase) 
+    if in_pokecenter state then execute_buy state phrase
     else raise NotInPC
-  | Moves(phrase) -> execute_moves adv state (String.concat " " phrase); None
+  | Badges -> execute_badges state
+  | Moves(phrase) -> execute_moves adv state (String.concat " " phrase)
 
 (** [get_command adv state input] *)
 let rec get_command adv state input = 
@@ -149,8 +182,8 @@ let rec get_command adv state input =
     print_string ("\nYou do not have item \"" ^ it ^"\".\n");
     print_string "> ";
     get_command adv state (read_line ())
-  | State.KeyNotFound ->
-    print_string("\nYou do not have the correct key.\n");
+  | State.BadgeNotFound ->
+    print_string("\nYou do not have the correct badge.\n");
     print_string "> ";
     get_command adv state (read_line ())
   | Adventure.UnknownExit ex -> 
@@ -158,7 +191,16 @@ let rec get_command adv state input =
     print_string "> ";
     get_command adv state (read_line ())
   | NotInPC -> 
-    print_string("\n You're not in a Pokemon Center.\n");
+    print_string("\nYou're not in a Pokemon Center.\n");
+    print_string "> ";
+    get_command adv state (read_line ())
+  | InsuffFunds -> 
+    print_string("\nYou don't have enough money to buy that.\n");
+    print_string "> ";
+    get_command adv state (read_line ())
+  | InvalidBuyNum -> 
+    print_string("\nPlease enter a valid number and word (e.g. \"buy 5 master "
+                 ^ "ball\")\n");
     print_string "> ";
     get_command adv state (read_line ())
 
@@ -202,7 +244,7 @@ let play_game f =
     true
 (*with _ -> ANSITerminal.(print_string [red]
                           "\nEncountered Error while grabbing file. Please \
-                           rerun and try a new file.\n")*)
+                                 rerun and try a new file.\n")*)
 
 
 (** [main ()] prompts for the game to play, then starts it. *)

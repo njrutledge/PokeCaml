@@ -3,15 +3,15 @@
 type object_phrase = string list
 
 type command = 
-  | Go of object_phrase
-  | Take of object_phrase
-  | Bag
-  | Party
-  | GoRoute of object_phrase
-  | Heal 
   | Buy of object_phrase
   | Moves of object_phrase
-  | Map 
+  | Go of object_phrase
+  | GoRoute of object_phrase
+  | Badges
+  | Bag
+  | Heal
+  | Party
+  | Map
   | Quit
 
 exception Empty
@@ -32,6 +32,8 @@ let make_command verb phrase =
     if verb = "party" then Party else
     if verb = "heal" then Heal else
     if verb = "map" then Map else
+    if verb = "badges" then Badges else
+
       raise Malformed 
   else
   if verb = "go" then begin 
@@ -41,7 +43,6 @@ let make_command verb phrase =
   end 
   else 
   if verb = "route" then GoRoute phrase else
-  if verb = "take" then Take phrase else 
   if verb = "buy" then Buy phrase else
   if verb = "moves" then Moves phrase else
     raise Malformed 

@@ -59,7 +59,8 @@ module Moves : MoveSig = struct
 
   let decr_pp m = m.pp <- m.pp - 1
 
-  let to_string_name m = "Name: " ^ m.move_name ^ " | PP: " ^ string_of_int m.pp ^ "/" ^ string_of_int m.max_pp
+  let to_string_name m = "Name: " ^ m.move_name ^ " | PP: " ^ string_of_int m.pp
+                         ^ "/" ^ string_of_int m.max_pp
 
   let to_string m = 
     "Name: " ^ m.move_name ^ "\nPower: " ^ string_of_float m.power ^ ", ACC: " ^

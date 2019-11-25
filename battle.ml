@@ -501,10 +501,10 @@ let give_xp cpu_lvl wild mon =
   end
   else ()
 
-(** [give_xp_all cpu_lvl wild mons] is the function that handles giving xp to
-    members of the party. *)
-let rec give_xp_all cpu_lvl wild party = 
-  Array.iter (give_xp cpu_lvl wild) party;
+(** [give_xp_all cpu_lvl wild a_mons party] is the function that handles 
+    giving xp to alive members [a_mons] of the party [party]. *)
+let rec give_xp_all cpu_lvl wild alive_party party= 
+  Array.iter (give_xp cpu_lvl wild) alive_party;
   Array.iteri (fun i mon -> party.(i) <- begin
       match PM.evolve mon with
       | (new_mon, true) -> 
@@ -515,7 +515,7 @@ let rec give_xp_all cpu_lvl wild party =
       | _ -> mon
     end) party
 
-let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon = 
+let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money = 
   if cpu <> "wild" then
     ANSITerminal.(print_string [yellow] 
                     (cpu ^ " sends out " ^ (PM.get_name cpumon) ^ "!\n"))
@@ -531,8 +531,12 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon =
     if cpu = "wild" then 
       ANSITerminal.(print_string [yellow] ("\nYou defeated the wild " 
                                            ^ PM.get_name cpumon ^ "!\n"))
-    else 
+    else begin
       ANSITerminal.(print_string [yellow] ("You defeated " ^ cpu ^ "!\n"));
+      ANSITerminal.(print_string [yellow] 
+                      ("You gained $" ^ (string_of_int cpu_money ) ^ "!\n"));  
+      m := (!m + cpu_money)
+    end;
     print_endline "The pokemon in your party gain experience!";
     give_xp_all (PM.get_lvl cpumon) (cpu = "wild") (PM.alive_pmons p_mons);
     ANSITerminal.(print_string [green] ("\nDo you want to keep going? [Y/N]\n"));
@@ -542,25 +546,25 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon =
                     ("\n"^mon^ 
                      " fainted! Who will you send out next?\n"));
     let alive_mons = PM.alive_pmons p_mons in 
-    battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) cpumon
+    battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) cpumon cpu_money
   | CPUDown (mon, curr_pmon) ->
     let alive_mons = PM.alive_pmons p_mons in 
     let next = (PM.alive_pmons cpu_mons).(0) in 
-    give_xp_all (PM.get_lvl cpumon) false alive_mons;
+    give_xp_all (PM.get_lvl cpumon) false alive_mons p_mons;
     ANSITerminal.
       (print_string [yellow]
          ("\n" ^ mon ^ " fainted! " ^ cpu 
           ^ " is about to send out " ^ PM.get_name next 
           ^ ". Do you want to switch pokemon? [Y/N]\n"));
     if get_y_n () then begin 
-      battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) next 
+      battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) next cpu_money
     end 
-    else battle_handler b m cpu p_mons cpu_mons curr_pmon next 
+    else battle_handler b m cpu p_mons cpu_mons curr_pmon next cpu_money
   | BattleRun -> ANSITerminal.(print_string [red] ("\nGot away safely!\n"));
     ANSITerminal.(print_string [green] ("\nDo you want to keep going? [Y/N]\n"));
     (p_mons, b, m, get_y_n ())
 
-let main (player_team, bag, money, cpu_team, cpu) = 
+let main (player_team, bag, money, cpu_team, cpu, cpu_money) = 
   let alive_p_team = PM.alive_pmons player_team in 
   let pmon = alive_p_team.(0) in 
   let cpumon = cpu_team.(0) in 
@@ -571,6 +575,6 @@ let main (player_team, bag, money, cpu_team, cpu) =
   end 
   else 
     ANSITerminal.(print_string [yellow] (cpu ^ " challenges you to a battle!\n"));
-  battle_handler bag money cpu player_team cpu_team pmon cpumon 
+  battle_handler bag money cpu player_team cpu_team pmon cpumon cpu_money
 
 (* Execute the game engine. *) 

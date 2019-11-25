@@ -15,7 +15,7 @@ exception UnknownItem of string
 (* [exit] defines an exit of a [town]. *)
 type exit = {
   name : exit_name;
-  exit_keys : item_name list;
+  exit_badges : item_name list;
   exit_town : town_id;
 }
 
@@ -52,6 +52,7 @@ type bat =
 
 type route = {
   route_name : string;
+  badge: string;
   battles : bat list;
   wilds : ((string * int * Moves.t list) * int * int) list;
 }
@@ -61,7 +62,7 @@ type t = {
   routes : route list;
   start : town_id;
   poke_file : string;
-  trainers : (string * (bool * PM.t array)) list
+  trainers : (string * (int * bool * PM.t array)) list
   (*items : item list;*)
   (*treasure_town : t_town;*)
   (*win_msgs : win list;*)
@@ -82,9 +83,9 @@ let json_exit j_exit = {
     j_exit 
     |> member "name" 
     |> to_string;
-  exit_keys =
+  exit_badges =
     j_exit
-    |> member "keys"
+    |> member "badges"
     |> to_list
     |> List.map to_string;
   exit_town = 
@@ -186,7 +187,11 @@ let json_trainers j_item =
     |> member "pokemon"
     |> to_list 
     |> List.map json_t_pokemon in
-  (name, (false, Array.of_list pokemon_list))
+  let money =
+    j_item 
+    |> member "money"
+    |> to_int in
+  (name, (money, false, Array.of_list pokemon_list))
 
 let rec make_bats acc = function 
   | [] ->  acc
@@ -210,6 +215,10 @@ let json_route j_route = {
     |> to_list
     |> List.map json_wilds
     |> get_ranges [] 0;
+  badge = 
+    j_route
+    |> member "badge"
+    |> to_string;
 }
 
 let from_json json = {
@@ -306,8 +315,8 @@ let win_msg adv score =
     | h::t -> "you win!"
   in check_win []
 
-let keys adv town ex = 
-  ((adv.towns |> find_town town).exits |> find_exit ex).exit_keys
+let badges adv town ex = 
+  ((adv.towns |> find_town town).exits |> find_exit ex).exit_badges
 
 (** [modify_exit f r e] modifies exit [ex] of the exits of town [r] by
     applying [f] to [e]. 
@@ -362,18 +371,26 @@ let get_wild adv route =
 let get_t_mons adv name = 
   match (List.assoc_opt name adv.trainers) with 
   | None -> failwith "trainer does not exist"
-  | Some (false, v) -> v
-  | Some (true, _ ) -> [||]
+  | Some (money, false, v) -> v
+  | Some (_, true, _ ) -> [||]
 
 let get_defeat adv name = 
   match (List.assoc_opt name adv.trainers) with 
   | None -> failwith "trainer does not exist"
-  | Some v -> fst v
+  | Some (_, d, _)  -> d
 
 let defeat_trainers adv names =
   {
     adv with 
     trainers = List.map 
-        (fun (n,(d,pms)) -> if List.mem n names then (n,(true,pms)) 
-          else (n,(d,pms))) adv.trainers
+        (fun (n, (m, d, pms)) -> if List.mem n names then (n,(0,true,pms)) 
+          else (n, (m, d, pms))) adv.trainers
   }
+
+let get_trainer_money adv name = 
+  match (List.assoc_opt name adv.trainers) with 
+  | None -> failwith "trainer does not exist"
+  | Some (m, _, _)  -> m
+
+let get_badge adv route = 
+  (adv.routes |> List.find (fun x -> x.route_name = route)).badge

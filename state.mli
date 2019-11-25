@@ -11,8 +11,8 @@ module PM = Pokemon
 exception ItemNotFound of Adventure.item_name
 
 (** Raised when the adventurer tries to lock or unlock a door without a valid
-    key in their bag. *)
-exception KeyNotFound
+    badge in their bag. *)
+exception BadgeNotFound
 (**********************************************************************
  * DO NOT CHANGE THIS CODE
  * It is part of the interface the course staff will use to test your 
@@ -51,15 +51,16 @@ val route : Adventure.exit_name -> Adventure.t -> t -> result
 (* END DO NOT CHANGE
  **********************************************************************)
 
-(*(** [exit_msg st] is message from the last exit the adventurer has gone through
+(*(** [exit_msg st] is message from the last exit the trainer has gone through
     in state [st]. *)
   val exit_msg : t -> string*)
 
-(** [add_item st it] adds [it] to the adventurer's bag in [st]. *)
-val add_item : t -> Adventure.item_name -> t
+(** [add_item st it n] adds [n] items [it] to the trainer's bag in [st],
+    and returns the new state. *)
+val add_item : t -> Item.t -> int -> t
 
-(** [drop_item st it] removes [it] from the adventurer's bag in [st]. 
-    Raises [ItemNotFound it] if [it] is not in the adventurer's bag. *)
+(** [drop_item st it] removes [it] from the trainer's bag in [st]. 
+    Raises [ItemNotFound it] if [it] is not in the trainer's bag. *)
 val drop_item : t -> Adventure.item_name -> t
 
 (** [bag st] is the bag of state [st]. *)
@@ -68,5 +69,11 @@ val bag : t -> (Item.t * int ref) list
 (** [get_party st] is the current party (Pokemon.t list) of the player. *)
 val get_party : t -> PM.t array
 
-(** [get_def_tr st] returns the defeated trainers in state st.*)
+(** [get_def_tr st] returns the defeated trainers in state [st]. *)
 val get_def_tr: t -> string list
+
+(** [get_money st] returns the current money in state [st]. *)
+val get_money: t -> int ref
+
+(** [get_badges st] returns the badges currently obtained in state [st]. *)
+val get_badges: t -> string list 

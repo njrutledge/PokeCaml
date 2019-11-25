@@ -86,11 +86,11 @@ val next_towns : t -> town_id -> town_id list
 val win_msg : t -> int -> string
 
 
-(** [keys a r e] is the list of all items than can unlock exit [e] of town [r]
+(** [badges a r e] is the list of all items than can unlock exit [e] of town [r]
     of adventure [r]. 
     Raises [UnknownTown r] if [r] is not a town identifier in [a].
     Raises [UnknownExit e] if [e] is not an exit from town [r] in [a]. *)
-val keys : t -> town_id -> exit_name -> item_name list
+val badges : t -> town_id -> exit_name -> item_name list
 
 val take_route : t -> town_id -> exit_name -> bat list
 
@@ -108,3 +108,10 @@ val get_defeat : t -> string -> bool
 (** [defeat_trainers a trs] is the adventure [a] with 
     trainers [trs] set as defeated.*)
 val defeat_trainers : t -> string list -> t
+
+(** [get_trainer_money adv s] -> is the money earned after beating trainer
+    with name [s] in adventure [adv]. *)
+val get_trainer_money : t -> string -> int
+
+(** [get_badge adv route] is the badge in [adv] on [route]. *)
+val get_badge : t -> string -> string

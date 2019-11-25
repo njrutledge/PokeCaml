@@ -198,7 +198,7 @@ module Pokemon : PokeSig = struct
           |> member "Evolution"
           |> json_evo;
         lvl = 1;
-        xp = Float.pow (start_lvl-1|>Float.of_int) 3.;
+        xp = Float.pow (start_lvl - 1 |> Float.of_int) 3.;
       } in 
     ignore (lvl_up pmon);
     pmon.hp <- pmon.max_hp;
@@ -249,6 +249,7 @@ module Pokemon : PokeSig = struct
     for i = 0 to (Array.length mon.moves) - 1 do 
       acc := 
         !acc ^ string_of_int (i + 1) ^ ". " ^ Moves.to_string_name mon.moves.(i)
+        ^ "\n"
     done;
     !acc
 

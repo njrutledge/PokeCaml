@@ -6,22 +6,22 @@
       "exits": [
         {
           "name": "pokecenter",
-          "keys": [],
+          "badges": [],
           "place": "PokeCenter GTown"
         },
         {
           "name": "my house",
-          "keys": [],
+          "badges": [],
           "place": "my house"
         },
         {
           "name": "lab",
-          "keys": [],
+          "badges": [],
           "place": "lab"
         },
         {
           "name": "route 1110",
-          "keys": [],
+          "badges": [],
           "place": "Python Town"
         }
       ],
@@ -33,7 +33,7 @@
       "exits": [
         {
           "name": "gates town",
-          "keys": [],
+          "badges": [],
           "place": "Gates Town"
         }
       ],
@@ -47,7 +47,7 @@
       "exits": [
         {
           "name": "outside",
-          "keys": [],
+          "badges": [],
           "place": "Gates Town"
         }
       ],
@@ -61,7 +61,7 @@
       "exits": [
         {
           "name": "gates town",
-          "keys": [],
+          "badges": [],
           "place": "Gates Town"
         }
       ],
@@ -75,22 +75,22 @@
       "exits": [
         {
           "name": "pokecenter",
-          "keys": [],
+          "badges": [],
           "place": "PokeCenter PTown"
         },
         {
           "name": "route 2110",
-          "keys": [],
+          "badges": [],
           "place": "Java Town"
         },
         {
           "name": "route 1110",
-          "keys": [],
+          "badges": [],
           "place": "Gates Town"
         },
         {
           "name": "gym 1",
-          "keys": [],
+          "badges": [],
           "place": "Python Town"
         }
       ],
@@ -102,7 +102,7 @@
       "exits": [
         {
           "name": "python town",
-          "keys": [],
+          "badges": [],
           "place": "Python Town"
         }
       ],
@@ -116,17 +116,19 @@
       "exits": [
         {
           "name": "pokecenter",
-          "keys": [],
+          "badges": [],
           "place": "PokeCenter JTown"
         },
         {
           "name": "route 2110",
-          "keys": [],
+          "badges": [
+            "Python Badge"
+          ],
           "place": "Python Town"
         },
         {
           "name": "gym 2",
-          "keys": [],
+          "badges": [],
           "place": "Java Town"
         }
       ],
@@ -138,7 +140,7 @@
       "exits": [
         {
           "name": "java town",
-          "keys": [],
+          "badges": [],
           "place": "Java Town"
         }
       ],
@@ -147,7 +149,7 @@
       ]
     }
   ],
-  "start town": "My house",
+  "start town": "Python Town",
   "route_file": "routes.json",
   "pokemon_file": "pokemon.json"
 }
