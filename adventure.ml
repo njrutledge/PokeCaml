@@ -5,23 +5,23 @@ module PM = Pokemon
 
 type town_id = string
 type exit_name = string
-type item_name = string
+type badge_name = string
 exception UnknownTown of town_id
 exception UnknownExit of exit_name
 exception LockedExit of exit_name
-exception UnknownItem of string
+exception UnknownBadge of string
 
 
 (* [exit] defines an exit of a [town]. *)
 type exit = {
   name : exit_name;
-  exit_badges : item_name list;
+  exit_badge : badge_name list;
   exit_town : town_id;
 }
 
 type dynamic_desc = {
-  town_items : item_name list;
-  player_items : item_name list;
+  town_items : badge_name list;
+  player_items : badge_name list;
   dyn_description : string;
 }
 
@@ -34,12 +34,12 @@ type town = {
 }
 
 type item = {
-  item_name : item_name;
+  item_name : badge_name;
 }
 
 type t_town = {
   t_id : town_id;
-  needed_items : item_name list;
+  needed_items : badge_name list;
 }
 
 type win = {
@@ -83,7 +83,7 @@ let json_exit j_exit = {
     j_exit 
     |> member "name" 
     |> to_string;
-  exit_badges =
+  exit_badge =
     j_exit
     |> member "badges"
     |> to_list
@@ -306,7 +306,7 @@ let next_towns adv town =
 (** [remove_item it items] removes the item [it] from the item list [items]. 
     Raises [UnknownItem it] if [items] does not contain [it]. *)
 let rec remove_item it = function
-  | [] -> raise (UnknownItem it)
+  | [] -> raise (UnknownBadge it)
   | h::t -> if h = it then t else h::remove_item it t 
 
 let win_msg adv score = 
@@ -315,8 +315,10 @@ let win_msg adv score =
     | h::t -> "you win!"
   in check_win []
 
-let badges adv town ex = 
-  ((adv.towns |> find_town town).exits |> find_exit ex).exit_badges
+let req_badge adv town route = 
+  ((adv.towns |> find_town town).exits |> find_exit route).exit_badge
+  |> List.hd
+
 
 (** [modify_exit f r e] modifies exit [ex] of the exits of town [r] by
     applying [f] to [e]. 

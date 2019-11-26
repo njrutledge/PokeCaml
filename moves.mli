@@ -24,6 +24,9 @@ module type MoveSig = sig
   (** [get_max_pp move] is the max pp for [move]. *)
   val get_max_pp: t -> int
 
+  (** [get_accuracy move] is the accuracy for [move]. *)
+  val get_acc: t -> float
+
   (** [set_pp move pp] sets the pp of [move] to [pp]. *)
   val set_pp: t -> int -> unit
 

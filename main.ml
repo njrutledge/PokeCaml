@@ -3,8 +3,14 @@ module PM = Pokemon
 
 (** Raised when the player tries to do something illegal. *)
 exception IllegalMove of string
+
+(** Raised when the player is not in the pokecenter and tries to heal. *)
 exception NotInPC
+
+(** Raised when the player tries to buy an invalid amount of an item. *)
 exception InvalidBuyNum
+
+(** Raised when the player does not have the money to buy an item. *)
 exception InsuffFunds
 
 (** [update] is the type of update to the game. *) 
@@ -57,7 +63,8 @@ let execute_go adv state exit =
   | Legal (t) -> State t
   | Illegal (msg) -> raise (IllegalMove msg)
 
-let execute_Bag st = 
+(** [execute_bag st] prints the contents of the current bag in [st]. *)
+let execute_bag st = 
   ANSITerminal.(print_string [cyan] 
                   ("bag : \n" 
                    ^ "money : $" 
@@ -66,27 +73,51 @@ let execute_Bag st =
                    ^ pp_list pp_bag_entry (State.bag st)));
   None
 
-let execute_party adv st = 
-  print_endline (PM.string_of_mons (State.get_party st));
+(** [execute_party adv st] prints the contents of the current party in [st]. *)
+let execute_party st = 
+  ANSITerminal.(print_string [blue] (PM.string_of_mons (State.get_party st)));
   None
 
+(** [print_give_badge st] prints that the player obtained the badge in [st]. *)
+let print_give_badge st = 
+  let rec find_leader = function
+    | [] -> ()
+    | h::t -> let name_lst = String.split_on_char ' ' h in 
+      match name_lst with 
+      | h1::h2::_ -> if h1 = "Gym" && h2 = "Leader" then 
+          ANSITerminal.(print_string [green] ("You got the gym badge for " 
+                                              ^ State.current_town_id st ^ "!"))
+        else find_leader t 
+      |_ -> find_leader t 
+  in 
+  find_leader (State.get_def_tr st)
+
+(** [execute_go_route adv st route] takes [route] from the current town in [st]
+    in adventure [adv]. *)
 let execute_go_route adv st route = 
   match State.route route adv st with 
   | Illegal (msg) -> raise (IllegalMove msg)
   | Legal (t) -> 
     let adv' = t |> State.get_def_tr |> Adventure.defeat_trainers adv in 
-    Both (adv', t)
+    print_give_badge st;
+    let st' = State.clear_def_trs st in 
+    Both (adv', st')
 
+(** [in_pokecenter st] is true if the current location of [st] is a
+    pokecenter. *)
 let in_pokecenter state = 
   let state_name = state |> State.current_town_id |> String.split_on_char ' ' in
   match List.hd state_name with
   | "PokeCenter" -> true
   | _ -> false
 
+(** [execute_heal st] heals all party members in [st] to full health. *)
 let execute_heal state = state |> State.get_party |> PM.restore_mons;
   print_endline ("\nThank you for waiting. Your Pokemon have been restored to"
                  ^ " full health. We hope to see you again!"); None
 
+(** [execute_buy st phrase] buys the specified item and ammount as given in 
+    [phrase], adding the items to [st] if there is enough money in [st]. *)
 let execute_buy state phrase = 
   try begin
     let amt = int_of_string (phrase |> List.hd) in
@@ -105,13 +136,16 @@ let execute_buy state phrase =
   | InsuffFunds -> raise InsuffFunds
   | _ -> raise InvalidBuyNum
 
-
-let execute_map adv state = failwith "Map unimplemented"
-(*let exits = Adventure.exits adv (State.current_town_id state) in
-  let rec print_exits acc e = 
-  match e with
-  | [] -> acc ^ "]"
-  | h :: t -> print_exits (h ^ )*)
+(** [execute_map a st] prints out the map of the current town of [st] in 
+    adventure [a]. *)
+let execute_map adv state = begin
+  let exits = Adventure.exits adv (State.current_town_id state) in
+  let rec exit_str acc e = 
+    match e with
+    | [] -> acc
+    | h :: t ->  exit_str (" - " ^h ^ "\n" ^ acc) t in
+  let str = "Here are the places you can go:\n" ^ exit_str "" exits in 
+  ANSITerminal.(print_string [blue] str); None end
 
 (** [execute_moves adv state num] prints the moves of the pokemon corresponding
     to [num] in the players current party in [state].*)
@@ -140,23 +174,25 @@ let execute_badges state =
   None
 
 (** [execute_command adv state input] is the update created by executing
-    command [input] on adventure [adv] and state [state].  *)
+    command [input] on adventure [adv] and state [state]. *)
 let rec execute_command adv state input = 
   match Command.parse input with 
   | Quit -> execute_quit adv
   | Go(phrase) -> execute_go adv state (String.concat " " phrase)
   | GoRoute(phrase) -> execute_go_route adv state (String.concat " " phrase)
-  | Party -> execute_party adv state
-  | Bag -> execute_Bag state
+  | Party -> execute_party state
+  | Bag -> execute_bag state
   | Heal -> if in_pokecenter state then execute_heal state else raise NotInPC
-  | Map -> execute_map adv state
+  | Map -> execute_map adv state 
   | Buy(phrase) -> 
     if in_pokecenter state then execute_buy state phrase
     else raise NotInPC
   | Badges -> execute_badges state
   | Moves(phrase) -> execute_moves adv state (String.concat " " phrase)
 
-(** [get_command adv state input] *)
+(** [get_command adv state input] tries to execute the user's command [input]
+    with state [st] and adventure [adv]. Catches any errors during this 
+    execution, prints a valid error message, and loops. *)
 let rec get_command adv state input = 
   try 
     execute_command adv state input
@@ -174,8 +210,8 @@ let rec get_command adv state input =
   | IllegalMove (msg) -> print_string msg; 
     print_string "> ";
     get_command adv state (read_line ())
-  | Adventure.UnknownItem it -> 
-    print_string ("\nThere is no item \"" ^ it ^ "\" in the town.\n");
+  | Adventure.UnknownBadge it -> 
+    print_string ("\nYou can't progress because you don't have the  \"" ^ it ^ "\" badge.\n");
     print_string "> ";
     get_command adv state (read_line ())
   | State.ItemNotFound it ->
@@ -203,7 +239,6 @@ let rec get_command adv state input =
                  ^ "ball\")\n");
     print_string "> ";
     get_command adv state (read_line ())
-
 
 (** [in_list el lst] is true if [el] is in the list [lst]. *)
 let rec in_list el = function
@@ -237,28 +272,17 @@ let rec loop adv state print_desc=
 
 (** [play_game f] starts the adventure in file [f]. *)
 let play_game f =
-  (*try*)
   loop 
     (Adventure.from_json (Yojson.Basic.from_file f))
     (State.init_state (Adventure.from_json (Yojson.Basic.from_file f)))
     true
-(*with _ -> ANSITerminal.(print_string [red]
-                          "\nEncountered Error while grabbing file. Please \
-                                 rerun and try a new file.\n")*)
-
 
 (** [main ()] prompts for the game to play, then starts it. *)
 let main () =
   ANSITerminal.(print_string [yellow]
                   Ascii.pokemon_opening);
-  (*print_endline "\n\n";
-    ANSITerminal.(print_string [red]
-                  Ascii.str3110);*)
   print_endline "\n\n";
-  (*print_string  "> ";
-    match read_line () with
-    | exception End_of_file -> ()
-    | file_name ->*) play_game "adv.json"
+  play_game "adv.json"
 
 (* Execute the game engine. *)
 let () = main ()

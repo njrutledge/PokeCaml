@@ -8,11 +8,8 @@ module PM = Pokemon
    as querying the data.
 *)
 (** The type of item names. *)
-type item_name = string
-
-(** Raised when an unkown item is encountered. *)
-exception UnknownItem of item_name
-
+type badge_name = string
+exception UnknownBadge of badge_name
 (***********************************************************************)
 
 type bat = 
@@ -85,13 +82,14 @@ val next_towns : t -> town_id -> town_id list
     wins adventure [a] with score [sc]. *)
 val win_msg : t -> int -> string
 
+(** [req_badge a t r] is the badge than can unlock route [r] 
+    of town [t] of adventure [a]. 
+    Raises [UnknownTown t] if [t] is not a town identifier in [a].
+    Raises [UnknownExit r] if [r] is not an exit from town [r] in [a]. *)
+val req_badge : t -> town_id -> exit_name -> badge_name 
 
-(** [badges a r e] is the list of all items than can unlock exit [e] of town [r]
-    of adventure [r]. 
-    Raises [UnknownTown r] if [r] is not a town identifier in [a].
-    Raises [UnknownExit e] if [e] is not an exit from town [r] in [a]. *)
-val badges : t -> town_id -> exit_name -> item_name list
-
+(** [take_route adv t route] is the list of battles needed to fight in order
+    to successfuly taking the route [r] in town [t] of adventure [adv]. *)
 val take_route : t -> town_id -> exit_name -> bat list
 
 (** [get_wild a r] is a randomly selected pokemon from the route [r]'s wild 

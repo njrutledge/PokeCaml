@@ -17,6 +17,7 @@ module type MoveSig = sig
   val to_string: t -> string
   val get_pp: t -> int
   val get_max_pp: t -> int
+  val get_acc: t -> float
   val set_pp: t -> int -> unit
   val decr_pp: t -> unit
   val to_string_name : t -> string
@@ -48,12 +49,13 @@ module Moves : MoveSig = struct
       max_pp = m_j |> member "uses" |> to_int;
     }
 
-  let name m = 
-    m.move_name
+  let name m = m.move_name
 
   let get_pp m = m.pp
 
   let get_max_pp m = m.max_pp
+
+  let get_acc m = m.accuracy
 
   let set_pp m pp = m.pp <- pp
 

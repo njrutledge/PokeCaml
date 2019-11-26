@@ -2,7 +2,7 @@ open Pokemon
 open Moves
 module PM = Pokemon
 
-exception ItemNotFound of Adventure.item_name
+exception ItemNotFound of Adventure.badge_name
 exception BadgeNotFound
 
 type t = {
@@ -75,7 +75,8 @@ and make_battle route adv st cpu_name cpu_mons bats =
        st.money, 
        (cpu_mons),
        cpu_name,
-       cpu_money)
+       cpu_money,
+       bats = [])
   in 
   let dt = if cpu_name <> "wild" 
     then cpu_name :: st.defeated_trainers 
@@ -88,7 +89,7 @@ and make_battle route adv st cpu_name cpu_mons bats =
 let route r adv st = 
   try 
     let bats = Adventure.take_route adv st.cur_town r in 
-    run_battles r adv {st with defeated_trainers = []} bats
+    run_battles r adv st bats
   with 
   | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
@@ -121,11 +122,10 @@ let rec has_badge st = function
   | [] -> false
   | h :: t -> if (List.mem h st.bag) then true else has_badge st t
 
-let get_def_tr st = 
-  st.defeated_trainers
+let get_def_tr st = st.defeated_trainers
 
-let get_money st = 
-  st.money
+let get_money st = st.money
 
-let get_badges st = 
-  st.badges
+let get_badges st = st.badges
+
+let clear_def_trs st = { st with defeated_trainers = []}

@@ -8,7 +8,7 @@
 open Pokemon
 module PM = Pokemon
 (** Raised when an item is not found in the adventurer's bag. *)
-exception ItemNotFound of Adventure.item_name
+exception ItemNotFound of Adventure.badge_name
 
 (** Raised when the adventurer tries to lock or unlock a door without a valid
     badge in their bag. *)
@@ -61,7 +61,7 @@ val add_item : t -> Item.t -> int -> t
 
 (** [drop_item st it] removes [it] from the trainer's bag in [st]. 
     Raises [ItemNotFound it] if [it] is not in the trainer's bag. *)
-val drop_item : t -> Adventure.item_name -> t
+val drop_item : t -> Adventure.badge_name -> t
 
 (** [bag st] is the bag of state [st]. *)
 val bag : t -> (Item.t * int ref) list
@@ -77,3 +77,6 @@ val get_money: t -> int ref
 
 (** [get_badges st] returns the badges currently obtained in state [st]. *)
 val get_badges: t -> string list 
+
+(** [clear_def_trs st] resets the list of defeated trainers to the empty list. *)
+val clear_def_trs: t -> t

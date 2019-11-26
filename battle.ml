@@ -106,7 +106,16 @@ let rec get_modifier move_type acc mat hash = function
   | [] -> acc
   | h :: t -> get_modifier move_type (acc *. mat.(hash move_type).(hash h)) mat hash t
 
+(** [check_zero_pp_all moves] checks to see if all moves in [moves] are out of
+    pp. *)
 let check_zero_pp_all moves = Array.for_all (fun x -> (Moves.get_pp x) = 0) moves
+
+(** [check_hit acc] checks if a move with accuracy [acc] will hit. *)
+let check_hit acc = 
+  let t = acc *. 2.55 in
+  let r = Random.self_init(); Random.float 256. in
+  if r < t then true 
+  else false 
 
 (** [execute_go adv st ph] is the state update of the adventure after running 
     [state.go adv st ph'], where [ph'] is the string representation of 
@@ -125,25 +134,30 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_idx =
   print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move) ^ "!");
   let modifier = (get_modifier move.el_type 1. type_mat hash (PM.get_type
                                                                 def_mon)) in
-  let move_damage = 
-    if (Moves.name move) = "super fang" 
-    then ((PM.get_hp def_mon) /. 2.)
-    else damage 
-        (PM.get_lvl atk_mon |> Float.of_int)
-        move.power
-        (PM.get_attack atk_mon)
-        (PM.get_defense def_mon)
-        (PM.get_speed atk_mon)
-        modifier
-  in
-  if modifier = 0. then 
-    print_endline ("It has no effect!") 
-  else if modifier < 1. then 
-    print_endline ("It's not very effective...")
-  else if modifier >= 2. then
-    print_endline ("It's super effective!")
-  else ();
-  PM.change_hp def_mon (-.move_damage)
+  let acc = Moves.get_acc move in
+  let hit = check_hit acc in
+  if hit then begin
+    let move_damage = 
+      if (Moves.name move) = "super fang" 
+      then ((PM.get_hp def_mon) /. 2.)
+      else damage 
+          (PM.get_lvl atk_mon |> Float.of_int)
+          move.power
+          (PM.get_attack atk_mon)
+          (PM.get_defense def_mon)
+          (PM.get_speed atk_mon)
+          modifier
+    in
+    if modifier = 0. then 
+      print_endline ("It has no effect!") 
+    else if modifier < 1. then 
+      print_endline ("It's not very effective...")
+    else if modifier >= 2. then
+      print_endline ("It's super effective!")
+    else ();
+    PM.change_hp def_mon (-.move_damage)
+  end 
+  else print_endline ("\nThe attack missed!")
 
 (** [b_calc ball] calculates the value that b should have in the capture formula
     depending on which Pokeball [ball] is used. *)
@@ -306,6 +320,8 @@ let execute_run party p_mon cpu_mon bag =
     end 
   end
 
+(** [execute_command party atk_mon def_mon bag cpu input] executes the correct
+    command for [input] using [party], [atk_mon], [def_mon], [bag], and [cpu]. *)
 let rec execute_command party atk_mon def_mon bag cpu input = 
   match Btlcmd.parse input with 
   | Quit -> execute_quit ()
@@ -343,7 +359,8 @@ let rec execute_command party atk_mon def_mon bag cpu input =
       execute_command party atk_mon def_mon bag cpu (read_line ()) 
     end 
 
-
+(** [get_command party atk_mon def_mon bag cpu input] executes [input] 
+    appropriately using [party] [atk_mon] [def_mon] [bag] [cpu] [input] *)
 let rec get_command party atk_mon def_mon bag cpu input = 
   try
     execute_command party atk_mon def_mon bag cpu input
@@ -414,9 +431,22 @@ let player_hp_percent p_mon =
   let hp_str = "< " ^ PM.hp_string p_mon ^ " >" in
   percent_hp_color percent hp_str
 
+
+let rand_mon mon1 mon2 = 
+  let r = Random.self_init(); Random.int 1 in
+  if r = 0 then 1
+  else 2
+
+let check_speed mon1 mon2 = 
+  match Float.compare (PM.get_speed mon1) (PM.get_speed mon2) with
+  | -1 -> 2
+  | 0 -> rand_mon mon1 mon2
+  | _ -> 1
+
 (** [loop adv state] executes a REPL for the game. Quits on recieving 
     "quit". *)
 let rec loop p_team cpu_team player_mon cpu_mon bag cpu = 
+  let first = check_speed player_mon cpu_mon in 
   print_string "\n";
   print_endline ("--" ^ (PM.get_name cpu_mon) ^ "--");
   cpu_hp_percent cpu_mon;
@@ -440,6 +470,9 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
     | Some p -> execute_cpu_turn p cpu_mon
     | None -> execute_cpu_turn player_mon cpu_mon
   end;
+  (* if first = 1 then begin execute_cpu_turn player_mon cpu_mon; execute_cpu_turn cpu_mon player_mon; end
+     else begin execute_cpu_turn cpu_mon player_mon; execute_cpu_turn player_mon
+      cpu_mon end; *)
   Unix.sleepf sleep;
   if PM.fainted player_mon then begin
     if PM.retreat p_team then
@@ -503,7 +536,7 @@ let give_xp cpu_lvl wild mon =
 
 (** [give_xp_all cpu_lvl wild a_mons party] is the function that handles 
     giving xp to alive members [a_mons] of the party [party]. *)
-let rec give_xp_all cpu_lvl wild alive_party party= 
+let rec give_xp_all cpu_lvl wild alive_party party = 
   Array.iter (give_xp cpu_lvl wild) alive_party;
   Array.iteri (fun i mon -> party.(i) <- begin
       match PM.evolve mon with
@@ -515,7 +548,7 @@ let rec give_xp_all cpu_lvl wild alive_party party=
       | _ -> mon
     end) party
 
-let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money = 
+let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale = 
   if cpu <> "wild" then
     ANSITerminal.(print_string [yellow] 
                     (cpu ^ " sends out " ^ (PM.get_name cpumon) ^ "!\n"))
@@ -538,15 +571,19 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money =
       m := (!m + cpu_money)
     end;
     print_endline "The pokemon in your party gain experience!";
-    give_xp_all (PM.get_lvl cpumon) (cpu = "wild") (PM.alive_pmons p_mons);
-    ANSITerminal.(print_string [green] ("\nDo you want to keep going? [Y/N]\n"));
-    (party, b, m, get_y_n ())
+    give_xp_all (PM.get_lvl cpumon) (cpu = "wild") (PM.alive_pmons p_mons) party;
+    if not finale then begin
+      ANSITerminal.(print_string [green] ("\nDo you want to keep going? [Y/N]\n"));
+      (party, b, m, get_y_n ())
+    end
+    else (party, b, m, true)
   | PlayerDown mon -> 
     ANSITerminal.(print_string [yellow]
                     ("\n"^mon^ 
                      " fainted! Who will you send out next?\n"));
     let alive_mons = PM.alive_pmons p_mons in 
-    battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) cpumon cpu_money
+    battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) cpumon
+      cpu_money finale
   | CPUDown (mon, curr_pmon) ->
     let alive_mons = PM.alive_pmons p_mons in 
     let next = (PM.alive_pmons cpu_mons).(0) in 
@@ -556,15 +593,15 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money =
          ("\n" ^ mon ^ " fainted! " ^ cpu 
           ^ " is about to send out " ^ PM.get_name next 
           ^ ". Do you want to switch pokemon? [Y/N]\n"));
-    if get_y_n () then begin 
-      battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) next cpu_money
-    end 
-    else battle_handler b m cpu p_mons cpu_mons curr_pmon next cpu_money
+    if get_y_n () then
+      battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) next
+        cpu_money finale 
+    else battle_handler b m cpu p_mons cpu_mons curr_pmon next cpu_money finale
   | BattleRun -> ANSITerminal.(print_string [red] ("\nGot away safely!\n"));
     ANSITerminal.(print_string [green] ("\nDo you want to keep going? [Y/N]\n"));
     (p_mons, b, m, get_y_n ())
 
-let main (player_team, bag, money, cpu_team, cpu, cpu_money) = 
+let main (player_team, bag, money, cpu_team, cpu, cpu_money, fin) = 
   let alive_p_team = PM.alive_pmons player_team in 
   let pmon = alive_p_team.(0) in 
   let cpumon = cpu_team.(0) in 
@@ -575,6 +612,6 @@ let main (player_team, bag, money, cpu_team, cpu, cpu_money) =
   end 
   else 
     ANSITerminal.(print_string [yellow] (cpu ^ " challenges you to a battle!\n"));
-  battle_handler bag money cpu player_team cpu_team pmon cpumon cpu_money
+  battle_handler bag money cpu player_team cpu_team pmon cpumon cpu_money fin
 
 (* Execute the game engine. *) 

@@ -34,7 +34,7 @@
       "battles": [
         "TA Alice",
         "TA Bob",
-        "Leader Walker White"
+        "Gym Leader Walker White"
       ],
       "wilds": []
     },
@@ -73,7 +73,7 @@
       "battles": [
         "TA Charlie",
         "TA David",
-        "Leader David Gries"
+        "Gym Leader David Gries"
       ],
       "wilds": []
     }
@@ -223,7 +223,7 @@
       ]
     },
     {
-      "name": "Leader Walker White",
+      "name": "Gym Leader Walker White",
       "money": 300,
       "pokemon": [
         {
@@ -253,7 +253,7 @@
       ]
     },
     {
-      "name": "Leader David Gries",
+      "name": "Gym Leader David Gries",
       "money": 500,
       "pokemon": [
         {
