@@ -4,181 +4,250 @@
     "power": 40.0,
     "accuracy": 100.0,
     "type": "normal",
-    "uses": 35
+    "uses": 35,
+    "status": []
   },
   "scratch": {
     "desc": "scrape",
     "power": 40.0,
     "accuracy": 100.0,
     "type": "normal",
-    "uses": 35
+    "uses": 35,
+    "status": []
   },
   "struggle": {
     "desc": "ouch bam",
     "power": 50.0,
     "accuracy": 100.0,
     "type": "normal",
-    "uses": 100
+    "uses": 100,
+    "status": []
   },
   "pulverizing pancake": {
     "desc": "splat",
     "power": 210.0,
     "accuracy": 100.0,
     "type": "normal",
-    "uses": 5
+    "uses": 5,
+    "status": []
   },
   "blast burn": {
     "desc": "hot. very very hot. dante would be proud.",
     "power": 150.0,
     "accuracy": 90.0,
     "type": "fire",
-    "uses": 5
+    "uses": 5,
+    "status": []
   },
   "ember": {
     "desc": "barely hot.",
     "power": 25.0,
     "accuracy": 100.0,
     "type": "fire",
-    "uses": 40
+    "uses": 40,
+    "status": []
   },
   "flamethrower": {
     "desc": "kinda hot.",
     "power": 90.0,
     "accuracy": 100.0,
     "type": "fire",
-    "uses": 15
+    "uses": 15,
+    "status": []
   },
   "leaf blade": {
     "desc": "slicey slice.",
     "power": 90.0,
     "accuracy": 100.0,
     "type": "grass",
-    "uses": 15
+    "uses": 15,
+    "status": []
   },
   "vine whip": {
     "desc": "slash",
     "power": 45.0,
     "accuracy": 100.0,
     "type": "grass",
-    "uses": 25
+    "uses": 25,
+    "status": []
   },
   "bubble": {
     "desc": "bloop bloop.",
     "power": 40.0,
     "accuracy": 100.0,
     "type": "water",
-    "uses": 30
+    "uses": 30,
+    "status": []
   },
   "hydro cannon": {
     "desc": "drown your enemies in sorrow.",
     "power": 150.0,
     "accuracy": 90.0,
     "type": "water",
-    "uses": 5
+    "uses": 5,
+    "status": []
   },
   "Oceanic Operetta": {
     "desc": "super glub glub",
     "power": 195.0,
     "accuracy": 100000.0,
     "type": "water",
-    "uses": 1
+    "uses": 1,
+    "status": []
   },
   "thundershock": {
     "desc": "lil' zap",
     "power": 40.0,
     "accuracy": 100.0,
     "type": "electric",
-    "uses": 30
+    "uses": 30,
+    "status": []
   },
   "spark": {
     "desc": "bam zap",
     "power": 65.0,
     "accuracy": 100.0,
     "type": "electric",
-    "uses": 20
+    "uses": 20,
+    "status": []
   },
   "zippy zap": {
     "desc": "zippy zap",
     "power": 50.0,
     "accuracy": 100.0,
     "type": "electric",
-    "uses": 15
+    "uses": 15,
+    "status": []
   },
   "bite": {
     "desc": "chomp",
     "power": 60.0,
     "accuracy": 100.0,
     "type": "dark",
-    "uses": 25
+    "uses": 25,
+    "status": []
   },
   "thunder": {
     "desc": "bigly zap",
     "power": 110.0,
     "accuracy": 70.0,
     "type": "electric",
-    "uses": 5
+    "uses": 5,
+    "status": []
   },
   "10,000,000 Volt Thunderbolt": {
     "desc": "super zap",
     "power": 195.0,
     "accuracy": 100000.0,
     "type": "electric",
-    "uses": 1
+    "uses": 1,
+    "status": []
   },
   "bone club": {
     "desc": "thwock",
     "power": 65.0,
     "accuracy": 85.0,
     "type": "ground",
-    "uses": 20
+    "uses": 20,
+    "status": []
   },
   "precipice blades": {
     "desc": "cracka-boom",
     "power": 120.0,
     "accuracy": 85.0,
     "type": "ground",
-    "uses": 5
+    "uses": 5,
+    "status": []
   },
   "thunderbolt": {
     "desc": "A strong electric blast crashes down on the target.",
     "power": 90.0,
     "accuracy": 100.0,
     "type": "electric",
-    "uses": 15
+    "uses": 15,
+    "status": []
   },
   "water gun": {
     "desc": "The target is blasted with a forceful shot of water.",
     "power": 40.0,
     "accuracy": 100.0,
     "type": "water",
-    "uses": 25
+    "uses": 25,
+    "status": []
   },
   "bubble beam": {
     "desc": "A spray of bubbles is forcefully ejected at the target.",
     "power": 65.0,
     "accuracy": 100.0,
     "type": "water",
-    "uses": 20
+    "uses": 20,
+    "status": []
   },
   "gust": {
     "desc": "little gusty wind",
     "power": 40.0,
     "accuracy": 100.0,
-    "type": "normal",
-    "uses": 35
+    "type": "flying",
+    "uses": 35,
+    "status": []
   },
   "super fang": {
     "desc": "chomp",
     "power": 0.0,
     "accuracy": 100.0,
     "type": "normal",
-    "uses": 10
+    "uses": 10,
+    "status": []
   },
   "slam": {
     "desc": "big bam",
     "power": 80.0,
     "accuracy": 75.0,
     "type": "normal",
-    "uses": 20
+    "uses": 20,
+    "status": []
+  },
+  "defense curl": {
+    "desc": "The user curls up to conceal weak spots and raise its Defense stat.",
+    "power": 0.0,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 40,
+    "status": [
+      "DEF up self"
+    ]
+  },
+  "agility": {
+    "desc": "The user relaxes and lightens its body to move faster. This sharply raises the Speed stat.",
+    "power": 0.0,
+    "accuracy": 100.0,
+    "type": "psychic",
+    "uses": 30,
+    "status": [
+      "SPD up self",
+      "SPD up self"
+    ]
+  },
+  "growl": {
+    "desc": "The user growls in an endearing way, making the foe less wary. The target's Attack stat is lowered.",
+    "power": 0.0,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 40,
+    "status": [
+      "ATK down foe"
+    ]
+  },
+  "rest": {
+    "desc": "The user growls in an endearing way, making the foe less wary. The target's Attack stat is lowered.",
+    "power": 0.0,
+    "accuracy": 100.0,
+    "type": "psychic",
+    "uses": 40,
+    "status": [
+      "sleep self",
+      "heal full self",
+      "status clear"
+    ]
   }
 }
