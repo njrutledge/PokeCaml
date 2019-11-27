@@ -7,8 +7,10 @@ module type MoveSig = sig
       move_name : string;
       description : string;
       power : float;
+      is_special: bool;
       accuracy: float;
       el_type: Types.t;
+      effects: string list;
       mutable pp : int;
       max_pp : int
     }
@@ -18,6 +20,8 @@ module type MoveSig = sig
   val get_pp: t -> int
   val get_max_pp: t -> int
   val get_acc: t -> float
+  val get_is_special: t -> bool
+  val get_effects: t -> string list
   val set_pp: t -> int -> unit
   val decr_pp: t -> unit
   val to_string_name : t -> string
@@ -29,8 +33,10 @@ module Moves : MoveSig = struct
     move_name : string;
     description : string;
     power : float;
+    is_special: bool;
     accuracy : float;
     el_type : Types.t;
+    effects : string list;
     mutable pp : int;
     max_pp : int;
   }
@@ -43,6 +49,8 @@ module Moves : MoveSig = struct
       move_name = move;
       description = m_j |> member "desc" |> to_string;
       power = m_j |> member "power" |> to_float;
+      is_special = m_j |> member "special" |> to_bool;
+      effects = m_j |> member "effects" |> to_list|> List.map (to_string);
       accuracy = m_j |> member "accuracy" |> to_float;
       el_type = m_j |> member "type" |> to_string;
       pp = m_j |> member "uses" |> to_int;
@@ -56,6 +64,10 @@ module Moves : MoveSig = struct
   let get_max_pp m = m.max_pp
 
   let get_acc m = m.accuracy
+
+  let get_is_special m = m.is_special
+
+  let get_effects m = m.effects
 
   let set_pp m pp = m.pp <- pp
 

@@ -35,26 +35,36 @@ module type PokeSig = sig
   val get_max_hp : t -> t_hp
   val change_hp : t -> t_hp -> unit
   val incr_stats : t -> unit
+
   val fainted : t -> bool 
   val get_name : t -> string
   val get_type : t -> t_type list
   val get_moves : t -> Moves.t array 
   val get_hp : t -> t_hp
-  val get_attack : t -> t_attack
-  val get_defense : t -> t_defense
+  val get_attack : t -> bool -> t_attack
+  val get_defense : t -> bool -> t_defense
   val get_speed : t -> t_speed
   val get_move : t -> int -> Moves.t
   val get_lvl: t -> t_lvl
   val get_xp: t -> float
+  val get_status: t -> string list
+
   val set_hp : t -> t_hp -> unit
   val set_xp : t -> t_xp -> unit
+  val add_status : t -> string -> unit
+  val rem_status : t -> string -> unit
+  val change_stage: t -> string -> int -> unit
+
   val format_moves_names : t -> string
   val format_moves_all: t -> string
+
   val retreat: t array -> bool
-  val alive_pmons: t array -> t array 
+  val alive_pmons: t array -> t array
+
   val hp_string: t -> string 
   val string_of_mon: t -> string
   val string_of_mons: t array -> string
+
   val restore_mons: t array -> unit
   val give_xp: t -> t_lvl -> bool -> unit
   val add_mon: t array -> t -> t array 
@@ -83,10 +93,19 @@ module Pokemon : PokeSig = struct
     mutable lvl: t_lvl;
     mutable xp: t_xp;
     mutable attack: t_attack;
+    mutable sp_attack: t_attack;
     mutable defense: t_defense;
+    mutable sp_defense: t_defense;
     mutable speed: t_speed;
     mutable moves: t_moves;
-    moveset: (int*M.t) list;
+    mutable attack_stage: int;
+    mutable spa_stage: int;
+    mutable spd_stage: int;
+    mutable defense_stage: int;
+    mutable speed_stage: int;
+    mutable accuracy_stage: int;
+    mutable cur_status: string list;
+    moveset: (int * M.t) list;
     evolution: string * int;
   }
   (**[file_name] is the name of the file containing all the pokemon. *)
@@ -187,6 +206,16 @@ module Pokemon : PokeSig = struct
           |> member "Stats"
           |> member "DEF"
           |> to_float;
+        sp_attack = 
+          json 
+          |> member "Stats"
+          |> member "SPA"
+          |> to_float;
+        sp_defense = 
+          json 
+          |> member "Stats"
+          |> member "SPD"
+          |> to_float;
         moves = Array.of_list moves;
         moveset = 
           json
@@ -199,6 +228,13 @@ module Pokemon : PokeSig = struct
           |> json_evo;
         lvl = 1;
         xp = Float.pow (start_lvl - 1 |> Float.of_int) 3.;
+        attack_stage = 0;
+        spa_stage = 0;
+        defense_stage = 0;
+        spd_stage = 0;
+        speed_stage = 0;
+        accuracy_stage = 0;
+        cur_status = [];
       } in 
     ignore (lvl_up pmon);
     pmon.hp <- pmon.max_hp;
@@ -228,11 +264,30 @@ module Pokemon : PokeSig = struct
 
   let get_max_hp mon = mon.max_hp
 
-  let get_attack mon = mon.attack
+  (** [stage_mult ae stage] is the modifier applied with a stage of [stage]. 
+      if [ae] then calculates the modifier for accuracy or evasion, 
+      and otherwise does calculation for all other stages. *)
+  let stage_mult acc_or_evade stage = 
+    if acc_or_evade then 
+      if stage >= 0 then (3. +. (Float.of_int stage)) /. 3. 
+      else 3. /. (3. -. (Float.of_int stage))
+    else 
+    if stage >=0 then (2. +. (Float.of_int stage)) /. 2.
+    else 2. /. (2. -. (Float.of_int stage))
 
-  let get_defense mon = mon.defense
+  let get_attack mon is_spec = 
+    if is_spec then begin print_endline "is special"; 
+      mon.sp_attack *. stage_mult false mon.spa_stage end 
+    else mon.attack *. stage_mult false mon.attack_stage
 
-  let get_speed mon = mon.speed
+  let get_defense mon is_spec = 
+    if is_spec then begin print_endline "is special"; 
+      mon.sp_defense *. stage_mult false mon.spd_stage end
+    else mon.defense *. stage_mult false mon.defense_stage
+
+  let get_speed mon = mon.speed *. stage_mult false mon.speed_stage
+
+  let get_accuracy mon = 100. *. stage_mult true mon.accuracy_stage
 
   let get_move mon move = mon.moves.(move)
 
@@ -240,9 +295,28 @@ module Pokemon : PokeSig = struct
 
   let get_xp mon = mon.xp
 
+  let get_status mon = mon.cur_status
+
   let set_hp mon hp = mon.hp <- hp
 
   let set_xp mon xp = mon.xp <- xp
+
+  let add_status mon status = 
+    mon.cur_status <- status :: mon.cur_status
+
+  let rem_status mon status = 
+    mon.cur_status <- List.filter (fun x -> x <> status) mon.cur_status
+
+  let change_stage mon st add = 
+    match st with 
+    | "attack" -> mon.attack_stage <- mon.attack_stage + add
+    | "special attack" -> mon.spa_stage <- mon.spa_stage + add
+    | "defense" -> mon.defense_stage <- mon.defense_stage + add
+    | "special defense" -> mon.spd_stage <- mon.spd_stage + add
+    | "speed" -> mon.speed_stage <- mon.speed_stage + add
+    | "accuracy" -> mon.accuracy_stage <- mon.accuracy_stage + add
+    | "evasion" -> failwith "evasion not set up yet"
+    | _ -> failwith "invalid stage type passed in"
 
   let format_moves_names mon = 
     let acc = ref "" in 

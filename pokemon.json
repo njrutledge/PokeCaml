@@ -211,5 +211,186 @@
       "name": "Raichu",
       "lvl": 100
     }
+  },
+  "Corphish": {
+    "Types": [
+      "water"
+    ],
+    "Stats": {
+      "ATK": 80.0,
+      "DEF": 65.0,
+      "SPE": 35.0,
+      "HP": 43.0,
+      "SPA": 50.0,
+      "SPD": 35.0
+    },
+    "Moveset": [
+      {
+        "name": "water gun",
+        "lvl": 1
+      },
+      {
+        "name": "bubble beam",
+        "lvl": 12
+      },
+      {
+        "name": "crunch",
+        "lvl": 16
+      }
+    ],
+    "Evolution": {
+      "name": "Crawdaunt",
+      "lvl": 30
+    }
+  },
+  "Crawdaunt": {
+    "Types": [
+      "water",
+      "dark"
+    ],
+    "Stats": {
+      "ATK": 120.0,
+      "DEF": 85.0,
+      "SPE": 55.0,
+      "HP": 63.0,
+      "SPA": 90.0,
+      "SPD": 55.0
+    },
+    "Moveset": [
+      {
+        "name": "water gun",
+        "lvl": 1
+      },
+      {
+        "name": "bubble beam",
+        "lvl": 12
+      },
+      {
+        "name": "crunch",
+        "lvl": 16
+      },
+      {
+        "name": "crabhammer",
+        "lvl": 42
+      }
+    ],
+    "Evolution": {}
+  },
+  "Lotad": {
+    "Types": [
+      "water",
+      "grass"
+    ],
+    "Stats": {
+      "ATK": 30.0,
+      "DEF": 30.0,
+      "SPE": 30.0,
+      "HP": 40.0,
+      "SPA": 40.0,
+      "SPD": 30.0
+    },
+    "Moveset": [
+      {
+        "name": "absorb",
+        "lvl": 1
+      },
+      {
+        "name": "water gun",
+        "lvl": 6
+      },
+      {
+        "name": "bubble beam",
+        "lvl": 20
+      },
+      {
+        "name": "mega drain",
+        "lvl": 12
+      }
+    ],
+    "Evolution": {
+      "name": "Lombre",
+      "lvl": 14
+    }
+  },
+  "Lombre": {
+    "Types": [
+      "water",
+      "grass"
+    ],
+    "Stats": {
+      "ATK": 50.0,
+      "DEF": 50.0,
+      "SPE": 50.0,
+      "HP": 60.0,
+      "SPA": 60.0,
+      "SPD": 70.0
+    },
+    "Moveset": [
+      {
+        "name": "absorb",
+        "lvl": 1
+      },
+      {
+        "name": "water gun",
+        "lvl": 6
+      },
+      {
+        "name": "bubble beam",
+        "lvl": 20
+      },
+      {
+        "name": "mega drain",
+        "lvl": 12
+      },
+      {
+        "name": "giga drain",
+        "lvl": 26
+      }
+    ],
+    "Evolution": {
+      "name": "Ludicolo",
+      "lvl": 28
+    }
+  },
+  "Ludicolo": {
+    "Types": [
+      "water",
+      "grass"
+    ],
+    "Stats": {
+      "ATK": 70.0,
+      "DEF": 70.0,
+      "SPE": 70.0,
+      "HP": 80.0,
+      "SPA": 90.0,
+      "SPD": 100.0
+    },
+    "Moveset": [
+      {
+        "name": "absorb",
+        "lvl": 1
+      },
+      {
+        "name": "water gun",
+        "lvl": 6
+      },
+      {
+        "name": "bubble beam",
+        "lvl": 20
+      },
+      {
+        "name": "mega drain",
+        "lvl": 12
+      },
+      {
+        "name": "giga drain",
+        "lvl": 26
+      },
+      {
+        "name": "hydro pump",
+        "lvl": 28
+      }
+    ],
+    "Evolution": {}
   }
 }

@@ -84,6 +84,48 @@ let rec next_mon mons =
     (ANSITerminal.(print_string [red] "Invalid Pokemon.\n");
      next_mon mons) 
 
+let effect_help atk_mon def_mon eff_type effect =
+  match effect with 
+  | change :: "self" :: chance :: [] -> 
+    let c = if (int_of_string change) > 0 then "up" else "down" in
+    ANSITerminal.(print_string [red] ("Your " ^ eff_type ^ " went " ^ c 
+                                      ^ "!\n"));
+    PM.change_stage atk_mon eff_type (int_of_string change) 
+  | change :: "foe" :: chance :: [] -> 
+    let c = if int_of_string change > 0 then "up" else "down" in
+    ANSITerminal.(print_string [red] ("Foe's " ^ eff_type ^ " went " ^ c 
+                                      ^ "!\n"));
+    PM.change_stage def_mon eff_type (int_of_string change)
+  | _ -> ANSITerminal.(print_string [red] ("Invalid " ^ eff_type ^ " effect."
+                                           ^ "skipping this effect..."))
+
+let status_help atk_mon def_mon status_type status = failwith "Doing next time" 
+
+(** [effect_handler atk_mon def_mon effects] applies the correct effect 
+    [effect] of a move to [atk_mon] and/or [def_mon]. *)
+let effect_handler atk_mon def_mon effects = 
+  let rec apply_effects = function
+    | [] -> ()
+    | h :: t -> 
+      match String.split_on_char ' ' h with
+      | "ATK" :: tl -> effect_help atk_mon def_mon "attack" tl
+      | "SPA" :: tl -> effect_help atk_mon def_mon "special attack" tl
+      | "DEF" :: tl -> effect_help atk_mon def_mon "defense" tl
+      | "SPD" :: tl -> effect_help atk_mon def_mon "special defense" tl
+      | "SPE" :: tl -> effect_help atk_mon def_mon "speed" tl
+      | "ACC" :: tl -> effect_help atk_mon def_mon "accuracy" tl
+      | "sleep" :: tl -> status_help atk_mon def_mon "sleep" tl
+      | "paralyze" :: tl -> status_help atk_mon def_mon "paralyze" tl
+      | "burn" :: tl -> status_help atk_mon def_mon "burn" tl
+      | "heal" :: tl -> status_help atk_mon def_mon "heal" tl
+      | "poison" :: tl -> status_help atk_mon def_mon "poison" tl
+      | "flinch" :: tl -> status_help atk_mon def_mon "flinch" tl
+      | "clear" :: [] -> status_help atk_mon def_mon "clear" []
+      | _ -> ANSITerminal.(print_string  [red] 
+                             ("This move has raised an invalid effect. The " 
+                              ^ h ^ "effect will not take place.\n"))
+  in apply_effects effects
+
 (** [critical_hit speed] is whether a critical hit occurred using [speed] in 
     the calculation. *)
 let critical_hit speed = 
@@ -136,6 +178,7 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_idx =
                                                                 def_mon)) in
   let acc = Moves.get_acc move in
   let hit = check_hit acc in
+  let is_special = Moves.get_is_special move in 
   if hit then begin
     let move_damage = 
       if (Moves.name move) = "super fang" 
@@ -143,8 +186,8 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_idx =
       else damage 
           (PM.get_lvl atk_mon |> Float.of_int)
           move.power
-          (PM.get_attack atk_mon)
-          (PM.get_defense def_mon)
+          (PM.get_attack atk_mon is_special)
+          (PM.get_defense def_mon is_special)
           (PM.get_speed atk_mon)
           modifier
     in
@@ -446,7 +489,7 @@ let check_speed mon1 mon2 =
 (** [loop adv state] executes a REPL for the game. Quits on recieving 
     "quit". *)
 let rec loop p_team cpu_team player_mon cpu_mon bag cpu = 
-  let first = check_speed player_mon cpu_mon in 
+  (*let first = check_speed player_mon cpu_mon in *)
   print_string "\n";
   print_endline ("--" ^ (PM.get_name cpu_mon) ^ "--");
   cpu_hp_percent cpu_mon;

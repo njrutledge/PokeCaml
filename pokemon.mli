@@ -57,11 +57,11 @@ module type PokeSig = sig
   (** [get_hp mon] is the current hp of [mon]. *)
   val get_hp : t -> t_hp
 
-  (** [get_attack mon] is the base attack of [mon]. *)
-  val get_attack : t -> t_attack
+  (** [get_attack mon is_spec] is the base attack of [mon]. *)
+  val get_attack : t -> bool -> t_attack
 
-  (** [get_defense mon] is the base defense of [mon]. *)
-  val get_defense : t -> t_defense
+  (** [get_defense mon is_spec] is the base defense of [mon]. *)
+  val get_defense : t -> bool -> t_defense
 
   (** [get_speed mon] is the base speed of [mon]. *)
   val get_speed : t -> t_speed
@@ -75,11 +75,31 @@ module type PokeSig = sig
   (** [get_xp mon is the current experience of [mon]. *)
   val get_xp : t -> float
 
+  (** [get_stauts mon] is the list of current status effects of [mon]. *)
+  val get_status: t -> string list
+
+
+
   (** [set_hp mon hp] sets the hp of [mon] to [hp].*)
   val set_hp : t -> t_hp -> unit
 
   (** [set_xp mon xp] sets the xp of [mon] to [xp]. *)
   val set_xp : t -> t_xp -> unit
+
+  (** [add_status mon st] adds status [st] to the current status of [mon]. *)
+  val add_status : t -> string -> unit
+
+  (** [rem_status mon st] removes status [st] from 
+      the current status of [mon]. *)
+  val rem_status : t -> string -> unit
+
+  (** [change_stage mon st add] changes the stage represented by name [st]
+      for pokemon [mon] by the ammount [add]. 
+      Valid strings for [st] are:
+      [attack], [special attack], [defense], [special defense], [speed],
+      [accuracy], and [evasion]. *)
+  val change_stage: t -> string -> int -> unit
+
 
   (** [format_moves_names mon] is a formatted output of names of [mon]'s  moves.*)
   val format_moves_names : t -> string

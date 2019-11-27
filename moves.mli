@@ -5,8 +5,10 @@ module type MoveSig = sig
     move_name: string;
     description: string;
     power : float;
+    is_special: bool;
     accuracy: float;
     el_type: Types.t;
+    effects: string list;
     mutable pp : int;
     max_pp : int;
 
@@ -26,6 +28,13 @@ module type MoveSig = sig
 
   (** [get_accuracy move] is the accuracy for [move]. *)
   val get_acc: t -> float
+
+  (** [get_is_special move] is whether or not a move is a special move. If
+      false, it is a physical move. *)
+  val get_is_special: t -> bool
+
+  (** [get_effects move] is the list of effects a move might cause. *)
+  val get_effects: t -> string list
 
   (** [set_pp move pp] sets the pp of [move] to [pp]. *)
   val set_pp: t -> int -> unit
