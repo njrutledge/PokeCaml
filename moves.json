@@ -303,7 +303,7 @@
     "type": "electric",
     "uses": 30,
     "status": [
-      "paralyze foe"
+      "paralyze foe 100.0"
     ]
   },
   "crunch": {
@@ -332,7 +332,7 @@
     "type": "grass",
     "uses": 15,
     "status": [
-      "heal half self"
+      "heal self .5"
     ]
   },
   "mega drain": {
@@ -342,7 +342,7 @@
     "type": "grass",
     "uses": 10,
     "status": [
-      "heal half self"
+      "heal self .5"
     ]
   },
   "giga drain": {
@@ -352,7 +352,7 @@
     "type": "grass",
     "uses": 10,
     "status": [
-      "heal half self"
+      "heal self .5"
     ]
   },
   "hydro pump": {
@@ -362,5 +362,54 @@
     "type": "water",
     "uses": 5,
     "status": []
+  },
+  "sing": {
+    "desc": "A soothing lullaby is sung in a calming voice that puts the target into a deep slumber.",
+    "power": 0.0,
+    "accuracy": 55.0,
+    "type": "normal",
+    "uses": 15,
+    "status": [
+      "sleep foe 100"
+    ]
+  },
+  "pound": {
+    "desc": "The target is physically pounded with a long tail, a foreleg, or the like.",
+    "power": 40.0,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 35,
+    "status": []
+  },
+  "double slap": {
+    "desc": "The target is slapped repeatedly, back and forth, two to five times in a row.",
+    "power": 15.0,
+    "accuracy": 85.0,
+    "types": "normal",
+    "uses": 10,
+    "status": [
+      "hit 37.5",
+      "hit 37.5",
+      "hit 12.5",
+      "hit 12.5"
+    ]
+  },
+  "body slam": {
+    "desc": "The user drops onto the target with its full body weight. This may also leave the target with paralysis.",
+    "power": 85.0,
+    "accuracy": 100.0,
+    "types": "normal",
+    "uses": 15,
+    "status": [
+      "paralyze foe 30"
+    ]
+  },
+  "double-edge": {
+    "desc": "A reckless, life-risking tackle in which the user rushes the target. This also damages the user quite a lot.",
+    "power": 120.0,
+    "accuracy": 100.0,
+    "status": [
+      "hurt self .25"
+    ]
   }
 }

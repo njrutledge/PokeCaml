@@ -274,7 +274,10 @@
         "lvl": 42
       }
     ],
-    "Evolution": {}
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
   },
   "Lotad": {
     "Types": [
@@ -391,6 +394,89 @@
         "lvl": 28
       }
     ],
-    "Evolution": {}
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Jigglypuff": {
+    "Types": [
+      "normal",
+      "fairy"
+    ],
+    "Stats": {
+      "ATK": 45.0,
+      "DEF": 20.0,
+      "SPE": 20.0,
+      "HP": 115.0,
+      "SPA": 45.0,
+      "SPD": 25.0
+    },
+    "Moveset": [
+      {
+        "name": "sing",
+        "lvl": 1
+      },
+      {
+        "name": "pound",
+        "lvl": 4
+      },
+      {
+        "name": "defense curl",
+        "lvl": 6
+      },
+      {
+        "name": "bide",
+        "lvl": 10
+      },
+      {
+        "name": "double slap",
+        "lvl": 12
+      },
+      {
+        "name": "rest",
+        "lvl": 18
+      },
+      {
+        "name": "body slam",
+        "lvl": 22
+      },
+      {
+        "name": "double-edge",
+        "lvl": 28
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Flapple": {
+    "Types": [
+      "grass",
+      "dragon"
+    ],
+    "Stats": {
+      "HP": 70.0,
+      "ATK": 110.0,
+      "DEF": 80.0,
+      "SPA": 95.0,
+      "SPD": 60.0,
+      "SPE": 70.0
+    },
+    "Moveset": [
+      {
+        "name": "wing attack",
+        "lvl": 1
+      },
+      {
+        "name": "withdraw",
+        "lvl": 1
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
   }
 }
