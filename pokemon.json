@@ -133,6 +133,8 @@
       "ATK": 40.0,
       "DEF": 45.0,
       "SPE": 56.0,
+      "SPA": 35.0,
+      "SPD": 35.0,
       "HP": 40.0
     },
     "Moveset": [
@@ -162,7 +164,9 @@
       "ATK": 56.0,
       "DEF": 35.0,
       "SPE": 72.0,
-      "HP": 30.0
+      "HP": 30.0,
+      "SPA": 25.0,
+      "SPD": 35.0
     },
     "Moveset": [
       {
@@ -191,7 +195,9 @@
       "ATK": 55.0,
       "DEF": 40.0,
       "SPE": 90.0,
-      "HP": 35.0
+      "HP": 35.0,
+      "SPA": 50.0,
+      "SPD": 40.0
     },
     "Moveset": [
       {
@@ -472,11 +478,281 @@
       {
         "name": "withdraw",
         "lvl": 1
+      },
+      {
+        "name": "astonish",
+        "lvl": 1
+      },
+      {
+        "name": "twister",
+        "lvl": 1
       }
     ],
     "Evolution": {
       "name": "",
       "lvl": -1
+    }
+  },
+  "Caterpie": {
+    "Types": [
+      "bug"
+    ],
+    "Stats": {
+      "ATK": 30.0,
+      "DEF": 35.0,
+      "SPE": 45.0,
+      "HP": 45.0,
+      "SPA": 20.0,
+      "SPD": 20.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "string shot",
+        "lvl": 1
+      }
+    ],
+    "Evolution": {
+      "name": "Metapod",
+      "lvl": 7
+    }
+  },
+  "Metapod": {
+    "Types": [
+      "bug"
+    ],
+    "Stats": {
+      "ATK": 20.0,
+      "DEF": 55.0,
+      "SPE": 30.0,
+      "HP": 50.0,
+      "SPA": 25.0,
+      "SPD": 25.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "harden",
+        "lvl": 1
+      }
+    ],
+    "Evolution": {
+      "name": "butterfree",
+      "lvl": 10
+    }
+  },
+  "Butterfree": {
+    "Types": [
+      "bug",
+      "flying"
+    ],
+    "Stats": {
+      "ATK": 45.0,
+      "DEF": 50.0,
+      "SPE": 70.0,
+      "HP": 60.0,
+      "SPA": 90.0,
+      "SPD": 80.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "harden",
+        "lvl": 1
+      },
+      {
+        "name": "gust",
+        "lvl": 1
+      },
+      {
+        "name": "bug bite",
+        "lvl": 11
+      },
+      {
+        "name": "poison powder",
+        "lvl": 12
+      },
+      {
+        "name": "stun spore",
+        "lvl": 12
+      },
+      {
+        "name": "sleep powder",
+        "lvl": 1
+      },
+      {
+        "name": "psybeam",
+        "lvl": 16
+      },
+      {
+        "name": "air slash",
+        "lvl": 24
+      },
+      {
+        "name": "bug buzz",
+        "lvl": 32
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Larvitar": {
+    "Types": [
+      "rock",
+      "ground"
+    ],
+    "Stats": {
+      "ATK": 64.0,
+      "DEF": 50.0,
+      "SPE": 41.0,
+      "HP": 50.0,
+      "SPA": 45.0,
+      "SPD": 50.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "rock throw",
+        "lvl": 3
+      },
+      {
+        "name": "bite",
+        "lvl": 9
+      },
+      {
+        "name": "rock slide",
+        "lvl": 15
+      },
+      {
+        "name": "dark pulse",
+        "lvl": 24
+      },
+      {
+        "name": "crunch",
+        "lvl": 27
+      }
+    ],
+    "Evolution": {
+      "name": "Pupitar",
+      "lvl": 30
+    }
+  },
+  "Pupitar": {
+    "Types": [
+      "rock",
+      "ground"
+    ],
+    "Stats": {
+      "ATK": 84.0,
+      "DEF": 70.0,
+      "SPE": 51.0,
+      "HP": 70.0,
+      "SPA": 65.0,
+      "SPD": 70.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "rock throw",
+        "lvl": 3
+      },
+      {
+        "name": "bite",
+        "lvl": 9
+      },
+      {
+        "name": "rock slide",
+        "lvl": 15
+      },
+      {
+        "name": "dark pulse",
+        "lvl": 24
+      },
+      {
+        "name": "crunch",
+        "lvl": 27
+      },
+      {
+        "name": "earthquake",
+        "lvl": 33
+      },
+      {
+        "name": "stone edge",
+        "lvl": 37
+      }
+    ],
+    "Evolution": {
+      "name": "Tyranitar",
+      "lvl": 55
+    }
+  },
+  "Tyranitar": {
+    "Types": [
+      "rock",
+      "dark"
+    ],
+    "Stats": {
+      "ATK": 134.0,
+      "DEF": 110.0,
+      "SPE": 61.0,
+      "HP": 100.0,
+      "SPA": 95.0,
+      "SPD": 100.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "rock throw",
+        "lvl": 3
+      },
+      {
+        "name": "bite",
+        "lvl": 9
+      },
+      {
+        "name": "rock slide",
+        "lvl": 15
+      },
+      {
+        "name": "dark pulse",
+        "lvl": 24
+      },
+      {
+        "name": "crunch",
+        "lvl": 27
+      },
+      {
+        "name": "earthquake",
+        "lvl": 33
+      },
+      {
+        "name": "stone edge",
+        "lvl": 37
+      }
+    ],
+    "Evolution": {
+      "name": "Tyranitar",
+      "lvl": 55
     }
   }
 }

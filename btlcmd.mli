@@ -34,6 +34,7 @@ type command =
   | Party
   | Run
   | Switch
+  | TestStage
   | Quit
 
 (** Raised when an empty command is parsed. *)

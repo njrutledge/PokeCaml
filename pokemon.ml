@@ -47,13 +47,20 @@ module type PokeSig = sig
   val get_move : t -> int -> Moves.t
   val get_lvl: t -> t_lvl
   val get_xp: t -> float
-  val get_status: t -> string list
+  val get_status: t -> string
+  val get_accuracy: t -> float
+  val get_confusion: t -> bool * int
+  val get_sleep_counter: t -> int
 
   val set_hp : t -> t_hp -> unit
   val set_xp : t -> t_xp -> unit
-  val add_status : t -> string -> unit
-  val rem_status : t -> string -> unit
+  val set_status : t -> string -> unit
+  val set_confusion: t -> bool * int -> unit
+  val set_sleep_counter: t -> int -> unit
+  val rem_status : t -> unit
   val change_stage: t -> string -> int -> unit
+  val reset_stages: t -> unit
+  val format_stages: t -> string
 
   val format_moves_names : t -> string
   val format_moves_all: t -> string
@@ -104,7 +111,9 @@ module Pokemon : PokeSig = struct
     mutable defense_stage: int;
     mutable speed_stage: int;
     mutable accuracy_stage: int;
-    mutable cur_status: string list;
+    mutable confused: bool * int;
+    mutable status: string;
+    mutable sleep_counter: int;
     moveset: (int * M.t) list;
     evolution: string * int;
   }
@@ -172,73 +181,77 @@ module Pokemon : PokeSig = struct
 
 
   let create_pokemon mon_name start_lvl moves = 
-    let json = get_data mon_name in 
-    let pmon = 
-      {
-        el_type = 
-          json 
-          |> member "Types"
-          |> to_list
-          |> List.map to_string;
-        name = mon_name;
-        max_hp = 
-          json 
-          |> member "Stats"
-          |> member "HP"
-          |> to_float;
-        hp = 
-          json 
-          |> member "Stats"
-          |> member "HP"
-          |> to_float;
-        attack = 
-          json 
-          |> member "Stats"
-          |> member "ATK"
-          |> to_float; 
-        speed = 
-          json 
-          |> member "Stats"
-          |> member "SPE"
-          |> to_float;
-        defense = 
-          json 
-          |> member "Stats"
-          |> member "DEF"
-          |> to_float;
-        sp_attack = 
-          json 
-          |> member "Stats"
-          |> member "SPA"
-          |> to_float;
-        sp_defense = 
-          json 
-          |> member "Stats"
-          |> member "SPD"
-          |> to_float;
-        moves = Array.of_list moves;
-        moveset = 
-          json
-          |> member "Moveset"
-          |> to_list
-          |> List.map json_moveset;
-        evolution = 
-          json
-          |> member "Evolution"
-          |> json_evo;
-        lvl = 1;
-        xp = Float.pow (start_lvl - 1 |> Float.of_int) 3.;
-        attack_stage = 0;
-        spa_stage = 0;
-        defense_stage = 0;
-        spd_stage = 0;
-        speed_stage = 0;
-        accuracy_stage = 0;
-        cur_status = [];
-      } in 
-    ignore (lvl_up pmon);
-    pmon.hp <- pmon.max_hp;
-    pmon 
+    try
+      let json = get_data mon_name in 
+      let pmon = 
+        {
+          el_type = 
+            json 
+            |> member "Types"
+            |> to_list
+            |> List.map to_string;
+          name = mon_name;
+          max_hp = 
+            json 
+            |> member "Stats"
+            |> member "HP"
+            |> to_float;
+          hp = 
+            json 
+            |> member "Stats"
+            |> member "HP"
+            |> to_float;
+          attack = 
+            json 
+            |> member "Stats"
+            |> member "ATK"
+            |> to_float; 
+          speed = 
+            json 
+            |> member "Stats"
+            |> member "SPE"
+            |> to_float;
+          defense = 
+            json 
+            |> member "Stats"
+            |> member "DEF"
+            |> to_float;
+          sp_attack = 
+            json 
+            |> member "Stats"
+            |> member "SPA"
+            |> to_float;
+          sp_defense = 
+            json 
+            |> member "Stats"
+            |> member "SPD"
+            |> to_float;
+          moves = Array.of_list moves;
+          moveset = 
+            json
+            |> member "Moveset"
+            |> to_list
+            |> List.map json_moveset;
+          evolution = 
+            json
+            |> member "Evolution"
+            |> json_evo;
+          lvl = 1;
+          xp = Float.pow (start_lvl - 1 |> Float.of_int) 3.;
+          attack_stage = 0;
+          spa_stage = 0;
+          defense_stage = 0;
+          spd_stage = 0;
+          speed_stage = 0;
+          accuracy_stage = 0;
+          confused = (false,0);
+          status = "";
+          sleep_counter = 0;
+        } in 
+      ignore (lvl_up pmon);
+      pmon.hp <- pmon.max_hp;
+      pmon 
+    with _ -> failwith ("failed to create pokemon " ^ mon_name)
 
   let get_max_hp mon = mon.max_hp
 
@@ -287,34 +300,50 @@ module Pokemon : PokeSig = struct
 
   let get_speed mon = mon.speed *. stage_mult false mon.speed_stage
 
-  let get_accuracy mon = 100. *. stage_mult true mon.accuracy_stage
-
   let get_move mon move = mon.moves.(move)
 
   let get_lvl mon = mon.lvl
 
   let get_xp mon = mon.xp
 
-  let get_status mon = mon.cur_status
+  let get_status mon = mon.status
+
+  let get_accuracy mon = 1. *. stage_mult true mon.accuracy_stage
+
+  let get_confusion mon = mon.confused
+
+  let get_sleep_counter mon = mon.sleep_counter
 
   let set_hp mon hp = mon.hp <- hp
 
   let set_xp mon xp = mon.xp <- xp
 
-  let add_status mon status = 
-    mon.cur_status <- status :: mon.cur_status
+  let set_status mon status = 
+    if mon.status = "" then
+      if status = "sleep" then begin
+        mon.status <- "sleep";
+        mon.sleep_counter <- 3;
+      end 
+      else mon.status <- status 
+    else ()
 
-  let rem_status mon status = 
-    mon.cur_status <- List.filter (fun x -> x <> status) mon.cur_status
+  let set_confusion mon bool_int = mon.confused <- bool_int
+
+  let set_sleep_counter mon counter = mon.sleep_counter <- counter
+
+  let rem_status mon = 
+    mon.status <- ""
 
   let change_stage mon st add = 
     match st with 
-    | "attack" -> mon.attack_stage <- mon.attack_stage + add
-    | "special attack" -> mon.spa_stage <- mon.spa_stage + add
-    | "defense" -> mon.defense_stage <- mon.defense_stage + add
-    | "special defense" -> mon.spd_stage <- mon.spd_stage + add
-    | "speed" -> mon.speed_stage <- mon.speed_stage + add
-    | "accuracy" -> mon.accuracy_stage <- mon.accuracy_stage + add
+    | "attack" -> mon.attack_stage <- max (min (mon.attack_stage + add) 6) ~-6
+    | "special attack" -> mon.spa_stage <- max (min (mon.spa_stage + add) 6) ~-6
+    | "defense" -> mon.defense_stage <- max (min (mon.defense_stage + add) 6) ~-6
+    | "special defense" -> mon.spd_stage <- max(min(mon.spd_stage + add) 6) ~-6
+    | "speed" -> mon.speed_stage <- max (min (mon.speed_stage + add) 6) ~-6
+    | "accuracy" -> mon.accuracy_stage <- max (min (mon.accuracy_stage + add) 6) ~-6;
+      print_int mon.accuracy_stage;
+      print_float (get_accuracy mon);
     | "evasion" -> failwith "evasion not set up yet"
     | _ -> failwith "invalid stage type passed in"
 
@@ -419,4 +448,22 @@ module Pokemon : PokeSig = struct
       (evo, true)
     end 
     else (mon, false)
+
+  let reset_stages mon = begin
+    mon.attack_stage <- 0;
+    mon.spa_stage <-0 ;
+    mon.spd_stage <- 0;
+    mon.defense_stage <- 0;
+    mon.speed_stage <- 0;
+    mon.accuracy_stage <- 0; end
+
+
+  let format_stages mon = 
+    mon.name ^ "'s current stages :\n" ^ 
+    " - attack: " ^ (string_of_int mon.attack_stage) ^ "\n" ^ 
+    " - special attack: " ^ (string_of_int mon.spa_stage) ^ "\n" ^ 
+    " - defense: " ^ (string_of_int mon.defense_stage) ^ "\n" ^ 
+    " - special attack: " ^ (string_of_int mon.spd_stage) ^ "\n" ^ 
+    " - speed: " ^ (string_of_int mon.speed_stage) ^ "\n" ^ 
+    " - accuracy: " ^ (string_of_int mon.accuracy_stage) ^ "\n" 
 end

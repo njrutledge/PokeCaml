@@ -8,7 +8,7 @@ module type MoveSig = sig
     is_special: bool;
     accuracy: float;
     el_type: Types.t;
-    effects: string list;
+    status: string list;
     mutable pp : int;
     max_pp : int;
 
@@ -33,8 +33,8 @@ module type MoveSig = sig
       false, it is a physical move. *)
   val get_is_special: t -> bool
 
-  (** [get_effects move] is the list of effects a move might cause. *)
-  val get_effects: t -> string list
+  (** [get_status move] is the list of status effects a move might cause. *)
+  val get_status: t -> string list
 
   (** [set_pp move pp] sets the pp of [move] to [pp]. *)
   val set_pp: t -> int -> unit

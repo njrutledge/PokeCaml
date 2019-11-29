@@ -52,7 +52,7 @@
     "type": "fire",
     "uses": 40,
     "status": [
-      "burn foe 10"
+      "burn foe 10.0"
     ]
   },
   "flamethrower": {
@@ -63,7 +63,7 @@
     "type": "fire",
     "uses": 15,
     "status": [
-      "burn foe 10"
+      "burn foe 10.0"
     ]
   },
   "leaf blade": {
@@ -137,7 +137,7 @@
     "type": "electric",
     "uses": 30,
     "status": [
-      "paralyze foe 10"
+      "paralyze foe 10.0"
     ]
   },
   "spark": {
@@ -148,7 +148,7 @@
     "type": "electric",
     "uses": 20,
     "status": [
-      "paralyze foe 30"
+      "paralyze foe 30.0"
     ]
   },
   "zippy zap": {
@@ -159,7 +159,7 @@
     "type": "electric",
     "uses": 15,
     "status": [
-      "paralyze foe 30"
+      "paralyze foe 30.0"
     ]
   },
   "thunderbolt": {
@@ -170,7 +170,7 @@
     "type": "electric",
     "uses": 15,
     "status": [
-      "paralyze foe 30"
+      "paralyze foe 30.0"
     ]
   },
   "thunder": {
@@ -181,7 +181,7 @@
     "type": "electric",
     "uses": 5,
     "status": [
-      "paralyze foe 30"
+      "paralyze foe 30.0"
     ]
   },
   "10,000,000 Volt Thunderbolt": {
@@ -219,7 +219,7 @@
     "type": "dark",
     "uses": 25,
     "status": [
-      "flinch foe 10"
+      "flinch foe 10.0"
     ]
   },
   "gust": {
@@ -257,7 +257,7 @@
     "type": "normal",
     "uses": 40,
     "status": [
-      "DEF 1 self 100"
+      "DEF 1 self 100.0"
     ]
   },
   "agility": {
@@ -279,7 +279,7 @@
     "type": "normal",
     "uses": 40,
     "status": [
-      "ATK -1 foe"
+      "ATK -1 foe 100.0"
     ]
   },
   "rest": {
@@ -291,7 +291,7 @@
     "uses": 40,
     "status": [
       "sleep self",
-      "heal full self",
+      "heal self full",
       "clear"
     ]
   },
@@ -314,12 +314,13 @@
     "type": "dark",
     "uses": 15,
     "status": [
-      "DEF -1 foe 20"
+      "DEF -1 foe 20.0"
     ]
   },
   "crabhammer": {
     "desc": "The target is hammered with a large pincer.",
     "power": 100.0,
+    "special": false,
     "accuracy": 90.0,
     "type": "water",
     "uses": 10,
@@ -328,36 +329,40 @@
   "absorb": {
     "desc": "A nutrient-draining attack. The user's HP is restored by half the damage taken by the target.",
     "power": 20.0,
+    "special": true,
     "accuracy": 100.0,
     "type": "grass",
     "uses": 15,
     "status": [
-      "heal self .5"
+      "heal self 0.5"
     ]
   },
   "mega drain": {
     "desc": "A nutrient-draining attack. The user's HP is restored by half the damage taken by the target.",
     "power": 40.0,
+    "special": true,
     "accuracy": 100.0,
     "type": "grass",
     "uses": 10,
     "status": [
-      "heal self .5"
+      "heal self 0.5"
     ]
   },
   "giga drain": {
     "desc": "A nutrient-draining attack. The user's HP is restored by half the damage taken by the target",
     "power": 75.0,
+    "special": true,
     "accuracy": 100.0,
     "type": "grass",
     "uses": 10,
     "status": [
-      "heal self .5"
+      "heal self 0.5"
     ]
   },
   "hydro pump": {
     "desc": "The target is blasted by a huge volume of water launched under great pressure.",
     "power": 110.0,
+    "special": true,
     "accuracy": 80.0,
     "type": "water",
     "uses": 5,
@@ -366,16 +371,18 @@
   "sing": {
     "desc": "A soothing lullaby is sung in a calming voice that puts the target into a deep slumber.",
     "power": 0.0,
+    "special": false,
     "accuracy": 55.0,
     "type": "normal",
     "uses": 15,
     "status": [
-      "sleep foe 100"
+      "sleep foe 100.0"
     ]
   },
   "pound": {
     "desc": "The target is physically pounded with a long tail, a foreleg, or the like.",
     "power": 40.0,
+    "special": false,
     "accuracy": 100.0,
     "type": "normal",
     "uses": 35,
@@ -384,8 +391,9 @@
   "double slap": {
     "desc": "The target is slapped repeatedly, back and forth, two to five times in a row.",
     "power": 15.0,
+    "special": false,
     "accuracy": 85.0,
-    "types": "normal",
+    "type": "normal",
     "uses": 10,
     "status": [
       "hit 37.5",
@@ -397,19 +405,191 @@
   "body slam": {
     "desc": "The user drops onto the target with its full body weight. This may also leave the target with paralysis.",
     "power": 85.0,
+    "special": false,
     "accuracy": 100.0,
-    "types": "normal",
+    "type": "normal",
     "uses": 15,
     "status": [
-      "paralyze foe 30"
+      "paralyze foe 30.0"
     ]
   },
   "double-edge": {
     "desc": "A reckless, life-risking tackle in which the user rushes the target. This also damages the user quite a lot.",
     "power": 120.0,
+    "special": false,
+    "type": "normal",
     "accuracy": 100.0,
+    "uses": 15,
     "status": [
-      "hurt self .25"
+      "hurt self 0.25"
+    ]
+  },
+  "wing attack": {
+    "desc": "A reckless, life-risking tackle in which the user rushes the target. This also damages the user quite a lot.",
+    "power": 120.0,
+    "special": false,
+    "type": "flying",
+    "accuracy": 100.0,
+    "uses": 35,
+    "status": [
+      "hurt self 0.25"
+    ]
+  },
+  "string shot": {
+    "desc": "Opposing Pokémon are bound with silk blown from the user's mouth that harshly lowers the Speed stat.",
+    "power": 0.0,
+    "special": true,
+    "accuracy": 95.0,
+    "type": "bug",
+    "uses": 40,
+    "status": [
+      "SPE -2 foe 100.0"
+    ]
+  },
+  "harden": {
+    "desc": "The user stiffens all the muscles in its body to raise its Defense stat.",
+    "power": 0.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 30,
+    "status": [
+      "DEF 1 self 100.0"
+    ]
+  },
+  "bug bite": {
+    "desc": "The user bites the target.",
+    "power": 60.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "bug",
+    "uses": 20,
+    "status": []
+  },
+  "poison powder": {
+    "desc": "The user scatters a cloud of poisonous dust that poisons the target.",
+    "power": 0.0,
+    "special": true,
+    "accuracy": 75.0,
+    "type": "poison",
+    "uses": 35,
+    "status": [
+      "poison foe 100.0"
+    ]
+  },
+  "stun spore": {
+    "desc": "The user scatters a cloud of numbing powder that paralyzes the target.",
+    "power": 0.0,
+    "special": true,
+    "accuracy": 75.0,
+    "type": "grass",
+    "uses": 30,
+    "status": [
+      "paralyze foe 100.0"
+    ]
+  },
+  "sleep powder": {
+    "desc": "The user scatters a big cloud of sleep-inducing dust around the target.",
+    "power": 0.0,
+    "special": true,
+    "accuracy": 75.0,
+    "type": "grass",
+    "uses": 15,
+    "status": [
+      "sleep foe 100.0"
+    ]
+  },
+  "psybeam": {
+    "desc": "The target is attacked with a peculiar ray. This may also leave the target confused.",
+    "power": 65.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "psychic",
+    "uses": 20,
+    "status": [
+      "confusion foe 10.0"
+    ]
+  },
+  "air slash": {
+    "desc": "The user attacks with a blade of air that slices even the sky. This may also make the target flinch.",
+    "power": 75.0,
+    "special": true,
+    "accuracy": 95.0,
+    "type": "flying",
+    "uses": 15,
+    "status": [
+      "flinch foe 30.0"
+    ]
+  },
+  "bug buzz": {
+    "desc": "The user generates a damaging sound wave by vibration. This may also lower the target's Sp. Def stat.",
+    "power": 90.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "bug",
+    "uses": 10,
+    "status": [
+      "SPD -1 foe 10.0"
+    ]
+  },
+  "rock throw": {
+    "desc": "The user picks up and throws a small rock at the target to attack.",
+    "power": 50.0,
+    "special": false,
+    "accuracy": 90.0,
+    "type": "rock",
+    "uses": 15,
+    "status": []
+  },
+  "rock slide": {
+    "desc": "Large boulders are hurled at opposing Pokémon to inflict damage. This may also make the opposing Pokémon flinch.",
+    "power": 75.0,
+    "special": false,
+    "accuracy": 90.0,
+    "type": "rock",
+    "uses": 10,
+    "status": [
+      "flinch foe 30.0"
+    ]
+  },
+  "dark pulse": {
+    "desc": "The user releases a horrible aura imbued with dark thoughts. This may also make the target flinch.",
+    "power": 80.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "dark",
+    "uses": 15,
+    "status": [
+      "flinch foe 20.0"
+    ]
+  },
+  "earthquake": {
+    "desc": "The user sets off an earthquake that strikes every Pokémon around it.",
+    "power": 100.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "ground",
+    "uses": 10,
+    "status": []
+  },
+  "stone edge": {
+    "desc": "The user stabs the target from below with sharpened stones.",
+    "power": 100.0,
+    "special": false,
+    "accuracy": 80.0,
+    "type": "rock",
+    "uses": 5,
+    "status": []
+  },
+  "sand attack": {
+    "desc": "bam",
+    "power": 0.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "ground",
+    "uses": 15,
+    "status": [
+      "ACC -1 foe 100.0"
     ]
   }
 }

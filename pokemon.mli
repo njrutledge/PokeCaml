@@ -75,10 +75,17 @@ module type PokeSig = sig
   (** [get_xp mon is the current experience of [mon]. *)
   val get_xp : t -> float
 
-  (** [get_stauts mon] is the list of current status effects of [mon]. *)
-  val get_status: t -> string list
+  (** [get_status mon] is the current non-volatile status effect of [mon]. *)
+  val get_status: t -> string
 
+  (** [get_acc mon] is the accuracy of [mon]. *)
+  val get_accuracy: t -> float
 
+  (** [get_confusion mon] is the confusion state for [mon]. *)
+  val get_confusion: t -> bool * int
+
+  (** [get_sleep_counter mon] is the current sleep counter of [mon]. *)
+  val get_sleep_counter: t -> int
 
   (** [set_hp mon hp] sets the hp of [mon] to [hp].*)
   val set_hp : t -> t_hp -> unit
@@ -86,12 +93,19 @@ module type PokeSig = sig
   (** [set_xp mon xp] sets the xp of [mon] to [xp]. *)
   val set_xp : t -> t_xp -> unit
 
-  (** [add_status mon st] adds status [st] to the current status of [mon]. *)
-  val add_status : t -> string -> unit
+  (** [set_status mon st] sets the status [st] to the current status of [mon],
+      if [mon] does not currently have a status. Otherwise, does nothing. *)
+  val set_status : t -> string -> unit
 
-  (** [rem_status mon st] removes status [st] from 
-      the current status of [mon]. *)
-  val rem_status : t -> string -> unit
+  (** [set_confusion mon conf] sets the current confusion state of [mon] to 
+      [conf]. *)
+  val set_confusion: t -> bool * int -> unit
+
+  (** [set_sleep_counter mon c] sets the sleep counter of [mon] to [c]. *)
+  val set_sleep_counter: t -> int -> unit
+
+  (** [rem_status mon] removes the status of [mon]. *)
+  val rem_status : t -> unit
 
   (** [change_stage mon st add] changes the stage represented by name [st]
       for pokemon [mon] by the ammount [add]. 
@@ -100,6 +114,12 @@ module type PokeSig = sig
       [accuracy], and [evasion]. *)
   val change_stage: t -> string -> int -> unit
 
+  (**[reset_stages_all mon] resets the stat changes for [mon]. *)
+  val reset_stages: t -> unit
+
+  (** [format_stages mon] is the string representation of the current
+      stages of [mon]. *)
+  val format_stages: t -> string
 
   (** [format_moves_names mon] is a formatted output of names of [mon]'s  moves.*)
   val format_moves_names : t -> string

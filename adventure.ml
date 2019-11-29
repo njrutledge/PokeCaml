@@ -113,33 +113,38 @@ let json_dynamic_desc j_dy_desc = {
 
 (** [json_town j] is the adventure town that [j] represents. 
     Requires: [j] is a valid JSON adventure town representation. *)
-let json_town j_town = {
-  id = 
-    j_town 
-    |> member "id" 
-    |> to_string;
-  default_desc = 
-    j_town 
-    |> member "description" 
-    |> to_string;
-  (*dynamic_desc = 
-    j_town
-    |> member "dynamic descriptions"
-    |> to_list
-    |> List.map json_dynamic_desc;*)
-  exits = 
-    j_town 
-    |> member "exits" 
-    |> to_list 
-    |> List.map json_exit;
-}
+let json_town j_town = 
+  try 
+    {
+      id = 
+        j_town 
+        |> member "id" 
+        |> to_string;
+      default_desc = 
+        j_town 
+        |> member "description" 
+        |> to_string;
+      (*dynamic_desc = 
+        j_town
+        |> member "dynamic descriptions"
+        |> to_list
+        |> List.map json_dynamic_desc;*)
+      exits = 
+        j_town 
+        |> member "exits" 
+        |> to_list 
+        |> List.map json_exit;
+    }
+  with _ -> failwith "bad town"
 
-let json_item j_item = {
-  item_name = 
-    j_item
-    |> member "name"
-    |> to_string;
-}
+let json_item j_item = 
+  try {
+    item_name = 
+      j_item
+      |> member "name"
+      |> to_string;
+  }
+  with _ -> failwith "bad item"
 
 let json_wilds j_item = 
   let name = 
@@ -162,64 +167,70 @@ let json_wilds j_item =
   (name, lvl, chance, moves)
 
 let json_t_pokemon j_item = 
-  let name = 
-    j_item 
-    |> member "name"
-    |> to_string in
-  let lvl = 
-    j_item
-    |> member "lvl"
-    |> to_int in
-  let moves = 
-    j_item
-    |> member "moves"
-    |> to_list
-    |> List.map (fun x -> x|> to_string |> Moves.create_move) in 
-  PM.create_pokemon name lvl moves
+  try
+    let name = 
+      j_item 
+      |> member "name"
+      |> to_string in
+    let lvl = 
+      j_item
+      |> member "lvl"
+      |> to_int in
+    let moves = 
+      j_item
+      |> member "moves"
+      |> to_list
+      |> List.map (fun x -> x|> to_string |> Moves.create_move) in 
+    PM.create_pokemon name lvl moves
+  with Failure e -> failwith (e ^ ": error in json_t_pokemon")
 
 let json_trainers j_item = 
   let name = 
     j_item 
     |> member "name"
     |> to_string in
-  let pokemon_list = 
-    j_item
-    |> member "pokemon"
-    |> to_list 
-    |> List.map json_t_pokemon in
-  let money =
-    j_item 
-    |> member "money"
-    |> to_int in
-  (name, (money, false, Array.of_list pokemon_list))
+  try 
+    let pokemon_list = 
+      j_item
+      |> member "pokemon"
+      |> to_list 
+      |> List.map json_t_pokemon in
+    let money =
+      j_item 
+      |> member "money"
+      |> to_int in
+    (name, (money, false, Array.of_list pokemon_list))
+  with Failure e -> failwith (e ^ ": trainer " ^ name)
 
 let rec make_bats acc = function 
   | [] ->  acc
   | h :: t -> if h = "wild" then make_bats (Wild :: acc) t 
     else make_bats (Trainer h :: acc) t
 
-let json_route j_route = {
-  route_name = 
-    j_route 
-    |> member "name"
-    |> to_string;
-  battles = 
-    j_route 
-    |> member "battles" 
-    |> to_list 
-    |> List.map to_string 
-    |> make_bats [];
-  wilds =
-    j_route
-    |> member "wilds"
-    |> to_list
-    |> List.map json_wilds
-    |> get_ranges [] 0;
-  badge = 
-    j_route
-    |> member "badge"
-    |> to_string;
-}
+let json_route j_route = 
+  try {
+    route_name = 
+      j_route 
+      |> member "name"
+      |> to_string;
+    battles = 
+      j_route 
+      |> member "battles" 
+      |> to_list 
+      |> List.map to_string 
+      |> make_bats [];
+    wilds =
+      j_route
+      |> member "wilds"
+      |> to_list
+      |> List.map json_wilds
+      |> get_ranges [] 0;
+    badge = 
+      j_route
+      |> member "badge"
+      |> to_string;
+  }
+  with _ -> failwith "bad route"
 
 let from_json json = {
   towns = 

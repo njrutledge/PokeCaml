@@ -13,7 +13,7 @@
         {
           "name": "Rattata",
           "lvl": 3,
-          "chance": 50,
+          "chance": 10,
           "moves": [
             "tackle"
           ]
@@ -21,9 +21,9 @@
         {
           "name": "Pidgey",
           "lvl": 3,
-          "chance": 50,
+          "chance": 90,
           "moves": [
-            "tackle"
+            "sand attack"
           ]
         }
       ]
@@ -102,7 +102,8 @@
           "lvl": 5,
           "moves": [
             "tackle",
-            "gust"
+            "gust",
+            "sand attack"
           ]
         }
       ]
@@ -142,7 +143,8 @@
           "name": "Pidgey",
           "lvl": 5,
           "moves": [
-            "tackle"
+            "tackle",
+            "sand attack"
           ]
         },
         {

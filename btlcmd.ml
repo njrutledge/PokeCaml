@@ -10,6 +10,7 @@ type command =
   | Party
   | Run
   | Switch
+  | TestStage
   | Quit
 
 exception Empty
@@ -31,6 +32,7 @@ let make_command verb phrase =
     if verb = "run" then Run else 
     if verb = "switch" then Switch else 
     if verb = "bag" then Bag else
+    if verb = "stage" then TestStage else
       raise Malformed 
   else
   if verb = "attack" then begin
