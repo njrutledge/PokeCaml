@@ -75,7 +75,7 @@ let execute_bag st =
 
 (** [execute_party adv st] prints the contents of the current party in [st]. *)
 let execute_party st = 
-  ANSITerminal.(print_string [blue] (PM.string_of_mons (State.get_party st)));
+  ANSITerminal.(print_string [cyan] (PM.string_of_mons (State.get_party st)));
   None
 
 (** [print_give_badge st] prints that the player obtained the badge in [st]. *)
@@ -97,11 +97,10 @@ let print_give_badge st =
 let execute_go_route adv st route = 
   match State.route route adv st with 
   | Illegal (msg) -> raise (IllegalMove msg)
-  | Legal (t) -> 
-    let adv' = t |> State.get_def_tr |> Adventure.defeat_trainers adv in 
-    print_give_badge st;
-    let st' = State.clear_def_trs st in 
-    Both (adv', st')
+  | Legal (st') -> 
+    let adv' = st' |> State.get_def_tr |> Adventure.defeat_trainers adv in 
+    print_give_badge st';
+    Both (adv', State.clear_def_trs st')
 
 (** [in_pokecenter st] is true if the current location of [st] is a
     pokecenter. *)
@@ -145,7 +144,7 @@ let execute_map adv state = begin
     | [] -> acc
     | h :: t ->  exit_str (" - " ^h ^ "\n" ^ acc) t in
   let str = "Here are the places you can go:\n" ^ exit_str "" exits in 
-  ANSITerminal.(print_string [blue] str); None end
+  ANSITerminal.(print_string [cyan] str); None end
 
 (** [execute_moves adv state num] prints the moves of the pokemon corresponding
     to [num] in the players current party in [state].*)

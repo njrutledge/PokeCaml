@@ -21,7 +21,7 @@ let init_state adv = {
   bag = [(Potion, ref 5); (HyperPotion, ref 1);
          (PokeBall, ref 5); (GreatBall, ref 1)];
   money = ref 1000;
-  party = [|(PM.create_pokemon "Pikachu" 5 [Moves.create_move "thundershock";]);
+  party = [|(PM.create_pokemon "Pikachu" 50 [Moves.create_move "thundershock";]);
             (PM.create_pokemon "Charmander" 5 [Moves.create_move "scratch"]);
             (PM.create_pokemon "Squirtle" 5 [Moves.create_move "tackle";]);|];
   defeated_trainers = [];
@@ -56,8 +56,10 @@ let rec run_battles route adv st = function
       if (String.split_on_char ' ' route |> List.hd) =  "gym" then 
         go route adv 
           {st with badges = Adventure.get_badge adv route :: st.badges}  
-      else 
+      else begin 
+        print_endline(st.cur_town);
         go route adv st
+      end 
     end 
   | Adventure.Wild :: t -> make_battle route adv st "wild" (Adventure.get_wild adv route) t
   | Adventure.Trainer tr :: t ->  
@@ -83,8 +85,9 @@ and make_battle route adv st cpu_name cpu_mons bats =
     else st.defeated_trainers in 
   let st' = {st with party = p; bag = b; money = m; defeated_trainers = dt} in 
   if keep_going then run_battles route adv st' bats
-  else 
-    Legal st'
+  else begin 
+    print_endline("I DO NOT WANT TO BE HERE");
+    Legal st' end 
 
 let route r adv st = 
   try 

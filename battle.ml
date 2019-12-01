@@ -709,9 +709,9 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
       cpu_money finale
   | CPUDown (mon) ->
     PM.reset_stages cpumon;
-    let alive_mons = PM.alive_pmons p_mons in 
     let next = (PM.alive_pmons cpu_mons).(0) in 
-    give_xp_all (PM.get_lvl cpumon) false alive_mons p_mons;
+    give_xp_all (PM.get_lvl cpumon) false (PM.alive_pmons p_mons) p_mons;
+    let alive_mons = PM.alive_pmons p_mons in 
     ANSITerminal.
       (print_string [yellow]
          ("\n" ^ mon ^ " fainted! " ^ cpu 
@@ -742,5 +742,3 @@ let main (player_team, bag, money, cpu_team, cpu, cpu_money, fin) =
   else 
     ANSITerminal.(print_string [yellow] (cpu ^ " challenges you to a battle!\n"));
   battle_handler bag money cpu player_team cpu_team pmon cpumon cpu_money fin
-
-(* Execute the game engine. *) 
