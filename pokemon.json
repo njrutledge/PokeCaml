@@ -18,17 +18,97 @@
         "lvl": 1
       },
       {
-        "name": "vine whip",
-        "lvl": 8
+        "name": "growl",
+        "lvl": 1
       },
       {
-        "name": "leaf blade",
+        "name": "vine whip",
+        "lvl": 3
+      },
+      {
+        "name": "growth",
+        "lvl": 6
+      },
+      {
+        "name": "razor leaf",
         "lvl": 12
+      },
+      {
+        "name": "poison powder",
+        "lvl": 15
       }
     ],
     "Evolution": {
       "name": "Ivysaur",
       "lvl": 16
+    }
+  },
+  "Ivysaur": {
+    "Types": [
+      "grass",
+      "poison"
+    ],
+    "Stats": {
+      "HP": 60.0,
+      "ATK": 62.0,
+      "DEF": 63.0,
+      "SPA": 80.0,
+      "SPD": 80.0,
+      "SPE": 60.0
+    },
+    "Moveset": [
+      {
+        "name": "seed bomb",
+        "lvl": 20
+      },
+      {
+        "name": "take down",
+        "lvl": 25
+      },
+      {
+        "name": "sweet scent",
+        "lvl": 30
+      }
+    ],
+    "Evolution": {
+      "name": "Venusaur",
+      "lvl": 32
+    }
+  },
+  "Venusaur": {
+    "Types": [
+      "grass",
+      "poison"
+    ],
+    "Stats": {
+      "HP": 80.0,
+      "ATK": 82.0,
+      "DEF": 83.0,
+      "SPA": 100.0,
+      "SPD": 100.0,
+      "SPE": 80.0
+    },
+    "Moveset": [
+      {
+        "name": "synthesis",
+        "lvl": 37
+      },
+      {
+        "name": "worry seed",
+        "lvl": 44
+      },
+      {
+        "name": "double-edge",
+        "lvl": 51
+      },
+      {
+        "name": "solar beam",
+        "lvl": 58
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
     }
   },
   "Charmander": {
@@ -966,6 +1046,65 @@
         "name": "final gambit",
         "lvl": 57
       }
-    ]
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Arceus": {
+    "Types": [
+      "normal"
+    ],
+    "Stats": {
+      "HP": 120.0,
+      "ATK": 120.0,
+      "DEF": 120.0,
+      "SPA": 120.0,
+      "SPD": 120.0,
+      "SPE": 120.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "OCamlrupt": {
+    "Types": [
+      "fire",
+      "ground"
+    ],
+    "Stats": {
+      "HP": 70.0,
+      "ATK": 100.0,
+      "DEF": 70.0,
+      "SPA": 105.0,
+      "SPD": 75.0,
+      "SPE": 40.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Entei": {
+    "Types": [
+      "fire"
+    ],
+    "Stats": {
+      "HP": 115.0,
+      "ATK": 115.0,
+      "DEF": 85.0,
+      "SPA": 90.0,
+      "SPD": 75.0,
+      "SPE": 100.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
   }
 }

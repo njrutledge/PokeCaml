@@ -253,7 +253,7 @@
     "desc": "The user curls up to conceal weak spots and raise its Defense stat.",
     "power": 0.0,
     "special": false,
-    "accuracy": 100.0,
+    "accuracy": 100000.0,
     "type": "normal",
     "uses": 40,
     "status": [
@@ -264,7 +264,7 @@
     "desc": "The user relaxes and lightens its body to move faster. This sharply raises the Speed stat.",
     "power": 0.0,
     "special": false,
-    "accuracy": 100.0,
+    "accuracy": 100000.0,
     "type": "psychic",
     "uses": 30,
     "status": [
@@ -283,10 +283,10 @@
     ]
   },
   "rest": {
-    "desc": "The user growls in an endearing way, making the foe less wary. The target's Attack stat is lowered.",
+    "desc": "The user goes to sleep for two turns. This fully restores the user's HP and heals any status conditions.",
     "power": 0.0,
     "special": false,
-    "accuracy": 100.0,
+    "accuracy": 100000.0,
     "type": "psychic",
     "uses": 40,
     "status": [
@@ -450,7 +450,7 @@
     "desc": "The user stiffens all the muscles in its body to raise its Defense stat.",
     "power": 0.0,
     "special": true,
-    "accuracy": 100.0,
+    "accuracy": 100000.0,
     "type": "normal",
     "uses": 30,
     "status": [
@@ -640,7 +640,7 @@
     "desc": "The user vigorously performs a mystic, powerful dance that raises its Attack and Speed stats.",
     "power": 0.0,
     "special": false,
-    "accuracy": 100.0,
+    "accuracy": 100000.0,
     "type": "dragon",
     "uses": 20,
     "status": [
@@ -755,5 +755,173 @@
     "status": [
       "flinch foe 10.0"
     ]
+  },
+  "earth power": {
+    "desc": "The user makes the ground under the target erupt with power. This may also lower the target's Sp. Def stat.",
+    "power": 90.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "ground",
+    "uses": 10,
+    "status": [
+      "SPD -1 foe 10.0"
+    ]
+  },
+  "lava plume": {
+    "desc": "The user torches everything around it in an inferno of scarlet flames. This may also leave those it hits with a burn.",
+    "power": 80.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "fire",
+    "uses": 15,
+    "status": [
+      "burn foe 30.0"
+    ]
+  },
+  "amnesia": {
+    "desc": "The user temporarily empties its mind to forget its concerns. This sharply raises the user's Sp. Def stat.",
+    "power": 0.0,
+    "special": false,
+    "accuracy": 100000.0,
+    "type": "psychic",
+    "uses": 20,
+    "status": [
+      "SPD 2 self 100.0"
+    ]
+  },
+  "swagger": {
+    "desc": "The user enrages and confuses the target. However, this also sharply raises the target's Attack stat",
+    "power": 0.0,
+    "special": false,
+    "accuracy": 85.0,
+    "type": "normal",
+    "uses": 15,
+    "status": [
+      "confusion foe 100.0",
+      "ATK 2 foe 100.0"
+    ]
+  },
+  "stomp": {
+    "desc": "The target is stomped with a big foot. This may also make the target flinch.",
+    "power": 65.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 20,
+    "status": [
+      "flinch foe 30.0"
+    ]
+  },
+  "fire fang": {
+    "desc": "The user bites with flame-cloaked fangs. This may also make the target flinch or leave it with a burn.",
+    "power": 65.0,
+    "special": false,
+    "accuracy": 95.0,
+    "type": "fire",
+    "uses": 15,
+    "status": [
+      "burn foe 10.0",
+      "flinch foe 10.0"
+    ]
+  },
+  "hyper voice": {
+    "desc": "The user lets loose a horribly echoing shout with the power to inflict damage",
+    "power": 90.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 10,
+    "status": []
+  },
+  "recover": {
+    "desc": "Restoring its own cells, the user restores its own HP by half of its max HP.",
+    "power": 0.0,
+    "special": false,
+    "accuracy": 100000.0,
+    "type": "normal",
+    "uses": 10,
+    "status": [
+      "heal self half"
+    ]
+  },
+  "judgement": {
+    "desc": "The user releases countless shots of light at the target. ",
+    "power": 100.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 10,
+    "status": []
+  },
+  "cosmic power": {
+    "desc": "The user absorbs a mystical power from space to raise its Defense and Sp. Def stats.",
+    "power": 0.0,
+    "special": false,
+    "accuracy": 100000.0,
+    "type": "normal",
+    "uses": 20,
+    "status": [
+      "DEF 1 self 100.0",
+      "SPD 1 self 100.0"
+    ]
+  },
+  "growth": {
+    "desc": "The user's body grows all at once, raising the Attack and Sp. Atk stats.",
+    "power": 0.0,
+    "special": false,
+    "accuracy": 100000.0,
+    "type": "normal",
+    "uses": 20,
+    "status": [
+      "ATK 1 self 100.0",
+      "SPA 1 self 100.0"
+    ]
+  },
+  "razor leaf": {
+    "desc": "Sharp-edged leaves are launched to slash at opposing Pokémon. Critical hits land more easily",
+    "power": 55.0,
+    "special": false,
+    "accuracy": 95.0,
+    "type": "grass",
+    "uses": 25,
+    "status": []
+  },
+  "seed bomb": {
+    "desc": "The user slams a barrage of hard-shelled seeds down on the target from above.",
+    "power": 80.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "grass",
+    "uses": 15,
+    "status": []
+  },
+  "synthesis": {
+    "desc": "The user restores half of its own HP",
+    "power": 0.0,
+    "special": false,
+    "accuracy": 100000.0,
+    "type": "grass",
+    "uses": 5,
+    "status": [
+      "heal self half"
+    ]
+  },
+  "solar beam": {
+    "desc": "the user gathers light and blasts a bundled beam at the target in the same turn.",
+    "power": 100.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "grass",
+    "uses": 15,
+    "status": []
+  },
+  "": {
+    "desc": "",
+    "power": 65.0,
+    "special": false,
+    "accuracy": 95.0,
+    "type": "",
+    "uses": 15,
+    "status": []
   }
 }

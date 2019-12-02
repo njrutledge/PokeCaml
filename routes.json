@@ -76,6 +76,16 @@
         "Gym Leader David Gries"
       ],
       "wilds": []
+    },
+    {
+      "name": "OCaml Gym",
+      "badge": "OCaml Badge",
+      "battles": [
+        "TA Alaia",
+        "TA Kerry",
+        "Gym Leader Clarkson"
+      ],
+      "wilds": []
     }
   ],
   "trainers": [
@@ -308,6 +318,52 @@
           "lvl": 20,
           "moves": [
             "thundershock"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "TA Alaia",
+      "money": 500,
+      "pokemon": []
+    },
+    {
+      "name": "TA Kerry",
+      "money": 500,
+      "pokemon": []
+    },
+    {
+      "name": "Gym Leader Clarkson",
+      "money": 1000,
+      "pokemon": [
+        {
+          "name": "OCamlrupt",
+          "lvl": 30,
+          "moves": [
+            "earth power",
+            "lava plume",
+            "rock slide",
+            "amnesia"
+          ]
+        },
+        {
+          "name": "Entei",
+          "lvl": 35,
+          "moves": [
+            "flamethrower",
+            "swagger",
+            "stomp",
+            "fire fang"
+          ]
+        },
+        {
+          "name": "Arceus",
+          "lvl": 50,
+          "moves": [
+            "recover",
+            "hyper beam",
+            "judgement",
+            "cosmic power"
           ]
         }
       ]

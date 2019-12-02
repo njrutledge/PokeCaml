@@ -154,13 +154,20 @@ let heal_help atk_mon def_mon damage info =
   if amt = "" then ANSITerminal.(print_string [red] 
                                    "Invalid heal, skipping heal ")
   else if amt = "full" then PM.set_hp target (PM.get_max_hp target)
+  else if amt = "half" then PM.set_hp target (PM.get_max_hp target /. 2.)
   else try 
       PM.change_hp target (float_of_string amt)
     with Failure e -> 
       ANSITerminal.(print_string [red] ("Invalid heal ammount: " ^ amt 
                                         ^ ", skipping heal "))
 
-let endeavor_help atk_mon def_mon = failwith "endeavor not implemented"
+(** [endeavor_help atk_mon def_mon] applies the effects of move "endeavor"
+    onto [def_mon] when used by [atk_mon]. *)
+let endeavor_help atk_mon def_mon = 
+  let atk_hp = PM.get_hp atk_mon in 
+  let def_hp = PM.get_hp def_mon in
+  if atk_hp <= def_hp then PM.set_hp def_mon atk_hp 
+  else ()
 
 (** [gambit_help atk_mon def_mon] applies the effects of move "final gambit"
     onto [def_mon] when used by [atk_mon]. *)
