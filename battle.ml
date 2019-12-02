@@ -160,6 +160,15 @@ let heal_help atk_mon def_mon damage info =
       ANSITerminal.(print_string [red] ("Invalid heal ammount: " ^ amt 
                                         ^ ", skipping heal "))
 
+let endeavor_help atk_mon def_mon = failwith "endeavor not implemented"
+
+(** [gambit_help atk_mon def_mon] applies the effects of move "final gambit"
+    onto [def_mon] when used by [atk_mon]. *)
+let gambit_help atk_mon def_mon = 
+  let damage = PM.get_hp atk_mon in 
+  PM.change_hp def_mon damage;
+  PM.change_hp atk_mon damage
+
 (** [effect_handler atk_mon def_mon effects] applies the correct effect 
     [effect] of a move to [atk_mon] and/or [def_mon]. *)
 let effect_handler atk_mon def_mon effects damage = 
@@ -181,8 +190,8 @@ let effect_handler atk_mon def_mon effects damage =
       | "flinch" :: tl -> status_help atk_mon def_mon "flinch" tl
       | "clear" :: [] -> status_help atk_mon def_mon "clear" ["self"; "100.0"]
       | "heal" :: tl -> heal_help atk_mon def_mon damage tl
-
-
+      | "endeavor" :: [] -> endeavor_help atk_mon def_mon 
+      | "gambit" :: [] -> gambit_help atk_mon def_mon 
       | _ -> ANSITerminal.(print_string  [red] 
                              ("This move has raised an invalid effect. The " 
                               ^ h ^ "effect will not take place.\n"))

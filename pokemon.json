@@ -158,7 +158,8 @@
   },
   "Rattata": {
     "Types": [
-      "normal"
+      "normal",
+      "dark"
     ],
     "Stats": {
       "ATK": 56.0,
@@ -174,17 +175,73 @@
         "lvl": 1
       },
       {
+        "name": "tail whip",
+        "lvl": 3
+      },
+      {
         "name": "bite",
         "lvl": 12
       },
       {
         "name": "super fang",
         "lvl": 15
+      },
+      {
+        "name": "crunch",
+        "lvl": 18
       }
     ],
     "Evolution": {
       "name": "Raticate",
       "lvl": 20
+    }
+  },
+  "Raticate": {
+    "Types": [
+      "normal",
+      "dark"
+    ],
+    "Stats": {
+      "ATK": 81.0,
+      "DEF": 60.0,
+      "SPE": 97.0,
+      "HP": 55.0,
+      "SPA": 50.0,
+      "SPD": 70.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "tail whip",
+        "lvl": 3
+      },
+      {
+        "name": "bite",
+        "lvl": 12
+      },
+      {
+        "name": "super fang",
+        "lvl": 15
+      },
+      {
+        "name": "crunch",
+        "lvl": 18
+      },
+      {
+        "name": "hyper fang",
+        "lvl": 26
+      },
+      {
+        "name": "double-edge",
+        "lvl": 42
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
     }
   },
   "Pikachu": {
@@ -472,20 +529,40 @@
     },
     "Moveset": [
       {
-        "name": "wing attack",
-        "lvl": 1
-      },
-      {
-        "name": "withdraw",
-        "lvl": 1
-      },
-      {
         "name": "astonish",
         "lvl": 1
       },
       {
         "name": "twister",
         "lvl": 1
+      },
+      {
+        "name": "acid spray",
+        "lvl": 12
+      },
+      {
+        "name": "dragon breath",
+        "lvl": 20
+      },
+      {
+        "name": "dragon dance",
+        "lvl": 24
+      },
+      {
+        "name": "dragon pulse",
+        "lvl": 28
+      },
+      {
+        "name": "grav apple",
+        "lvl": 32
+      },
+      {
+        "name": "iron defense",
+        "lvl": 36
+      },
+      {
+        "name": "dragon rush",
+        "lvl": 40
       }
     ],
     "Evolution": {
@@ -751,8 +828,144 @@
       }
     ],
     "Evolution": {
-      "name": "Tyranitar",
-      "lvl": 55
+      "name": "",
+      "lvl": -1
     }
+  },
+  "Starly": {
+    "Types": [
+      "normal",
+      "flying"
+    ],
+    "Stats": {
+      "HP": 40.0,
+      "ATK": 55.0,
+      "DEF": 30.0,
+      "SPA": 30.0,
+      "SPD": 30.0,
+      "SPE": 60.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "growl",
+        "lvl": 1
+      },
+      {
+        "name": "wing attack",
+        "lvl": 9
+      }
+    ],
+    "Evolution": {
+      "name": "Staravia",
+      "lvl": 14
+    }
+  },
+  "Staravia": {
+    "Types": [
+      "normal",
+      "flying"
+    ],
+    "Stats": {
+      "HP": 55.0,
+      "ATK": 75.0,
+      "DEF": 50.0,
+      "SPA": 40.0,
+      "SPD": 40.0,
+      "SPE": 80.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "growl",
+        "lvl": 1
+      },
+      {
+        "name": "wing attack",
+        "lvl": 9
+      },
+      {
+        "name": "endeavor",
+        "lvl": 18
+      },
+      {
+        "name": "whirlwind",
+        "lvl": 23
+      },
+      {
+        "name": "aerial ace",
+        "lvl": 28
+      },
+      {
+        "name": "take down",
+        "lvl": 33
+      }
+    ],
+    "Evolution": {
+      "name": "Staraptor",
+      "lvl": 34
+    }
+  },
+  "Staraptor": {
+    "Types": [
+      "normal",
+      "flying"
+    ],
+    "Stats": {
+      "HP": 85.0,
+      "ATK": 120.0,
+      "DEF": 70.0,
+      "SPA": 50.0,
+      "SPD": 50.0,
+      "SPE": 100.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "growl",
+        "lvl": 1
+      },
+      {
+        "name": "wing attack",
+        "lvl": 9
+      },
+      {
+        "name": "endeavor",
+        "lvl": 18
+      },
+      {
+        "name": "whirlwind",
+        "lvl": 23
+      },
+      {
+        "name": "aerial ace",
+        "lvl": 28
+      },
+      {
+        "name": "take down",
+        "lvl": 33
+      },
+      {
+        "name": "agility",
+        "lvl": 41
+      },
+      {
+        "name": "brave bird",
+        "lvl": 49
+      },
+      {
+        "name": "final gambit",
+        "lvl": 57
+      }
+    ]
   }
 }
