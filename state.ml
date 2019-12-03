@@ -21,7 +21,7 @@ let init_state adv = {
   bag = [(Potion, ref 5); (HyperPotion, ref 1);
          (PokeBall, ref 5); (GreatBall, ref 1)];
   money = ref 1000;
-  party = [|(PM.create_pokemon "Pikachu" 50 [Moves.create_move "thundershock";]);
+  party = [|(PM.create_pokemon "Pikachu" 5 [Moves.create_move "thundershock";]);
             (PM.create_pokemon "Charmander" 5 [Moves.create_move "scratch"]);
             (PM.create_pokemon "Squirtle" 5 [Moves.create_move "tackle";]);|];
   defeated_trainers = [];
