@@ -460,6 +460,10 @@
         "lvl": 1
       },
       {
+        "name": "thunder wave",
+        "lvl": 1
+      },
+      {
         "name": "spark",
         "lvl": 6
       },
@@ -1220,6 +1224,242 @@
       "SPE": 100.0
     },
     "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Riolu": {
+    "Types": [
+      "fighting"
+    ],
+    "Stats": {
+      "ATK": 70.0,
+      "DEF": 40.0,
+      "SPE": 60.0,
+      "HP": 40.0,
+      "SPA": 35.0,
+      "SPD": 40.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "metal claw",
+        "lvl": 8
+      },
+      {
+        "name": "rock smash",
+        "lvl": 12
+      },
+      {
+        "name": "swords dance",
+        "lvl": 18
+      },
+      {
+        "name": "force palm",
+        "lvl": 22
+      }
+    ],
+    "Evolution": {
+      "name": "Lucario",
+      "lvl": 30
+    }
+  },
+  "Lucario": {
+    "Types": [
+      "fighting",
+      "steel"
+    ],
+    "Stats": {
+      "ATK": 110.0,
+      "DEF": 70.0,
+      "SPE": 90.0,
+      "HP": 70.0,
+      "SPA": 115.0,
+      "SPD": 70.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "metal claw",
+        "lvl": 8
+      },
+      {
+        "name": "force palm",
+        "lvl": 12
+      },
+      {
+        "name": "swords dance",
+        "lvl": 18
+      },
+      {
+        "name": "force palm",
+        "lvl": 22
+      },
+      {
+        "name": "aura sphere",
+        "lvl": 1
+      },
+      {
+        "name": "meteor mash",
+        "lvl": 36
+      },
+      {
+        "name": "dragon pulse",
+        "lvl": 42
+      },
+      {
+        "name": "close combat",
+        "lvl": 50
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Machop": {
+    "Types": [
+      "fighting"
+    ],
+    "Stats": {
+      "ATK": 80.0,
+      "DEF": 50.0,
+      "SPE": 35.0,
+      "HP": 70.0,
+      "SPA": 35.0,
+      "SPD": 35.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "leer",
+        "lvl": 1
+      },
+      {
+        "name": "low sweep",
+        "lvl": 12
+      },
+      {
+        "name": "scary face",
+        "lvl": 20
+      },
+      {
+        "name": "strength",
+        "lvl": 26
+      }
+    ],
+    "Evolution": {
+      "name": "Machoke",
+      "lvl": 28
+    }
+  },
+  "Machoke": {
+    "Types": [
+      "fighting"
+    ],
+    "Stats": {
+      "ATK": 100.0,
+      "DEF": 70.0,
+      "SPE": 45.0,
+      "HP": 80.0,
+      "SPA": 50.0,
+      "SPD": 60.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "leer",
+        "lvl": 1
+      },
+      {
+        "name": "low sweep",
+        "lvl": 12
+      },
+      {
+        "name": "scary face",
+        "lvl": 20
+      },
+      {
+        "name": "strength",
+        "lvl": 26
+      },
+      {
+        "name": "dual chop",
+        "lvl": 36
+      },
+      {
+        "name": "bulk up",
+        "lvl": 42
+      }
+    ],
+    "Evolution": {
+      "name": "Machamp",
+      "lvl": 44
+    }
+  },
+  "Machamp": {
+    "Types": [
+      "fighting"
+    ],
+    "Stats": {
+      "ATK": 130.0,
+      "DEF": 80.0,
+      "SPE": 55.0,
+      "HP": 90.0,
+      "SPA": 65.0,
+      "SPD": 85.0
+    },
+    "Moveset": [
+      {
+        "name": "tackle",
+        "lvl": 1
+      },
+      {
+        "name": "leer",
+        "lvl": 1
+      },
+      {
+        "name": "low sweep",
+        "lvl": 12
+      },
+      {
+        "name": "scary face",
+        "lvl": 20
+      },
+      {
+        "name": "strength",
+        "lvl": 26
+      },
+      {
+        "name": "dual chop",
+        "lvl": 36
+      },
+      {
+        "name": "bulk up",
+        "lvl": 42
+      },
+      {
+        "name": "dynamic punch",
+        "lvl": 46
+      },
+      {
+        "name": "cross chop",
+        "lvl": 54
+      }
+    ],
     "Evolution": {
       "name": "",
       "lvl": -1

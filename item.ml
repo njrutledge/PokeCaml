@@ -8,6 +8,12 @@ type t =
   | GreatBall
   | UltraBall
   | MasterBall
+  | Antidote
+  | ParalyzeHeal
+  | Awakening
+  | IceHeal
+  | BurnHeal
+  | FullHeal
 
 let string_of_item i = 
   match i with 
@@ -18,6 +24,12 @@ let string_of_item i =
   | GreatBall -> "Great Ball"
   | UltraBall -> "Ultra Ball"
   | MasterBall -> "Master Ball"
+  | Antidote -> "Antidote"
+  | ParalyzeHeal -> "Paralyze Heal"
+  | Awakening -> "Awakening"
+  | IceHeal -> "Ice Heal"
+  | BurnHeal -> "Burn Heal"
+  | FullHeal -> "Full Heal"
 
 let item_of_string i = 
   match i with 
@@ -28,6 +40,12 @@ let item_of_string i =
   | "great ball" -> GreatBall
   | "ultra ball" -> UltraBall
   | "master ball" -> MasterBall
+  | "antidote" -> Antidote
+  | "paralyze heal" -> ParalyzeHeal
+  | "awakening" -> Awakening
+  | "ice heal" -> IceHeal
+  | "burn heal" -> BurnHeal
+  | "full heal" -> FullHeal
   | s -> raise (InvalidItem s)
 
 let cost_of_item i = 
@@ -39,4 +57,10 @@ let cost_of_item i =
   | "great ball" -> 400
   | "ultra ball" -> 600
   | "master ball" -> 1000
+  | "antidote" -> 200
+  | "paralyze heal" -> 200
+  | "awakening" -> 200
+  | "ice heal" -> 200
+  | "burn heal" -> 200
+  | "full heal" -> 400
   | s -> raise (InvalidItem s)

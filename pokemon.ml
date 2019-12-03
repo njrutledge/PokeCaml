@@ -289,13 +289,11 @@ module Pokemon : PokeSig = struct
     else 2. /. (2. -. (Float.of_int stage))
 
   let get_attack mon is_spec = 
-    if is_spec then begin print_endline "is special"; 
-      mon.sp_attack *. stage_mult false mon.spa_stage end 
+    if is_spec then mon.sp_attack *. stage_mult false mon.spa_stage
     else mon.attack *. stage_mult false mon.attack_stage
 
   let get_defense mon is_spec = 
-    if is_spec then begin print_endline "is special"; 
-      mon.sp_defense *. stage_mult false mon.spd_stage end
+    if is_spec then mon.sp_defense *. stage_mult false mon.spd_stage
     else mon.defense *. stage_mult false mon.defense_stage
 
   let get_speed mon = mon.speed *. stage_mult false mon.speed_stage
@@ -341,9 +339,7 @@ module Pokemon : PokeSig = struct
     | "defense" -> mon.defense_stage <- max (min (mon.defense_stage + add) 6) ~-6
     | "special defense" -> mon.spd_stage <- max(min(mon.spd_stage + add) 6) ~-6
     | "speed" -> mon.speed_stage <- max (min (mon.speed_stage + add) 6) ~-6
-    | "accuracy" -> mon.accuracy_stage <- max (min (mon.accuracy_stage + add) 6) ~-6;
-      print_int mon.accuracy_stage;
-      print_float (get_accuracy mon);
+    | "accuracy" -> mon.accuracy_stage <- max (min (mon.accuracy_stage + add) 6) ~-6
     | "evasion" -> failwith "evasion not set up yet"
     | _ -> failwith "invalid stage type passed in"
 

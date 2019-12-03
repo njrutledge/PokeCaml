@@ -91,16 +91,15 @@ let effect_help atk_mon def_mon eff_type effect =
   | change :: "self" :: per_chance :: [] -> 
     if (float_of_string per_chance >= rand) then begin 
       let c = if (int_of_string change) > 0 then "up" else "down" in
-      ANSITerminal.(print_string [red]  (PM.get_name atk_mon ^ " " 
+      ANSITerminal.(print_string [red]  (PM.get_name atk_mon ^ "'s " 
                                          ^ eff_type ^ " went " ^ c ^ "!\n"));
       PM.change_stage atk_mon eff_type (int_of_string change) 
     end else ()
   | change :: "foe" :: per_chance :: [] -> 
     if (float_of_string per_chance >= rand) then begin 
       let c = if int_of_string change > 0 then "up" else "down" in
-      ANSITerminal.(print_string [red] (PM.get_name def_mon ^ " " 
+      ANSITerminal.(print_string [red] (PM.get_name def_mon ^ "'s " 
                                         ^ eff_type ^ " went " ^ c ^ "!\n"));
-      print_string change;
       PM.change_stage def_mon eff_type (int_of_string change)
     end else ()
   | _ -> ANSITerminal.(print_string [red] ("Invalid " ^ eff_type ^ " effect."
@@ -122,16 +121,25 @@ let status_help atk_mon def_mon status_type info =
   if chance = -1.0 then 
     ANSITerminal.(print_string [red] ("Invalid " ^ status_type ^ " status."
                                       ^ "skipping this status..."))
-  else if chance >= rand then begin 
+  else if chance >= rand && PM.get_status target = "" then begin 
+    print_string (PM.get_name target);
     match status_type with
-    | "sleep" -> PM.set_status target "sleep"
-    | "paralyze" -> PM.set_status target "paralyze"
-    | "confusion" -> PM.set_confusion target (true, 4)
-    | "burn" -> PM.set_status target "burn"
-    | "poison" -> PM.set_status target "poison"
-    | "frozen" -> PM.set_status target "frozen"
-    | "flinch" -> PM.set_status target "flinch"
-    | "clear" -> PM.set_status target ""; PM.set_confusion target (false, 0)
+    | "sleep" -> PM.set_status target "sleep"; 
+      print_endline " was put to sleep!"
+    | "paralyze" -> PM.set_status target "paralyze"; 
+      print_endline " was paralyzed! It may be unable to move!"
+    | "confusion" -> PM.set_confusion target (true, 4); 
+      print_endline " became confused!"
+    | "burn" -> PM.set_status target "burn"; 
+      print_endline " was burned!"
+    | "poison" -> PM.set_status target "poison"; 
+      print_endline " was poisoned!"
+    | "frozen" -> PM.set_status target "frozen"; 
+      print_endline " was frozen!"
+    | "flinch" -> PM.set_status target "flinch"; 
+      print_endline " flinched!"
+    | "clear" -> PM.set_status target ""; PM.set_confusion target (false, 0);
+      print_endline " fell asleep and was cleared of its status!"
     | _ -> ANSITerminal.(print_string [red] 
                            ("Invalid status name: "  ^ status_type  
                             ^ "skipping this status..."))
@@ -183,25 +191,36 @@ let effect_handler atk_mon def_mon effects damage =
     | [] -> ()
     | h :: t -> 
       match String.split_on_char ' ' h with
-      | "ATK" :: tl -> effect_help atk_mon def_mon "attack" tl
-      | "SPA" :: tl -> effect_help atk_mon def_mon "special attack" tl
-      | "DEF" :: tl -> effect_help atk_mon def_mon "defense" tl
-      | "SPD" :: tl -> effect_help atk_mon def_mon "special defense" tl
-      | "SPE" :: tl -> effect_help atk_mon def_mon "speed" tl
-      | "ACC" :: tl -> effect_help atk_mon def_mon "accuracy" tl
-      | "sleep" :: tl -> status_help atk_mon def_mon "sleep" tl
-      | "paralyze" :: tl -> status_help atk_mon def_mon "paralyze" tl
-      | "burn" :: tl -> status_help atk_mon def_mon "burn" tl
-      | "frozen" :: tl -> status_help atk_mon def_mon "frozen" tl
-      | "poison" :: tl -> status_help atk_mon def_mon "poison" tl
-      | "flinch" :: tl -> status_help atk_mon def_mon "flinch" tl
-      | "clear" :: [] -> status_help atk_mon def_mon "clear" ["self"; "100.0"]
-      | "heal" :: tl -> heal_help atk_mon def_mon damage tl
-      | "endeavor" :: [] -> endeavor_help atk_mon def_mon 
-      | "gambit" :: [] -> gambit_help atk_mon def_mon 
+      | "ATK" :: tl -> effect_help atk_mon def_mon "attack" tl; apply_effects t
+      | "SPA" :: tl -> effect_help atk_mon def_mon "special attack" tl;
+        apply_effects t
+      | "DEF" :: tl -> effect_help atk_mon def_mon "defense" tl; apply_effects t
+      | "SPD" :: tl -> effect_help atk_mon def_mon "special defense" tl;
+        apply_effects t
+      | "SPE" :: tl -> effect_help atk_mon def_mon "speed" tl; apply_effects t
+      | "ACC" :: tl -> effect_help atk_mon def_mon "accuracy" tl;
+        apply_effects t
+      | "sleep" :: tl -> status_help atk_mon def_mon "sleep" tl; apply_effects t
+      | "paralyze" :: tl -> status_help atk_mon def_mon "paralyze" tl;
+        apply_effects t
+      | "burn" :: tl -> status_help atk_mon def_mon "burn" tl; apply_effects t
+      | "frozen" :: tl -> status_help atk_mon def_mon "frozen" tl;
+        apply_effects t
+      | "poison" :: tl -> status_help atk_mon def_mon "poison" tl;
+        apply_effects t
+      | "flinch" :: tl -> status_help atk_mon def_mon "flinch" tl;
+        apply_effects t
+      | "clear" :: [] -> status_help atk_mon def_mon "clear" ["self"; "100.0"];
+        apply_effects t
+      | "heal" :: tl -> heal_help atk_mon def_mon damage tl; apply_effects t
+      | "endeavor" :: [] -> endeavor_help atk_mon def_mon ; apply_effects t
+      | "gambit" :: [] -> gambit_help atk_mon def_mon ; apply_effects t
+      | "rest" :: [] -> PM.set_status atk_mon "rest"; 
+        PM.set_sleep_counter atk_mon 2
       | _ -> ANSITerminal.(print_string  [red] 
                              ("This move has raised an invalid effect. The " 
-                              ^ h ^ "effect will not take place.\n"))
+                              ^ h ^ "effect will not take place.\n"));
+        apply_effects t
   in apply_effects effects
 
 (** [critical_hit speed] is whether a critical hit occurred using [speed] in 
@@ -216,7 +235,7 @@ let critical_hit speed =
 (** [damage level power attack defense speed modifier] is the damage done using
     the calulation provided by https://bulbapedia.bulbagarden.net/wiki/Damage *)
 let damage level power attack defense speed modifier = 
-  let level' = if critical_hit speed then 2. *. level 
+  let level' = if power <> 0. && critical_hit speed then 2. *. level 
     else level in
   modifier*.((((((2.*.level')/.5.)+. 2.)*.power*.(attack/.defense))/. 50.) +. 2.)
 
@@ -224,11 +243,13 @@ let damage level power attack defense speed modifier =
     of based on [move_type] and [def_type]. *)
 let rec get_modifier move_type acc mat hash = function
   | [] -> acc
-  | h :: t -> get_modifier move_type (acc *. mat.(hash move_type).(hash h)) mat hash t
+  | h :: t -> 
+    get_modifier move_type (acc *. mat.(hash move_type).(hash h)) mat hash t
 
 (** [check_zero_pp_all moves] checks to see if all moves in [moves] are out of
     pp. *)
-let check_zero_pp_all moves = Array.for_all (fun x -> (Moves.get_pp x) = 0) moves
+let check_zero_pp_all moves =
+  Array.for_all (fun x -> (Moves.get_pp x) = 0) moves
 
 (** [check_hit acc] checks if a move with accuracy [acc] will hit. *)
 let check_hit acc = 
@@ -237,55 +258,144 @@ let check_hit acc =
   if r < t then true 
   else false 
 
+let check_confusion mon = 
+  let name = PM.get_name mon in 
+  Random.self_init ();
+  let r = Random.float 100.0 in 
+  let (confused, count) = PM.get_confusion mon in 
+  if confused then begin 
+    print_endline (name ^ " is confused!");
+    Random.self_init ();
+    let rand = Random.int 3 + 1 in 
+    if rand > count then begin 
+      PM.set_confusion mon (false, 0);
+      print_endline (name ^ " snapped out of confusion!");
+      true 
+    end 
+    else if r <= 1. /. 3. then begin
+      print_endline ("It hurts itself in confusion!");
+      let dam = damage 
+          (PM.get_lvl mon |> Float.of_int)
+          40.0
+          (PM.get_attack mon false)
+          (PM.get_defense mon false)
+          (PM.get_speed mon)
+          1.0 in 
+      PM.change_hp mon dam;
+      PM.set_confusion mon (confused, count-1);
+      false 
+    end 
+    else true 
+  end 
+  else true
+
+(** [can_attack mon] is whether or not mon can attack (i.e. under status
+    condition). *)
+let can_attack mon =
+  let name = PM.get_name mon in 
+  Random.self_init (); 
+  let r = Random.float 100. in
+  let attacking = 
+    match PM.get_status mon with 
+    | "paralyze" -> 
+      if r <= 25.0 then begin
+        print_endline (name ^ " is paralyzed! It can't " ^ "move!"); 
+        false end
+      else true 
+    | "rest" -> 
+      let counter = PM.get_sleep_counter mon in 
+      if counter = 0 then begin
+        print_endline (name ^ " woke up!"); 
+        PM.rem_status mon;
+        true end
+      else begin (PM.set_sleep_counter mon (counter - 1)); 
+        print_endline (name ^ " is fast asleep."); 
+        false end
+    | "sleep" -> 
+      Random.self_init ();
+      let rand = Random.int 6 + 1 in 
+      let counter = PM.get_sleep_counter mon in 
+      if rand > counter then begin (PM.set_sleep_counter mon (counter - 1)); 
+        print_endline (name ^ " is fast asleep.");
+        false end 
+      else begin print_endline (name ^ " woke up!"); 
+        PM.rem_status mon;
+        true  
+      end 
+    | "frozen" -> 
+      if r <= 80. then begin
+        print_endline (name ^ " is frozen solid."); 
+        false end
+      else begin 
+        print_endline (name ^ " thawed out!");
+        PM.rem_status mon; 
+        true end
+    | "flinch" -> failwith "flinch"
+    | _ -> true
+  in 
+  if attacking then check_confusion mon else false 
+
+(** [handle_move atk_mon def_mon move] calculates damage of [atk_mon]
+    using [move] on [def_mon], and then applies the damage with any
+    effects the move causes. *)
+let handle_move atk_mon def_mon move = 
+  let speed = if PM.get_status atk_mon = "paralyze"
+    then (PM.get_speed atk_mon)/. 2. else PM.get_speed atk_mon in
+  let json = Yojson.Basic.from_file "type_matrix.json" in 
+  let type_mat_and_hash = Types.type_matrix_and_hash json in
+  let type_mat = fst type_mat_and_hash in 
+  let hash = snd type_mat_and_hash in 
+  print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move) ^ "!");
+  let modifier = (get_modifier move.el_type 1. type_mat hash (PM.get_type
+                                                                def_mon)) in
+  let power = move.power in 
+  let is_special = move.is_special in 
+  let status = Moves.get_status move in
+  let move_damage = 
+    if (Moves.name move) = "super fang" 
+    then ((PM.get_hp def_mon) /. 2.)
+    else begin 
+      let dam = damage 
+          (PM.get_lvl atk_mon |> Float.of_int)
+          power
+          (PM.get_attack atk_mon is_special)
+          (PM.get_defense def_mon is_special)
+          speed
+          modifier in 
+      if PM.get_status atk_mon = "burn" && not is_special then dam /. 2. 
+      else dam 
+    end 
+  in 
+  effect_handler atk_mon def_mon status move_damage;
+  if power <> 0.0 then begin 
+    if modifier = 0. then 
+      print_endline ("It has no effect!") 
+    else if modifier < 1. then 
+      print_endline ("It's not very effective...")
+    else if modifier >= 2. then
+      print_endline ("It's super effective!")
+    else ();
+    PM.change_hp def_mon (-.move_damage)
+  end
+  else ()
+
 (** [execute_go adv st ph] is the state update of the adventure after running 
     [state.go adv st ph'], where [ph'] is the string representation of 
     string list [ph].
     Raises [IllegalMove msg] if the move is invalid. *)
 let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_idx = 
-  let new_pp = (PM.get_moves (atk_mon)).(move_idx) |> Moves.get_pp in
-  if new_pp <= 0 then raise NoPP
-  else Moves.decr_pp (PM.get_moves (atk_mon)).(move_idx); 
-  count := 0.0; 
-  let json = Yojson.Basic.from_file "type_matrix.json" in 
-  let type_mat_and_hash = Types.type_matrix_and_hash json in
-  let type_mat = fst type_mat_and_hash in 
-  let hash = snd type_mat_and_hash in 
-  let move = PM.get_move atk_mon (move_idx) in 
-  print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move) ^ "!");
-  let modifier = (get_modifier move.el_type 1. type_mat hash (PM.get_type
-                                                                def_mon)) in
-  let acc = (Moves.get_acc move) *. (PM.get_accuracy atk_mon) in
-  print_float (acc);
-  let hit = check_hit acc in
-  let is_special = Moves.get_is_special move in 
-  if hit then begin
-    let power = move.power in
-    let status = Moves.get_status move in 
-    let move_damage = 
-      if (Moves.name move) = "super fang" 
-      then ((PM.get_hp def_mon) /. 2.)
-      else damage 
-          (PM.get_lvl atk_mon |> Float.of_int)
-          power
-          (PM.get_attack atk_mon is_special)
-          (PM.get_defense def_mon is_special)
-          (PM.get_speed atk_mon)
-          modifier
-    in
-    effect_handler atk_mon def_mon status move_damage;
-    if power <> 0.0 then begin 
-      if modifier = 0. then 
-        print_endline ("It has no effect!") 
-      else if modifier < 1. then 
-        print_endline ("It's not very effective...")
-      else if modifier >= 2. then
-        print_endline ("It's super effective!")
-      else ();
-      PM.change_hp def_mon (-.move_damage)
-    end
-    else ();
+  if not (can_attack atk_mon) then ()
+  else begin 
+    let new_pp = (PM.get_moves (atk_mon)).(move_idx) |> Moves.get_pp in
+    if new_pp <= 0 then raise NoPP
+    else Moves.decr_pp (PM.get_moves (atk_mon)).(move_idx); 
+    count := 0.0; 
+    let move = PM.get_move atk_mon (move_idx) in 
+    let acc = (Moves.get_acc move) *. (PM.get_accuracy atk_mon) in
+    let hit = check_hit acc in
+    if hit then handle_move atk_mon def_mon move
+    else print_endline ("\nThe attack missed!")
   end 
-  else print_endline ("\nThe attack missed!")
 
 (** [b_calc ball] calculates the value that b should have in the capture formula
     depending on which Pokeball [ball] is used. *)
@@ -328,28 +438,43 @@ let shake ball f =
   false
 
 (* [catch def_mon ball] determines whether or not a wild pokemon is
-   caught, using the gen 1 catch formula here: https://bulbapedia.bulbagarden.net/wiki/Catch_rate#Capture_method_.28Generation_I.29  *)
+   caught, using the gen 1 catch formula here: 
+   https://bulbapedia.bulbagarden.net/wiki/Catch_rate#Capture_method_.28Generation_I.29  *)
 let catch mon ball (rate : float) = 
   if ball = Item.MasterBall then begin 
     print_shake(); print_shake(); print_shake(); true
   end
   else begin 
+    let status = PM.get_status mon in 
     Random.self_init(); 
-    (*let n = begin 
+    let n = begin 
       match ball with 
       | Item.PokeBall -> Random.float 256.
       | Item.GreatBall -> Random.float 201. 
       | Item.UltraBall -> Random.float 151.
       | _ -> failwith "Ball only to catch"
-      end in *)
-    let m = Random.float 256. in 
-    let b = (if ball = Item.GreatBall then 8. else 12.) in
-    let f = (PM.get_max_hp mon *. 255. *. 4.) /. (PM.get_hp mon *. b) in
-    let f_round = f |> Float.to_int |> Int.to_float in 
-    if f_round >= m then begin 
-      print_shake(); print_shake(); print_shake(); true 
+    end in 
+    let status_thresh = begin
+      match status with
+      | "sleep" | "frozen" -> 25. 
+      | "burn" | "paralyze" | "poison" -> 12.
+      | _ -> 0.
+    end in 
+    let status_catch = if n < status_thresh then true else false in
+    if status_catch then true  
+    else begin
+      if (n -. status_thresh) > rate then false 
+      else begin
+        let m = Random.float 256. in 
+        let b = (if ball = Item.GreatBall then 8. else 12.) in
+        let f = (PM.get_max_hp mon *. 255. *. 4.) /. (PM.get_hp mon *. b) in
+        let f_round = f |> Float.to_int |> Int.to_float in 
+        if f_round >= m then begin 
+          print_shake(); print_shake(); print_shake(); true 
+        end
+        else shake ball f_round 
+      end 
     end
-    else shake ball f_round 
   end
 
 (** [handle_add_mon party mon] is the helper that handles adding a new pokemon
@@ -390,6 +515,30 @@ let execute_item atk_mon def_mon item bag party cpu =
   match item with 
   | Item.Potion -> PM.change_hp atk_mon ((PM.get_max_hp atk_mon)*. 0.3);
     print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 30%.")
+  | Item.Antidote -> if PM.get_status atk_mon = "poison" then begin
+      print_endline ((PM.get_name atk_mon) ^ "'s poison was cured!");
+      PM.rem_status atk_mon end 
+    else print_endline "The antidote had no effect.";
+  | Item.ParalyzeHeal -> if PM.get_status atk_mon = "paralyze" then begin
+      print_endline ((PM.get_name atk_mon) ^ "'s paralysis was cured!");
+      PM.rem_status atk_mon end
+    else print_endline "The paralyze heal had no effect.";
+  | Item.Awakening -> if PM.get_status atk_mon = "sleep" then begin
+      print_endline ((PM.get_name atk_mon) ^ " woke up!");
+      PM.rem_status atk_mon end
+    else print_endline "The awakening had no effect.";
+  | Item.IceHeal -> if PM.get_status atk_mon = "frozen" then begin
+      print_endline ((PM.get_name atk_mon) ^ " thawed out!");
+      PM.rem_status atk_mon end
+    else print_endline "The ice heal had no effect.";
+  | Item.BurnHeal -> if PM.get_status atk_mon = "burn" then begin
+      print_endline ((PM.get_name atk_mon) ^ "'s burn was cured!");
+      PM.rem_status atk_mon end
+    else print_endline "The burn heal had no effect!";
+  | Item.FullHeal -> if PM.get_status atk_mon != "" then begin
+      print_endline ((PM.get_name atk_mon) ^ " was cured!");
+      PM.rem_status atk_mon end
+    else print_endline "The full heal had no effect!";
   | Item.HyperPotion -> PM.change_hp atk_mon ((PM.get_max_hp atk_mon)*. 0.6);
     print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 60%.")
   | Item.FullRestore -> PM.change_hp atk_mon (PM.get_max_hp atk_mon);
@@ -397,7 +546,7 @@ let execute_item atk_mon def_mon item bag party cpu =
   | Item.PokeBall | Item.GreatBall | Item.UltraBall | Item.MasterBall ->
     begin
       if cpu = "wild" then 
-        let caught = catch def_mon item 255. in 
+        let caught = catch def_mon item (255. /. 2.) in 
         if caught then begin 
           print_endline ("\n" ^ (PM.get_name def_mon) ^ " was caught!\n");
           handle_add_mon party def_mon
@@ -577,6 +726,12 @@ let check_speed mon1 mon2 =
   | 0 -> rand_mon mon1 mon2
   | _ -> 1
 
+(** [get_status mon] is the string representation of the status of [mon]. 
+    If [mon]'s status is ["rest"], it instead returns ["sleep"]. *)
+let get_status mon = 
+  let status = PM.get_status mon in 
+  if status = "rest" then "sleep" else status 
+
 (** [loop adv state] executes a REPL for the game. Quits on recieving 
     "quit". *)
 let rec loop p_team cpu_team player_mon cpu_mon bag cpu = 
@@ -584,16 +739,32 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
   print_string "\n";
   print_endline ("--" ^ (PM.get_name cpu_mon) ^ "--");
   cpu_hp_percent cpu_mon;
-  print_endline "\n";
+  print_string "\n";
+  ANSITerminal.(print_string [yellow] (get_status cpu_mon));
+  print_string "\n\n";
   print_endline ("--" ^ PM.get_name player_mon ^ "--");
   player_hp_percent player_mon;
-  print_endline "\n";
+  print_string "\n";
+  ANSITerminal.(print_string [yellow] (get_status player_mon));
+  print_string "\n";
   print_endline "Choose your move:";
   print_endline (PM.format_moves_names player_mon);
   print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
   print_string "> ";
   let res = get_command p_team player_mon cpu_mon bag cpu (read_line ()) in 
   Unix.sleepf sleep;
+  let mon = match res with 
+    | Some p -> p 
+    | None -> player_mon 
+  in 
+  if PM.get_status mon = "burn" then begin 
+    print_endline ((PM.get_name mon) ^ " is hurt by its burn!");
+    PM.change_hp mon (PM.get_max_hp mon /. 16.) 
+  end 
+  else if PM.get_status mon = "poison" then begin
+    print_endline ((PM.get_name mon) ^ " is hurt by poison!");
+    PM.change_hp mon (PM.get_max_hp mon /. 8.) end
+  else ();
   if PM.fainted cpu_mon then 
     if PM.retreat cpu_team then
       raise (BattleWon p_team)
@@ -608,6 +779,14 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
      else begin execute_cpu_turn cpu_mon player_mon; execute_cpu_turn player_mon
       cpu_mon end; *)
   Unix.sleepf sleep;
+  if PM.get_status cpu_mon = "burn" then begin 
+    print_endline ((PM.get_name cpu_mon) ^ " is hurt by its burn!");
+    PM.change_hp mon (PM.get_max_hp cpu_mon /. 16.) 
+  end 
+  else if PM.get_status cpu_mon = "poison" then begin
+    print_endline ((PM.get_name cpu_mon) ^ " is hurt by poison!");
+    PM.change_hp mon (PM.get_max_hp cpu_mon /. 8.) end
+  else ();
   if PM.fainted player_mon then begin
     if PM.retreat p_team then
       raise BattleLost
@@ -756,5 +935,6 @@ let main (player_team, bag, money, cpu_team, cpu, cpu_money, fin) =
         "\nA wild " ^ (PM.get_name cpumon) ^ " appeared!\n"))
   end 
   else 
-    ANSITerminal.(print_string [yellow] (cpu ^ " challenges you to a battle!\n"));
+    ANSITerminal.(print_string [yellow] 
+                    (cpu ^ " challenges you to a battle!\n"));
   battle_handler bag money cpu player_team cpu_team pmon cpumon cpu_money fin
