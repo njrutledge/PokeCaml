@@ -290,9 +290,7 @@
     "type": "psychic",
     "uses": 10,
     "status": [
-      "clear",
-      "rest",
-      "heal self full"
+      "rest"
     ]
   },
   "thunder wave": {

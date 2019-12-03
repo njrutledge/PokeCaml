@@ -138,8 +138,6 @@ let status_help atk_mon def_mon status_type info =
       print_endline " was frozen!"
     | "flinch" -> PM.set_status target "flinch"; 
       print_endline " flinched!"
-    | "clear" -> PM.set_status target ""; PM.set_confusion target (false, 0);
-      print_endline " fell asleep and was cleared of its status!"
     | _ -> ANSITerminal.(print_string [red] 
                            ("Invalid status name: "  ^ status_type  
                             ^ "skipping this status..."))
@@ -210,13 +208,18 @@ let effect_handler atk_mon def_mon effects damage =
         apply_effects t
       | "flinch" :: tl -> status_help atk_mon def_mon "flinch" tl;
         apply_effects t
-      | "clear" :: [] -> status_help atk_mon def_mon "clear" ["self"; "100.0"];
+      | "clear" :: [] -> PM.set_status atk_mon ""; 
+        PM.set_confusion atk_mon (false, 0);
+        print_endline (PM.get_name atk_mon ^ " cleared its status!" );
         apply_effects t
       | "heal" :: tl -> heal_help atk_mon def_mon damage tl; apply_effects t
       | "endeavor" :: [] -> endeavor_help atk_mon def_mon ; apply_effects t
       | "gambit" :: [] -> gambit_help atk_mon def_mon ; apply_effects t
-      | "rest" :: [] -> PM.set_status atk_mon "rest"; 
-        PM.set_sleep_counter atk_mon 2
+      | "rest" :: [] -> PM.rem_status atk_mon; PM.set_status atk_mon "rest"; 
+        PM.set_hp atk_mon (PM.get_max_hp atk_mon);
+        print_endline (PM.get_name atk_mon ^ " fully cured itself, "
+                       ^ "and fell asleep!");
+        apply_effects t
       | _ -> ANSITerminal.(print_string  [red] 
                              ("This move has raised an invalid effect. The " 
                               ^ h ^ "effect will not take place.\n"));

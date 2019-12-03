@@ -88,7 +88,6 @@ and make_battle route adv st cpu_name cpu_mons bats =
   let st' = {st with party = p; bag = b; money = m; defeated_trainers = dt} in 
   if keep_going then run_battles route adv st' bats
   else begin 
-    print_endline("I DO NOT WANT TO BE HERE");
     Legal st' end 
 
 let route r adv st = 
