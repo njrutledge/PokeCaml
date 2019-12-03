@@ -129,17 +129,88 @@
         "lvl": 1
       },
       {
-        "name": "ember",
-        "lvl": 6
+        "name": "growl",
+        "lvl": 1
       },
       {
-        "name": "flamethrower",
-        "lvl": 10
+        "name": "ember",
+        "lvl": 4
+      },
+      {
+        "name": "smokescreen",
+        "lvl": 8
+      },
+      {
+        "name": "dragon breath",
+        "lvl": 12
       }
     ],
     "Evolution": {
       "name": "Charmeleon",
       "lvl": 16
+    }
+  },
+  "Charmeleon": {
+    "Types": [
+      "fire"
+    ],
+    "Stats": {
+      "HP": 58.0,
+      "ATK": 64.0,
+      "DEF": 58.0,
+      "SPA": 80.0,
+      "SPD": 65.0,
+      "SPE": 80.0
+    },
+    "Moveset": [
+      {
+        "name": "fire fang",
+        "lvl": 19
+      },
+      {
+        "name": "slash",
+        "lvl": 24
+      },
+      {
+        "name": "flamethrower",
+        "lvl": 30
+      }
+    ],
+    "Evolution": {
+      "name": "Charizard",
+      "lvl": 36
+    }
+  },
+  "Charizard": {
+    "Types": [
+      "fire",
+      "flying"
+    ],
+    "Stats": {
+      "HP": 78.0,
+      "ATK": 84.0,
+      "DEF": 78.0,
+      "SPA": 109.0,
+      "SPD": 85.0,
+      "SPE": 100.0
+    },
+    "Moveset": [
+      {
+        "name": "scary face",
+        "lvl": 39
+      },
+      {
+        "name": "inferno",
+        "lvl": 50
+      },
+      {
+        "name": "flare blitz",
+        "lvl": 55
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
     }
   },
   "Squirtle": {
@@ -160,17 +231,33 @@
         "lvl": 1
       },
       {
+        "name": "tail whip",
+        "lvl": 1
+      },
+      {
         "name": "water gun",
+        "lvl": 3
+      },
+      {
+        "name": "withdraw",
         "lvl": 6
       },
       {
-        "name": "bubble beam",
-        "lvl": 10
+        "name": "rapid spin",
+        "lvl": 9
+      },
+      {
+        "name": "bite",
+        "lvl": 12
+      },
+      {
+        "name": "water pulse",
+        "lvl": 15
       }
     ],
     "Evolution": {
       "name": "Wartortle",
-      "lvl": 6
+      "lvl": 16
     }
   },
   "Wartortle": {
@@ -187,21 +274,52 @@
     },
     "Moveset": [
       {
-        "name": "tackle",
-        "lvl": 1
-      },
-      {
-        "name": "water gun",
-        "lvl": 6
-      },
-      {
         "name": "bubble beam",
-        "lvl": 10
+        "lvl": 20
+      },
+      {
+        "name": "aqua tail",
+        "lvl": 26
+      },
+      {
+        "name": "shell smash",
+        "lvl": 33
       }
     ],
     "Evolution": {
       "name": "Blastoise",
       "lvl": 36
+    }
+  },
+  "Blastoise": {
+    "Types": [
+      "water"
+    ],
+    "Stats": {
+      "HP": 79.0,
+      "ATK": 83.0,
+      "DEF": 100.0,
+      "SPA": 85.0,
+      "SPD": 105.0,
+      "SPE": 78.0
+    },
+    "Moveset": [
+      {
+        "name": "iron defense",
+        "lvl": 42
+      },
+      {
+        "name": "hydro pump",
+        "lvl": 49
+      },
+      {
+        "name": "skull bash",
+        "lvl": 56
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
     }
   },
   "Pidgey": {

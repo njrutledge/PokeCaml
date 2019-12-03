@@ -915,6 +915,115 @@
     "uses": 15,
     "status": []
   },
+  "smokescreen": {
+    "desc": "The user releases an obscuring cloud of smoke or ink. This lowers the target's accuracy.",
+    "power": 0.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 20,
+    "status": [
+      "ACC -1 foe 100.0"
+    ]
+  },
+  "slash": {
+    "desc": "The target is attacked with a slash of claws or blades.",
+    "power": 70.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 20,
+    "status": []
+  },
+  "inferno": {
+    "desc": "The user attacks by engulfing the target in an intense fire. This leaves the target with a burn.",
+    "power": 100.0,
+    "special": true,
+    "accuracy": 50.0,
+    "type": "fire",
+    "uses": 5,
+    "status": [
+      "burn foe 100.0"
+    ]
+  },
+  "flare blitz": {
+    "desc": "The user cloaks itself in fire and charges the target. This also damages the user quite a lot. This attack may leave the target with a burn.",
+    "power": 120.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "fire",
+    "uses": 15,
+    "status": [
+      "hurt self 0.33",
+      "burn foe 10.0"
+    ]
+  },
+  "rapid spin": {
+    "desc": "The user makes a spin attack. This also raises the user's Speed stat.",
+    "power": 50.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 40,
+    "status": [
+      "SPE 1 self 100.0"
+    ]
+  },
+  "withdraw": {
+    "desc": "The user withdraws its body into its hard shell, raising its Defense stat.",
+    "power": 0.0,
+    "special": false,
+    "accuracy": 100000.0,
+    "type": "water",
+    "uses": 40,
+    "status": [
+      "DEF 1 self 100.0"
+    ]
+  },
+  "water pulse": {
+    "desc": "The user attacks the target with a pulsing blast of water. This may also confuse the target.",
+    "power": 60.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "water",
+    "uses": 60,
+    "status": [
+      "confusion foe 20.0"
+    ]
+  },
+  "aqua tail": {
+    "desc": "The user attacks by swinging its tail as if it were a vicious wave in a raging storm",
+    "power": 90.0,
+    "special": false,
+    "accuracy": 90.0,
+    "type": "water",
+    "uses": 10,
+    "status": []
+  },
+  "shell smash": {
+    "desc": "The user breaks its shell, which lowers Defense and Sp. Def stats but sharply raises its Attack, Sp. Atk, and Speed stats.",
+    "power": 0.0,
+    "special": false,
+    "accuracy": 100000.0,
+    "type": "normal",
+    "uses": 15,
+    "status": [
+      "DEF -1 self 100.0",
+      "SPD -1 self 100.0",
+      "ATK 2 self 100.0",
+      "SPA 2 self 100.0",
+      "SPE 2 self 100.0"
+    ]
+  },
+  "": {
+    "desc": "",
+    "power": 65.0,
+    "special": false,
+    "accuracy": 95.0,
+    "type": "",
+    "uses": 15,
+    "status": []
+  },
   "": {
     "desc": "",
     "power": 65.0,
