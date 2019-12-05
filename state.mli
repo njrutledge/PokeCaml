@@ -31,10 +31,6 @@ val init_state : Adventure.t -> t
     currently is located in state [st]. *)
 val current_town_id : t -> string
 
-(** [last st] is the town identifier of the last town the adventurer has 
-    visited in state [st]. *)
-val last : t -> string
-
 (** The type representing the result of an attempted movement. *)
 type result = Legal of t | Illegal of string
 
@@ -80,3 +76,9 @@ val get_badges: t -> string list
 
 (** [clear_def_trs st] resets the list of defeated trainers to the empty list. *)
 val clear_def_trs: t -> t
+
+(** [save st] writes [st] to file [save.json]. *)
+val save: t -> unit
+
+(** [load ()] is the state created from loading the safe file [save.json]. *)
+val load: unit -> t
