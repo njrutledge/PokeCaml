@@ -37,6 +37,7 @@ let make_command verb phrase =
     | "map" -> Map 
     | "badges" -> Badges
     | "save" -> Save
+    | "shop" -> Shop
     | _ -> raise Malformed
   else
   if verb = "go" then begin 

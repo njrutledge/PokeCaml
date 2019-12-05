@@ -203,7 +203,7 @@ let execute_shop () =
   let items = ["potion"; "hyper potion"; "full restore"; "pokeball"; "great ball";
                "ultra ball"; "master ball"; "antidote"; "paralyze heal"; "awakening"; 
                "ice heal"; "burn heal"; "full heal"] in
-  ANSITerminal.(print_string [blue] (Item.format_items items)); None
+  ANSITerminal.(print_string [cyan] (Item.format_items items)); None
 
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state]. *)
