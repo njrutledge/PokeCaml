@@ -763,14 +763,6 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
     | Some p -> p 
     | None -> player_mon 
   in 
-  if PM.get_status mon = "burn" then begin 
-    print_endline ((PM.get_name mon) ^ " is hurt by its burn!");
-    PM.change_hp mon (PM.get_max_hp mon /. 16.) 
-  end 
-  else if PM.get_status mon = "poison" then begin
-    print_endline ((PM.get_name mon) ^ " is hurt by poison!");
-    PM.change_hp mon (PM.get_max_hp mon /. 8.) end
-  else ();
   if PM.fainted cpu_mon then 
     if PM.retreat cpu_team then
       raise (BattleWon p_team)
@@ -781,6 +773,15 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
     | Some p -> execute_cpu_turn p cpu_mon
     | None -> execute_cpu_turn player_mon cpu_mon
   end;
+  if PM.get_status mon = "burn" then begin 
+    print_endline ((PM.get_name mon) ^ " is hurt by its burn!");
+    PM.change_hp mon (PM.get_max_hp mon /. -16.) 
+  end 
+  else if PM.get_status mon = "poison" then begin
+    print_endline ((PM.get_name mon) ^ " is hurt by poison!");
+    PM.change_hp mon (PM.get_max_hp mon /. -8.) end
+  else ();
+
   (* if first = 1 then begin execute_cpu_turn player_mon cpu_mon; execute_cpu_turn cpu_mon player_mon; end
      else begin execute_cpu_turn cpu_mon player_mon; execute_cpu_turn player_mon
       cpu_mon end; *)
