@@ -31,6 +31,7 @@ type command =
   | Moves of object_phrase
   | Go of object_phrase
   | GoRoute of object_phrase
+  | Shop
   | Badges
   | Bag
   | Heal

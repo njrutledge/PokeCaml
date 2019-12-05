@@ -382,22 +382,25 @@ let handle_move atk_mon def_mon move =
   end
   else ()
 
-(** [execute_go adv st ph] is the state update of the adventure after running 
+(** [execute_go adv st ph is_cpu] is the state update of the adventure after running 
     [state.go adv st ph'], where [ph'] is the string representation of 
-    string list [ph].
+    string list [ph]. [is_cpu] is whether [atk_mon] is a cpu.
     Raises [IllegalMove msg] if the move is invalid. *)
-let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_idx = 
+let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_idx is_cpu = 
   if not (can_attack atk_mon) then ()
   else begin 
-    let new_pp = (PM.get_moves (atk_mon)).(move_idx) |> Moves.get_pp in
-    if new_pp <= 0 then raise NoPP
+    let move = PM.get_move atk_mon (move_idx) in 
+    let new_pp = move |> Moves.get_pp in
+    if new_pp <= 0 && not is_cpu then 
+      raise NoPP
     else Moves.decr_pp (PM.get_moves (atk_mon)).(move_idx); 
     count := 0.0; 
-    let move = PM.get_move atk_mon (move_idx) in 
     let acc = (Moves.get_acc move) *. (PM.get_accuracy atk_mon) in
     let hit = check_hit acc in
+
     if hit then handle_move atk_mon def_mon move
-    else print_endline ("\nThe attack missed!")
+    else begin print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move) ^ "!");
+      print_endline ("\nThe attack missed!") end
   end 
 
 (** [b_calc ball] calculates the value that b should have in the capture formula
@@ -612,7 +615,7 @@ let rec execute_command party atk_mon def_mon bag cpu input =
   | Attack(i) -> begin 
       if 1 <= i && i <= Array.length (PM.get_moves atk_mon) 
       then begin 
-        execute_attack atk_mon def_mon (i-1);
+        execute_attack atk_mon def_mon (i-1) false 
       end
       else raise (Pokemon.UnknownMove (string_of_int i)); None 
     end
@@ -685,7 +688,7 @@ let execute_cpu_turn player_mon cpu_mon =
   Random.self_init();
   let cpu_moves = PM.get_moves cpu_mon in 
   let used_move = (Random.int (Array.length cpu_moves)) in 
-  execute_attack cpu_mon player_mon used_move
+  execute_attack cpu_mon player_mon used_move true
 
 (** [percent_hp_color precent hp_str] prints the string of the hp in the
     correct color.*)
