@@ -64,3 +64,10 @@ let cost_of_item i =
   | "burn heal" -> 200
   | "full heal" -> 400
   | s -> raise (InvalidItem s)
+
+(** [format_items itm_lst] returns a formatted string of the items in [itm_lst]
+    and their costs. *)
+let rec format_items = function
+  | [] -> ""
+  | h :: t -> " - " ^ h ^ ": $" ^ (string_of_int (cost_of_item h)) ^ "\n" ^ 
+              (format_items t)

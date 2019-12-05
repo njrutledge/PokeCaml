@@ -7,6 +7,7 @@ type command =
   | Moves of object_phrase
   | Go of object_phrase
   | GoRoute of object_phrase
+  | Shop
   | Badges
   | Bag
   | Heal
@@ -36,7 +37,7 @@ let make_command verb phrase =
     | "map" -> Map 
     | "badges" -> Badges
     | "save" -> Save
-    | _ -> raise Malformed 
+    | _ -> raise Malformed
   else
   if verb = "go" then begin 
     match phrase with 
@@ -48,6 +49,7 @@ let make_command verb phrase =
   if verb = "buy" then Buy phrase else
   if verb = "moves" then Moves phrase else
     raise Malformed 
+
 
 let parse str =
   String.split_on_char ' ' str 

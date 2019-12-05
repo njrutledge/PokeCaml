@@ -198,6 +198,12 @@ let execute_save state =
   end 
   else ();
   None
+(** [execute_shop] prints a formatted list of the items one can buy in the shop. *)
+let execute_shop () = 
+  let items = ["potion"; "hyper potion"; "full restore"; "pokeball"; "great ball";
+               "ultra ball"; "master ball"; "antidote"; "paralyze heal"; "awakening"; 
+               "ice heal"; "burn heal"; "full heal"] in
+  ANSITerminal.(print_string [blue] (Item.format_items items)); None
 
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state]. *)
@@ -206,6 +212,8 @@ let rec execute_command adv state input =
   | Quit -> execute_quit adv
   | Go(phrase) -> execute_go adv state (String.concat " " phrase)
   | GoRoute(phrase) -> execute_go_route adv state (String.concat " " phrase)
+  | Shop -> if in_pokecenter state then execute_shop ()
+    else raise NotInPC
   | Party -> execute_party state
   | Bag -> execute_bag state
   | Heal -> if in_pokecenter state then execute_heal state else raise NotInPC
