@@ -149,7 +149,7 @@
       ]
     }
   ],
-  "start town": "Python Town",
+  "start town": "My house",
   "route_file": "routes.json",
   "pokemon_file": "pokemon.json"
 }

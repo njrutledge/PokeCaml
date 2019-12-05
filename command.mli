@@ -38,6 +38,7 @@ type command =
   | Party
   | Map
   | Quit
+  | Save
 
 (** Raised when an empty command is parsed. *)
 exception Empty

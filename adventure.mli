@@ -34,6 +34,10 @@ exception UnknownExit of exit_name
 (** Raised when the exit used is locked. *)
 exception LockedExit of exit_name
 
+(** [json_t_pokemon j] is the pokemon that [j] represents.
+    Requires: [j] is a valid JSON pokemon representation. *)
+val json_t_pokemon: Yojson.Basic.t -> PM.t
+
 (** [from_json j] is the adventure that [j] represents.
     Requires: [j] is a valid JSON adventure representation. *)
 val from_json : Yojson.Basic.t -> t

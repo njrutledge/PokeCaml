@@ -17,19 +17,19 @@ type t =
 
 let string_of_item i = 
   match i with 
-  | Potion -> "Potion"
-  | HyperPotion -> "Hyper Potion"
-  | FullRestore -> "Full Restore"
-  | PokeBall -> "Poke Ball"
-  | GreatBall -> "Great Ball"
-  | UltraBall -> "Ultra Ball"
-  | MasterBall -> "Master Ball"
-  | Antidote -> "Antidote"
-  | ParalyzeHeal -> "Paralyze Heal"
-  | Awakening -> "Awakening"
-  | IceHeal -> "Ice Heal"
-  | BurnHeal -> "Burn Heal"
-  | FullHeal -> "Full Heal"
+  | Potion -> "potion"
+  | HyperPotion -> "hyper potion"
+  | FullRestore -> "full restore"
+  | PokeBall -> "pokeball"
+  | GreatBall -> "great ball"
+  | UltraBall -> "ultra ball"
+  | MasterBall -> "master ball"
+  | Antidote -> "antidote"
+  | ParalyzeHeal -> "paralyze heal"
+  | Awakening -> "awakening"
+  | IceHeal -> "ice heal"
+  | BurnHeal -> "burn heal"
+  | FullHeal -> "full heal"
 
 let item_of_string i = 
   match i with 

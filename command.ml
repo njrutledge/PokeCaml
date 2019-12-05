@@ -14,6 +14,7 @@ type command =
   | Party
   | Map
   | Quit
+  | Save
 
 exception Empty
 
@@ -28,14 +29,15 @@ let rec rem_empty = function
     [object_phrase] [phrase]. Raises Malformed if incorrect command. *)
 let make_command verb phrase = 
   if phrase = [] then 
-    if verb = "quit" then Quit else 
-    if verb = "bag" then Bag else 
-    if verb = "party" then Party else
-    if verb = "heal" then Heal else
-    if verb = "map" then Map else
-    if verb = "badges" then Badges else
-    if verb = "shop" then Shop else
-      raise Malformed 
+    match verb with 
+    | "quit" -> Quit  
+    | "bag" -> Bag  
+    | "party" -> Party 
+    | "heal" -> Heal 
+    | "map" -> Map 
+    | "badges" -> Badges
+    | "save" -> Save
+    | _ -> raise Malformed
   else
   if verb = "go" then begin 
     match phrase with 

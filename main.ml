@@ -172,6 +172,32 @@ let execute_badges state =
   end;
   None
 
+(** [get_y_n ()] is true if the user inputs an affirmative, false if negative, 
+    quits the application if inputs quit, and loops otherwise. *)
+let rec get_y_n () =
+  print_string "> ";
+  match read_line () with 
+  | "Yes" | "Y" | "y" | "yes" -> true
+  | "No" | "N" | "n" | "no" -> false
+  | "quit" -> execute_quit ()
+  | _ -> get_y_n ()
+
+let execute_save state = 
+  let overwrite = 
+    if Sys.file_exists "save.json" then begin 
+      ANSITerminal.(print_string [yellow] 
+                      ("This will overwrite your current save file, "^ 
+                       "continue? [Y/N]\n"));
+      get_y_n ()
+    end 
+    else true in 
+  if overwrite then begin 
+    ANSITerminal.(print_string [cyan] "Saving...\n");
+    State.save state;
+    ANSITerminal.(print_string [cyan] "Your game has been saved!\n");
+  end 
+  else ();
+  None
 (** [execute_shop] prints a formatted list of the items one can buy in the shop. *)
 let execute_shop () = 
   let items = ["potion"; "hyper potion"; "full restore"; "pokeball"; "great ball";
@@ -197,6 +223,7 @@ let rec execute_command adv state input =
     else raise NotInPC
   | Badges -> execute_badges state
   | Moves(phrase) -> execute_moves adv state (String.concat " " phrase)
+  | Save -> execute_save state 
 
 (** [get_command adv state input] tries to execute the user's command [input]
     with state [st] and adventure [adv]. Catches any errors during this 
@@ -280,10 +307,16 @@ let rec loop adv state print_desc=
 
 (** [play_game f] starts the adventure in file [f]. *)
 let play_game f =
-  loop 
-    (Adventure.from_json (Yojson.Basic.from_file f))
-    (State.init_state (Adventure.from_json (Yojson.Basic.from_file f)))
-    true
+  let adv = (Adventure.from_json (Yojson.Basic.from_file f)) in 
+  let state = 
+    if Sys.file_exists "save.json" then begin 
+      print_endline "Save detected! Use save file? [Y/N]" ;
+      if get_y_n () then State.load () 
+      else State.init_state adv
+    end 
+    else State.init_state adv in 
+  let adv' = Adventure.defeat_trainers adv (State.get_def_tr state) in 
+  loop adv' state true
 
 (** [main ()] prompts for the game to play, then starts it. *)
 let main () =
