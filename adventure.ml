@@ -54,7 +54,7 @@ type route = {
   route_name : string;
   badge: string;
   battles : bat list;
-  wilds : ((string * int * Moves.t list) * int * int) list;
+  wilds : ((string * int * string list) * int * int) list;
 }
 
 type t = {
@@ -163,7 +163,7 @@ let json_wilds j_item =
     j_item
     |> member "moves"
     |> to_list
-    |> List.map (fun x -> x|> to_string |> Moves.create_move) in 
+    |>List.map to_string in 
   (name, lvl, chance, moves)
 
 let json_t_pokemon j_item = 
@@ -358,9 +358,11 @@ let modify_town_exit mod_f adv town ex =
     Raises [UnknownExit e] if [e] is not an exit identifier of town [r], or if 
     [r] is not a valid route for the current town. *)
 let get_battles adv town r = 
-  if (adv.towns |> find_town town).exits 
-     |> List.map (fun x -> x.name) 
-     |> List.mem r then 
+  let is_member =  ((adv.towns |> find_town town).exits 
+                    |> List.map (fun x -> x.name) 
+                    |> List.mem r )
+  in 
+  if is_member then 
     adv.routes 
     |> List.find (fun x -> x.route_name = r) 
     |> (fun x -> x.battles) 
@@ -375,7 +377,8 @@ let get_wild adv route =
   Random.self_init (); let rand = Random.int 100 + 1 in
   let rec find_wild = function 
     | [] -> failwith "bad math (aka wild random error)"
-    | ((name, lvl, moves), st, nd) :: t -> 
+    | ((name, lvl, str_moves), st, nd) :: t ->
+      let moves = List.map (fun x -> Moves.create_move x) str_moves in  
       if st <= rand && rand <= nd then [|PM.create_pokemon name lvl moves|] 
       else find_wild t
   in 

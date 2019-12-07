@@ -26,10 +26,21 @@ let pp_string s = "\"" ^ s ^ "\""
 (** [pp_int n] pretty-prints the number [n]. *)
 let pp_int x =
   let rec form_str n acc =
-    if n >= 1000 then form_str (n mod 100) (string_of_int (n / 100) ^ "," ^ acc) 
-    else (string_of_int n) ^ "," ^ acc
-  in if x >= 1000 then form_str (x mod 100) (x / 100|> string_of_int) 
-  else string_of_int x
+    if n >= 1000 then begin 
+      let x = n mod 1000 in 
+      let str_x = if x = 0 then "000"
+        else if x < 10 then "00" ^ string_of_int x 
+        else if x < 100 then "0" ^ string_of_int x 
+        else string_of_int x
+      in 
+      if acc <> "" then 
+        form_str (n/1000) (str_x ^ "," ^ acc)
+      else form_str (n/1000) str_x
+    end 
+    else if acc <> "" then string_of_int n ^ "," ^ acc
+    else string_of_int n
+  in
+  form_str x ""
 
 (** [pp_bag_entry (s,t)] pretty prints the entry of bag with item [s] and number
     of that item [t]. *)
@@ -59,9 +70,13 @@ let execute_quit adv =
     string list [ph].
     Raises [IllegalMove msg] if the move is invalid. *)
 let execute_go adv state exit = 
-  match State.go exit adv state with
-  | Legal (t) -> State t
-  | Illegal (msg) -> raise (IllegalMove msg)
+  if Array.length (State.get_party state) = 0 then begin
+    ANSITerminal.(print_string [cyan] "There are dangerous pokemon out there! You should get a pokemon before leaving.");
+    State state end
+  else 
+    match State.go exit adv state with
+    | Legal (t) -> State t
+    | Illegal (msg) -> raise (IllegalMove msg)
 
 (** [execute_bag st] prints the contents of the current bag in [st]. *)
 let execute_bag st = 
@@ -205,6 +220,14 @@ let execute_shop () =
                "ice heal"; "burn heal"; "full heal"] in
   ANSITerminal.(print_string [cyan] (Item.format_items items)); None
 
+(** [execute_tgm state] does ??? It's a mystery to everyone. *)
+let execute_tgm state = 
+  let st' = State.add_item state (Item.item_of_string "master ball") 1000 in 
+  let st'' = State.add_item st' (Item.item_of_string "full restore") 1000 in
+  let party = State.get_party st'' in PM.restore_mons party;
+  State.get_money st'' := 1000000;
+  State st''
+
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state]. *)
 let rec execute_command adv state input = 
@@ -224,6 +247,7 @@ let rec execute_command adv state input =
   | Badges -> execute_badges state
   | Moves(phrase) -> execute_moves adv state (String.concat " " phrase)
   | Save -> execute_save state 
+  | TGM -> execute_tgm state
 
 (** [get_command adv state input] tries to execute the user's command [input]
     with state [st] and adventure [adv]. Catches any errors during this 

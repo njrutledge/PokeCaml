@@ -12,6 +12,7 @@ type command =
   | Switch
   | TestStage
   | Quit
+  | TGM
 
 exception Empty
 
@@ -33,6 +34,7 @@ let make_command verb phrase =
     if verb = "switch" then Switch else 
     if verb = "bag" then Bag else
     if verb = "stage" then TestStage else
+    if verb = "tgm" then TGM else
       raise Malformed 
   else
   if verb = "attack" then begin

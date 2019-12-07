@@ -14,21 +14,24 @@ type t = {
   party: PM.t array;
   defeated_trainers: string list;
   defeated_trainers_full: string list;
+  pc: (string * int * float * (string list)) list;
   badges: string list;
 }
 
 let init_state adv = {
   cur_town = Adventure.start_town adv;
   bag = [(Potion, ref 5); (HyperPotion, ref 1);
-         (PokeBall, ref 5); (GreatBall, ref 1)];
+         (PokeBall, ref 5); (GreatBall, ref 1); (Antidote, ref 1); (FullRestore, ref 1);];
   money = ref 1000;
   party = [|(PM.create_pokemon "Pikachu" 5 [Moves.create_move "thundershock";
                                             Moves.create_move "thunder wave";
-                                            Moves.create_move "rest"]);
+                                            Moves.create_move "poison powder";
+                                            Moves.create_move "inferno"]);
             (PM.create_pokemon "Charmander" 5 [Moves.create_move "scratch"]);
             (PM.create_pokemon "Squirtle" 5 [Moves.create_move "tackle";]);|];
   defeated_trainers = [];
   defeated_trainers_full = [];
+  pc = [];
   badges = []
 }
 
@@ -46,6 +49,7 @@ let go ex adv st =
       party = st.party;
       defeated_trainers = st.defeated_trainers;
       defeated_trainers_full = st.defeated_trainers_full;
+      pc = st.pc;
       badges = st.badges
     }
   with 
@@ -72,7 +76,7 @@ let rec run_battles route adv st = function
 and make_battle route adv st cpu_name cpu_mons bats = 
   let cpu_money = if cpu_name = "wild" then 0 else 
       Adventure.get_trainer_money adv cpu_name in 
-  let (p, b, m, keep_going) = Battle.main
+  let (p, b, m, keep_going, cp_opt) = Battle.main
       (st.party, 
        st.bag, 
        st.money, 
@@ -93,7 +97,17 @@ and make_battle route adv st cpu_name cpu_mons bats =
              money = m;
              defeated_trainers = dt;
              defeated_trainers_full = dt_full} in 
-  if keep_going then run_battles route adv st' bats
+  let st'' = match cp_opt with 
+    | Some mon -> {st' with 
+                   pc = (PM.get_name mon,
+                         PM.get_lvl mon,
+                         PM.get_xp mon,
+                         List.map (fun x -> Moves.name x)
+                           (PM.get_moves mon |> Array.to_list)) 
+                        :: st'.pc}
+    | None -> st'
+  in 
+  if keep_going then run_battles route adv st'' bats
   else begin 
     Legal st' end 
 
@@ -235,4 +249,5 @@ let load () =
       |> member "badges"
       |> to_list
       |> List.map to_string;
+    pc = [];
   }

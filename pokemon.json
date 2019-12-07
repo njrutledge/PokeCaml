@@ -64,10 +64,6 @@
       {
         "name": "take down",
         "lvl": 25
-      },
-      {
-        "name": "sweet scent",
-        "lvl": 30
       }
     ],
     "Evolution": {
@@ -94,16 +90,12 @@
         "lvl": 37
       },
       {
-        "name": "worry seed",
-        "lvl": 44
-      },
-      {
         "name": "double-edge",
-        "lvl": 51
+        "lvl": 45
       },
       {
         "name": "solar beam",
-        "lvl": 58
+        "lvl": 50
       }
     ],
     "Evolution": {
@@ -311,10 +303,6 @@
       {
         "name": "hydro pump",
         "lvl": 49
-      },
-      {
-        "name": "skull bash",
-        "lvl": 56
       }
     ],
     "Evolution": {
@@ -450,7 +438,7 @@
       "ATK": 55.0,
       "DEF": 40.0,
       "SPE": 90.0,
-      "HP": 35.0,
+      "HP": 40.0,
       "SPA": 50.0,
       "SPD": 40.0
     },
@@ -473,8 +461,8 @@
       }
     ],
     "Evolution": {
-      "name": "Raichu",
-      "lvl": 100
+      "name": "",
+      "lvl": -1
     }
   },
   "Corphish": {
@@ -689,10 +677,6 @@
       {
         "name": "defense curl",
         "lvl": 6
-      },
-      {
-        "name": "bide",
-        "lvl": 10
       },
       {
         "name": "double slap",
@@ -1460,6 +1444,153 @@
         "lvl": 54
       }
     ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Ekans": {
+    "Types": [
+      "poison"
+    ],
+    "Stats": {
+      "ATK": 60.0,
+      "DEF": 44.0,
+      "SPE": 55.0,
+      "HP": 35.0,
+      "SPA": 40.0,
+      "SPD": 54.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "Arbok",
+      "lvl": 22
+    }
+  },
+  "Arbok": {
+    "Types": [
+      "poison"
+    ],
+    "Stats": {
+      "ATK": 95.0,
+      "DEF": 69.0,
+      "SPE": 80.0,
+      "HP": 60.0,
+      "SPA": 65.0,
+      "SPD": 79.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Dunsparce": {
+    "Types": [
+      "normal"
+    ],
+    "Stats": {
+      "ATK": 70.0,
+      "DEF": 70.0,
+      "SPE": 45.0,
+      "HP": 100.0,
+      "SPA": 65.0,
+      "SPD": 65.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Snivy": {
+    "Types": [
+      "grass"
+    ],
+    "Stats": {
+      "ATK": 45.0,
+      "DEF": 55.0,
+      "SPE": 63.0,
+      "HP": 45.0,
+      "SPA": 45.0,
+      "SPD": 55.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Onix": {
+    "Types": [
+      "rock",
+      "ground"
+    ],
+    "Stats": {
+      "ATK": 45.0,
+      "DEF": 160.0,
+      "SPE": 70.0,
+      "HP": 35.0,
+      "SPA": 30.0,
+      "SPD": 45.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Zacian": {
+    "Types": [
+      "fairy",
+      "steel"
+    ],
+    "Stats": {
+      "ATK": 170.0,
+      "DEF": 115.0,
+      "SPE": 148.0,
+      "HP": 92.0,
+      "SPA": 80.0,
+      "SPD": 115.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Xerneas": {
+    "Types": [
+      "fairy"
+    ],
+    "Stats": {
+      "ATK": 131.0,
+      "DEF": 95.0,
+      "SPE": 99.0,
+      "HP": 126.0,
+      "SPA": 131.0,
+      "SPD": 98.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Rayquaza": {
+    "Types": [
+      "dragon",
+      "flying"
+    ],
+    "Stats": {
+      "ATK": 180.0,
+      "DEF": 100.0,
+      "SPE": 115.0,
+      "HP": 105.0,
+      "SPA": 180.0,
+      "SPD": 100.0
+    },
+    "Moveset": [],
     "Evolution": {
       "name": "",
       "lvl": -1

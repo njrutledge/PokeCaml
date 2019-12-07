@@ -12,18 +12,36 @@
       "wilds": [
         {
           "name": "Rattata",
-          "lvl": 3,
+          "lvl": 5,
           "chance": 10,
           "moves": [
-            "tackle"
+            "tackle",
+            "tail whip"
           ]
         },
         {
           "name": "Pidgey",
-          "lvl": 3,
+          "lvl": 5,
           "chance": 90,
           "moves": [
             "inferno"
+          ]
+        },
+        {
+          "name": "Caterpie",
+          "lvl": 5,
+          "chance": 0,
+          "moves": [
+            "tackle",
+            "string shot"
+          ]
+        },
+        {
+          "name": "Riolu",
+          "lvl": 5,
+          "chance": 0,
+          "moves": [
+            "tackle"
           ]
         }
       ]
@@ -49,20 +67,47 @@
       ],
       "wilds": [
         {
-          "name": "Rattata",
-          "lvl": 3,
-          "chance": 50,
+          "name": "Jigglypuff",
+          "lvl": 14,
+          "chance": 30,
           "moves": [
             "tackle"
           ]
         },
         {
-          "name": "Pidgey",
-          "lvl": 5,
-          "chance": 50,
+          "name": "Corphish",
+          "lvl": 14,
+          "chance": 15,
+          "moves": [
+            "water gun"
+          ]
+        },
+        {
+          "name": "Lotad",
+          "lvl": 14,
+          "chance": 15,
+          "moves": [
+            "water gun",
+            "absorb"
+          ]
+        },
+        {
+          "name": "Larvitar",
+          "lvl": 14,
+          "chance": 30,
           "moves": [
             "tackle",
-            "gust"
+            "rock throw",
+            "bite"
+          ]
+        },
+        {
+          "name": "Flapple",
+          "lvl": 14,
+          "chance": 10,
+          "moves": [
+            "astonish",
+            "twister"
           ]
         }
       ]
@@ -78,11 +123,11 @@
       "wilds": []
     },
     {
-      "name": "OCaml Gym",
+      "name": "gym 3",
       "badge": "OCaml Badge",
       "battles": [
         "TA Alaia",
-        "TA Kerry",
+        "TA Kerri",
         "Gym Leader Clarkson"
       ],
       "wilds": []
@@ -95,25 +140,25 @@
       "pokemon": [
         {
           "name": "Rattata",
-          "lvl": 4,
+          "lvl": 6,
           "moves": [
-            "tackle"
-          ]
-        },
-        {
-          "name": "Rattata",
-          "lvl": 4,
-          "moves": [
-            "tackle"
+            "tackle",
+            "tail whip"
           ]
         },
         {
           "name": "Pidgey",
-          "lvl": 5,
+          "lvl": 6,
           "moves": [
             "tackle",
-            "gust",
-            "sand attack"
+            "gust"
+          ]
+        },
+        {
+          "name": "Metapod",
+          "lvl": 8,
+          "moves": [
+            "harden"
           ]
         }
       ]
@@ -123,24 +168,20 @@
       "money": 100,
       "pokemon": [
         {
-          "name": "Rattata",
-          "lvl": 5,
+          "name": "Ekans",
+          "lvl": 12,
           "moves": [
-            "tackle"
+            "poison sting",
+            "bite",
+            "leer"
           ]
         },
         {
-          "name": "Rattata",
-          "lvl": 6,
+          "name": "Dunsparce",
+          "lvl": 12,
           "moves": [
-            "tackle"
-          ]
-        },
-        {
-          "name": "Rattata",
-          "lvl": 7,
-          "moves": [
-            "tackle"
+            "slam",
+            "defense curl"
           ]
         }
       ]
@@ -150,67 +191,66 @@
       "money": 200,
       "pokemon": [
         {
-          "name": "Pidgey",
-          "lvl": 5,
+          "name": "Snivy",
+          "lvl": 12,
           "moves": [
+            "vine whip",
             "tackle",
-            "sand attack"
+            "mega drain"
           ]
         },
         {
-          "name": "Pidgey",
-          "lvl": 6,
+          "name": "Onix",
+          "lvl": 14,
           "moves": [
-            "tackle"
-          ]
-        },
-        {
-          "name": "Pidgey",
-          "lvl": 8,
-          "moves": [
+            "rock throw",
             "tackle",
-            "gust"
+            "harden"
           ]
         }
       ]
     },
     {
-      "name": "TA Charlie",
+      "name": "Cookie Monster",
       "money": 100,
       "pokemon": [
         {
+          "name": "Raticate",
+          "lvl": 30,
+          "moves": [
+            "crunch",
+            "super fang",
+            "hyper fang",
+            "swords dance"
+          ]
+        },
+        {
           "name": "Rattata",
-          "lvl": 15,
+          "lvl": 35,
           "moves": [
             "tackle",
             "bite"
           ]
         },
         {
-          "name": "Rattata",
-          "lvl": 15,
+          "name": "Machoke",
+          "lvl": 35,
           "moves": [
-            "tackle",
-            "bite"
-          ]
-        },
-        {
-          "name": "Rattata",
-          "lvl": 15,
-          "moves": [
-            "tackle",
-            "bite"
+            "cross chop",
+            "dual chop",
+            "dynamic punch",
+            "bulk up"
           ]
         }
       ]
     },
     {
-      "name": "TA David",
+      "name": "Dijkstra",
       "money": 150,
       "pokemon": [
         {
           "name": "Pidgey",
-          "lvl": 10,
+          "lvl": 19,
           "moves": [
             "tackle",
             "gust"
@@ -218,7 +258,7 @@
         },
         {
           "name": "Pidgey",
-          "lvl": 10,
+          "lvl": 18,
           "moves": [
             "tackle",
             "gust"
@@ -226,7 +266,7 @@
         },
         {
           "name": "Pidgey",
-          "lvl": 12,
+          "lvl": 20,
           "moves": [
             "tackle",
             "gust"
@@ -239,27 +279,29 @@
       "money": 300,
       "pokemon": [
         {
-          "name": "Bulbasaur",
-          "lvl": 20,
+          "name": "Snivy",
+          "lvl": 14,
           "moves": [
             "tackle",
-            "vine whip"
+            "vine whip",
+            "mega drain"
           ]
         },
         {
-          "name": "Charmander",
-          "lvl": 20,
+          "name": "Dunsparce",
+          "lvl": 14,
           "moves": [
-            "scratch",
-            "ember"
+            "slam",
+            "defense curl"
           ]
         },
         {
-          "name": "Squirtle",
-          "lvl": 20,
+          "name": "Arbok",
+          "lvl": 16,
           "moves": [
-            "tackle",
-            "water gun"
+            "crunch",
+            "poison sting",
+            "leer"
           ]
         }
       ]
@@ -269,19 +311,19 @@
       "money": 500,
       "pokemon": [
         {
-          "name": "Bulbasaur",
+          "name": "Ivysaur",
           "lvl": 30,
           "moves": [
             "tackle",
-            "water gun"
+            "solar beam"
           ]
         },
         {
-          "name": "Charmander",
+          "name": "Charmeleon",
           "lvl": 30,
           "moves": [
             "tackle",
-            "ember"
+            "flamethrower"
           ]
         },
         {
@@ -299,25 +341,29 @@
       "money": 200,
       "pokemon": [
         {
-          "name": "Pidgey",
-          "lvl": 15,
+          "name": "Machop",
+          "lvl": 18,
           "moves": [
             "tackle",
-            "gust"
+            "leer",
+            "low sweep"
           ]
         },
         {
-          "name": "Rattata",
-          "lvl": 15,
+          "name": "Lombre",
+          "lvl": 18,
           "moves": [
-            "tackle"
+            "bubble beam",
+            "mega drain"
           ]
         },
         {
           "name": "Pikachu",
           "lvl": 20,
           "moves": [
-            "thundershock"
+            "thundershock",
+            "spark",
+            "thunder wave"
           ]
         }
       ]
@@ -325,30 +371,61 @@
     {
       "name": "TA Alaia",
       "money": 500,
-      "pokemon": []
+      "pokemon": [
+        {
+          "name": "Jigglypuff",
+          "lvl": 40,
+          "moves": [
+            "rest",
+            "body slam",
+            "sing",
+            "defense curl"
+          ]
+        },
+        {
+          "name": "Xerneas",
+          "lvl": 50,
+          "moves": [
+            "outrage",
+            "moonblast",
+            "geomancy"
+          ]
+        },
+        {
+          "name": "Zacian",
+          "lvl": 50,
+          "moves": [
+            "iron head",
+            "rest",
+            "moonblast",
+            "geomancy"
+          ]
+        }
+      ]
     },
     {
-      "name": "TA Kerry",
+      "name": "TA Kerri",
       "money": 500,
-      "pokemon": []
+      "pokemon": [
+        {
+          "name": "Tyranitar",
+          "lvl": 50,
+          "moves": [
+            "outrage",
+            "crunch",
+            "swords dance",
+            "stone edge"
+          ]
+        }
+      ]
     },
     {
       "name": "Gym Leader Clarkson",
       "money": 1000,
       "pokemon": [
         {
-          "name": "OCamlrupt",
-          "lvl": 30,
-          "moves": [
-            "earth power",
-            "lava plume",
-            "rock slide",
-            "amnesia"
-          ]
-        },
-        {
           "name": "Entei",
-          "lvl": 35,
+          "lvl": 50,
           "moves": [
             "flamethrower",
             "swagger",
@@ -357,8 +434,38 @@
           ]
         },
         {
-          "name": "Arceus",
+          "name": "Pikachu",
           "lvl": 50,
+          "moves": [
+            "thunder wave",
+            "thunder",
+            "double-edge",
+            "slam"
+          ]
+        },
+        {
+          "name": "Rayquaza",
+          "lvl": 50,
+          "moves": [
+            "outrage",
+            "dragon dance",
+            "crunch",
+            "scary face"
+          ]
+        },
+        {
+          "name": "OCamlrupt",
+          "lvl": 50,
+          "moves": [
+            "earth power",
+            "lava plume",
+            "rock slide",
+            "amnesia"
+          ]
+        },
+        {
+          "name": "Arceus",
+          "lvl": 60,
           "moves": [
             "recover",
             "hyper voice",

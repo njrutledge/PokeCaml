@@ -405,7 +405,10 @@ module Pokemon : PokeSig = struct
   *)
   let restore_helper mon = 
     mon.hp <- mon.max_hp;
-    Array.iter (fun move -> Moves.set_pp move (Moves.get_max_pp move)) mon.moves
+    Array.iter (fun move -> Moves.set_pp move (Moves.get_max_pp move)) mon.moves;
+    rem_status mon;
+    set_confusion mon (false, 0);
+    set_sleep_counter mon 0
 
   let rec restore_mons mons =
     Array.iter (restore_helper) mons
@@ -413,8 +416,9 @@ module Pokemon : PokeSig = struct
   let give_xp mon cp_mon_lvl wild = 
     let a = if wild then 1.0 else 1.5 in  
     let b = 50. in 
-    let frac = (Float.pow (2. *. (Float.of_int cp_mon_lvl) +. 10.) 2.5) 
-               /. (Float.pow ((Float.of_int cp_mon_lvl) +. (mon.lvl|>Float.of_int) +. 10.) 2.5) in 
+    let frac = 
+      (Float.pow (2. *. (Float.of_int cp_mon_lvl) +. 10.) 2.5) 
+      /. (Float.pow ((Float.of_int cp_mon_lvl) +. (mon.lvl|>Float.of_int) +. 10.) 2.5) in 
     let exp = (a *. b *. (cp_mon_lvl|>Float.of_int) /. 5. *. frac +. 1.) in 
     mon.xp <- mon.xp +. exp
 
@@ -437,7 +441,8 @@ module Pokemon : PokeSig = struct
       mon.moves.(n) <- move
 
   let evolve mon = 
-    if mon.lvl >= snd mon.evolution then begin 
+    if fst mon.evolution = "" then (mon, false) 
+    else if mon.lvl >= snd mon.evolution then begin 
       let evo = create_pokemon (fst mon.evolution) 
           mon.lvl (Array.to_list mon.moves) in 
       evo.xp <- mon.xp;

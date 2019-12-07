@@ -36,6 +36,7 @@ type command =
   | Switch
   | TestStage
   | Quit
+  | TGM
 
 (** Raised when an empty command is parsed. *)
 exception Empty

@@ -811,7 +811,7 @@
     "uses": 20,
     "status": [
       "ATK 1 self 100.0",
-      "SPD 1 self 100.0"
+      "SPE 1 self 100.0"
     ]
   },
   "grav apple": {
@@ -829,11 +829,45 @@
     "desc": "The user hardens its body's surface like iron, sharply raising its Defense stat.",
     "power": 0.0,
     "special": false,
-    "accuracy": 100.0,
+    "accuracy": 100000.0,
     "type": "steel",
     "uses": 15,
     "status": [
       "DEF 2 self 100.0"
+    ]
+  },
+  "iron head": {
+    "desc": "The user slams the target with its steel-hard head. This may also make the target flinch.",
+    "power": 80.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "steel",
+    "uses": 15,
+    "status": [
+      "flinch foe 30.0"
+    ]
+  },
+  "geomancy": {
+    "desc": "The user absorbs energy and sharply raises its Sp. Atk, Sp. Def, and Speed stats.",
+    "power": 0.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "fairy",
+    "uses": 15,
+    "status": [
+      "SPA 2 self 100.0",
+      "SPD 2 self 100.0"
+    ]
+  },
+  "moonblast": {
+    "desc": "Borrowing the power of the moon, the user attacks the target. This may also lower the target's Sp. Atk stat.",
+    "power": 95.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "fairy",
+    "uses": 15,
+    "status": [
+      "SPA -1 foe 30.0"
     ]
   },
   "dragon rush": {
@@ -845,6 +879,17 @@
     "uses": 10,
     "status": [
       "flinch foe 20.0"
+    ]
+  },
+  "outrage": {
+    "desc": "The user rampages and attacks. The user becomes confused.",
+    "power": 120.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "dragon",
+    "uses": 10,
+    "status": [
+      "confuse self 100.0"
     ]
   },
   "endeavor": {
@@ -1012,7 +1057,7 @@
   },
   "judgement": {
     "desc": "The user releases countless shots of light at the target. ",
-    "power": 100.0,
+    "power": 1000.0,
     "special": true,
     "accuracy": 100.0,
     "type": "normal",
@@ -1181,22 +1226,60 @@
       "SPE 2 self 100.0"
     ]
   },
-  "": {
-    "desc": "",
-    "power": 65.0,
-    "special": false,
-    "accuracy": 95.0,
-    "type": "",
+  "will-o-wisp": {
+    "desc": "The user shoots a sinister flame at the target to inflict a burn.",
+    "power": 0.0,
+    "special": true,
+    "accuracy": 85.0,
+    "type": "fire",
     "uses": 15,
-    "status": []
+    "status": [
+      "burn foe 100.0"
+    ]
   },
-  "": {
-    "desc": "",
-    "power": 65.0,
+  "confuse ray": {
+    "desc": "The target is exposed to a sinister ray that triggers confusion.",
+    "power": 0.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "ghost",
+    "uses": 10,
+    "status": [
+      "confusion foe 100.0"
+    ]
+  },
+  "poison sting": {
+    "desc": "The user stabs the target with a poisonous stinger. This may also poison the target.",
+    "power": 35.0,
     "special": false,
-    "accuracy": 95.0,
-    "type": "",
+    "accuracy": 100.0,
+    "type": "poison",
     "uses": 15,
-    "status": []
+    "status": [
+      "poison foe 30.0"
+    ]
+  },
+  "dragon ascent": {
+    "desc": "After soaring upward, the user attacks its target by dropping out of the sky at high speeds, although it lowers its own Defense and Sp. Def in the process.",
+    "power": 120.0,
+    "special": false,
+    "accuracy": 10.0,
+    "type": "flying",
+    "uses": 5,
+    "status": [
+      "DEF -1 self 100.0",
+      "SPD -1 self 100.0"
+    ]
+  },
+  "blizzard": {
+    "desc": "A howling blizzard is summoned to strike opposing Pokémon. This may also leave the opposing Pokémon frozen.",
+    "power": 120.0,
+    "special": true,
+    "accuracy": 90.0,
+    "type": "ice",
+    "uses": 5,
+    "status": [
+      "freeze foe 30.0"
+    ]
   }
 }

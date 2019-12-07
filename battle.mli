@@ -6,4 +6,4 @@ module PM = Pokemon
     and amount of the money the player has. *)
 val main: PM.t array * (Item.t * int ref) list * int ref * PM.t array 
           * string * int * bool
-  -> PM.t array * (Item.t * int ref) list * int ref * bool
+  -> PM.t array * (Item.t * int ref) list * int ref * bool * PM.t option

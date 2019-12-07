@@ -39,6 +39,7 @@ type command =
   | Map
   | Quit
   | Save
+  | TGM
 
 (** Raised when an empty command is parsed. *)
 exception Empty

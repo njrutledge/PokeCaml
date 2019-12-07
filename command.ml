@@ -15,6 +15,7 @@ type command =
   | Map
   | Quit
   | Save
+  | TGM
 
 exception Empty
 
@@ -29,7 +30,7 @@ let rec rem_empty = function
     [object_phrase] [phrase]. Raises Malformed if incorrect command. *)
 let make_command verb phrase = 
   if phrase = [] then 
-    match verb with 
+    match verb with  
     | "quit" -> Quit  
     | "bag" -> Bag  
     | "party" -> Party 
@@ -38,6 +39,7 @@ let make_command verb phrase =
     | "badges" -> Badges
     | "save" -> Save
     | "shop" -> Shop
+    | "tgm" -> TGM
     | _ -> raise Malformed
   else
   if verb = "go" then begin 
