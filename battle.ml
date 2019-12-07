@@ -59,7 +59,7 @@ let rec get_move_num () =
   try 
     let next = int_of_string (read_line ()) in 
     if next >= 1 && next <= 5 then
-      next
+      next - 1 
     else begin 
       ANSITerminal.(print_string [red] ("Invalid move. Please enter a number " ^
                                         " 1 to 5.\n"));
@@ -125,22 +125,27 @@ let status_help atk_mon def_mon status_type info =
     ANSITerminal.(print_string [red] ("Invalid " ^ status_type ^ " status."
                                       ^ "skipping this status..."))
   else if chance >= rand && PM.get_status target = "" then begin 
-    print_string (PM.get_name target);
+    let n = PM.get_name target in
     match status_type with
     | "sleep" -> PM.set_status target "sleep"; 
-      print_endline " was put to sleep!"
+      print_endline (n ^ " was put to sleep!")
     | "paralyze" -> PM.set_status target "paralyze"; 
-      print_endline " was paralyzed! It may be unable to move!"
-    | "confuse" -> PM.set_confusion target (true, 4); 
-      print_endline " became confused!"
-    | "burn" -> PM.set_status target "burn"; 
-      print_endline " was burned!"
-    | "poison" -> PM.set_status target "poison"; 
-      print_endline " was poisoned!"
+      print_endline (n ^ " was paralyzed! It may be unable to move!")
+    | "confuse" -> if (fst (PM.get_confusion target)) then () else 
+        begin PM.set_confusion target (true, 4); 
+          print_endline (n ^ " became confused!")
+        end 
+    | "burn" -> if not (List.mem "fire" (PM.get_type target)) then begin
+        PM.set_status target "burn"; 
+        print_endline (n ^ " was burned!") end
+    | "poison" -> if not (List.mem "poison" (PM.get_type target)) && 
+                     not (List.mem "steel" (PM.get_type target)) then begin
+        PM.set_status target "poison"; 
+        print_endline (n ^ " was poisoned!") end
     | "frozen" -> PM.set_status target "frozen"; 
-      print_endline " was frozen!"
+      print_endline (n ^ " was frozen!")
     | "flinch" -> PM.set_status target "flinch"; 
-      print_endline " flinched!"
+      print_endline (n ^ " flinched!")
     | _ -> ANSITerminal.(print_string [red] 
                            ("Invalid status name: "  ^ status_type  
                             ^ " skipping this status..."))
@@ -165,7 +170,7 @@ let heal_help atk_mon def_mon heal damage info =
   else if amt = "full" then begin PM.set_hp target (PM.get_max_hp target);
     print_endline (PM.get_name target ^ " was fully healed!");
   end 
-  else if amt = "half" then begin PM.set_hp target (PM.get_max_hp target /. 2.);
+  else if amt = "half" then begin PM.change_hp target (PM.get_max_hp target /. 2.);
     print_endline (PM.get_name target ^ " restored half its health!");
   end 
   else try 
@@ -295,7 +300,7 @@ let check_confusion mon =
       print_endline (name ^ " snapped out of confusion!");
       true 
     end 
-    else if r <= 100. then begin
+    else if r <= (100. /. 3.) then begin
       print_endline ("It hurts itself in confusion!");
       let dam = damage 
           (PM.get_lvl mon |> Float.of_int)
@@ -353,7 +358,9 @@ let can_attack mon =
         print_endline (name ^ " thawed out!");
         PM.rem_status mon; 
         true end
-    | "flinch" -> failwith "flinch"
+    | "flinch" -> 
+      PM.rem_status mon;
+      false 
     | _ -> true
   in 
   if attacking then check_confusion mon else false 

@@ -15,7 +15,7 @@ exception UnknownBadge of string
 (* [exit] defines an exit of a [town]. *)
 type exit = {
   name : exit_name;
-  exit_badge : badge_name list;
+  exit_badge : badge_name;
   exit_town : town_id;
 }
 
@@ -85,9 +85,8 @@ let json_exit j_exit = {
     |> to_string;
   exit_badge =
     j_exit
-    |> member "badges"
-    |> to_list
-    |> List.map to_string;
+    |> member "badge"
+    |> to_string;
   exit_town = 
     j_exit 
     |> member "place" 
@@ -328,8 +327,6 @@ let win_msg adv score =
 
 let req_badge adv town route = 
   ((adv.towns |> find_town town).exits |> find_exit route).exit_badge
-  |> List.hd
-
 
 (** [modify_exit f r e] modifies exit [ex] of the exits of town [r] by
     applying [f] to [e]. 

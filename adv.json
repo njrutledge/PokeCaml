@@ -6,22 +6,22 @@
       "exits": [
         {
           "name": "pokecenter",
-          "badges": [],
+          "badge": "",
           "place": "PokeCenter GTown"
         },
         {
           "name": "my house",
-          "badges": [],
+          "badge": "",
           "place": "my house"
         },
         {
           "name": "lab",
-          "badges": [],
+          "badge": "",
           "place": "lab"
         },
         {
           "name": "route 1110",
-          "badges": [],
+          "badge": "",
           "place": "Python Town"
         }
       ]
@@ -32,7 +32,7 @@
       "exits": [
         {
           "name": "gates town",
-          "badges": [],
+          "badge": "",
           "place": "Gates Town"
         }
       ]
@@ -43,7 +43,7 @@
       "exits": [
         {
           "name": "outside",
-          "badges": [],
+          "badge": "",
           "place": "Gates Town"
         }
       ]
@@ -54,7 +54,7 @@
       "exits": [
         {
           "name": "gates town",
-          "badges": [],
+          "badge": "",
           "place": "Gates Town"
         }
       ]
@@ -65,24 +65,22 @@
       "exits": [
         {
           "name": "pokecenter",
-          "badges": [],
+          "badge": "",
           "place": "PokeCenter PTown"
         },
         {
           "name": "route 2110",
-          "badges": [
-            "Python Badge"
-          ],
+          "badge": "Python Badge",
           "place": "Java Town"
         },
         {
           "name": "route 1110",
-          "badges": [],
+          "badge": "",
           "place": "Gates Town"
         },
         {
           "name": "gym 1",
-          "badges": [],
+          "badge": "",
           "place": "Python Town"
         }
       ]
@@ -93,7 +91,7 @@
       "exits": [
         {
           "name": "python town",
-          "badges": [],
+          "badge": "",
           "place": "Python Town"
         }
       ]
@@ -104,24 +102,22 @@
       "exits": [
         {
           "name": "pokecenter",
-          "badges": [],
+          "badge": "",
           "place": "PokeCenter JTown"
         },
         {
           "name": "route 2110",
-          "badges": [],
+          "badge": "",
           "place": "Python Town"
         },
         {
           "name": "route 3110",
-          "badges": [
-            "Java Badge"
-          ],
+          "badge": "Java Badge",
           "place": "Caml Town"
         },
         {
           "name": "gym 2",
-          "badges": [],
+          "badge": "",
           "place": "Java Town"
         }
       ]
@@ -132,7 +128,7 @@
       "exits": [
         {
           "name": "java town",
-          "badges": [],
+          "badge": "",
           "place": "Java Town"
         }
       ]
@@ -143,17 +139,17 @@
       "exits": [
         {
           "name": "pokecenter",
-          "badges": [],
+          "badge": "",
           "place": "PokeCenter CTown"
         },
         {
           "name": "route 3110",
-          "badges": [],
+          "badge": "",
           "place": "Java Town"
         },
         {
           "name": "gym 3",
-          "badges": [],
+          "badge": "",
           "place": "Caml Town"
         }
       ]
@@ -164,7 +160,7 @@
       "exits": [
         {
           "name": "caml town",
-          "badges": [],
+          "badge": "",
           "place": "Caml Town"
         }
       ]

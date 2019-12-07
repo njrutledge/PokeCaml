@@ -40,6 +40,10 @@ type command =
   | Quit
   | Save
   | TGM
+  | PC
+  | Info of object_phrase
+  | Switch of object_phrase
+  | Swap of object_phrase
 
 (** Raised when an empty command is parsed. *)
 exception Empty

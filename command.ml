@@ -16,6 +16,10 @@ type command =
   | Quit
   | Save
   | TGM
+  | PC
+  | Info of object_phrase
+  | Switch of object_phrase
+  | Swap of object_phrase
 
 exception Empty
 
@@ -40,6 +44,7 @@ let make_command verb phrase =
     | "save" -> Save
     | "shop" -> Shop
     | "tgm" -> TGM
+    | "pc" -> PC
     | _ -> raise Malformed
   else
   if verb = "go" then begin 
@@ -51,6 +56,9 @@ let make_command verb phrase =
   if verb = "route" then GoRoute phrase else
   if verb = "buy" then Buy phrase else
   if verb = "moves" then Moves phrase else
+  if verb = "info" then Info phrase else 
+  if verb = "switch" then Switch phrase else
+  if verb = "swap" then Swap phrase else 
     raise Malformed 
 
 

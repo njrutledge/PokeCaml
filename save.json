@@ -1,1 +1,108 @@
-{"cur_town":"Caml Town","bag":[{"item_name":"full restore","ammount":1000},{"item_name":"master ball","ammount":1000},{"item_name":"potion","ammount":1000},{"item_name":"hyper potion","ammount":1000},{"item_name":"pokeball","ammount":1000},{"item_name":"great ball","ammount":1000},{"item_name":"antidote","ammount":1000}],"money":1000000,"party":[{"name":"Pikachu","hp":284.10376934322926,"lvl":100,"xp":1000000.0,"moves":["thunder","10,000,000 Volt Thunderbolt","thunder wave","inferno"]},{"name":"Charizard","hp":554.0023502192971,"lvl":100,"xp":1000000.0,"moves":["flare blitz","dragon ascent","dragon dance","will-o-wisp"]},{"name":"Blastoise","hp":561.1049444528777,"lvl":100,"xp":1000000.0,"moves":["hydro cannon","Oceanic Operetta","shell smash","blizzard"]},{"name":"Venusaur","hp":568.2075386864585,"lvl":100,"xp":1000000.0,"moves":["solar beam","acid spray","synthesis","poison powder"]}],"defeated trainers":[],"badges":[]}
+{
+  "cur_town": "Python Town",
+  "bag": [
+    {
+      "item_name": "potion",
+      "ammount": 4
+    },
+    {
+      "item_name": "hyper potion",
+      "ammount": 1
+    },
+    {
+      "item_name": "pokeball",
+      "ammount": 1
+    },
+    {
+      "item_name": "great ball",
+      "ammount": 3
+    },
+    {
+      "item_name": "antidote",
+      "ammount": 1
+    },
+    {
+      "item_name": "full restore",
+      "ammount": 1
+    }
+  ],
+  "money": 1100,
+  "party": [
+    {
+      "name": "Pikachu",
+      "hp": 2056.1639540349242,
+      "lvl": 200,
+      "xp": 258.13196198622614,
+      "moves": [
+        "thundershock",
+        "growth",
+        "recover",
+        "flare blitz"
+      ]
+    },
+    {
+      "name": "Charmander",
+      "hp": 45.69471585908836,
+      "lvl": 9,
+      "xp": 609.8010283188269,
+      "moves": [
+        "scratch",
+        "smokescreen"
+      ]
+    },
+    {
+      "name": "Squirtle",
+      "hp": 51.55301276409969,
+      "lvl": 9,
+      "xp": 609.8010283188269,
+      "moves": [
+        "tackle",
+        "withdraw",
+        "rapid spin"
+      ]
+    },
+    {
+      "name": "Pidgey",
+      "hp": 46.866375240090626,
+      "lvl": 9,
+      "xp": 573.4594592103784,
+      "moves": [
+        "tackle",
+        "slam"
+      ]
+    },
+    {
+      "name": "Pidgey",
+      "hp": 46.88475421077302,
+      "lvl": 9,
+      "xp": 535.4838671174365,
+      "moves": [
+        "tackle",
+        "slam"
+      ]
+    },
+    {
+      "name": "Pidgey",
+      "hp": 44.163232128000004,
+      "lvl": 6,
+      "xp": 211.25850670968404,
+      "moves": [
+        "tackle"
+      ]
+    }
+  ],
+  "defeated trainers": [
+    "Youngster Joey"
+  ],
+  "badges": [],
+  "pc": [
+    {
+      "name": "Pidgey",
+      "level": 5,
+      "xp": 64.0,
+      "moves": [
+        "tackle"
+      ]
+    }
+  ]
+}

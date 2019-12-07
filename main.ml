@@ -70,13 +70,9 @@ let execute_quit adv =
     string list [ph].
     Raises [IllegalMove msg] if the move is invalid. *)
 let execute_go adv state exit = 
-  if Array.length (State.get_party state) = 0 then begin
-    ANSITerminal.(print_string [cyan] "There are dangerous pokemon out there! You should get a pokemon before leaving.");
-    State state end
-  else 
-    match State.go exit adv state with
-    | Legal (t) -> State t
-    | Illegal (msg) -> raise (IllegalMove msg)
+  match State.go exit adv state with
+  | Legal (t) -> State t
+  | Illegal (msg) -> raise (IllegalMove msg)
 
 (** [execute_bag st] prints the contents of the current bag in [st]. *)
 let execute_bag st = 
@@ -110,12 +106,28 @@ let print_give_badge st =
 (** [execute_go_route adv st route] takes [route] from the current town in [st]
     in adventure [adv]. *)
 let execute_go_route adv st route = 
-  match State.route route adv st with 
-  | Illegal (msg) -> raise (IllegalMove msg)
-  | Legal (st') -> 
-    let adv' = st' |> State.get_def_tr |> Adventure.defeat_trainers adv in 
-    print_give_badge st';
-    Both (adv', State.clear_def_trs st')
+  if Array.length (State.get_party st) = 0 then begin
+    ANSITerminal.(print_string [yellow] 
+                    ("There are dangerous pokemon out there!" 
+                     ^ " You should get a pokemon before leaving.\n"));
+    None end
+  else begin
+    let badges = State.get_badges st in 
+    let needed_badge = 
+      Adventure.req_badge adv (State.current_town_id st) route in 
+    if not (List.mem needed_badge badges) && needed_badge <> "" then begin 
+      ANSITerminal.(print_string [yellow] ("You need to get this town's badge "
+                                           ^ "before you can continue!\n"));
+      None
+    end 
+    else begin 
+      match State.route route adv st with 
+      | Illegal (msg) -> raise (IllegalMove msg)
+      | Legal (st') -> 
+        let adv' = st' |> State.get_def_tr |> Adventure.defeat_trainers adv in 
+        print_give_badge st';
+        Both (adv', State.clear_def_trs st') end
+  end 
 
 (** [in_pokecenter st] is true if the current location of [st] is a
     pokecenter. *)
@@ -228,6 +240,38 @@ let execute_tgm state =
   State.get_money st'' := 1000000;
   State st''
 
+let execute_pc_print state = 
+  ANSITerminal.(print_string [cyan] "Here are the pokemon in your pc:\n");
+  let print_fun i (name, lvl, _, _ ) = 
+    ANSITerminal.(print_string [cyan]
+                    (string_of_int (i + 1) ^ ". " ^ " lvl " ^ string_of_int lvl 
+                     ^ " " ^ name ^ "\n"))
+  in 
+  print_int (List.length (State.get_pc state));
+  ignore (List.mapi print_fun (State.get_pc state));
+  ANSITerminal.(print_string [cyan] 
+                  ("To get more information about a pokemon,"
+                   ^ " type info #\nTo switch a pokemon in your PC with"
+                   ^ " a pokemon in your party, type switch # #\n"));
+  None
+
+let execute_info st phrase = 
+  let mon_num = try (int_of_string phrase) with Failure _ -> - 1 in 
+  let (name, lvl, xp, moves) = try (List.nth (State.get_pc st) (mon_num -1)) 
+    with Failure _ -> ("",0,0.0,[]) in  
+  if name = "" then 
+    ANSITerminal.(print_string [red] "Please input a valid number\n")
+  else begin 
+    ANSITerminal.
+      (print_string [cyan] 
+         (name ^ " lvl " ^ (string_of_int lvl) ^ " xp " 
+          ^ (string_of_float
+               (xp/.(float_of_int(lvl-1)**3.*.100.|>Float.trunc)))));
+    let move_str = List.fold_left (fun acc x -> acc ^ x ^"\n") "" moves in 
+    ANSITerminal.(print_string [cyan] ("moves:\n" ^ move_str))
+  end;
+  None
+
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state]. *)
 let rec execute_command adv state input = 
@@ -240,6 +284,7 @@ let rec execute_command adv state input =
   | Party -> execute_party state
   | Bag -> execute_bag state
   | Heal -> if in_pokecenter state then execute_heal state else raise NotInPC
+  | PC -> if in_pokecenter state then execute_pc_print state else raise NotInPC
   | Map -> execute_map adv state 
   | Buy(phrase) -> 
     if in_pokecenter state then execute_buy state phrase
@@ -248,6 +293,9 @@ let rec execute_command adv state input =
   | Moves(phrase) -> execute_moves adv state (String.concat " " phrase)
   | Save -> execute_save state 
   | TGM -> execute_tgm state
+  | Info phrase -> execute_info state (String.concat " " phrase)
+  | Switch phrase -> failwith "switch not implemented"
+  | Swap phrase -> failwith "swap not implemetened"
 
 (** [get_command adv state input] tries to execute the user's command [input]
     with state [st] and adventure [adv]. Catches any errors during this 
@@ -339,7 +387,7 @@ let play_game f =
       else State.init_state adv
     end 
     else State.init_state adv in 
-  let adv' = Adventure.defeat_trainers adv (State.get_def_tr state) in 
+  let adv' = Adventure.defeat_trainers adv (State.get_def_tr_all state) in 
   loop adv' state true
 
 (** [main ()] prompts for the game to play, then starts it. *)

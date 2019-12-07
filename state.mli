@@ -65,8 +65,19 @@ val bag : t -> (Item.t * int ref) list
 (** [get_party st] is the current party (Pokemon.t list) of the player. *)
 val get_party : t -> PM.t array
 
-(** [get_def_tr st] returns the defeated trainers in state [st]. *)
+(** [get_pc st] is the list of the player's pc, given by a tuple 
+    [(name, lvl, xp, moves], where [name] is the name of a pokemon,
+    [lvl] is its current level, [xp] is its current xp, and 
+    [moves] is a list of the names of the pokemon's moves. *)
+val get_pc : t -> (string * int * float * (string list)) list
+
+(** [get_def_tr st] returns the defeated trainers in state [st]
+    that have not been marked as defeated in the adventure. *)
 val get_def_tr: t -> string list
+
+(** [get_def_tr_all st] returns the full list of all defeated trainers 
+    in state [st]. *)
+val get_def_tr_all : t -> string list
 
 (** [get_money st] returns the current money in state [st]. *)
 val get_money: t -> int ref

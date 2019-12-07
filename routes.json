@@ -13,7 +13,7 @@
         {
           "name": "Rattata",
           "lvl": 5,
-          "chance": 10,
+          "chance": 50,
           "moves": [
             "tackle",
             "tail whip"
@@ -22,14 +22,14 @@
         {
           "name": "Pidgey",
           "lvl": 5,
-          "chance": 90,
+          "chance": 50,
           "moves": [
-            "inferno"
+            "tackle"
           ]
         },
         {
           "name": "Caterpie",
-          "lvl": 5,
+          "lvl": 4,
           "chance": 0,
           "moves": [
             "tackle",
@@ -76,7 +76,7 @@
         },
         {
           "name": "Corphish",
-          "lvl": 14,
+          "lvl": 15,
           "chance": 15,
           "moves": [
             "water gun"
@@ -93,7 +93,7 @@
         },
         {
           "name": "Larvitar",
-          "lvl": 14,
+          "lvl": 15,
           "chance": 30,
           "moves": [
             "tackle",
@@ -222,14 +222,6 @@
             "super fang",
             "hyper fang",
             "swords dance"
-          ]
-        },
-        {
-          "name": "Rattata",
-          "lvl": 35,
-          "moves": [
-            "tackle",
-            "bite"
           ]
         },
         {

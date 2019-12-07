@@ -21,12 +21,12 @@ type t = {
 let init_state adv = {
   cur_town = Adventure.start_town adv;
   bag = [(Potion, ref 5); (HyperPotion, ref 1);
-         (PokeBall, ref 5); (GreatBall, ref 1); (Antidote, ref 1); (FullRestore, ref 1);];
+         (PokeBall, ref 5); (GreatBall, ref 5); (Antidote, ref 1); (FullRestore, ref 1);];
   money = ref 1000;
   party = [|(PM.create_pokemon "Pikachu" 5 [Moves.create_move "thundershock";
-                                            Moves.create_move "thunder wave";
+                                            Moves.create_move "will-o-wisp";
                                             Moves.create_move "poison powder";
-                                            Moves.create_move "inferno"]);
+                                            Moves.create_move "fake out"]);
             (PM.create_pokemon "Charmander" 5 [Moves.create_move "scratch"]);
             (PM.create_pokemon "Squirtle" 5 [Moves.create_move "tackle";]);|];
   defeated_trainers = [];
@@ -62,7 +62,6 @@ let rec run_battles route adv st = function
         go route adv 
           {st with badges = Adventure.get_badge adv route :: st.badges}  
       else begin 
-        print_endline(st.cur_town);
         go route adv st
       end 
     end 
@@ -109,7 +108,7 @@ and make_battle route adv st cpu_name cpu_mons bats =
   in 
   if keep_going then run_battles route adv st'' bats
   else begin 
-    Legal st' end 
+    Legal st'' end 
 
 let route r adv st = 
   try 
@@ -141,6 +140,8 @@ let bag st = st.bag
 
 let get_party st = st.party
 
+let get_pc st = st.pc
+
 (** [has_badge st badges] is true if the player currently has an item of
     [badges] in their bag in [st]. *)
 let rec has_badge st = function 
@@ -148,6 +149,8 @@ let rec has_badge st = function
   | h :: t -> if (List.mem h st.bag) then true else has_badge st t
 
 let get_def_tr st = st.defeated_trainers
+
+let get_def_tr_all st = st.defeated_trainers_full
 
 let get_money st = st.money
 
@@ -160,7 +163,7 @@ let clear_def_trs st = { st with defeated_trainers = []}
 let get_moves_list mon = 
   PM.get_moves mon
   |> Array.to_list
-  |> List.map (fun move -> `String (Moves.name move)) 
+  |> List.map (fun move -> `String (Moves.name move))
 
 (** [form_party acc mons] is [mons] formated for JSON, using [acc]
     as an accumulator. *)
@@ -192,10 +195,17 @@ let save st =
     let lst = List.map (fun x -> `String x) st.badges in 
     ("badges", `List lst) 
   in 
-  let save = `Assoc[town; bag; money; party; defeated_trainers; badges] in 
+  let pc_fun (name, lvl, xp, moves) = 
+    `Assoc [("name", `String name); ("level", `Int lvl);
+            ("xp", `Float xp);
+            ("moves", `List(List.map (fun x -> `String x) moves))] in 
+  let pc =
+    ("pc", `List (List.map pc_fun st.pc)) in 
+  let save = `Assoc[town; bag; money; party; defeated_trainers; badges; pc] in 
   to_file "save.json" save
 
-(** [json_item j] constructs a bag item entry by parsing [j]. *)
+(** [json_item j] is the item that [j] represents.
+    Requires: [j] is a valid JSON item representation. *)
 let json_item j = 
   let item = 
     j 
@@ -209,6 +219,8 @@ let json_item j =
   in 
   (item, ref amt)
 
+(** [load_pokemon j] is the pokemon that [j] represents.
+    Requires: [j] is a valid JSON pokemon representation. *)
 let load_pokemon j = 
   let mon = Adventure.json_t_pokemon j in 
   let xp = j |> member "xp" |> to_float in 
@@ -217,6 +229,16 @@ let load_pokemon j =
   PM.set_xp mon xp;
   mon
 
+let json_pc j = 
+  let name = j |> member "name" |> to_string in 
+  let lvl = j |> member "level" |> to_int in 
+  let xp = j |> member "xp" |> to_float in 
+  let moves = 
+    j 
+    |> member "moves" 
+    |> to_list 
+    |> List.map to_string in 
+  (name, lvl, xp, moves)
 
 let load () = 
   let json = Yojson.Basic.from_file "save.json" in 
@@ -249,5 +271,9 @@ let load () =
       |> member "badges"
       |> to_list
       |> List.map to_string;
-    pc = [];
+    pc = 
+      json
+      |> member "pc"
+      |> to_list
+      |> List.map json_pc;
   }
