@@ -886,21 +886,21 @@ let json_wilds j_item =
   <span data-count="14">(</span>name, lvl, chance, moves)
 
 let json_t_pokemon j_item = 
-  <span data-count="35">t</span>ry
+  <span data-count="36">t</span>ry
     let name = 
-      <span data-count="35">j</span>_item 
-      |&gt; <span data-count="35">m</span>ember "name"
-      |&gt; <span data-count="35">t</span>o_string in
-    <span data-count="35">l</span>et lvl = 
-      <span data-count="35">j</span>_item
-      |&gt; <span data-count="35">m</span>ember "lvl"
-      |&gt; <span data-count="35">t</span>o_int in
-    <span data-count="35">l</span>et moves = 
-      <span data-count="35">j</span>_item
-      |&gt; <span data-count="35">m</span>ember "moves"
-      |&gt; <span data-count="35">t</span>o_list
-      |&gt; <span data-count="35">L</span>ist.map (fun x -&gt; <span data-count="110">x</span>|&gt; <span data-count="110">t</span>o_string |&gt; <span data-count="110">M</span>oves.create_move) in 
-    <span data-count="35">P</span>M.create_pokemon name lvl moves
+      <span data-count="36">j</span>_item 
+      |&gt; <span data-count="36">m</span>ember "name"
+      |&gt; <span data-count="36">t</span>o_string in
+    <span data-count="36">l</span>et lvl = 
+      <span data-count="36">j</span>_item
+      |&gt; <span data-count="36">m</span>ember "lvl"
+      |&gt; <span data-count="36">t</span>o_int in
+    <span data-count="36">l</span>et moves = 
+      <span data-count="36">j</span>_item
+      |&gt; <span data-count="36">m</span>ember "moves"
+      |&gt; <span data-count="36">t</span>o_list
+      |&gt; <span data-count="36">L</span>ist.map (fun x -&gt; <span data-count="114">x</span>|&gt; <span data-count="114">t</span>o_string |&gt; <span data-count="114">M</span>oves.create_move) in 
+    <span data-count="36">P</span>M.create_pokemon name lvl moves
   with <span data-count="0">F</span>ailure e -&gt; failwith (e ^ ": error in json_t_pokemon")
 
 (** [json_trainers j] is the trainer that [j] represents. 
@@ -1119,7 +1119,7 @@ let get_badge adv route =
 </pre>
       </div>
     </div>
-    <div id="footer">Generated on 2019-12-07 23:36:24 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.4.1</div>
+    <div id="footer">Generated on 2019-12-08 02:00:46 by <a href="https://github.com/aantron/bisect_ppx">Bisect_ppx</a> 1.4.1</div>
     <script src="coverage.js"></script>
   </body>
 </html>

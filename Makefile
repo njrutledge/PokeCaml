@@ -4,7 +4,7 @@ MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
-OCAMLBUILD=ocamlbuild -use-ocamlfind
+OCAMLBUILD=ocamlbuild -use-ocamlfind -plugin-tag 'package(bisect_ppx-ocamlbuild)'
 CLOC=cloc *
 CLOCML=cloc *.ml *.mli
 CLOCZIP=cloc ms3.zip
@@ -16,7 +16,8 @@ build:
 	$(OCAMLBUILD) $(OBJECTS)
 
 test:
-	$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST)
+	BISECT_COVERAGE=YES ocamlbuild -use-ocamlfind -plugin-tag 'package(bisect_ppx-ocamlbuild)' -tag 'debug' $(TEST) && ./$(TEST) -runner sequential
+	#$(OCAMLBUILD) -tag 'debug' $(TEST) && ./$(TEST)
 
 play:
 	$(OCAMLBUILD) $(MAIN) && ./$(MAIN)
@@ -32,9 +33,13 @@ cloczip:
 
 zip:
 	zip ms3.zip *.ml* *.json *txt _tags Makefile
-	
+
 bisect: clean test
 	bisect-ppx-report -I _build -html report bisect0001.out
+
+bisectclean: 
+	rm -rf bisect*.out
+	rm -rf report
 
 docs: docs-public docs-private
 	
@@ -51,5 +56,5 @@ docs-private: build
 
 clean:
 	ocamlbuild -clean
-	rm -rf doc.public doc.private adventure.zip
+	rm -rf doc.public doc.private ms3.zip
 	rm -rf _build

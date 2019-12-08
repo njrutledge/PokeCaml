@@ -34,8 +34,7 @@ module type PokeSig = sig
   val create_pokemon: string -> int -> Moves.t list -> t
   val get_max_hp : t -> t_hp
   val change_hp : t -> t_hp -> unit
-  val incr_stats : t -> unit
-
+  
   val fainted : t -> bool 
   val get_name : t -> string
   val get_type : t -> t_type list
@@ -262,8 +261,6 @@ module Pokemon : PokeSig = struct
       then max 0.0 new_hp 
       else get_max_hp mon
     end
-
-  let incr_stats mon = failwith "Unimplemented"
 
   let fainted mon = mon.hp <= 0.
 

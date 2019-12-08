@@ -39,9 +39,6 @@ module type PokeSig = sig
   (** [change_hp mon hp] modifies the hp of [mon] by [hp].*)
   val change_hp : t -> t_hp -> unit
 
-  (** incr_stats mon] increases the stats of [mon] based on its level. *)
-  val incr_stats : t -> unit
-
   (** [fainted mon] is whether the hp of [mon] is 0. *)
   val fainted : t -> bool 
 

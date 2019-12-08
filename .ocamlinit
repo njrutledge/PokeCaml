@@ -2,6 +2,8 @@
 #require "yojson";;
 #require "ANSITerminal";;
 #directory "_build";;
-#load "adventure.cmo";;
-#load "command.cmo";;
-#load "state.cmo";;
+#load_rec "adventure.cmo";;
+#load_rec "btlcmd.cmo";;
+#load_rec "command.cmo";;
+#load_rec "pokemon.cmo";;
+#load_rec "state.cmo";;
