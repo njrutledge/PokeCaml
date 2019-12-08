@@ -34,7 +34,6 @@ type command =
   | Party
   | Run
   | Switch
-  | TestStage
   | Quit
   | TGM
 

@@ -49,8 +49,8 @@
       ]
     },
     {
-      "id": "Lab",
-      "description": "Professor Oak calls to you as you enter \n\"Ah there you are! Its time that you start your pokemon adventure. I have 3 great pokemon here for you to choose from, pick your favorite!\"",
+      "id": "lab",
+      "description": "Welcome to the lab. You've got a pokemon. Now go out on your adventure!",
       "exits": [
         {
           "name": "gates town",
@@ -98,7 +98,7 @@
     },
     {
       "id": "Java Town",
-      "description": "Java Town",
+      "description": "\"As you leave the route, you see a sign: \n\"Welcome to Java Town, home of the amazing David Gries!\"",
       "exits": [
         {
           "name": "pokecenter",
@@ -135,7 +135,7 @@
     },
     {
       "id": "Caml Town",
-      "description": "Caml Town, the final frontier",
+      "description": "Caml Town, the final frontier.",
       "exits": [
         {
           "name": "pokecenter",
@@ -150,9 +150,14 @@
         {
           "name": "gym 3",
           "badge": "",
-          "place": "Caml Town"
+          "place": "Hall of Fame"
         }
       ]
+    },
+    {
+      "id": "Hall of Fame",
+      "description": "",
+      "exits": []
     },
     {
       "id": "PokeCenter CTown",

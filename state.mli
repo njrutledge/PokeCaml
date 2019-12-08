@@ -100,3 +100,7 @@ val change_pc : t -> int -> PM.t -> t
 (** [swap_party st i1 i2] swaps the pokemon in the party of [st] at index
     [i1] with that at [i2]. *)
 val swap_party : t -> int -> int -> unit
+
+(** [starter state name] creates a new state with the starter pokemon 
+    [name] in the party. *)
+val starter : t -> string -> t

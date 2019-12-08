@@ -456,8 +456,20 @@
         "lvl": 6
       },
       {
+        "name": "zippy zap",
+        "lvl": 10
+      },
+      {
         "name": "thunderbolt",
+        "lvl": 15
+      },
+      {
+        "name": "thunder",
         "lvl": 20
+      },
+      {
+        "name": "10,000,000 Volt Thunderbolt",
+        "lvl": 30
       }
     ],
     "Evolution": {
@@ -1645,6 +1657,333 @@
       "HP": 95.0,
       "SPA": 65.0,
       "SPD": 70.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Sandslash": {
+    "Types": [
+      "ground"
+    ],
+    "Stats": {
+      "ATK": 100.0,
+      "DEF": 120.0,
+      "SPE": 65.0,
+      "HP": 75.0,
+      "SPA": 25.0,
+      "SPD": 65.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Quagsire": {
+    "Types": [
+      "ground",
+      "water"
+    ],
+    "Stats": {
+      "ATK": 85.0,
+      "DEF": 85.0,
+      "SPE": 35.0,
+      "HP": 95.0,
+      "SPA": 65.0,
+      "SPD": 65.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Graveler": {
+    "Types": [
+      "ground",
+      "rock"
+    ],
+    "Stats": {
+      "ATK": 95.0,
+      "DEF": 115.0,
+      "SPE": 35.0,
+      "HP": 55.0,
+      "SPA": 45.0,
+      "SPD": 45.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Whiscash": {
+    "Types": [
+      "water",
+      "ground"
+    ],
+    "Stats": {
+      "ATK": 78.0,
+      "DEF": 73.0,
+      "SPE": 60.0,
+      "HP": 110.0,
+      "SPA": 76.0,
+      "SPD": 71.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Claydol": {
+    "Types": [
+      "ground",
+      "psychic"
+    ],
+    "Stats": {
+      "ATK": 70.0,
+      "DEF": 105.0,
+      "SPE": 75.0,
+      "HP": 60.0,
+      "SPA": 70.0,
+      "SPD": 120.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Vanillish": {
+    "Types": [
+      "ice",
+      "psychic"
+    ],
+    "Stats": {
+      "ATK": 65.0,
+      "DEF": 65.0,
+      "SPE": 59.0,
+      "HP": 51.0,
+      "SPA": 80.0,
+      "SPD": 75.0
+    },
+    "Moveset": [
+      {
+        "name": "harden",
+        "lvl": 1
+      },
+      {
+        "name": "icy wind",
+        "lvl": 12
+      },
+      {
+        "name": "uproar",
+        "lvl": 28
+      },
+      {
+        "name": "ice beam",
+        "lvl": 36
+      }
+    ],
+    "Evolution": {
+      "name": "Vanilluxe",
+      "lvl": 47
+    }
+  },
+  "Vanilluxe": {
+    "Types": [
+      "ice",
+      "psychic"
+    ],
+    "Stats": {
+      "ATK": 95.0,
+      "DEF": 85.0,
+      "SPE": 79.0,
+      "HP": 71.0,
+      "SPA": 110.0,
+      "SPD": 95.0
+    },
+    "Moveset": [
+      {
+        "name": "harden",
+        "lvl": 1
+      },
+      {
+        "name": "icy wind",
+        "lvl": 12
+      },
+      {
+        "name": "uproar",
+        "lvl": 28
+      },
+      {
+        "name": "ice beam",
+        "lvl": 36
+      },
+      {
+        "name": "blizzard",
+        "lvl": 52
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Gardevoir": {
+    "Types": [
+      "fairy",
+      "psychic"
+    ],
+    "Stats": {
+      "ATK": 65.0,
+      "DEF": 65.0,
+      "SPE": 80.0,
+      "HP": 68.0,
+      "SPA": 125.0,
+      "SPD": 115.0
+    },
+    "Moveset": [
+      {
+        "name": "psybeam",
+        "lvl": 18
+      },
+      {
+        "name": "moonblast",
+        "lvl": 1
+      },
+      {
+        "name": "calm mind",
+        "lvl": 35
+      },
+      {
+        "name": "psychic",
+        "lvl": 42
+      },
+      {
+        "name": "recover",
+        "lvl": 48
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Mew": {
+    "Types": [
+      "psychic"
+    ],
+    "Stats": {
+      "ATK": 100.0,
+      "DEF": 100.0,
+      "SPE": 100.0,
+      "HP": 100.0,
+      "SPA": 100.0,
+      "SPD": 100.0
+    },
+    "Moveset": [
+      {
+        "name": "psybeam",
+        "lvl": 18
+      },
+      {
+        "name": "nasty plot",
+        "lvl": 28
+      },
+      {
+        "name": "psychic",
+        "lvl": 34
+      },
+      {
+        "name": "calm mind",
+        "lvl": 38
+      },
+      {
+        "name": "aura sphere",
+        "lvl": 44
+      },
+      {
+        "name": "recover",
+        "lvl": 48
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Mewtwo": {
+    "Types": [
+      "psychic"
+    ],
+    "Stats": {
+      "ATK": 150.0,
+      "DEF": 70.0,
+      "SPE": 140.0,
+      "HP": 106.0,
+      "SPA": 194.0,
+      "SPD": 120.0
+    },
+    "Moveset": [
+      {
+        "name": "confusion",
+        "lvl": 51
+      },
+      {
+        "name": "calm mind",
+        "lvl": 5
+      },
+      {
+        "name": "psycho cut",
+        "lvl": 52
+      },
+      {
+        "name": "amnesia",
+        "lvl": 50
+      },
+      {
+        "name": "psybeam",
+        "lvl": 53
+      },
+      {
+        "name": "psychic",
+        "lvl": 25
+      },
+      {
+        "name": "recover",
+        "lvl": 30
+      },
+      {
+        "name": "psystrike",
+        "lvl": 35
+      },
+      {
+        "name": "future sight",
+        "lvl": 40
+      }
+    ],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Mr. Mime": {
+    "Types": [
+      "psychic",
+      "fairy"
+    ],
+    "Stats": {
+      "ATK": 45.0,
+      "DEF": 65.0,
+      "SPE": 90.0,
+      "HP": 40.0,
+      "SPA": 100.0,
+      "SPD": 120.0
     },
     "Moveset": [],
     "Evolution": {

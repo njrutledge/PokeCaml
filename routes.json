@@ -13,24 +13,25 @@
         {
           "name": "Rattata",
           "lvl": 5,
-          "chance": 50,
+          "chance": 30,
           "moves": [
             "tackle",
             "tail whip"
           ]
         },
         {
-          "name": "Pidgey",
+          "name": "Starly",
           "lvl": 5,
-          "chance": 50,
+          "chance": 30,
           "moves": [
-            "tackle"
+            "tackle",
+            "growl"
           ]
         },
         {
           "name": "Caterpie",
-          "lvl": 4,
-          "chance": 0,
+          "lvl": 5,
+          "chance": 30,
           "moves": [
             "tackle",
             "string shot"
@@ -39,7 +40,7 @@
         {
           "name": "Riolu",
           "lvl": 5,
-          "chance": 0,
+          "chance": 10,
           "moves": [
             "tackle"
           ]
@@ -113,6 +114,67 @@
       ]
     },
     {
+      "name": "route 3110",
+      "badge": "",
+      "battles": [
+        "wild",
+        "Happy Dave",
+        "wild",
+        "wild"
+      ],
+      "wilds": [
+        {
+          "name": "Machoke",
+          "lvl": 30,
+          "chance": 30,
+          "moves": [
+            "low sweep",
+            "strength",
+            "scary face"
+          ]
+        },
+        {
+          "name": "Vanillish",
+          "lvl": 32,
+          "chance": 30,
+          "moves": [
+            "harden",
+            "icy wind",
+            "uproar"
+          ]
+        },
+        {
+          "name": "Gardevoir",
+          "lvl": 32,
+          "chance": 30,
+          "moves": [
+            "psybeam",
+            "moonblast"
+          ]
+        },
+        {
+          "name": "Mew",
+          "lvl": 32,
+          "chance": 8,
+          "moves": [
+            "psybeam",
+            "nasty plot"
+          ]
+        },
+        {
+          "name": "Mewtwo",
+          "lvl": 34,
+          "chance": 8,
+          "moves": [
+            "recover",
+            "psychic",
+            "aura sphere",
+            "calm mind"
+          ]
+        }
+      ]
+    },
+    {
       "name": "gym 2",
       "badge": "Java Badge",
       "battles": [
@@ -136,7 +198,7 @@
   "trainers": [
     {
       "name": "Youngster Joey",
-      "money": 100,
+      "money": 300,
       "pokemon": [
         {
           "name": "Rattata",
@@ -165,7 +227,7 @@
     },
     {
       "name": "TA Alice",
-      "money": 100,
+      "money": 500,
       "pokemon": [
         {
           "name": "Ekans",
@@ -188,7 +250,7 @@
     },
     {
       "name": "TA Bob",
-      "money": 200,
+      "money": 500,
       "pokemon": [
         {
           "name": "Snivy",
@@ -212,63 +274,67 @@
     },
     {
       "name": "TA Charlie",
-      "money": 100,
+      "money": 500,
       "pokemon": [
         {
-          "name": "Raticate",
-          "lvl": 30,
+          "name": "Sandslash",
+          "lvl": 28,
           "moves": [
-            "crunch",
-            "super fang",
-            "hyper fang",
-            "swords dance"
+            "poison sting",
+            "defense curl",
+            "swords dance",
+            "slash"
           ]
         },
         {
-          "name": "Machoke",
-          "lvl": 35,
+          "name": "Quagsire",
+          "lvl": 28,
           "moves": [
-            "cross chop",
-            "dual chop",
-            "dynamic punch",
-            "bulk up"
+            "amnesia",
+            "body slam",
+            "water gun",
+            "earthquake"
           ]
         }
       ]
     },
     {
       "name": "Dijkstra",
-      "money": 150,
+      "money": 500,
       "pokemon": [
         {
-          "name": "Pidgey",
-          "lvl": 19,
+          "name": "Graveler",
+          "lvl": 28,
           "moves": [
-            "tackle",
-            "gust"
+            "defense curl",
+            "rock slide",
+            "take down"
           ]
         },
         {
-          "name": "Pidgey",
-          "lvl": 18,
+          "name": "Whiscash",
+          "lvl": 28,
           "moves": [
-            "tackle",
-            "gust"
+            "water gun",
+            "rest",
+            "amnesia",
+            "earthquake"
           ]
         },
         {
-          "name": "Pidgey",
-          "lvl": 20,
+          "name": "Claydol",
+          "lvl": 30,
           "moves": [
-            "tackle",
-            "gust"
+            "psybeam",
+            "rock tomb",
+            "harden"
           ]
         }
       ]
     },
     {
       "name": "Gym Leader Walker White",
-      "money": 300,
+      "money": 1000,
       "pokemon": [
         {
           "name": "Snivy",
@@ -300,7 +366,7 @@
     },
     {
       "name": "Gym Leader David Gries",
-      "money": 500,
+      "money": 1000,
       "pokemon": [
         {
           "name": "Mamoswine",
@@ -334,7 +400,7 @@
     },
     {
       "name": "Pokemaniac Philip",
-      "money": 200,
+      "money": 300,
       "pokemon": [
         {
           "name": "Machop",
@@ -412,12 +478,53 @@
             "swords dance",
             "stone edge"
           ]
+        },
+        {
+          "name": "Mew",
+          "lvl": 50,
+          "moves": [
+            "nasty plot",
+            "recover",
+            "aura sphere",
+            "psychic"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Happy Dave",
+      "money": 500,
+      "pokemon": [
+        {
+          "name": "Mr. Mime",
+          "lvl": 30,
+          "moves": [
+            "psybeam",
+            "nasty plot"
+          ]
+        },
+        {
+          "name": "Mr. Mime",
+          "lvl": 32,
+          "moves": [
+            "psychic",
+            "moonblast",
+            "nasty plot"
+          ]
+        },
+        {
+          "name": "Mr. Mime",
+          "lvl": 34,
+          "moves": [
+            "sand attack",
+            "recover"
+          ]
         }
       ]
     },
     {
       "name": "Gym Leader Clarkson",
-      "money": 1000,
+      "money": 1000000,
       "pokemon": [
         {
           "name": "Entei",
@@ -460,8 +567,18 @@
           ]
         },
         {
+          "name": "Mewtwo",
+          "lvl": 50,
+          "moves": [
+            "future sight",
+            "recover",
+            "aura sphere",
+            "amnesia"
+          ]
+        },
+        {
           "name": "Arceus",
-          "lvl": 60,
+          "lvl": 100,
           "moves": [
             "recover",
             "hyper voice",

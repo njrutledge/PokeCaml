@@ -1,5 +1,6 @@
 run make build, then run make play.
 the game will start up from the beginning.
+you can load a pre created save file or start from scratch. 
 
 commands:
 
@@ -13,7 +14,33 @@ commands:
   - prints out a description of your party's pokemon. 
  bag 
   - prints out a description of your bag and number of each item. 
- 
+ buy [number item]
+  - buys [number] of [item] if the player is in the pokecenter.
+ shop
+  - prints the items for sale when the player is in the pokecenter
+ moves [number]
+ - prints the moves of the pokemon in the [number] place of the party.
+ badges
+ - prints the badges the player currently posseses.
+ map
+ - prints the places the player can move to from their current location.
+ quit
+ - quits out of the game
+ save
+ - saves the current state of the game. The player will be prompted to load the
+   save state when they start the game again.
+ pc 
+ - prints the current pokemon in the pc if the player is in the pokecenter
+ info [number]
+ - prints the information of the pokemon in the pc in the position [number] if
+   the player is in the pokecenter.
+ switch [party_mon pc_mon]
+ - places the pokemon in the party in position [party_mon] in the pc and 
+   replaces it with the pokemon in position [pc_mon] in the pc.
+ swap [mon1 mon2]
+ - swaps the positions of [mon1] and [mon2] in the party.
+
+
  battle:
  attack [move name] 
   - attacks the pokemon with the inputted move
@@ -28,17 +55,10 @@ commands:
   - prints out a description of your party's pokemon.
  run
   - tries to run away, cannot run from trainer
-  switch 
+ switch 
   - this will prompt you with a list of pokemon to choose from to switch to 
     in the battle, type the number next to the desired pokemon in the list.
     This is also prompted when you defeat a trainer's pokemon that is not 
     the trainer's final pokemon. 
-
-  since we do not yet have map command implemented, here is a quick map:
-  in house, [go outside] to get to Gates Town.
-  in Gates Town, your choices for places are :
-     lab, pokecenter, My house, route 1110
-  in Python Town, your choices for places are : 
-    gym 1, pokecenter, route 1110, route 2110
-  in Java Town, your choices for places are :
-    gym 2, pokecenter, route 2110
+ quit
+ - quits out of the game

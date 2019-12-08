@@ -19,37 +19,18 @@ type exit = {
   exit_town : town_id;
 }
 
-type dynamic_desc = {
-  town_items : badge_name list;
-  player_items : badge_name list;
-  dyn_description : string;
-}
-
 (** [town] defines a town in the game. *)
 type town = {
   id : town_id;
   default_desc : string;
-  (*dynamic_desc : dynamic_desc list;*)
   exits : exit list;
-}
-
-type item = {
-  item_name : badge_name;
-}
-
-type t_town = {
-  t_id : town_id;
-  needed_items : badge_name list;
-}
-
-type win = {
-  win_message : string;
 }
 
 type bat = 
   | Wild 
   | Trainer of string
 
+(** [route] defines the type of a route. *)
 type route = {
   route_name : string;
   badge: string;
@@ -63,9 +44,6 @@ type t = {
   start : town_id;
   poke_file : string;
   trainers : (string * (int * bool * PM.t array)) list
-  (*items : item list;*)
-  (*treasure_town : t_town;*)
-  (*win_msgs : win list;*)
 }
 
 (** [get_ranges acc prev lst] is the list of wild pokemon taken from [lst] 
@@ -93,23 +71,6 @@ let json_exit j_exit = {
     |> to_string;
 }
 
-let json_dynamic_desc j_dy_desc = {
-  town_items = 
-    j_dy_desc
-    |> member "town items"
-    |> to_list
-    |> List.map to_string;
-  player_items = 
-    j_dy_desc
-    |> member "player items"
-    |> to_list
-    |> List.map to_string;
-  dyn_description = 
-    j_dy_desc
-    |> member "description"
-    |> to_string;
-}
-
 (** [json_town j] is the adventure town that [j] represents. 
     Requires: [j] is a valid JSON adventure town representation. *)
 let json_town j_town = 
@@ -123,11 +84,6 @@ let json_town j_town =
         j_town 
         |> member "description" 
         |> to_string;
-      (*dynamic_desc = 
-        j_town
-        |> member "dynamic descriptions"
-        |> to_list
-        |> List.map json_dynamic_desc;*)
       exits = 
         j_town 
         |> member "exits" 
@@ -136,15 +92,8 @@ let json_town j_town =
     }
   with _ -> failwith "bad town"
 
-let json_item j_item = 
-  try {
-    item_name = 
-      j_item
-      |> member "name"
-      |> to_string;
-  }
-  with _ -> failwith "bad item"
-
+(** [json_wilds j] is the wild pokemon that [j] represents. 
+    Requires: [j] is a valid JSON wild representation. *)
 let json_wilds j_item = 
   let name = 
     j_item 
@@ -183,6 +132,8 @@ let json_t_pokemon j_item =
     PM.create_pokemon name lvl moves
   with Failure e -> failwith (e ^ ": error in json_t_pokemon")
 
+(** [json_trainers j] is the trainer that [j] represents. 
+    Requires: [j] is a valid JSON trainer representation. *)
 let json_trainers j_item = 
   let name = 
     j_item 
@@ -201,11 +152,15 @@ let json_trainers j_item =
     (name, (money, false, Array.of_list pokemon_list))
   with Failure e -> failwith (e ^ ": trainer " ^ name)
 
+(** [make_bats acc names] is the list of battles agains the mons or trainers
+    in string list [names]. [acc] is the accumulator. *)
 let rec make_bats acc = function 
   | [] ->  acc
   | h :: t -> if h = "wild" then make_bats (Wild :: acc) t 
     else make_bats (Trainer h :: acc) t
 
+(** [json_route j] is the adventure route that [j] represents. 
+    Requires: [j] is a valid JSON adventure route representation. *)
 let json_route j_route = 
   try {
     route_name = 
@@ -307,23 +262,6 @@ let next_town adv town ex =
   (adv.towns |> find_town town).exits
   |> find_exit ex
   |> get_exit_town town 
-
-let next_towns adv town =
-  (adv.towns |> find_town town).exits
-  |> List.map (fun exit -> exit.exit_town)
-  |> List.sort_uniq compare
-
-(** [remove_item it items] removes the item [it] from the item list [items]. 
-    Raises [UnknownItem it] if [items] does not contain [it]. *)
-let rec remove_item it = function
-  | [] -> raise (UnknownBadge it)
-  | h::t -> if h = it then t else h::remove_item it t 
-
-let win_msg adv score = 
-  let rec check_win = function
-    | [] -> "you win!"
-    | h::t -> "you win!"
-  in check_win []
 
 let req_badge adv town route = 
   ((adv.towns |> find_town town).exits |> find_exit route).exit_badge

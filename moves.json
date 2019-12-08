@@ -1263,7 +1263,7 @@
     "desc": "After soaring upward, the user attacks its target by dropping out of the sky at high speeds, although it lowers its own Defense and Sp. Def in the process.",
     "power": 120.0,
     "special": false,
-    "accuracy": 10.0,
+    "accuracy": 100.0,
     "type": "flying",
     "uses": 5,
     "status": [
@@ -1312,5 +1312,128 @@
     "status": [
       "freeze foe 10.0"
     ]
+  },
+  "false swipe": {
+    "desc": "A restrained attack that prevents the target from fainting. The target is left with at least 1 HP.",
+    "power": 40.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 40,
+    "status": []
+  },
+  "rock tomb": {
+    "desc": "Boulders are hurled at the target. This also lowers the target's Speed stat by preventing its movement.",
+    "power": 60.0,
+    "special": false,
+    "accuracy": 95.0,
+    "type": "rock",
+    "uses": 15,
+    "status": [
+      "SPE -1 foe 100.0"
+    ]
+  },
+  "icy wind": {
+    "desc": "The user attacks with a gust of chilled air. This also lowers opposing Pokémon's Speed stats.",
+    "power": 55.0,
+    "special": true,
+    "accuracy": 95.0,
+    "type": "ice",
+    "uses": 15,
+    "status": [
+      "SPE -1 foe 100.0"
+    ]
+  },
+  "uproar": {
+    "desc": "The user attacks in an uproar.",
+    "power": 90.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "normal",
+    "uses": 10,
+    "status": []
+  },
+  "ice beam": {
+    "desc": "The target is struck with an icy-cold beam of energy. This may also leave the target frozen.",
+    "power": 90.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "ice",
+    "uses": 10,
+    "status": [
+      "freeze foe 30.0"
+    ]
+  },
+  "calm mind": {
+    "desc": "The user quietly focuses its mind and calms its spirit to raise its Sp. Atk and Sp. Def stats.",
+    "power": 0.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "psychic",
+    "uses": 20,
+    "status": [
+      "SPA 1 self 100.0",
+      "SPD 1 self 100.0"
+    ]
+  },
+  "nasty plot": {
+    "desc": "The user stimulates its brain by thinking bad thoughts. This sharply raises the user's Sp. Atk stat.",
+    "power": 0.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "dark",
+    "uses": 20,
+    "status": [
+      "SPA 2 self 100.0"
+    ]
+  },
+  "confusion": {
+    "desc": "The target is hit by a weak telekinetic force. This may also confuse the target.",
+    "power": 50.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "psychic",
+    "uses": 25,
+    "status": [
+      "confusion foe 10.0"
+    ]
+  },
+  "psystrike": {
+    "desc": "The user materializes an odd psychic wave to attack the target.",
+    "power": 100.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "psychic",
+    "uses": 10,
+    "status": []
+  },
+  "psycho cut": {
+    "desc": "The user tears at the target with blades formed by psychic power.",
+    "power": 70.0,
+    "special": false,
+    "accuracy": 100.0,
+    "type": "psychic",
+    "uses": 10,
+    "status": []
+  },
+  "psychic": {
+    "desc": "The target is hit by a strong telekinetic force. This may also lower the target's Sp. Def stat.",
+    "power": 90.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "psychic",
+    "uses": 10,
+    "status": [
+      "SPD -1 foe 10.0"
+    ]
+  },
+  "future sight": {
+    "desc": "The pokemon predicts the future and hurls a hunk of psychic energy attacks the target to preempt them.",
+    "power": 120.0,
+    "special": true,
+    "accuracy": 100.0,
+    "type": "psychic",
+    "uses": 5,
+    "status": []
   }
 }

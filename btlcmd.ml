@@ -10,7 +10,6 @@ type command =
   | Party
   | Run
   | Switch
-  | TestStage
   | Quit
   | TGM
 
@@ -33,7 +32,6 @@ let make_command verb phrase =
     if verb = "run" then Run else 
     if verb = "switch" then Switch else 
     if verb = "bag" then Bag else
-    if verb = "stage" then TestStage else
     if verb = "tgm" then TGM else
       raise Malformed 
   else

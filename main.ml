@@ -66,13 +66,43 @@ let execute_quit adv =
   ANSITerminal.(print_string [cyan] "\nThanks for playing!\n "); 
   exit 0
 
+(** [starters st] prompts the player to pick a starter pokemon if they haven't
+    already and returns a new state with the starter in the party. *)
+let rec starters st = 
+  ANSITerminal.(print_string [green] 
+                  ("Professor Oak calls to you as you enter:"
+                   ^ "\n\"Ah there you are! Its time that you start your "
+                   ^ "pokemon adventure. I have 3 great pokemon here for you "
+                   ^ "to choose from, pick your favorite!\"\n"));
+  ANSITerminal.(print_string [cyan] 
+                  "1. Bulbasaur\n2. Charmander\n3. Squirtle\n\n\n");
+  print_string "> ";
+  match read_line () with 
+  | "1" | "Bulbasaur" | "bulbasaur" -> 
+    ANSITerminal.(print_string [green] Ascii.bulbasaur);
+    State (State.starter st "Bulbasaur")
+  | "2" | "Charmander" | "charmander" -> 
+    ANSITerminal.(print_string [red] Ascii.charmander);
+    State (State.starter st "Charmander")
+  | "3" | "Squirtle" | "squirtle" -> 
+    ANSITerminal.(print_string [cyan] Ascii.squirtle);
+    State (State.starter st "Squirtle")
+  | "4" | "Pikachu" | "pikachu" -> begin 
+      ANSITerminal.(print_string [yellow] Ascii.surp_pika);
+      State (State.starter st "Pikachu")
+    end
+  | "quit" -> execute_quit ()
+  | _ -> starters st 
+
 (** [execute_go adv st ph] is the state update of the adventure after running 
     [state.go adv st ph'], where [ph'] is the string representation of 
     string list [ph].
     Raises [IllegalMove msg] if the move is invalid. *)
 let execute_go adv state exit = 
   match State.go exit adv state with
-  | Legal (t) -> State t
+  | Legal (t) -> if State.current_town_id t = "lab" && State.get_party t = [||] 
+    then starters t
+    else State t
   | Illegal (msg) -> raise (IllegalMove msg)
 
 (** [execute_bag st] prints the contents of the current bag in [st]. *)
@@ -215,7 +245,7 @@ let execute_save state =
     if Sys.file_exists "save.json" then begin 
       ANSITerminal.(print_string [yellow] 
                       ("This will overwrite your current save file, "^ 
-                       "continue? [Y/N]\n"));
+                       "continue? [Y/N]\n")); 
       get_y_n ()
     end 
     else true in 
@@ -226,10 +256,12 @@ let execute_save state =
   end 
   else ();
   None
-(** [execute_shop] prints a formatted list of the items one can buy in the shop. *)
+(** [execute_shop] prints a formatted list of 
+    the items one can buy in the shop. *)
 let execute_shop () = 
-  let items = ["potion"; "hyper potion"; "full restore"; "pokeball"; "great ball";
-               "ultra ball"; "master ball"; "antidote"; "paralyze heal"; "awakening"; 
+  let items = ["potion"; "hyper potion"; "full restore"; 
+               "pokeball"; "great ball"; "ultra ball";
+               "master ball"; "antidote"; "paralyze heal"; "awakening"; 
                "ice heal"; "burn heal"; "full heal"] in
   ANSITerminal.(print_string [cyan] (Item.format_items items)); None
 
@@ -238,7 +270,8 @@ let execute_tgm state =
   let st' = State.add_item state (Item.item_of_string "master ball") 1000 in 
   let st'' = State.add_item st' (Item.item_of_string "full restore") 1000 in
   let party = State.get_party st'' in PM.restore_mons party;
-  State.get_money st'' := 1000000;
+  State.get_money st'' := 
+    int_of_float (float_of_int !(State.get_money st'') *. 1.5);
   State st''
 
 let execute_pc_print state = 
@@ -248,10 +281,9 @@ let execute_pc_print state =
                     (string_of_int (i + 1) ^ ". " ^ " lvl " ^ string_of_int lvl 
                      ^ " " ^ name ^ "\n"))
   in 
-  print_int (List.length (State.get_pc state));
   ignore (List.mapi print_fun (State.get_pc state));
   ANSITerminal.(print_string [cyan] 
-                  ("To get more information about a pokemon,"
+                  ("\nTo get more information about a pokemon,"
                    ^ " type info #\nTo switch a pokemon in your PC with"
                    ^ " a pokemon in your party, type switch # #\n"));
   None
@@ -266,10 +298,10 @@ let execute_info st phrase =
     ANSITerminal.
       (print_string [cyan] 
          (name ^ " lvl " ^ (string_of_int lvl) ^ " xp " 
-          ^ (string_of_float
-               (xp/.(float_of_int(lvl-1)**3.*.100.|>Float.trunc)))));
+          ^ (string_of_float 
+               ((xp/.(float_of_int(lvl-1)**3.)*.100.)|>Float.trunc))));
     let move_str = List.fold_left (fun acc x -> acc ^ x ^"\n") "" moves in 
-    ANSITerminal.(print_string [cyan] ("moves:\n" ^ move_str))
+    ANSITerminal.(print_string [cyan] ("\nmoves:\n" ^ move_str))
   end;
   None
 
@@ -375,7 +407,8 @@ let rec get_command adv state input =
     print_string "> ";
     get_command adv state (read_line ())
   | Adventure.UnknownBadge it -> 
-    print_string ("\nYou can't progress because you don't have the  \"" ^ it ^ "\" badge.\n");
+    print_string ("\nYou can't progress because you don't have the  \"" 
+                  ^ it ^ "\" badge.\n");
     print_string "> ";
     get_command adv state (read_line ())
   | State.ItemNotFound it ->
@@ -409,35 +442,45 @@ let rec in_list el = function
   | [] -> false
   | h :: t -> if h = el then true else in_list el t
 
-(** [show_win_msg adv sc] prints the winning message of adventure [adv]
-    associated with final score [sc]. *)
-let show_win_msg adv score = 
-  ANSITerminal.(print_string [cyan] (Adventure.win_msg adv score ^ "\n"));
-  print_string "Final score: ";
-  print_int (score);
-  print_endline "";
-  exit 0
+(** [win_help state] is the win helper. *)
+let win_help state = 
+  ANSITerminal.(print_string [cyan] ("\n\n\n" ^ Ascii.caml ^ "\n\n\n"));
+  ANSITerminal.
+    (print_string [green] 
+       ("Congratulations on winning!"^
+        " Your pursuits will go down in the Pokemon 3110 Hall of Fame." 
+        ^ "\n\n\n"));
+  ANSITerminal.(print_string [cyan] "\nThanks for playing!\n ")
 
 (** [loop adv state] executes a REPL for the game. Quits on recieving 
     "quit". *)
-let rec loop adv state print_desc= 
-  print_string "\n";
-  if print_desc then begin
-    state |> State.current_town_id |> Adventure.description adv |> print_endline;
+let rec loop adv state print_desc = 
+  if (State.current_town_id state) = "Hall of Fame" then win_help state
+  else begin
+    print_string "\n";
+    if print_desc then begin
+      state 
+      |> State.current_town_id 
+      |> Adventure.description adv 
+      |> print_endline;
+    end
+    else ();
+    print_string "> ";
+    get_command adv state (read_line ()) 
+    |> function 
+    | State state'-> loop adv state' true
+    | Adv adv' -> loop adv' state true
+    | Both (adv', state') -> loop adv' state' true
+    | None -> loop adv state false
   end
-  else ();
-  print_string "> ";
-  get_command adv state (read_line ()) 
-  |> function 
-  | State state'-> loop adv state' true
-  | Adv adv' -> loop adv' state true
-  | Both (adv', state') -> loop adv' state' true
-  | None -> loop adv state false
 
 (** [play_game f] starts the adventure in file [f]. *)
 let play_game f =
   ANSITerminal.(print_string [yellow]
                   Ascii.pokemon_opening);
+  print_endline "\n\n";
+  ANSITerminal.(print_string [red]
+                  Ascii.str3110);
   print_endline "\n\n";
   let adv = (Adventure.from_json (Yojson.Basic.from_file f)) in 
   let state = 

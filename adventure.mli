@@ -10,8 +10,9 @@ module PM = Pokemon
 (** The type of item names. *)
 type badge_name = string
 exception UnknownBadge of badge_name
-(***********************************************************************)
 
+(** [bat] defines the type of the battle, i.e. against a trainer or a wild 
+    pokemon. *)
 type bat = 
   | Wild
   | Trainer of string
@@ -64,27 +65,6 @@ val exits : t -> town_id -> exit_name list
     Raises [UnknownTown r] if [r] is not a town identifier in [a].
     Raises [UnknownExit e] if [e] is not an exit from town [r] in [a]. *)
 val next_town : t -> town_id -> exit_name -> town_id
-
-(** [next_towns a r] is a set-like list of all towns to which there is an exit 
-    from [r] in adventure [a]. 
-    Raises [UnknownTown r] if [r] is not a town identifier in [a].*)
-val next_towns : t -> town_id -> town_id list
-
-(***********************************************************************)
-
-(*(** [msg a r ex] is the [msg] of the exit [ex] of town [r] in adventure [a]. 
-    Raises [Unkowntown r] if [r] is not a town identifier in [a]. 
-    Raises [UnknownExit ex ] if [ex] is not an exit from town [r] in [a]. *)
-  val exit_msg : t -> town_id -> exit_name -> string
-
-  (** [ex_score a r ex] is the score of using exit [ex] of 
-    town [r] in adventure [a]. 
-    Raises [Unkowntown r] if [r] is not a town identifier in [a]. *)
-  val exit_score : t -> town_id -> exit_name -> int*)
-
-(** [win_msg a sc] is the message displayed when the adventurer 
-    wins adventure [a] with score [sc]. *)
-val win_msg : t -> int -> string
 
 (** [req_badge a t r] is the badge than can unlock route [r] 
     of town [t] of adventure [a]. 

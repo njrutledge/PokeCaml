@@ -87,6 +87,8 @@ let rec next_mon mons =
     (ANSITerminal.(print_string [red] "Invalid Pokemon.\n");
      next_mon mons) 
 
+(** [effect_help atk_mon def_mon eff_type effect] is the helper that handles
+    moves that affects status (e.g. stat changes). *)
 let effect_help atk_mon def_mon eff_type effect =
   Random.self_init ();
   let rand = Random.float 100.0 in 
@@ -288,6 +290,7 @@ let check_hit acc =
   if r < t then true 
   else false 
 
+(** [check_confusion mon] checks if [mon] is confused. *)
 let check_confusion mon = 
   let name = PM.get_name mon in 
   Random.self_init ();
@@ -407,7 +410,10 @@ let handle_move atk_mon def_mon move =
     else if modifier >= 2. then
       print_endline ("It's super effective!")
     else ();
-    PM.change_hp def_mon (-.move_damage)
+    let new_hp = PM.get_hp def_mon -. move_damage in 
+    if (Moves.name move) = "false swipe" && new_hp <= 0. 
+    then PM.set_hp def_mon 1.0
+    else PM.change_hp def_mon (-.move_damage)
   end
   else ()
 
@@ -652,13 +658,10 @@ let execute_run party p_mon cpu_mon bag =
     end 
   end
 
-let execute_stage p_mon cpu_mon =
-  print_string (PM.format_stages p_mon);
-  print_string (PM.format_stages cpu_mon)
-
 (** [execute_tgm party] does ??? It's a mystery to everyone. *)
-let execute_tgm party = 
-  PM.restore_mons party
+let execute_tgm party cpu_mon = 
+  PM.restore_mons party;
+  PM.set_hp cpu_mon 0.0
 
 (** [execute_command party atk_mon def_mon bag cpu input] executes the correct
     command for [input] using [party], [atk_mon], 
@@ -690,8 +693,6 @@ let rec execute_command party atk_mon def_mon bag cpu input =
     print_string "> ";
     execute_command party atk_mon def_mon bag cpu (read_line ())
   | Switch -> Some (get_next_pm (PM.alive_pmons party))
-  | TestStage -> execute_stage atk_mon def_mon;
-    execute_command party atk_mon def_mon bag cpu (read_line ())
   | Run -> if cpu = "wild" then begin execute_run party atk_mon def_mon bag;
       print_endline (string_of_float !count); 
       None end 
@@ -701,8 +702,7 @@ let rec execute_command party atk_mon def_mon bag cpu input =
       print_endline "> ";
       execute_command party atk_mon def_mon bag cpu (read_line ()) 
     end 
-  | TGM -> execute_tgm party; 
-    execute_command party atk_mon def_mon bag cpu (read_line ()) 
+  | TGM -> execute_tgm party def_mon; None
 
 (** [get_command party atk_mon def_mon bag cpu input] executes [input] 
     appropriately using [party] [atk_mon] [def_mon] [bag] [cpu] [input] *)
@@ -945,8 +945,11 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
   | BattleLost -> PM.restore_mons cpu_mons;
     PM.reset_stages pmon;
     PM.reset_stages cpumon; 
+    let lost_money = (int_of_float (0.1 *. (float_of_int !m))) in
+    m := !m - lost_money;
+    ANSITerminal.(print_string [red] (Ascii.suprise ^ "\n\n"));    
     ANSITerminal.(print_string [red] 
-                    ("\nYou lost! Retreating back to town...\n"));
+                    ("\nYou lost the battle! Lost " ^ string_of_int !m ^ " as well. Retreating back to town...\n"));
     PM.restore_mons p_mons;
     (p_mons, b, m, false, None) 
   | BattleWon (party, box_mon) -> 

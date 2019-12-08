@@ -53,7 +53,6 @@ let make_command verb phrase =
     | h :: t -> if h = "route" || h = "gym" then GoRoute phrase else Go phrase
   end 
   else 
-  if verb = "route" then GoRoute phrase else
   if verb = "buy" then Buy phrase else
   if verb = "moves" then Moves phrase else
   if verb = "info" then Info phrase else 

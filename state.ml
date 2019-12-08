@@ -20,15 +20,10 @@ type t = {
 
 let init_state adv = {
   cur_town = Adventure.start_town adv;
-  bag = [(Potion, ref 5); (HyperPotion, ref 1);
-         (PokeBall, ref 5); (GreatBall, ref 5); (Antidote, ref 1); (FullRestore, ref 1);];
+  bag = [(Potion, ref 5); (PokeBall, ref 10); 
+         (GreatBall, ref 3); (Antidote, ref 3);];
   money = ref 1000;
-  party = [|(PM.create_pokemon "Pikachu" 5 [Moves.create_move "thundershock";
-                                            Moves.create_move "will-o-wisp";
-                                            Moves.create_move "poison powder";
-                                            Moves.create_move "fake out"]);
-            (PM.create_pokemon "Charmander" 5 [Moves.create_move "scratch"]);
-            (PM.create_pokemon "Squirtle" 5 [Moves.create_move "tackle";]);|];
+  party = [||];
   defeated_trainers = [];
   defeated_trainers_full = [];
   pc = [];
@@ -53,7 +48,8 @@ let go ex adv st =
       badges = st.badges
     }
   with 
-  | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
+  | Adventure.UnknownExit ex -> 
+    Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
 
 let rec run_battles route adv st = function 
@@ -65,7 +61,8 @@ let rec run_battles route adv st = function
         go route adv st
       end 
     end 
-  | Adventure.Wild :: t -> make_battle route adv st "wild" (Adventure.get_wild adv route) t
+  | Adventure.Wild :: t -> 
+    make_battle route adv st "wild" (Adventure.get_wild adv route) t
   | Adventure.Trainer tr :: t ->  
     let t_mons = Adventure.get_t_mons adv tr in 
     if t_mons <> [||] then 
@@ -288,5 +285,28 @@ let change_pc st idx mon =
 
 let swap_party st i1 i2 = 
   let temp = st.party.(i1) in 
-  st.party.(i1)<- st.party.(i2);
-  st.party.(i2)<- temp
+  st.party.(i1) <- st.party.(i2);
+  st.party.(i2) <- temp
+
+let starter st name =
+  let mon = match name with 
+    | "Bulbasaur" -> PM.create_pokemon "Bulbasaur" 5 
+                       [Moves.create_move "tackle";
+                        Moves.create_move "growl";
+                        Moves.create_move "vine whip";]
+    | "Charmander" -> PM.create_pokemon "Charmander" 5 
+                        [Moves.create_move "scratch";
+                         Moves.create_move "growl";
+                         Moves.create_move "ember";]
+    | "Squirtle" -> PM.create_pokemon "Squirtle" 5 
+                      [Moves.create_move "tackle";
+                       Moves.create_move "tail whip";
+                       Moves.create_move "water gun";]
+    | "Pikachu" -> PM.create_pokemon "Pikachu" 5 
+                     [Moves.create_move "thundershock";
+                      Moves.create_move "thunder wave";] 
+    | _ -> failwith "should never fail here for starter creation" in
+  {st with party = [|mon|]}
+
+
+

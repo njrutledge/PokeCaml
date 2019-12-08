@@ -33,6 +33,9 @@ cloczip:
 zip:
 	zip ms3.zip *.ml* *.json *txt _tags Makefile
 	
+bisect: clean test
+	bisect-ppx-report -I _build -html report bisect0001.out
+
 docs: docs-public docs-private
 	
 docs-public: build
