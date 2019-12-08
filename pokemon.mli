@@ -69,7 +69,7 @@ module type PokeSig = sig
   (** [get_lvl mon] is the level of [mon]. *)
   val get_lvl : t -> t_lvl
 
-  (** [get_xp mon is the current experience of [mon]. *)
+  (** [get_xp mon] is the current experience of [mon]. *)
   val get_xp : t -> float
 
   (** [get_status mon] is the current non-volatile status effect of [mon]. *)

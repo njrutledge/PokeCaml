@@ -259,7 +259,7 @@ let command_tests =
     make_malformed_test "bad badges" "badges galore";
     make_malformed_test "bad shop" "shop WallMart";
     make_malformed_test "bad TGM" "tgm 3spooky5me";
-    make_malformed_test "bad pc" "pc master sword";
+    make_malformed_test "bad pc" "pc master race";
     make_malformed_test "bad go" "go";
     make_malformed_test "bad buy" "buy";
     make_malformed_test "bad moves" "moves";

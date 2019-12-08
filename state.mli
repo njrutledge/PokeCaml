@@ -7,6 +7,7 @@
 *)
 open Pokemon
 module PM = Pokemon
+open Item
 (** Raised when an item is not found in the adventurer's bag. *)
 exception ItemNotFound of Adventure.badge_name
 

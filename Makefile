@@ -1,9 +1,10 @@
-MODULES=ascii item adventure command state main author types moves pokemon btlcmd battle
+MODULES=global ascii item adventure command state main author types moves pokemon btlcmd battle
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
 TEST=test.byte
 MAIN=main.byte
+PKGS=yojson,ANSITerminal
 OCAMLBUILD=ocamlbuild -use-ocamlfind -plugin-tag 'package(bisect_ppx-ocamlbuild)'
 CLOC=cloc *
 CLOCML=cloc *.ml *.mli
@@ -45,14 +46,14 @@ docs: docs-public docs-private
 	
 docs-public: build
 	mkdir -p doc.public
-	ocamlfind ocamldoc -I _build -package yojson,ANSITerminal \
+	ocamlfind ocamldoc -I _build -package $(PKGS) \
 		-html -stars -d doc.public $(MLIS)
 
 docs-private: build
 	mkdir -p doc.private
-	ocamlfind ocamldoc -I _build -package yojson,ANSITerminal \
+	ocamlfind ocamldoc -I _build -package $(PKGS) \
 		-html -stars -d doc.private \
-		-bag-merge-ml-mli -m A $(MLIS) $(MLS)
+		-inv-merge-ml-mli -m A -hide-warnings $(MLIS) $(MLS)
 
 clean:
 	ocamlbuild -clean

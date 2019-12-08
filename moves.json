@@ -505,7 +505,7 @@
     "type": "psychic",
     "uses": 20,
     "status": [
-      "confusion foe 10.0"
+      "confuse foe 10.0"
     ]
   },
   "air slash": {
@@ -735,7 +735,7 @@
     "type": "fighting",
     "uses": 5,
     "status": [
-      "confusion foe 100.0"
+      "confuse foe 100.0"
     ]
   },
   "cross chop": {
@@ -1008,7 +1008,7 @@
     "type": "normal",
     "uses": 15,
     "status": [
-      "confusion foe 100.0",
+      "confuse foe 100.0",
       "ATK 2 foe 100.0"
     ]
   },
@@ -1199,7 +1199,7 @@
     "type": "water",
     "uses": 60,
     "status": [
-      "confusion foe 20.0"
+      "confuse foe 20.0"
     ]
   },
   "aqua tail": {
@@ -1245,7 +1245,7 @@
     "type": "ghost",
     "uses": 10,
     "status": [
-      "confusion foe 100.0"
+      "confuse foe 100.0"
     ]
   },
   "poison sting": {
@@ -1395,7 +1395,7 @@
     "type": "psychic",
     "uses": 25,
     "status": [
-      "confusion foe 10.0"
+      "confuse foe 10.0"
     ]
   },
   "psystrike": {

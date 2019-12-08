@@ -30,9 +30,6 @@ exception BattleRun
 (** [NoPP] is raised when a pokemon tries to use a fully exhausted move. *)
 exception NoPP
 
-(** sleep is used for delay in text printing. *)
-let sleep = 0.001
-
 let count = ref 0.
 
 (** [execute_quit] quits the adventure. *)
@@ -817,7 +814,7 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
   print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
   print_string "> ";
   let res = get_command p_team player_mon cpu_mon bag cpu (read_line ()) in 
-  Unix.sleepf sleep;
+  Unix.sleepf (Global.get_sleep_speed ());
   let mon = match res with 
     | Some p -> p 
     | None -> player_mon 
@@ -845,7 +842,7 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
      execute_cpu_turn cpu_mon player_mon; end
      else begin execute_cpu_turn cpu_mon player_mon; execute_cpu_turn player_mon
       cpu_mon end; *)
-  Unix.sleepf sleep;
+  Unix.sleepf (Global.get_sleep_speed ());
   if PM.get_status cpu_mon = "burn" then begin 
     print_endline ((PM.get_name cpu_mon) ^ " is hurt by its burn!");
     PM.change_hp cpu_mon (PM.get_max_hp cpu_mon /. -16.) 
@@ -947,7 +944,7 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
     PM.reset_stages cpumon; 
     let lost_money = (int_of_float (0.1 *. (float_of_int !m))) in
     m := !m - lost_money;
-    ANSITerminal.(print_string [red] (Ascii.suprise ^ "\n\n"));    
+    ANSITerminal.(print_string [red] (Ascii.surp_pika ^ "\n\n"));    
     ANSITerminal.(print_string [red] 
                     ("\nYou lost the battle! Lost " ^ string_of_int lost_money ^ " as well. Retreating back to town...\n"));
     PM.restore_mons p_mons;

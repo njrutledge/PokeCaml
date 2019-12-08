@@ -293,7 +293,8 @@ let starter st name =
     | "Bulbasaur" -> PM.create_pokemon "Bulbasaur" 5 
                        [Moves.create_move "tackle";
                         Moves.create_move "growl";
-                        Moves.create_move "vine whip";]
+                        Moves.create_move "vine whip";
+                        Moves.create_move "rest";]
     | "Charmander" -> PM.create_pokemon "Charmander" 5 
                         [Moves.create_move "scratch";
                          Moves.create_move "growl";
