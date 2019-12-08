@@ -1301,5 +1301,16 @@
     "status": [
       "flinch foe 100.0"
     ]
+  },
+  "ice fang": {
+    "desc": "The user bites with cold-infused fangs. This may also make the target flinch or leave it frozen.",
+    "power": 65.0,
+    "special": false,
+    "accuracy": 95.0,
+    "type": "ice",
+    "uses": 15,
+    "status": [
+      "freeze foe 10.0"
+    ]
   }
 }

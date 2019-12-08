@@ -211,7 +211,7 @@
       ]
     },
     {
-      "name": "Cookie Monster",
+      "name": "TA Charlie",
       "money": 100,
       "pokemon": [
         {
@@ -303,27 +303,31 @@
       "money": 500,
       "pokemon": [
         {
-          "name": "Ivysaur",
+          "name": "Mamoswine",
           "lvl": 30,
           "moves": [
-            "tackle",
-            "solar beam"
+            "earthquake",
+            "ice fang",
+            "amnesia"
           ]
         },
         {
-          "name": "Charmeleon",
+          "name": "Dugtrio",
           "lvl": 30,
           "moves": [
-            "tackle",
-            "flamethrower"
+            "earthquake",
+            "slash",
+            "sand attack"
           ]
         },
         {
-          "name": "Squirtle",
-          "lvl": 30,
+          "name": "Krookadile",
+          "lvl": 35,
           "moves": [
-            "tackle",
-            "bubble beam"
+            "crunch",
+            "earthquake",
+            "scary face",
+            "swagger"
           ]
         }
       ]

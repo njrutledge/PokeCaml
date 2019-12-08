@@ -357,7 +357,7 @@ module Pokemon : PokeSig = struct
     for i = 0 to (Array.length mon.moves) - 1 do 
       acc := 
         !acc ^ string_of_int (i + 1) ^ ". " 
-        ^ Moves.to_string mon.moves.(i)
+        ^ Moves.to_string mon.moves.(i) ^ "\n"
     done;
     !acc
 

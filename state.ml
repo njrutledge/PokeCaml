@@ -285,3 +285,8 @@ let change_pc st idx mon =
            (PM.get_name mon, PM.get_lvl mon, PM.get_xp mon, 
             List.map(fun x -> Moves.name x) (PM.get_moves mon |> Array.to_list))
          else x) st.pc}
+
+let swap_party st i1 i2 = 
+  let temp = st.party.(i1) in 
+  st.party.(i1)<- st.party.(i2);
+  st.party.(i2)<- temp

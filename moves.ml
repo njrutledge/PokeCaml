@@ -79,9 +79,9 @@ module Moves : MoveSig = struct
                          ^ "/" ^ string_of_int m.max_pp
 
   let to_string m = 
-    "Name: " ^ m.move_name ^ "\nPower: " ^ string_of_float m.power ^ ", ACC: " ^
+    "Name: " ^ m.move_name ^ "\n\tPower: " ^ string_of_float m.power ^ ", ACC: " ^
     string_of_float m.accuracy ^ ", Type: " ^ m.el_type ^ ", PP: " ^
     string_of_int m.pp ^ "/" ^ string_of_int m.max_pp ^ "\n" ^
-    "\tDescription: " ^ m.description ^ "\n"
+    "\tDesc: " ^ m.description ^ "\n"
 
 end

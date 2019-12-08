@@ -306,6 +306,29 @@ let execute_switch st phrase =
     | None -> None
   end
 
+let execute_swap state phrase = 
+  let (i1,i2) = match phrase with 
+    | x::y::[] -> (try (int_of_string x - 1, int_of_string y - 1)
+                   with Failure _ -> (-1, -1))
+    | _ -> (-1, -1)
+  in 
+  if i1 = -1 || i2 = -1 then begin 
+    ANSITerminal.(print_string [red] ("Please input two valid integers"));
+    None
+  end 
+  else begin 
+    let party = State.get_party state in 
+    let len = Array.length party in 
+    if (i1>=len || i2 >= len) then begin 
+      ANSITerminal.(print_string [red] "Please use valid integer range");
+      None
+    end 
+    else begin
+      State.swap_party state i1 i2;
+      None
+    end 
+  end 
+
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state]. *)
 let rec execute_command adv state input = 
@@ -329,7 +352,7 @@ let rec execute_command adv state input =
   | TGM -> execute_tgm state
   | Info phrase -> execute_info state (String.concat " " phrase)
   | Switch phrase -> execute_switch state phrase
-  | Swap phrase -> failwith "swap not implemetened"
+  | Swap phrase -> execute_swap state phrase
 
 (** [get_command adv state input] tries to execute the user's command [input]
     with state [st] and adventure [adv]. Catches any errors during this 
@@ -413,6 +436,9 @@ let rec loop adv state print_desc=
 
 (** [play_game f] starts the adventure in file [f]. *)
 let play_game f =
+  ANSITerminal.(print_string [yellow]
+                  Ascii.pokemon_opening);
+  print_endline "\n\n";
   let adv = (Adventure.from_json (Yojson.Basic.from_file f)) in 
   let state = 
     if Sys.file_exists "save.json" then begin 
@@ -424,12 +450,5 @@ let play_game f =
   let adv' = Adventure.defeat_trainers adv (State.get_def_tr_all state) in 
   loop adv' state true
 
-(** [main ()] prompts for the game to play, then starts it. *)
-let main () =
-  ANSITerminal.(print_string [yellow]
-                  Ascii.pokemon_opening);
-  print_endline "\n\n";
-  play_game "adv.json"
-
 (* Execute the game engine. *)
-let () = main ()
+let () = play_game ("adv.json")

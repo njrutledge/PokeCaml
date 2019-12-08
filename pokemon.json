@@ -1595,5 +1595,61 @@
       "name": "",
       "lvl": -1
     }
+  },
+  "Mamoswine": {
+    "Types": [
+      "ground",
+      "ice"
+    ],
+    "Stats": {
+      "ATK": 130.0,
+      "DEF": 80.0,
+      "SPE": 80.0,
+      "HP": 110.0,
+      "SPA": 70.0,
+      "SPD": 80.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Dugtrio": {
+    "Types": [
+      "ground"
+    ],
+    "Stats": {
+      "ATK": 80.0,
+      "DEF": 50.0,
+      "SPE": 120.0,
+      "HP": 35.0,
+      "SPA": 50.0,
+      "SPD": 70.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
+  },
+  "Krookadile": {
+    "Types": [
+      "ground",
+      "dark"
+    ],
+    "Stats": {
+      "ATK": 117.0,
+      "DEF": 80.0,
+      "SPE": 92.0,
+      "HP": 95.0,
+      "SPA": 65.0,
+      "SPD": 70.0
+    },
+    "Moveset": [],
+    "Evolution": {
+      "name": "",
+      "lvl": -1
+    }
   }
 }

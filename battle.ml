@@ -27,7 +27,7 @@ exception IllegalItem of string
 (** [BattleRun] is raised when the player successfully runs from a battle. *)
 exception BattleRun
 
-(** *)
+(** [NoPP] is raised when a pokemon tries to use a fully exhausted move. *)
 exception NoPP
 
 (** sleep is used for delay in text printing. *)
@@ -167,10 +167,12 @@ let heal_help atk_mon def_mon heal damage info =
   in 
   if amt = "" then ANSITerminal.(print_string [red] 
                                    "Invalid heal, skipping heal ")
-  else if amt = "full" then begin PM.set_hp target (PM.get_max_hp target);
+  else if amt = "full" then begin 
+    PM.set_hp target (PM.get_max_hp target);
     print_endline (PM.get_name target ^ " was fully healed!");
   end 
-  else if amt = "half" then begin PM.change_hp target (PM.get_max_hp target /. 2.);
+  else if amt = "half" then begin 
+    PM.change_hp target (PM.get_max_hp target /. 2.);
     print_endline (PM.get_name target ^ " restored half its health!");
   end 
   else try 
@@ -409,9 +411,10 @@ let handle_move atk_mon def_mon move =
   end
   else ()
 
-(** [execute_go adv st ph is_cpu] is the state update of the adventure after running 
-    [state.go adv st ph'], where [ph'] is the string representation of 
-    string list [ph]. [is_cpu] is whether [atk_mon] is a cpu.
+(** [execute_go adv st ph is_cpu] is the state update of the adventure 
+    after running [state.go adv st ph'], where [ph'] is the 
+    string representation of string list [ph]. 
+    [is_cpu] is whether [atk_mon] is a cpu.
     Raises [IllegalMove msg] if the move is invalid. *)
 let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_idx is_cpu = 
   if not (can_attack atk_mon) then ()
@@ -427,7 +430,8 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_idx is_cpu =
     let hit = check_hit acc in
 
     if hit then handle_move atk_mon def_mon move
-    else begin print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move) ^ "!");
+    else begin print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move)
+                              ^ "!");
       print_endline ("\nThe attack missed!") end
   end 
 
@@ -507,7 +511,13 @@ let catch mon ball (rate : float) =
   end
   else begin 
     let status = PM.get_status mon in 
-    if status <> "" then catch_status_help mon ball rate status
+    let status_catch = 
+      if status <> "" then catch_status_help mon ball rate status
+      else false
+    in 
+    if status_catch = true then begin 
+      print_shake(); print_shake(); print_shake(); true
+    end 
     else begin
       let m = Random.float 256. in 
       let b = (if ball = Item.GreatBall then 8. else 12.) in
@@ -651,7 +661,8 @@ let execute_tgm party =
   PM.restore_mons party
 
 (** [execute_command party atk_mon def_mon bag cpu input] executes the correct
-    command for [input] using [party], [atk_mon], [def_mon], [bag], and [cpu]. *)
+    command for [input] using [party], [atk_mon], 
+    [def_mon], [bag], and [cpu]. *)
 let rec execute_command party atk_mon def_mon bag cpu input = 
   match Btlcmd.parse input with 
   | Quit -> execute_quit ()
@@ -724,11 +735,12 @@ let rec get_command party atk_mon def_mon bag cpu input =
     print_string "> ";
     get_command party atk_mon def_mon bag cpu (read_line ())
   | NoPP -> 
-    ANSITerminal.(print_string [red] ("\nYou have no PPs left for this move!\n"));
+    ANSITerminal.(print_string [red] 
+                    ("\nYou have no PPs left for this move!\n"));
     print_string "> ";
     get_command party atk_mon def_mon bag cpu (read_line ())
 
-(** [execute_cpu_turn player_mon cpu_mon] is the helper to run the cpu's turn. *)
+(** [execute_cpu_turn player_mon cpu_mon] runs the cpu's turn. *)
 let execute_cpu_turn player_mon cpu_mon = 
   Random.self_init();
   let cpu_moves = PM.get_moves cpu_mon in 
@@ -788,12 +800,14 @@ let get_status mon =
 let rec loop p_team cpu_team player_mon cpu_mon bag cpu = 
   (*let first = check_speed player_mon cpu_mon in *)
   print_string "\n";
-  print_endline ("-- lv." ^ (string_of_int (PM.get_lvl cpu_mon)) ^ " " ^ (PM.get_name cpu_mon) ^ " --");
+  print_endline ("-- lv." ^ (string_of_int (PM.get_lvl cpu_mon)) 
+                 ^ " " ^ (PM.get_name cpu_mon) ^ " --");
   cpu_hp_percent cpu_mon;
   print_string "\n";
   ANSITerminal.(print_string [yellow] (get_status cpu_mon));
   print_string "\n\n";
-  print_endline ("-- lv." ^ (string_of_int (PM.get_lvl player_mon)) ^ " " ^ (PM.get_name player_mon) ^" --");
+  print_endline ("-- lv." ^ (string_of_int (PM.get_lvl player_mon)) 
+                 ^ " " ^ (PM.get_name player_mon) ^" --");
   player_hp_percent player_mon;
   print_string "\n";
   ANSITerminal.(print_string [yellow] (get_status player_mon));
@@ -827,7 +841,8 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
     PM.change_hp mon (PM.get_max_hp mon /. -8.) end
   else ();
 
-  (* if first = 1 then begin execute_cpu_turn player_mon cpu_mon; execute_cpu_turn cpu_mon player_mon; end
+  (* if first = 1 then begin execute_cpu_turn player_mon cpu_mon; 
+     execute_cpu_turn cpu_mon player_mon; end
      else begin execute_cpu_turn cpu_mon player_mon; execute_cpu_turn player_mon
       cpu_mon end; *)
   Unix.sleepf sleep;
@@ -877,7 +892,8 @@ let rec learn_moves mon st_lvl end_lvl =
             let n = get_move_num () in 
             if n != 4 then begin 
               print_endline ("1, 2, 3, and ... poof!\n"^ mon_name ^ " forgot " 
-                             ^ Moves.name (PM.get_moves mon).(n) ^ " and learned "
+                             ^ Moves.name (PM.get_moves mon).(n) 
+                             ^ " and learned "
                              ^ move_name ^"!");
               (PM.get_moves mon).(n)<-move
             end 
@@ -946,9 +962,10 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
       m := (!m + cpu_money)
     end;
     print_endline "The pokemon in your party gain experience!";
-    give_xp_all (PM.get_lvl cpumon) (cpu = "wild") (PM.alive_pmons p_mons) party;
+    give_xp_all(PM.get_lvl cpumon) (cpu = "wild") (PM.alive_pmons p_mons) party;
     if not finale then begin
-      ANSITerminal.(print_string [green] ("\nDo you want to keep going? [Y/N]\n"));
+      ANSITerminal.(print_string [green] 
+                      "\nDo you want to keep going? [Y/N]\n");
       (party, b, m, get_y_n (), box_mon)
     end
     else (party, b, m, true, box_mon)
@@ -980,7 +997,8 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
     PM.reset_stages pmon;
     PM.reset_stages cpumon;
     ANSITerminal.(print_string [red] ("\nGot away safely!\n"));
-    ANSITerminal.(print_string [green] ("\nDo you want to keep going? [Y/N]\n"));
+    ANSITerminal.(print_string [green] 
+                    ("\nDo you want to keep going? [Y/N]\n"));
     (p_mons, b, m, get_y_n (), None)
 
 let main (player_team, bag, money, cpu_team, cpu, cpu_money, fin) = 
