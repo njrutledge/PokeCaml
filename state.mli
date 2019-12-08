@@ -93,3 +93,6 @@ val save: t -> unit
 
 (** [load ()] is the state created from loading the safe file [save.json]. *)
 val load: unit -> t
+
+(** [change_pc st i mon] is [st] with the pc changed at index [i] to [mon]. *)
+val change_pc : t -> int -> PM.t -> t

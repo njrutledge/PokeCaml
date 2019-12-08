@@ -277,3 +277,11 @@ let load () =
       |> to_list
       |> List.map json_pc;
   }
+
+let change_pc st idx mon = 
+  {st with 
+   pc = List.mapi
+       (fun i x -> if i = idx then 
+           (PM.get_name mon, PM.get_lvl mon, PM.get_xp mon, 
+            List.map(fun x -> Moves.name x) (PM.get_moves mon |> Array.to_list))
+         else x) st.pc}

@@ -1,4 +1,5 @@
 open Pokemon
+open Moves
 module PM = Pokemon
 
 (** Raised when the player tries to do something illegal. *)
@@ -272,6 +273,39 @@ let execute_info st phrase =
   end;
   None
 
+let execute_switch st phrase = 
+  let (i1,i2) = match phrase with 
+    | x::y::[] -> (try (int_of_string x - 1, int_of_string y - 1)
+                   with Failure _ -> (-1, -1))
+    | _ -> (-1, -1)
+  in 
+  if i1 = -1 || i2 = -1 then begin 
+    ANSITerminal.(print_string [red] ("Please input two valid integers"));
+    None
+  end 
+  else if i1 >= Array.length (State.get_party st) then begin 
+    ANSITerminal.(print_string [red] "Please input two valid intergers");
+    None
+  end
+  else begin 
+    let party = State.get_party st in
+    let pc = State.get_pc st in
+    match List.nth_opt pc i2 with 
+    | Some (name, lvl, xp, str_moves) ->
+      let moves = List.map(fun x -> Moves.create_move x) str_moves in 
+      let pc_mon = PM.create_pokemon name lvl moves in 
+      PM.set_xp pc_mon xp;
+      let party_mon = party.(i1) in 
+      let st' = State.change_pc st i2 party_mon in 
+      party.(i1) <- pc_mon; 
+      ANSITerminal.(print_string [green] 
+                      ("You switched out your "
+                       ^ PM.get_name party_mon ^ " for " 
+                       ^ PM.get_name pc_mon ^ "!"));
+      State st'
+    | None -> None
+  end
+
 (** [execute_command adv state input] is the update created by executing
     command [input] on adventure [adv] and state [state]. *)
 let rec execute_command adv state input = 
@@ -294,7 +328,7 @@ let rec execute_command adv state input =
   | Save -> execute_save state 
   | TGM -> execute_tgm state
   | Info phrase -> execute_info state (String.concat " " phrase)
-  | Switch phrase -> failwith "switch not implemented"
+  | Switch phrase -> execute_switch state phrase
   | Swap phrase -> failwith "swap not implemetened"
 
 (** [get_command adv state input] tries to execute the user's command [input]
