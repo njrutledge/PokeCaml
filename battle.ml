@@ -949,7 +949,7 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
     m := !m - lost_money;
     ANSITerminal.(print_string [red] (Ascii.suprise ^ "\n\n"));    
     ANSITerminal.(print_string [red] 
-                    ("\nYou lost the battle! Lost " ^ string_of_int !m ^ " as well. Retreating back to town...\n"));
+                    ("\nYou lost the battle! Lost " ^ string_of_int lost_money ^ " as well. Retreating back to town...\n"));
     PM.restore_mons p_mons;
     (p_mons, b, m, false, None) 
   | BattleWon (party, box_mon) -> 
