@@ -40,7 +40,6 @@ commands:
  swap [mon1 mon2]
  - swaps the positions of [mon1] and [mon2] in the party.
 
-
  battle:
  attack [move name] 
   - attacks the pokemon with the inputted move
@@ -61,4 +60,10 @@ commands:
     This is also prompted when you defeat a trainer's pokemon that is not 
     the trainer's final pokemon. 
  quit
- - quits out of the game
+  - quits out of the game
+ change speed
+  - this will change the speed of printing. it changes from slow to fast, 
+    fast to instant, or instant back to slow (loops back around). 
+
+And for both overworld and battle, there's a special command...find it and see
+what it does for yourself...

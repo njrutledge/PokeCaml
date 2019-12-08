@@ -1,14 +1,15 @@
-MODULES=global ascii item adventure command state main author types moves pokemon btlcmd battle
+MODULES=adventure ascii author battle btlcmd command global item main moves pokemon state types
 OBJECTS=$(MODULES:=.cmo)
 MLS=$(MODULES:=.ml)
 MLIS=$(MODULES:=.mli)
-TEST=test.byte
 MAIN=main.byte
+TEST=test.byte
 PKGS=yojson,ANSITerminal
 OCAMLBUILD=ocamlbuild -use-ocamlfind -plugin-tag 'package(bisect_ppx-ocamlbuild)'
+ZIPNAME=ms3.zip
 CLOC=cloc *
 CLOCML=cloc *.ml *.mli
-CLOCZIP=cloc ms3.zip
+CLOCZIP=cloc $(ZIPNAME)
 
 default: build
 	utop
@@ -33,7 +34,10 @@ cloczip:
 	$(CLOCZIP)
 
 zip:
-	zip ms3.zip *.ml* *.json *txt _tags Makefile
+	zip $(ZIPNAME) *.ml* *.json *txt _tags Makefile
+
+zipcheck:
+	zipinfo -1 $(ZIPNAME)
 
 bisect: clean test
 	bisect-ppx-report -I _build -html report bisect0001.out
@@ -57,5 +61,5 @@ docs-private: build
 
 clean:
 	ocamlbuild -clean
-	rm -rf doc.public doc.private ms3.zip
+	rm -rf doc.public doc.private $(ZIPNAME)
 	rm -rf _build

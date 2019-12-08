@@ -12,7 +12,7 @@ exception LockedExit of exit_name
 exception UnknownBadge of string
 
 
-(* [exit] defines an exit of a [town]. *)
+(** [exit] defines an exit of a [town]. *)
 type exit = {
   name : exit_name;
   exit_badge : badge_name;
@@ -216,11 +216,6 @@ let from_json json = {
     |> member "trainers"
     |> to_list
     |> List.map json_trainers
-    (*items = 
-      json
-      |> member "adventure items"
-      |> to_list
-      |> List.map json_item;*)
 }
 
 let start_town adv =

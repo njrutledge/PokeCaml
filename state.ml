@@ -112,7 +112,8 @@ let route r adv st =
     let bats = Adventure.take_route adv st.cur_town r in 
     run_battles r adv st bats
   with 
-  | Adventure.UnknownExit ex -> Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
+  | Adventure.UnknownExit ex -> 
+    Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
 
 (** [add_item st item new_amt] adds [new_amt] of [item] into the player's bag
@@ -129,9 +130,6 @@ let rec remove_item it = function
   | h :: t -> if h = it then t else h::remove_item it t
 
 let drop_item st it = failwith "drop unimplemented" 
-(*{
-    st with bag = remove_item it st.bag
-  }*)
 
 let bag st = st.bag
 

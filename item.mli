@@ -1,7 +1,11 @@
+(** [InvalidItem s] is raised if an invalid item [s] is attempted to be
+    accessed, created, etc. (should never really happen). *)
 exception InvalidItem of string
 
+(** [t] is the type of an item, and the variant names are self explanatory. *)
 type t =
   | Potion 
+  | SuperPotion
   | HyperPotion
   | FullRestore
   | PokeBall

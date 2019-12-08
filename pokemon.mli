@@ -1,25 +1,37 @@
 open Moves
 
-exception UnknownMove of string
-
-module type StatsSig = sig
-  type t = Yojson.Basic.t
-  val mon: string ref
-  val get_data: string -> Yojson.Basic.t
-end
-
-module Stats : StatsSig
-
+(** [PokeSig] defines a pokemon module. *)
 module type PokeSig = sig
+
+  (**[UnknownMove m] is raised when a move named [m] is trying to be 
+     created, but that move does not exist. *)
   exception UnknownMove of string
+
+  (** [t_type] is the type of a pokemon's element type. *)
   type t_type = string 
+
+  (** [t_hp] is the type of a pokemon's hp stat. *)
   type t_hp = float
+
+  (** [t_attack] is the type of a pokemon's attack stat. *)
   type t_attack = float
+
+  (** [t_defense] is the type of a pokemon's defense stat. *)
   type t_defense = float
+
+  (** [t_speed] is the type of a pokemon's speed stat. *)
   type t_speed = float 
+
+  (** [t_moves] is the type of a pokemon's moves. *)
   type t_moves = Moves.t array
+
+  (** [t_lvl] is the type of a pokemon's level stat. *)
   type t_lvl = int
+
+  (** [t_xp] is the type of a pokemon's experience stat. *)
   type t_xp = float
+
+  (** [t] is abstract type of a pokemon. *)
   type t
 
   (** [set_file s] sets the json file containing all the pokemon, and 
@@ -118,7 +130,8 @@ module type PokeSig = sig
       stages of [mon]. *)
   val format_stages: t -> string
 
-  (** [format_moves_names mon] is a formatted output of names of [mon]'s  moves.*)
+  (** [format_moves_names mon] is a formatted 
+      output of names of [mon]'s  moves.*)
   val format_moves_names : t -> string
 
   (** [format_moves_all mon] is a formatted output of all moves info for [mon]'s

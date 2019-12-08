@@ -1,14 +1,18 @@
 open Pokemon
+(** [PM] is an instance of the Pokemon module. *)
 module PM = Pokemon
 (** 
    Representation of static adventure data.
 
    This module represents the data stored in adventure files, including
-   the towns and exits.  It handles loading of that data from JSON as well
-   as querying the data.
+   the towns, exits, routes, battles, and badges.
+   It handles loading of that data from JSON as well as querying the data.
 *)
+
 (** The type of item names. *)
 type badge_name = string
+
+(** [UnknownBadge] is raised when an invalid badge name is found. *)
 exception UnknownBadge of badge_name
 
 (** [bat] defines the type of the battle, i.e. against a trainer or a wild 

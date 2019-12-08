@@ -2,6 +2,7 @@ exception InvalidItem of string
 
 type t = 
   | Potion 
+  | SuperPotion
   | HyperPotion
   | FullRestore
   | PokeBall
@@ -18,6 +19,7 @@ type t =
 let string_of_item i = 
   match i with 
   | Potion -> "potion"
+  | SuperPotion -> "super potion"
   | HyperPotion -> "hyper potion"
   | FullRestore -> "full restore"
   | PokeBall -> "pokeball"
@@ -34,6 +36,7 @@ let string_of_item i =
 let item_of_string i = 
   match i with 
   | "potion" -> Potion
+  | "super potion" -> SuperPotion
   | "hyper potion" -> HyperPotion
   | "full restore" -> FullRestore
   | "pokeball" -> PokeBall
@@ -50,7 +53,8 @@ let item_of_string i =
 
 let cost_of_item i = 
   match String.lowercase_ascii i with 
-  | "potion" -> 300
+  | "potion" -> 150
+  | "super potion" -> 300
   | "hyper potion" -> 600
   | "full restore" -> 900
   | "pokeball" -> 200

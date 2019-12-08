@@ -1,13 +1,5 @@
 (**
-   Parsing of player commands.
-*)
-
-(* You are free to add more code here. *)
-
-(**********************************************************************
- * DO NOT CHANGE THIS CODE
- * It is part of the interface the course staff will use to test your 
- * submission.
+   Parsing of player commands in battle.
 *)
 
 (** The type [object_phrase] represents the object phrase that can be part of a 
@@ -35,6 +27,7 @@ type command =
   | Run
   | Switch
   | Quit
+  | ChangeSpeed
   | TGM
 
 (** Raised when an empty command is parsed. *)
@@ -47,7 +40,7 @@ exception Malformed
     word (i.e., consecutive sequence of non-space characters) of [str] becomes 
     the verb. The rest of the words, if any, become the object phrase.
     Examples: 
-    - [parse "    go   clock   tower   "] is [Go ["clock"; "tower"]]
+    - [parse "    attack   1   "] is [Go ["attack"; "1"]]
     - [parse "quit"] is [Quit]. 
 
     Requires: [str] contains only alphanumeric (A-Z, a-z, 0-9) and space 
@@ -56,12 +49,18 @@ exception Malformed
     Raises: [Empty] if [str] is the empty string or contains only spaces. 
 
     Raises: [Malformed] if the command is malformed. A command
-    is {i malformed} if the verb is neither "quit" nor "go",
+    is {i malformed} if the verb is neither "quit" nor "attack" nor
+    "item" nor "bag" nor "moves" nor "party" nor "run" nor "switch" nor 
+    "change".
+
     or if the verb is "quit" and there is a non-empty object phrase,
-    or if the verb is "go" and there is an empty object phrase.*)
+    or if the verb is "attack" and there is an empty object phrase,
+    or if the verb is "item" and there is an empty object phrase,
+    or if the verb is "bag" and there is an empty object phrase,
+    or if the verb is "moves" and there is a non-empty object phrase,
+    or if the verb is "party" and there is a non-empty object phrase,
+    or if the verb is "run" and there is a non-empty object phrase,
+    or if the verb is "switch" and there is a non-empty object phrase,
+    or if the verb is "change" and there is a non-empty object phrase.
+*)
 val parse : string -> command
-
-(* END DO NOT CHANGE
- **********************************************************************)
-
-(* You are free to add more code here. *)

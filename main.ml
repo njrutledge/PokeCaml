@@ -1,5 +1,6 @@
 open Pokemon
 open Moves
+(** [PM] is an instance of the Pokemon module. *)
 module PM = Pokemon
 
 (** Raised when the player tries to do something illegal. *)
@@ -61,11 +62,6 @@ let pp_list pp_elt lst =
     in loop 0 "" lst
   in  pp_elts lst
 
-(** [execute_quit] quits the adventure. *)
-let execute_quit adv = 
-  ANSITerminal.(print_string [cyan] "\nThanks for playing!\n "); 
-  exit 0
-
 (** [starters st] prompts the player to pick a starter pokemon if they haven't
     already and returns a new state with the starter in the party. *)
 let rec starters st = 
@@ -91,7 +87,7 @@ let rec starters st =
       ANSITerminal.(print_string [yellow] Ascii.surp_pika);
       State (State.starter st "Pikachu")
     end
-  | "quit" -> execute_quit ()
+  | "quit" -> Global.execute_quit ()
   | _ -> starters st 
 
 (** [execute_go adv st ph] is the state update of the adventure after running 
@@ -185,6 +181,8 @@ let execute_buy state phrase =
     if !money - total > 0 then begin 
       money := (!money - total);
       print_endline("\nBought " ^ string_of_int amt ^ " " ^ item ^ ".");
+      ANSITerminal.(print_string [red] ("You have " ^ string_of_int !money ^ 
+                                        " left."));
       State (State.add_item state (Item.item_of_string item) amt)
     end 
     else raise InsuffFunds
@@ -230,23 +228,15 @@ let execute_badges state =
   end;
   None
 
-(** [get_y_n ()] is true if the user inputs an affirmative, false if negative, 
-    quits the application if inputs quit, and loops otherwise. *)
-let rec get_y_n () =
-  print_string "> ";
-  match read_line () with 
-  | "Yes" | "Y" | "y" | "yes" -> true
-  | "No" | "N" | "n" | "no" -> false
-  | "quit" -> execute_quit ()
-  | _ -> get_y_n ()
-
+(** [execute_save st] prompts the player to overwrite a save file and create
+    a new one. *)
 let execute_save state = 
   let overwrite = 
     if Sys.file_exists "save.json" then begin 
       ANSITerminal.(print_string [yellow] 
                       ("This will overwrite your current save file, "^ 
                        "continue? [Y/N]\n")); 
-      get_y_n ()
+      Global.get_y_n ()
     end 
     else true in 
   if overwrite then begin 
@@ -256,16 +246,17 @@ let execute_save state =
   end 
   else ();
   None
+
 (** [execute_shop] prints a formatted list of 
     the items one can buy in the shop. *)
 let execute_shop () = 
-  let items = ["potion"; "hyper potion"; "full restore"; 
+  let items = ["potion"; "super potion"; "hyper potion"; "full restore"; 
                "pokeball"; "great ball"; "ultra ball";
                "master ball"; "antidote"; "paralyze heal"; "awakening"; 
                "ice heal"; "burn heal"; "full heal"] in
   ANSITerminal.(print_string [cyan] (Item.format_items items)); None
 
-(** [execute_tgm state] does ??? It's a mystery to everyone. *)
+(** [execute_tgm state] does ??? It's a secret to everyone. *)
 let execute_tgm state = 
   let st' = State.add_item state (Item.item_of_string "master ball") 1000 in 
   let st'' = State.add_item st' (Item.item_of_string "full restore") 1000 in
@@ -274,6 +265,8 @@ let execute_tgm state =
     int_of_float (float_of_int !(State.get_money st'') *. 1.5);
   State st''
 
+(** [execute_pc_print st] prints the pokemon currently in the player's pc
+    in state [st]. *)
 let execute_pc_print state = 
   ANSITerminal.(print_string [cyan] "Here are the pokemon in your pc:\n");
   let print_fun i (name, lvl, _, _ ) = 
@@ -288,6 +281,8 @@ let execute_pc_print state =
                    ^ " a pokemon in your party, type switch # #\n"));
   None
 
+(** [execute_info st phrase] prints the information of the pokemon [phrase]
+    in the pc in state [st]. *)
 let execute_info st phrase = 
   let mon_num = try (int_of_string phrase) with Failure _ -> - 1 in 
   let (name, lvl, xp, moves) = try (List.nth (State.get_pc st) (mon_num -1)) 
@@ -305,6 +300,8 @@ let execute_info st phrase =
   end;
   None
 
+(** [execute switch st phrase] switches two pokemon in your party, the numbers
+    are contained in [phrase]. *)
 let execute_switch st phrase = 
   let (i1,i2) = match phrase with 
     | x::y::[] -> (try (int_of_string x - 1, int_of_string y - 1)
@@ -338,6 +335,8 @@ let execute_switch st phrase =
     | None -> None
   end
 
+(** [execute_swap state phrase] calls helper execute_switch to switch two
+    pokemon in the player's party. *)
 let execute_swap state phrase = 
   let (i1,i2) = match phrase with 
     | x::y::[] -> (try (int_of_string x - 1, int_of_string y - 1)
@@ -365,7 +364,7 @@ let execute_swap state phrase =
     command [input] on adventure [adv] and state [state]. *)
 let rec execute_command adv state input = 
   match Command.parse input with 
-  | Quit -> execute_quit adv
+  | Quit -> Global.execute_quit ()
   | Go(phrase) -> execute_go adv state (String.concat " " phrase)
   | GoRoute(phrase) -> execute_go_route adv state (String.concat " " phrase)
   | Shop -> if in_pokecenter state then execute_shop ()
@@ -486,7 +485,7 @@ let play_game f =
   let state = 
     if Sys.file_exists "save.json" then begin 
       print_endline "Save detected! Use save file? [Y/N]" ;
-      if get_y_n () then State.load () 
+      if Global.get_y_n () then State.load () 
       else State.init_state adv
     end 
     else State.init_state adv in 

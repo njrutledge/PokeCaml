@@ -2,14 +2,6 @@
    Parsing of player commands.
 *)
 
-(* You are free to add more code here. *)
-
-(**********************************************************************
- * DO NOT CHANGE THIS CODE
- * It is part of the interface the course staff will use to test your 
- * submission.
-*)
-
 (** The type [object_phrase] represents the object phrase that can be part of a 
     player command.  Each element of the list represents a word of the object 
     phrase, where a {i word} is defined as a consecutive sequence of non-space 
@@ -55,7 +47,7 @@ exception Malformed
     word (i.e., consecutive sequence of non-space characters) of [str] becomes 
     the verb. The rest of the words, if any, become the object phrase.
     Examples: 
-    - [parse "    go   clock   tower   "] is [Go ["clock"; "tower"]]
+    - [parse "    go   route   3110   "] is [Go ["route"; "3110"]]
     - [parse "quit"] is [Quit]. 
 
     Requires: [str] contains only alphanumeric (A-Z, a-z, 0-9) and space 
@@ -64,12 +56,21 @@ exception Malformed
     Raises: [Empty] if [str] is the empty string or contains only spaces. 
 
     Raises: [Malformed] if the command is malformed. A command
-    is {i malformed} if the verb is neither "quit" nor "go",
-    or if the verb is "quit" and there is a non-empty object phrase,
-    or if the verb is "go" and there is an empty object phrase.*)
+    is {i malformed}:
+      if the verb is "shop" and there is a non-empty object phrase,
+      or if the verb is "badges" and there is a non-empty object phrase,
+      or if the verb is "bag" and there is a non-empty object phrase,
+      or if the verb is "heal" and there is a non-empty object phrase,
+      or if the verb is "party" and there is a non-empty object phrase,
+      or if the verb is "map" and there is a non-empty object phrase,
+      or if the verb is "quit" and there is a non-empty object phrase,
+      or if the verb is "save" and there is a non-empty object phrase
+      or if the verb is "pc" and there is a non-empty object phrase,
+      or if the verb is "buy" and there is an empty object phrase,
+      or if the verb is "moves" and there is an empty object phrase,
+      or if the verb is "go" and there is an empty object phrase,
+      or if the verb is "info" and there is an empty object phrase,
+      or if the verb is "switch" and there is an empty object phrase,
+      or if the verb is "swap" and there is an empty object phrase,
+      or if the verb is anything else. *)
 val parse : string -> command
-
-(* END DO NOT CHANGE
- **********************************************************************)
-
-(* You are free to add more code here. *)

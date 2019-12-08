@@ -1,9 +1,8 @@
-
 (** [change_speed ()] changes the sleep speed of the game. *)
 val change_speed : unit -> unit 
 
 (** [execute_quit ()] quits the game. *)
-val execute_quit : unit -> unit
+val execute_quit : unit -> 'a
 
 (** [get_sleep_speed ()] is the current sleep speed for the game. *)
 val get_sleep_speed : unit -> float

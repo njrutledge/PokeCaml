@@ -60,7 +60,6 @@ let make_command verb phrase =
   if verb = "swap" then Swap phrase else 
     raise Malformed 
 
-
 let parse str =
   String.split_on_char ' ' str 
   |> rem_empty

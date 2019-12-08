@@ -28,6 +28,7 @@ module type MoveSig = sig
   val to_string: t -> string
 end
 
+(** [Moves] is the representation of a pokemon move. *)
 module Moves : MoveSig = struct
   type t = {
     move_name : string;
@@ -79,8 +80,8 @@ module Moves : MoveSig = struct
                          ^ "/" ^ string_of_int m.max_pp
 
   let to_string m = 
-    "Name: " ^ m.move_name ^ "\n\tPower: " ^ string_of_float m.power ^ ", ACC: " ^
-    string_of_float m.accuracy ^ ", Type: " ^ m.el_type ^ ", PP: " ^
+    "Name: " ^ m.move_name ^ "\n\tPower: " ^ string_of_float m.power ^ 
+    ", ACC: " ^ string_of_float m.accuracy ^ ", Type: " ^ m.el_type ^ ", PP: " ^
     string_of_int m.pp ^ "/" ^ string_of_int m.max_pp ^ "\n" ^
     "\tDesc: " ^ m.description ^ "\n"
 

@@ -1,22 +1,6 @@
 open Moves
 open Types
 open Yojson.Basic.Util
-exception UnknownMove of string
-
-module type StatsSig = sig
-  type t = Yojson.Basic.t
-  val mon: string ref
-  val get_data: string -> Yojson.Basic.t
-end
-
-module Stats : StatsSig = struct
-  type t = Yojson.Basic.t
-  let json = 
-    "pokemon.json"
-    |> Yojson.Basic.from_file
-  let mon = ref "Mon1"
-  let get_data mon_name = json |> member mon_name 
-end
 
 module type PokeSig = sig
   exception UnknownMove of string
@@ -34,7 +18,7 @@ module type PokeSig = sig
   val create_pokemon: string -> int -> Moves.t list -> t
   val get_max_hp : t -> t_hp
   val change_hp : t -> t_hp -> unit
-  
+
   val fainted : t -> bool 
   val get_name : t -> string
   val get_type : t -> t_type list
@@ -177,7 +161,6 @@ module Pokemon : PokeSig = struct
       |> member "lvl"
       |> to_int in
     (evo, level)
-
 
   let create_pokemon mon_name start_lvl moves = 
     try
@@ -331,12 +314,18 @@ module Pokemon : PokeSig = struct
 
   let change_stage mon st add = 
     match st with 
-    | "attack" -> mon.attack_stage <- max (min (mon.attack_stage + add) 6) ~-6
-    | "special attack" -> mon.spa_stage <- max (min (mon.spa_stage + add) 6) ~-6
-    | "defense" -> mon.defense_stage <- max (min (mon.defense_stage + add) 6) ~-6
-    | "special defense" -> mon.spd_stage <- max(min(mon.spd_stage + add) 6) ~-6
-    | "speed" -> mon.speed_stage <- max (min (mon.speed_stage + add) 6) ~-6
-    | "accuracy" -> mon.accuracy_stage <- max (min (mon.accuracy_stage + add) 6) ~-6
+    | "attack" -> mon.attack_stage 
+      <- max (min (mon.attack_stage + add) 6) ~-6
+    | "special attack" -> mon.spa_stage 
+      <- max (min (mon.spa_stage + add) 6) ~-6
+    | "defense" -> mon.defense_stage 
+      <- max (min (mon.defense_stage + add) 6) ~-6
+    | "special defense" -> mon.spd_stage 
+      <- max(min(mon.spd_stage + add) 6) ~-6
+    | "speed" -> mon.speed_stage 
+      <- max (min (mon.speed_stage + add) 6) ~-6
+    | "accuracy" -> mon.accuracy_stage 
+      <- max (min (mon.accuracy_stage + add) 6) ~-6
     | "evasion" -> failwith "evasion not set up yet"
     | _ -> failwith "invalid stage type passed in"
 
@@ -381,7 +370,8 @@ module Pokemon : PokeSig = struct
       let curr_hp = 
         if 0. < (get_hp mon) && (get_hp mon) <= 1. then "1"
         else (string_of_int (Int.of_float (get_hp mon))) 
-      in "hp: " ^ curr_hp ^ "/" ^ (string_of_int (Int.of_float (get_max_hp mon)))
+      in "hp: " ^ curr_hp ^ "/" ^ 
+         (string_of_int (Int.of_float (get_max_hp mon)))
 
   let string_of_mon (mon : t) =
     ("{" ^ (get_name mon) ^ " - " ^ hp_string mon
@@ -402,7 +392,8 @@ module Pokemon : PokeSig = struct
   *)
   let restore_helper mon = 
     mon.hp <- mon.max_hp;
-    Array.iter (fun move -> Moves.set_pp move (Moves.get_max_pp move)) mon.moves;
+    Array.iter (fun move -> 
+        Moves.set_pp move (Moves.get_max_pp move)) mon.moves;
     rem_status mon;
     set_confusion mon (false, 0);
     set_sleep_counter mon 0
@@ -415,7 +406,8 @@ module Pokemon : PokeSig = struct
     let b = 50. in 
     let frac = 
       (Float.pow (2. *. (Float.of_int cp_mon_lvl) +. 10.) 2.5) 
-      /. (Float.pow ((Float.of_int cp_mon_lvl) +. (mon.lvl|>Float.of_int) +. 10.) 2.5) in 
+      /. (Float.pow ((Float.of_int cp_mon_lvl) +. 
+                     (mon.lvl|>Float.of_int) +. 10.) 2.5) in 
     let exp = (a *. b *. (cp_mon_lvl|>Float.of_int) /. 5. *. frac +. 1.) in 
     mon.xp <- mon.xp +. exp
 

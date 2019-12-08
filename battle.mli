@@ -1,4 +1,6 @@
 open Pokemon
+
+(** [PM] is an instance of the Pokemon module. *)
 module PM = Pokemon
 
 (** [main party bag money enemy_mons] takes in the party, bag, and money of

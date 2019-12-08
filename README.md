@@ -1,5 +1,72 @@
 # CS-3110-FA19-Project
 
+run make build, then run make play.
+the game will start up from the beginning.
+you can load a pre created save file or start from scratch. 
+
+commands:
+
+ overworld: 
+ go [place]
+  - go to location [place]
+  - ex: go route 1110
+ heal
+  - heal all your pokemon if you are in a pokecenter
+ party
+  - prints out a description of your party's pokemon. 
+ bag 
+  - prints out a description of your bag and number of each item. 
+ buy [number item]
+  - buys [number] of [item] if the player is in the pokecenter.
+ shop
+  - prints the items for sale when the player is in the pokecenter
+ moves [number]
+ - prints the moves of the pokemon in the [number] place of the party.
+ badges
+ - prints the badges the player currently posseses.
+ map
+ - prints the places the player can move to from their current location.
+ quit
+ - quits out of the game
+ save
+ - saves the current state of the game. The player will be prompted to load the
+   save state when they start the game again.
+ pc 
+ - prints the current pokemon in the pc if the player is in the pokecenter
+ info [number]
+ - prints the information of the pokemon in the pc in the position [number] if
+   the player is in the pokecenter.
+ switch [party_mon pc_mon]
+ - places the pokemon in the party in position [party_mon] in the pc and 
+   replaces it with the pokemon in position [pc_mon] in the pc.
+ swap [mon1 mon2]
+ - swaps the positions of [mon1] and [mon2] in the party.
+
+
+ battle:
+ attack [move name] 
+  - attacks the pokemon with the inputted move
+  - ex: attack tackle
+ moves
+  - prints out a detailed description of each of your pokemon's known moves. 
+ item [item']
+  - uses an [item'] as appropiate if you have at least one in your bag
+  - ex: "item potion" uses a potion on your current pokemon.
+  - ex: "item pokeball" uses a pokeball on the opposing pokemon
+ party
+  - prints out a description of your party's pokemon.
+ run
+  - tries to run away, cannot run from trainer
+ switch 
+  - this will prompt you with a list of pokemon to choose from to switch to 
+    in the battle, type the number next to the desired pokemon in the list.
+    This is also prompted when you defeat a trainer's pokemon that is not 
+    the trainer's final pokemon. 
+ quit
+ - quits out of the game
+
+
+Original project instructions are below.
 The project is an open-ended, agile software development experience. Think of it as an activity that takes place instead of a second prelim—and that requires correspondingly great intensity.
 
 There will be four milestones in the project: Charter, Alpha, Beta, and Release. In the Charter phase you will form a team and propose the system you plan to build. In the remaining phases you will build out and demo to your discussion section some part of your system, write a brief report on your progress toward your final goal, and submit your code for evaluation.

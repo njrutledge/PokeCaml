@@ -1,7 +1,3 @@
-(* TODO: ascii art, add moves for cpu, stab, better ai, certain abilities,
-   items, crits, stat affecting moves, self damaging moves, variable damage
-   moves, more types, special vs physical *)
-
 open Moves
 open Pokemon
 module PM = Pokemon
@@ -30,22 +26,13 @@ exception BattleRun
 (** [NoPP] is raised when a pokemon tries to use a fully exhausted move. *)
 exception NoPP
 
+(** [count] is the count of the amount of times run in a row. *)
 let count = ref 0.
 
 (** [execute_quit] quits the adventure. *)
 let execute_quit () = 
   ANSITerminal.(print_string [cyan] "\nThanks for playing!\n "); 
   exit 0
-
-(** [get_y_n ()] is true if the user inputs an affirmative, false if negative, 
-    quits the application if inputs quit, and loops otherwise. *)
-let rec get_y_n () =
-  print_string "> ";
-  match read_line () with 
-  | "Yes" | "Y" | "y" | "yes" -> true
-  | "No" | "N" | "n" | "no" -> false
-  | "quit" -> execute_quit ()
-  | _ -> get_y_n ()
 
 (** [get_move_num] asks the user to input a number from 1 to 5 inclusive.
     If a valid number is entered, it returns the 
@@ -95,14 +82,16 @@ let effect_help atk_mon def_mon eff_type effect =
       let c = if (int_of_string change) > 0 then "up" else "down" in
       ANSITerminal.(print_string [red]  (PM.get_name atk_mon ^ "'s " 
                                          ^ eff_type ^ " went " ^ c ^ "!\n"));
-      PM.change_stage atk_mon eff_type (int_of_string change) 
+      PM.change_stage atk_mon eff_type (int_of_string change);
+      Unix.sleepf (Global.get_sleep_speed ())
     end else ()
   | change :: "foe" :: per_chance :: [] -> 
     if (float_of_string per_chance >= rand) then begin 
       let c = if int_of_string change > 0 then "up" else "down" in
       ANSITerminal.(print_string [red] (PM.get_name def_mon ^ "'s " 
                                         ^ eff_type ^ " went " ^ c ^ "!\n"));
-      PM.change_stage def_mon eff_type (int_of_string change)
+      PM.change_stage def_mon eff_type (int_of_string change);
+      Unix.sleepf (Global.get_sleep_speed ())
     end else ()
   | _ -> ANSITerminal.(print_string [red] ("Invalid " ^ eff_type ^ " effect."
                                            ^ "skipping this effect..."))
@@ -149,7 +138,8 @@ let status_help atk_mon def_mon status_type info =
                            ("Invalid status name: "  ^ status_type  
                             ^ " skipping this status..."))
   end 
-  else ()
+  else ();
+  Unix.sleepf (Global.get_sleep_speed ())
 
 (** [heal_help atk_mon def_mon x info] handles a healing effect caused by 
     a move used by [atk_mon] against [def_mon] dealing [x] ammount of damage. 
@@ -184,7 +174,8 @@ let heal_help atk_mon def_mon heal damage info =
       end 
     with Failure e -> 
       ANSITerminal.(print_string [red] ("Invalid heal ammount: " ^ amt 
-                                        ^ ", skipping heal "))
+                                        ^ ", skipping heal "));
+      Unix.sleepf (Global.get_sleep_speed ())
 
 (** [endeavor_help atk_mon def_mon] applies the effects of move "endeavor"
     onto [def_mon] when used by [atk_mon]. *)
@@ -244,6 +235,7 @@ let effect_handler atk_mon def_mon effects damage =
         PM.set_hp atk_mon (PM.get_max_hp atk_mon);
         print_endline (PM.get_name atk_mon ^ " fully cured itself, "
                        ^ "and fell asleep!");
+        Unix.sleepf (Global.get_sleep_speed ());
         apply_effects t
       | _ -> ANSITerminal.(print_string  [red] 
                              ("This move has raised an invalid effect. The " 
@@ -258,7 +250,9 @@ let critical_hit speed =
   let t_round = t |> Int.of_float |> Float.of_int in
   Random.self_init();
   let r = Random.float 256. in
-  if r < t_round then begin print_endline "A critical hit!\n"; true end
+  if r < t_round then begin print_endline "A critical hit!\n";
+    Unix.sleepf (Global.get_sleep_speed ());
+    true end
   else false
 
 (** [damage level power attack defense speed modifier] is the damage done using
@@ -295,15 +289,18 @@ let check_confusion mon =
   let (confused, count) = PM.get_confusion mon in 
   if confused then begin 
     print_endline (name ^ " is confused!");
+    Unix.sleepf (Global.get_sleep_speed ());
     Random.self_init ();
     let rand = Random.int 3 + 1 in 
     if rand > count then begin 
       PM.set_confusion mon (false, 0);
       print_endline (name ^ " snapped out of confusion!");
+      Unix.sleepf (Global.get_sleep_speed ());
       true 
     end 
     else if r <= (100. /. 3.) then begin
       print_endline ("It hurts itself in confusion!");
+      Unix.sleepf (Global.get_sleep_speed ());
       let dam = damage 
           (PM.get_lvl mon |> Float.of_int)
           40.0
@@ -330,16 +327,19 @@ let can_attack mon =
     | "paralyze" -> 
       if r <= 25.0 then begin
         print_endline (name ^ " is paralyzed! It can't " ^ "move!"); 
+        Unix.sleepf (Global.get_sleep_speed ());
         false end
       else true 
     | "rest" -> 
       let counter = PM.get_sleep_counter mon in 
       if counter = 0 then begin
-        print_endline (name ^ " woke up!"); 
+        print_endline (name ^ " woke up!");
+        Unix.sleepf (Global.get_sleep_speed ()); 
         PM.rem_status mon;
         true end
       else begin (PM.set_sleep_counter mon (counter - 1)); 
         print_endline (name ^ " is fast asleep."); 
+        Unix.sleepf (Global.get_sleep_speed ());
         false end
     | "sleep" -> 
       Random.self_init ();
@@ -347,17 +347,21 @@ let can_attack mon =
       let counter = PM.get_sleep_counter mon in 
       if rand > counter then begin (PM.set_sleep_counter mon (counter - 1)); 
         print_endline (name ^ " is fast asleep.");
+        Unix.sleepf (Global.get_sleep_speed ());
         false end 
       else begin print_endline (name ^ " woke up!"); 
+        Unix.sleepf (Global.get_sleep_speed ());
         PM.rem_status mon;
         true  
       end 
     | "frozen" -> 
       if r <= 80. then begin
         print_endline (name ^ " is frozen solid."); 
+        Unix.sleepf (Global.get_sleep_speed ());
         false end
       else begin 
         print_endline (name ^ " thawed out!");
+        Unix.sleepf (Global.get_sleep_speed ());
         PM.rem_status mon; 
         true end
     | "flinch" -> 
@@ -378,6 +382,7 @@ let handle_move atk_mon def_mon move =
   let type_mat = fst type_mat_and_hash in 
   let hash = snd type_mat_and_hash in 
   print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move) ^ "!");
+  Unix.sleepf (Global.get_sleep_speed ());
   let modifier = (get_modifier move.el_type 1. type_mat hash (PM.get_type
                                                                 def_mon)) in
   let power = move.power in 
@@ -407,6 +412,7 @@ let handle_move atk_mon def_mon move =
     else if modifier >= 2. then
       print_endline ("It's super effective!")
     else ();
+    Unix.sleepf (Global.get_sleep_speed ());
     let new_hp = PM.get_hp def_mon -. move_damage in 
     if (Moves.name move) = "false swipe" && new_hp <= 0. 
     then PM.set_hp def_mon 1.0
@@ -435,7 +441,10 @@ let execute_attack (atk_mon : PM.t) (def_mon : PM.t) move_idx is_cpu =
     if hit then handle_move atk_mon def_mon move
     else begin print_endline (PM.get_name atk_mon ^ " used " ^ (Moves.name move)
                               ^ "!");
-      print_endline ("\nThe attack missed!") end
+      Unix.sleepf (Global.get_sleep_speed ());
+      print_endline ("\nThe attack missed!") ;
+      Unix.sleepf (Global.get_sleep_speed ());
+    end
   end 
 
 (** [b_calc ball] calculates the value that b should have in the capture formula
@@ -458,7 +467,8 @@ let shake ball f =
   let d_round = d |> Float.to_int |> Int.to_float in begin
     if d_round >= 256. then begin
       print_shake (); print_shake (); print_shake ();
-      print_endline "The pokemon broke free!"
+      print_endline "The pokemon broke free!";
+      Unix.sleepf (Global.get_sleep_speed ())
     end 
     else begin
       let x = d_round *. f /. 255. in 
@@ -473,7 +483,8 @@ let shake ball f =
       else begin
         print_shake(); print_shake () ; print_shake ();
         print_endline "The pokemon broke free!"
-      end
+      end;
+      Unix.sleepf (Global.get_sleep_speed ())
     end
   end;
   false
@@ -539,7 +550,7 @@ let handle_add_mon party mon =
   if Array.length party = 6 then begin 
     print_endline ("Do you want to add " ^ PM.get_name mon 
                    ^ " to your party?[Y/N]");
-    if get_y_n () then begin 
+    if Global.get_y_n () then begin 
       print_endline ("Swap " ^ PM.get_name mon ^ " with which party member?");
       print_endline (PM.string_of_mons party);
       let swap_n = next_mon party in
@@ -569,8 +580,10 @@ let execute_item atk_mon def_mon item bag party cpu =
   else 
     i_count := !i_count - 1;
   match item with 
-  | Item.Potion -> PM.change_hp atk_mon ((PM.get_max_hp atk_mon)*. 0.3);
-    print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 30%.")
+  | Item.Potion -> PM.change_hp atk_mon 20.0;
+    print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 20 point(s)!")
+  | Item.SuperPotion -> PM.change_hp atk_mon 50.0;
+    print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 50 point(s)!")
   | Item.Antidote -> if PM.get_status atk_mon = "poison" then begin
       print_endline ((PM.get_name atk_mon) ^ "'s poison was cured!");
       PM.rem_status atk_mon end 
@@ -611,7 +624,8 @@ let execute_item atk_mon def_mon item bag party cpu =
         end 
         else print_endline ("\n" ^ (PM.get_name def_mon) ^ " wasn't caught.\n") 
       else print_endline ("\n" ^ cpu ^ " blocked the ball!")
-    end
+    end;
+    Unix.sleepf (Global.get_sleep_speed ())
 
 (** [string_of_bag] is the string representation of bag [bag]. *)
 let string_of_bag bag =
@@ -655,10 +669,21 @@ let execute_run party p_mon cpu_mon bag =
     end 
   end
 
-(** [execute_tgm party] does ??? It's a mystery to everyone. *)
+(** [execute_tgm party] does ??? It's a secret to everyone. *)
 let execute_tgm party cpu_mon = 
   PM.restore_mons party;
   PM.set_hp cpu_mon 0.0
+
+(** [execute_change_speed ()] changes the speed of printing in battles. *)
+let execute_change_speed () = 
+  Global.change_speed ();
+  let speed = Global.get_sleep_speed () in 
+  if speed = 1.0 then 
+    ANSITerminal.(print_string [yellow] "text speed changed to slow!\n> ")
+  else if speed = 0.5 then 
+    ANSITerminal.(print_string [yellow] "text speed changed to fast!\n> ")
+  else 
+    ANSITerminal.(print_string [yellow] "text speed changed to instant!\n> ")
 
 (** [execute_command party atk_mon def_mon bag cpu input] executes the correct
     command for [input] using [party], [atk_mon], 
@@ -700,6 +725,8 @@ let rec execute_command party atk_mon def_mon bag cpu input =
       execute_command party atk_mon def_mon bag cpu (read_line ()) 
     end 
   | TGM -> execute_tgm party def_mon; None
+  | ChangeSpeed -> execute_change_speed (); 
+    execute_command party atk_mon def_mon bag cpu (read_line ())
 
 (** [get_command party atk_mon def_mon bag cpu input] executes [input] 
     appropriately using [party] [atk_mon] [def_mon] [bag] [cpu] [input] *)
@@ -774,12 +801,14 @@ let player_hp_percent p_mon =
   let hp_str = "< " ^ PM.hp_string p_mon ^ " >" in
   percent_hp_color percent hp_str
 
-
+(** [rand_mon mon1 mon2] chooses a random pokemon out of [mon1] and [mon3]. *)
 let rand_mon mon1 mon2 = 
   let r = Random.self_init(); Random.int 1 in
   if r = 0 then 1
   else 2
 
+(** [check_speed mon1 mon2] is the comparator function for speeds of [mon1] and
+    [mon2]. *)
 let check_speed mon1 mon2 = 
   match Float.compare (PM.get_speed mon1) (PM.get_speed mon2) with
   | -1 -> 2
@@ -882,7 +911,7 @@ let rec learn_moves mon st_lvl end_lvl =
                          ^ move_name ^ ", but already knows four moves. " ^
                          "Should a move be deleted and replaced with " ^
                          move_name ^ "? [Y/N]");
-          if get_y_n () then begin
+          if Global.get_y_n () then begin
             print_endline ("What move should " ^ mon_name ^ " forget?");
             print_string (PM.format_moves_all mon);
             print_string ("5. " ^ Moves.to_string move ^ "\n");
@@ -946,7 +975,8 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
     m := !m - lost_money;
     ANSITerminal.(print_string [red] (Ascii.surp_pika ^ "\n\n"));    
     ANSITerminal.(print_string [red] 
-                    ("\nYou lost the battle! Lost " ^ string_of_int lost_money ^ " as well. Retreating back to town...\n"));
+                    ("\nYou lost the battle! Lost " ^ string_of_int lost_money 
+                     ^ " as well. Retreating back to town...\n"));
     PM.restore_mons p_mons;
     (p_mons, b, m, false, None) 
   | BattleWon (party, box_mon) -> 
@@ -966,7 +996,7 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
     if not finale then begin
       ANSITerminal.(print_string [green] 
                       "\nDo you want to keep going? [Y/N]\n");
-      (party, b, m, get_y_n (), box_mon)
+      (party, b, m, Global.get_y_n (), box_mon)
     end
     else (party, b, m, true, box_mon)
   | PlayerDown mon -> 
@@ -987,7 +1017,7 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
          ("\n" ^ mon ^ " fainted! " ^ cpu 
           ^ " is about to send out " ^ PM.get_name next 
           ^ ". Do you want to switch pokemon? [Y/N]\n"));
-    if get_y_n () then begin
+    if Global.get_y_n () then begin
       PM.reset_stages pmon;
       battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) next
         cpu_money finale 
@@ -999,7 +1029,7 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
     ANSITerminal.(print_string [red] ("\nGot away safely!\n"));
     ANSITerminal.(print_string [green] 
                     ("\nDo you want to keep going? [Y/N]\n"));
-    (p_mons, b, m, get_y_n (), None)
+    (p_mons, b, m, Global.get_y_n (), None)
 
 let main (player_team, bag, money, cpu_team, cpu, cpu_money, fin) = 
   let alive_p_team = PM.alive_pmons player_team in 

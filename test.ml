@@ -20,7 +20,6 @@ open State
 open Pokemon 
 open Moves
 
-
 (** [cmp_set_like_lists lst1 lst2] compares two lists to see whether
     they are equivalent set-like lists.  That means checking two things.
     First, they must both be {i set-like}, meaning that they do not
@@ -81,6 +80,7 @@ let string_of_btlcmd = function
   | Btlcmd.Switch -> "switch"
   | Btlcmd.Quit -> "quit"
   | Btlcmd.TGM -> "tgm"
+  | Btlcmd.ChangeSpeed -> "change speed"
 
 let result_of_string = function 
   | Legal(t) -> "Legal: " ^ current_town_id t
@@ -258,7 +258,7 @@ let command_tests =
     make_malformed_test "bad map" "map quest";
     make_malformed_test "bad badges" "badges galore";
     make_malformed_test "bad shop" "shop WallMart";
-    make_malformed_test "bad TGM" "tgm 3spooky5me";
+    make_malformed_test "bad TGM" "tgm is bad and you should feel bad";
     make_malformed_test "bad pc" "pc master race";
     make_malformed_test "bad go" "go";
     make_malformed_test "bad buy" "buy";

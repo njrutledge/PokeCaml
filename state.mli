@@ -6,19 +6,17 @@
    and functions that cause the state to change.
 *)
 open Pokemon
-module PM = Pokemon
 open Item
+
+(** [PM] is an instance of the Pokemon module. *)
+module PM = Pokemon
+
 (** Raised when an item is not found in the adventurer's bag. *)
 exception ItemNotFound of Adventure.badge_name
 
 (** Raised when the adventurer tries to lock or unlock a door without a valid
     badge in their bag. *)
 exception BadgeNotFound
-(**********************************************************************
- * DO NOT CHANGE THIS CODE
- * It is part of the interface the course staff will use to test your 
- * submission.
-*)
 
 (** The abstract type of values representing the game state. *)
 type t 
@@ -43,14 +41,9 @@ type result = Legal of t | Illegal of string
     Effects: none.  [go] is not permitted to do any printing. *)
 val go : Adventure.exit_name -> Adventure.t -> t -> result
 
+(** [route r adv st] is the handler for picking a route to go through, and if a
+    battle commences upon entering it.*)
 val route : Adventure.exit_name -> Adventure.t -> t -> result
-
-(* END DO NOT CHANGE
- **********************************************************************)
-
-(*(** [exit_msg st] is message from the last exit the trainer has gone through
-    in state [st]. *)
-  val exit_msg : t -> string*)
 
 (** [add_item st it n] adds [n] items [it] to the trainer's bag in [st],
     and returns the new state. *)

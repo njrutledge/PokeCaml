@@ -11,6 +11,7 @@ type command =
   | Run
   | Switch
   | Quit
+  | ChangeSpeed
   | TGM
 
 exception Empty
@@ -44,7 +45,12 @@ let make_command verb phrase =
     | _ -> raise Malformed end
   else
   if verb = "item" then Item phrase else 
-    raise Malformed 
+  if verb = "change" then begin
+    match phrase with 
+    | "speed" :: [] -> ChangeSpeed 
+    | _ -> raise Malformed
+  end 
+  else raise Malformed
 
 let parse str =
   String.split_on_char ' ' str 
