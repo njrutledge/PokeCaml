@@ -179,7 +179,7 @@
       "badge": "Java Badge",
       "battles": [
         "TA Charlie",
-        "TA David",
+        "Dijkstra",
         "Gym Leader David Gries"
       ],
       "wilds": []
@@ -360,6 +360,16 @@
             "crunch",
             "poison sting",
             "leer"
+          ]
+        },
+        {
+          "name": "Bulbasaur",
+          "lvl": 16,
+          "moves": [
+            "poison powder",
+            "razor leaf",
+            "growth",
+            "vine whip"
           ]
         }
       ]
