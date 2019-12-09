@@ -17,6 +17,7 @@ doc.private
 *~
 \#*\#
 .DS_Store
+*.tmp
 
 #other
 .idea
