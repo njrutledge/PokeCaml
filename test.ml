@@ -11,7 +11,15 @@
     of a few pokemon, where each test of a single pokemon checks to make sure
     it was created correctly. We also have a unit test for checking evolution,
     and for all other tests (learning moves, leveling up, etc) we tested
-    via playtesting. *)
+    via playtesting. The unit testing was done mostly using glass box testing.
+    We feel this testing approach demonstrates the correctness of the system
+    because most of the game requires input from the player, and thus 
+    playtesting is most suited to testing this. Other parts of the game, such 
+    as type effectiveness commands, and the methods in state and adventure
+    were tested using unit testing. When play testing, we sometimes ran into 
+    an error due to an error in the jsons, and we prevented this by creating 
+    one of every pokemon. This made sure that every pokemon could be created 
+    properly and that their moves also were ok. *)
 
 open OUnit2
 open Adventure
