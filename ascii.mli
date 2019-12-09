@@ -18,3 +18,6 @@ val bulbasaur : string
 
 (** [charmander] is the ascii string of charmander. *)
 val charmander : string
+
+(** [clarkson] is the ascii string of Clarkson's beautiful face. *)
+val clarkson : string 

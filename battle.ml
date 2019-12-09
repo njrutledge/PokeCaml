@@ -979,16 +979,15 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
   else ();
   try loop p_mons cpu_mons pmon cpumon b cpu 
   with 
-  | BattleLost -> PM.restore_mons cpu_mons;
+  | BattleLost -> 
+    PM.restore_mons cpu_mons;
     PM.reset_stages pmon;
     PM.reset_stages cpumon; 
     let lost_money = (int_of_float (0.1 *. (float_of_int !m))) in
     m := !m - lost_money;
-    ANSITerminal.(print_string [red] (Ascii.surp_pika ^ "\n\n"));    
     ANSITerminal.(print_string [red] 
                     ("\nYou lost the battle! Lost ₽" ^ string_of_int lost_money 
                      ^ " as well. Retreating back to town...\n"));
-    PM.restore_mons p_mons;
     (p_mons, b, m, false, None) 
   | BattleWon (party, box_mon) -> 
     PM.reset_stages pmon;

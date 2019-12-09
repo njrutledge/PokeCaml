@@ -87,10 +87,13 @@ and make_battle route adv st cpu_name cpu_mons bats =
        cpu_money,
        (bats = []))
   in 
-  let dt = if cpu_name <> "wild" 
-    then cpu_name :: st.defeated_trainers 
+  let dt = if cpu_name <> "wild" && not (PM.retreat p)
+    then begin 
+      print_string (string_of_bool (PM.retreat p));
+      cpu_name :: st.defeated_trainers
+    end
     else st.defeated_trainers in 
-  let dt_full = if cpu_name <> "wild" 
+  let dt_full = if cpu_name <> "wild" && not (PM.retreat p)
     then cpu_name :: st.defeated_trainers_full
     else st.defeated_trainers_full in 
   let st' = {st with
@@ -111,6 +114,7 @@ and make_battle route adv st cpu_name cpu_mons bats =
   in 
   if keep_going then run_battles route adv st'' bats
   else begin 
+    if PM.retreat st''.party then PM.restore_mons st''.party else ();
     Legal st'' end 
 
 let route r adv st = 

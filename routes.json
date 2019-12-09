@@ -231,7 +231,7 @@
   "trainers": [
     {
       "name": "Youngster Joey",
-      "money": 300,
+      "money": 500,
       "pokemon": [
         {
           "name": "Rattata",
@@ -261,7 +261,7 @@
     },
     {
       "name": "TA Alice",
-      "money": 500,
+      "money": 750,
       "pokemon": [
         {
           "name": "Ekans",
@@ -285,7 +285,7 @@
     },
     {
       "name": "TA Bob",
-      "money": 500,
+      "money": 750,
       "pokemon": [
         {
           "name": "Snivy",
@@ -309,7 +309,7 @@
     },
     {
       "name": "TA Charlie",
-      "money": 500,
+      "money": 1250,
       "pokemon": [
         {
           "name": "Sandslash",
@@ -335,7 +335,7 @@
     },
     {
       "name": "Dijkstra",
-      "money": 500,
+      "money": 1250,
       "pokemon": [
         {
           "name": "Graveler",
@@ -369,7 +369,7 @@
     },
     {
       "name": "Gym Leader Walker White",
-      "money": 1000,
+      "money": 1200,
       "pokemon": [
         {
           "name": "Snivy",
@@ -412,7 +412,7 @@
     },
     {
       "name": "Gym Leader David Gries",
-      "money": 1000,
+      "money": 1750,
       "pokemon": [
         {
           "name": "Mamoswine",
@@ -446,7 +446,7 @@
     },
     {
       "name": "Pokemaniac Philip",
-      "money": 300,
+      "money": 750,
       "pokemon": [
         {
           "name": "Machop",
@@ -478,7 +478,7 @@
     },
     {
       "name": "TA Alaia",
-      "money": 500,
+      "money": 2000,
       "pokemon": [
         {
           "name": "Jigglypuff",
@@ -513,7 +513,7 @@
     },
     {
       "name": "TA Kerri",
-      "money": 500,
+      "money": 2000,
       "pokemon": [
         {
           "name": "Tyranitar",
@@ -539,7 +539,7 @@
     },
     {
       "name": "Happy Dave",
-      "money": 500,
+      "money": 1000,
       "pokemon": [
         {
           "name": "Mr. Mime",
@@ -574,7 +574,7 @@
       "pokemon": [
         {
           "name": "Entei",
-          "lvl": 55,
+          "lvl": 50,
           "moves": [
             "flamethrower",
             "swagger",
@@ -594,7 +594,7 @@
         },
         {
           "name": "Rayquaza",
-          "lvl": 54,
+          "lvl": 50,
           "moves": [
             "outrage",
             "dragon dance",
@@ -614,7 +614,7 @@
         },
         {
           "name": "Mewtwo",
-          "lvl": 55,
+          "lvl": 50,
           "moves": [
             "future sight",
             "psychic",
@@ -624,7 +624,7 @@
         },
         {
           "name": "Arceus",
-          "lvl": 60,
+          "lvl": 50,
           "moves": [
             "recover",
             "hyper voice",

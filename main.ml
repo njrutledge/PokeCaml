@@ -152,7 +152,8 @@ let execute_go_route adv st route =
       | Illegal (msg) -> raise (IllegalMove msg)
       | Legal (st') -> 
         let adv' = st' |> State.get_def_tr |> Adventure.defeat_trainers adv in 
-        print_give_badge st';
+        print_give_badge st';    
+        PM.restore_mons (State.get_party st);
         Both (adv', State.clear_def_trs st') end
   end 
 
@@ -445,7 +446,7 @@ let rec in_list el = function
 
 (** [win_help state] is the win helper. *)
 let win_help state = 
-  ANSITerminal.(print_string [cyan] ("\n\n\n" ^ Ascii.caml ^ "\n\n\n"));
+  ANSITerminal.(print_string [white] ("\n\n\n" ^ Ascii.clarkson ^ "\n\n\n"));
   ANSITerminal.
     (print_string [green] 
        ("Congratulations on winning!"^
