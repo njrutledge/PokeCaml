@@ -3,7 +3,7 @@
   "bag": [
     {
       "item_name": "full restore",
-      "ammount": 1
+      "ammount": 5
     },
     {
       "item_name": "master ball",
@@ -36,7 +36,7 @@
       "name": "Ludicolo",
       "hp": 187.45514842763131,
       "lvl": 40,
-      "xp": 6000.0,
+      "xp": 65000.0,
       "moves": [
         "water gun",
         "absorb",
@@ -48,7 +48,7 @@
       "name": "Flapple",
       "hp": 167.30371997166097,
       "lvl": 40,
-      "xp": 6000.0,
+      "xp": 65000.0,
       "moves": [
         "grav apple",
         "dragon rush",
@@ -60,7 +60,7 @@
       "name": "Charizard",
       "hp": 186.4241451112794,
       "lvl": 40,
-      "xp": 6000.0,
+      "xp": 65000.0,
       "moves": [
         "fire fang",
         "dragon breath",
@@ -72,7 +72,7 @@
       "name": "Mew",
       "hp": 243.78542053013456,
       "lvl": 40,
-      "xp": 6000.0,
+      "xp": 65000.0,
       "moves": [
         "aura sphere",
         "nasty plot",
@@ -84,7 +84,7 @@
       "name": "Gardevoir",
       "hp": 159.33687616348664,
       "lvl": 40,
-      "xp": 6000.0,
+      "xp": 65000.0,
       "moves": [
         "psybeam",
         "moonblast",
@@ -95,7 +95,7 @@
       "name": "Lucario",
       "hp": 164.0232548741774,
       "lvl": 40,
-      "xp": 6000.0,
+      "xp": 65000.0,
       "moves": [
         "dragon pulse",
         "metal claw",

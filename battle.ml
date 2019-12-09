@@ -11,17 +11,17 @@ exception BattleWon of PM.t array * (PM.t option)
 exception BattleLost
 
 (** Raised when a player pokemon faints. *)
-exception PlayerDown of string 
+exception PlayerDown of PM.t
 
 (** Raised when a cpu pokemon faints. *)
-exception CPUDown of string
+exception CPUDown of string * PM.t
 
 (** [IllegalItem i] is raised when the player tries to use item [i] 
     but does not have any of [i] in their bag. *)
 exception IllegalItem of string
 
 (** [BattleRun] is raised when the player successfully runs from a battle. *)
-exception BattleRun
+exception BattleRun of PM.t
 
 (** [NoPP] is raised when a pokemon tries to use a fully exhausted move. *)
 exception NoPP
@@ -670,17 +670,17 @@ let execute_run party p_mon cpu_mon bag =
   let p_speed = PM.get_speed p_mon in
   let cpu_speed = PM.get_speed cpu_mon in 
   let b_mod b = b mod 256 in
-  if p_speed > cpu_speed then raise BattleRun
+  if p_speed > cpu_speed then raise(BattleRun p_mon)
   else begin
     let b = cpu_speed |> (/.) 4. |> Int.of_float |> b_mod |> Float.of_int in
-    if b = 0. then raise BattleRun
+    if b = 0. then raise (BattleRun p_mon)
     else begin    
       let f = ((p_speed *. 32.) /. b) +. 30. *. !count in
-      if f > 255. then raise BattleRun 
+      if f > 255. then raise (BattleRun p_mon)
       else begin
         Random.self_init();
         let r = Random.float 256. in 
-        if r < f then raise BattleRun
+        if r < f then raise (BattleRun p_mon)
         else count := !count +. 1.; ()
       end
     end 
@@ -870,7 +870,7 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
   if PM.fainted cpu_mon then 
     if PM.retreat cpu_team then
       raise (BattleWon (p_team, None))
-    else raise (CPUDown (PM.get_name cpu_mon))
+    else raise (CPUDown (PM.get_name cpu_mon, cur_player_mon))
   else ();
   print_string "\n";
   execute_cpu_turn cur_player_mon cpu_mon;
@@ -898,7 +898,7 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
   if PM.fainted cur_player_mon then begin
     if PM.retreat p_team then
       raise BattleLost
-    else raise (PlayerDown (PM.get_name cur_player_mon))
+    else raise (PlayerDown (cur_player_mon))
   end
   else ();
   loop p_team cpu_team cur_player_mon cpu_mon bag cpu
@@ -990,7 +990,7 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
                      ^ " as well. Retreating back to town...\n"));
     (p_mons, b, m, false, None) 
   | BattleWon (party, box_mon) -> 
-    PM.reset_stages pmon;
+    Array.iter (PM.reset_stages) party;
     PM.reset_stages cpumon; 
     if cpu = "wild" then 
       ANSITerminal.(print_string [yellow] ("\nYou defeated the wild " 
@@ -1011,13 +1011,13 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
     else (party, b, m, true, box_mon)
   | PlayerDown mon -> 
     ANSITerminal.(print_string [yellow]
-                    ("\n"^mon^ 
-                     " fainted! Who will you send out next?\n"));
-    PM.reset_stages pmon;
+                    ("\n"^PM.get_name mon 
+                     ^ " fainted! Who will you send out next?\n"));
+    PM.reset_stages mon;
     let alive_mons = PM.alive_pmons p_mons in 
     battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) cpumon
       cpu_money finale
-  | CPUDown (mon) ->
+  | CPUDown (mon, cur_p_mon) ->
     PM.reset_stages cpumon;
     let next = (PM.alive_pmons cpu_mons).(0) in 
     give_xp_all (PM.get_lvl cpumon) false (PM.alive_pmons p_mons) p_mons;
@@ -1028,13 +1028,13 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
           ^ " is about to send out " ^ PM.get_name next 
           ^ ". Do you want to switch pokemon? [Y/N]\n"));
     if Global.get_y_n () then begin
-      PM.reset_stages pmon;
+      PM.reset_stages cur_p_mon;
       battle_handler b m cpu p_mons cpu_mons (get_next_pm alive_mons) next
         cpu_money finale 
     end 
-    else battle_handler b m cpu p_mons cpu_mons pmon next cpu_money finale
-  | BattleRun -> 
-    PM.reset_stages pmon;
+    else battle_handler b m cpu p_mons cpu_mons cur_p_mon next cpu_money finale
+  | BattleRun (cur_p_mon) -> 
+    PM.reset_stages cur_p_mon;
     PM.reset_stages cpumon;
     ANSITerminal.(print_string [red] ("\nGot away safely!\n"));
     ANSITerminal.(print_string [green] 
