@@ -1,75 +1,146 @@
 {
-  "cur_town": "Gates Town",
+  "cur_town": "Caml Town",
   "bag": [
+    {
+      "item_name": "full restore",
+      "ammount": 1
+    },
+    {
+      "item_name": "master ball",
+      "ammount": 0
+    },
+    {
+      "item_name": "super potion",
+      "ammount": 12
+    },
     {
       "item_name": "potion",
       "ammount": 5
     },
     {
       "item_name": "pokeball",
-      "ammount": 10
+      "ammount": 5
     },
     {
       "item_name": "great ball",
-      "ammount": 3
+      "ammount": 2
     },
     {
       "item_name": "antidote",
       "ammount": 3
     }
   ],
-  "money": 1000,
+  "money": 1300,
   "party": [
     {
-      "name": "Pikachu",
-      "hp": 43.297286400000004,
-      "lvl": 5,
-      "xp": 64.0,
+      "name": "Ludicolo",
+      "hp": 187.45514842763131,
+      "lvl": 40,
+      "xp": 6000.0,
       "moves": [
-        "thunder",
-        "10,000,000 Volt Thunderbolt",
-        "thunder wave",
-        "false swipe"
+        "water gun",
+        "absorb",
+        "bubble beam",
+        "giga drain"
+      ]
+    },
+    {
+      "name": "Flapple",
+      "hp": 167.30371997166097,
+      "lvl": 40,
+      "xp": 6000.0,
+      "moves": [
+        "grav apple",
+        "dragon rush",
+        "dragon breath",
+        "dragon dance"
       ]
     },
     {
       "name": "Charizard",
-      "hp": 84.42970848,
-      "lvl": 5,
-      "xp": 64.0,
+      "hp": 186.4241451112794,
+      "lvl": 40,
+      "xp": 6000.0,
       "moves": [
-        "flare blitz",
-        "dragon ascent",
-        "dragon dance",
-        "will-o-wisp"
+        "fire fang",
+        "dragon breath",
+        "flamethrower",
+        "slash"
       ]
     },
     {
-      "name": "Blastoise",
-      "hp": 85.51214064,
-      "lvl": 5,
-      "xp": 64.0,
+      "name": "Mew",
+      "hp": 243.78542053013456,
+      "lvl": 40,
+      "xp": 6000.0,
       "moves": [
-        "hydro cannon",
-        "Oceanic Operetta",
-        "shell smash",
-        "blizzard"
+        "aura sphere",
+        "nasty plot",
+        "psychic",
+        "calm mind"
       ]
     },
     {
-      "name": "Venusaur",
-      "hp": 86.59457280000001,
-      "lvl": 5,
-      "xp": 64.0,
+      "name": "Gardevoir",
+      "hp": 159.33687616348664,
+      "lvl": 40,
+      "xp": 6000.0,
       "moves": [
-        "solar beam",
-        "acid spray",
-        "synthesis",
-        "poison powder"
+        "psybeam",
+        "moonblast",
+        "psychic"
+      ]
+    },
+    {
+      "name": "Lucario",
+      "hp": 164.0232548741774,
+      "lvl": 40,
+      "xp": 6000.0,
+      "moves": [
+        "dragon pulse",
+        "metal claw",
+        "rock smash",
+        "meteor mash"
       ]
     }
   ],
-  "defeated trainers": [],
-  "badges": [],
-  "pc": []
+  "defeated trainers": [
+    "Happy Dave",
+    "Gym Leader David Gries",
+    "Dijkstra",
+    "TA Charlie",
+    "Pokemaniac Philip",
+    "Gym Leader Walker White",
+    "TA Bob",
+    "TA Alice",
+    "Youngster Joey"
+  ],
+  "badges": [
+    "Java Badge",
+    "Python Badge"
+  ],
+  "pc": [
+    {
+      "name": "Staraptor",
+      "level": 38,
+      "xp": 52433.701458954994,
+      "moves": [
+        "take down",
+        "aerial ace",
+        "wing attack",
+        "endeavor"
+      ]
+    },
+    {
+      "name": "Larvitar",
+      "level": 28,
+      "xp": 21492.855094011673,
+      "moves": [
+        "tackle",
+        "rock throw",
+        "crunch",
+        "dark pulse"
+      ]
+    }
+  ]
 }

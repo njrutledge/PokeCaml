@@ -12,7 +12,7 @@
       "wilds": [
         {
           "name": "Rattata",
-          "lvl": 5,
+          "lvl": 6,
           "chance": 30,
           "moves": [
             "tackle",
@@ -21,7 +21,7 @@
         },
         {
           "name": "Starly",
-          "lvl": 5,
+          "lvl": 6,
           "chance": 30,
           "moves": [
             "tackle",
@@ -39,7 +39,7 @@
         },
         {
           "name": "Riolu",
-          "lvl": 5,
+          "lvl": 6,
           "chance": 10,
           "moves": [
             "tackle"
@@ -69,7 +69,7 @@
       "wilds": [
         {
           "name": "Jigglypuff",
-          "lvl": 14,
+          "lvl": 16,
           "chance": 30,
           "moves": [
             "tackle"
@@ -77,7 +77,7 @@
         },
         {
           "name": "Corphish",
-          "lvl": 15,
+          "lvl": 17,
           "chance": 15,
           "moves": [
             "water gun"
@@ -85,7 +85,7 @@
         },
         {
           "name": "Lotad",
-          "lvl": 13,
+          "lvl": 15,
           "chance": 15,
           "moves": [
             "water gun",
@@ -94,7 +94,7 @@
         },
         {
           "name": "Larvitar",
-          "lvl": 15,
+          "lvl": 17,
           "chance": 30,
           "moves": [
             "tackle",
@@ -104,7 +104,7 @@
         },
         {
           "name": "Flapple",
-          "lvl": 14,
+          "lvl": 16,
           "chance": 10,
           "moves": [
             "astonish",
@@ -125,7 +125,7 @@
       "wilds": [
         {
           "name": "Machoke",
-          "lvl": 30,
+          "lvl": 35,
           "chance": 30,
           "moves": [
             "low sweep",
@@ -135,8 +135,8 @@
         },
         {
           "name": "Vanillish",
-          "lvl": 32,
-          "chance": 30,
+          "lvl": 35,
+          "chance": 20,
           "moves": [
             "harden",
             "icy wind",
@@ -145,8 +145,8 @@
         },
         {
           "name": "Gardevoir",
-          "lvl": 32,
-          "chance": 30,
+          "lvl": 35,
+          "chance": 20,
           "moves": [
             "psybeam",
             "moonblast"
@@ -154,8 +154,8 @@
         },
         {
           "name": "Mew",
-          "lvl": 32,
-          "chance": 8,
+          "lvl": 34,
+          "chance": 5,
           "moves": [
             "psybeam",
             "nasty plot"
@@ -164,12 +164,45 @@
         {
           "name": "Mewtwo",
           "lvl": 34,
-          "chance": 8,
+          "chance": 4,
           "moves": [
             "recover",
             "psychic",
             "aura sphere",
             "calm mind"
+          ]
+        },
+        {
+          "name": "Blastoise",
+          "lvl": 36,
+          "chance": 7,
+          "moves": [
+            "aqua tail",
+            "shell smash",
+            "bite",
+            "bubble beam"
+          ]
+        },
+        {
+          "name": "Venusaur",
+          "lvl": 37,
+          "chance": 7,
+          "moves": [
+            "seed bomb",
+            "poison powder",
+            "synthesis",
+            "take down"
+          ]
+        },
+        {
+          "name": "Charizard",
+          "lvl": 34,
+          "chance": 7,
+          "moves": [
+            "flamethrower",
+            "dragon breath",
+            "slash",
+            "fire fang"
           ]
         }
       ]
@@ -202,7 +235,7 @@
       "pokemon": [
         {
           "name": "Rattata",
-          "lvl": 6,
+          "lvl": 8,
           "moves": [
             "tackle",
             "tail whip",
@@ -211,7 +244,7 @@
         },
         {
           "name": "Pidgey",
-          "lvl": 6,
+          "lvl": 8,
           "moves": [
             "tackle",
             "gust"
@@ -232,7 +265,7 @@
       "pokemon": [
         {
           "name": "Ekans",
-          "lvl": 12,
+          "lvl": 14,
           "moves": [
             "poison sting",
             "bite",
@@ -242,7 +275,7 @@
         },
         {
           "name": "Dunsparce",
-          "lvl": 12,
+          "lvl": 14,
           "moves": [
             "slam",
             "defense curl"
@@ -256,7 +289,7 @@
       "pokemon": [
         {
           "name": "Snivy",
-          "lvl": 12,
+          "lvl": 14,
           "moves": [
             "vine whip",
             "tackle",
@@ -265,7 +298,7 @@
         },
         {
           "name": "Onix",
-          "lvl": 14,
+          "lvl": 16,
           "moves": [
             "rock throw",
             "tackle",
@@ -280,7 +313,7 @@
       "pokemon": [
         {
           "name": "Sandslash",
-          "lvl": 20,
+          "lvl": 22,
           "moves": [
             "poison sting",
             "defense curl",
@@ -290,7 +323,7 @@
         },
         {
           "name": "Quagsire",
-          "lvl": 20,
+          "lvl": 22,
           "moves": [
             "amnesia",
             "body slam",
@@ -306,7 +339,7 @@
       "pokemon": [
         {
           "name": "Graveler",
-          "lvl": 20,
+          "lvl": 22,
           "moves": [
             "defense curl",
             "rock slide",
@@ -315,7 +348,7 @@
         },
         {
           "name": "Whiscash",
-          "lvl": 21,
+          "lvl": 23,
           "moves": [
             "water gun",
             "rest",
@@ -325,7 +358,7 @@
         },
         {
           "name": "Claydol",
-          "lvl": 22,
+          "lvl": 24,
           "moves": [
             "psybeam",
             "rock tomb",
@@ -340,7 +373,7 @@
       "pokemon": [
         {
           "name": "Snivy",
-          "lvl": 14,
+          "lvl": 16,
           "moves": [
             "tackle",
             "vine whip",
@@ -349,7 +382,7 @@
         },
         {
           "name": "Dunsparce",
-          "lvl": 14,
+          "lvl": 16,
           "moves": [
             "slam",
             "defense curl"
@@ -357,7 +390,7 @@
         },
         {
           "name": "Arbok",
-          "lvl": 16,
+          "lvl": 18,
           "moves": [
             "crunch",
             "poison sting",
@@ -367,7 +400,7 @@
         },
         {
           "name": "Bulbasaur",
-          "lvl": 16,
+          "lvl": 18,
           "moves": [
             "poison powder",
             "razor leaf",
@@ -383,7 +416,7 @@
       "pokemon": [
         {
           "name": "Mamoswine",
-          "lvl": 22,
+          "lvl": 24,
           "moves": [
             "earthquake",
             "ice fang",
@@ -392,7 +425,7 @@
         },
         {
           "name": "Dugtrio",
-          "lvl": 23,
+          "lvl": 25,
           "moves": [
             "earthquake",
             "slash",
@@ -401,7 +434,7 @@
         },
         {
           "name": "Krookadile",
-          "lvl": 24,
+          "lvl": 26,
           "moves": [
             "crunch",
             "earthquake",
@@ -417,7 +450,7 @@
       "pokemon": [
         {
           "name": "Machop",
-          "lvl": 18,
+          "lvl": 20,
           "moves": [
             "tackle",
             "leer",
@@ -426,7 +459,7 @@
         },
         {
           "name": "Lombre",
-          "lvl": 18,
+          "lvl": 20,
           "moves": [
             "bubble beam",
             "mega drain"
@@ -434,7 +467,7 @@
         },
         {
           "name": "Pikachu",
-          "lvl": 20,
+          "lvl": 22,
           "moves": [
             "thundershock",
             "spark",
@@ -459,7 +492,7 @@
         },
         {
           "name": "Xerneas",
-          "lvl": 50,
+          "lvl": 40,
           "moves": [
             "outrage",
             "moonblast",
@@ -468,7 +501,7 @@
         },
         {
           "name": "Zacian",
-          "lvl": 50,
+          "lvl": 40,
           "moves": [
             "iron head",
             "rest",
@@ -484,7 +517,7 @@
       "pokemon": [
         {
           "name": "Tyranitar",
-          "lvl": 50,
+          "lvl": 40,
           "moves": [
             "outrage",
             "crunch",
@@ -494,7 +527,7 @@
         },
         {
           "name": "Mew",
-          "lvl": 50,
+          "lvl": 40,
           "moves": [
             "nasty plot",
             "recover",
@@ -518,7 +551,7 @@
         },
         {
           "name": "Mr. Mime",
-          "lvl": 32,
+          "lvl": 30,
           "moves": [
             "psychic",
             "moonblast",
@@ -527,7 +560,7 @@
         },
         {
           "name": "Mr. Mime",
-          "lvl": 34,
+          "lvl": 38,
           "moves": [
             "sand attack",
             "recover"
@@ -541,7 +574,7 @@
       "pokemon": [
         {
           "name": "Entei",
-          "lvl": 50,
+          "lvl": 55,
           "moves": [
             "flamethrower",
             "swagger",
@@ -551,7 +584,7 @@
         },
         {
           "name": "Pikachu",
-          "lvl": 50,
+          "lvl": 60,
           "moves": [
             "thunder wave",
             "thunder",
@@ -561,7 +594,7 @@
         },
         {
           "name": "Rayquaza",
-          "lvl": 50,
+          "lvl": 54,
           "moves": [
             "outrage",
             "dragon dance",
@@ -571,7 +604,7 @@
         },
         {
           "name": "OCamlrupt",
-          "lvl": 50,
+          "lvl": 55,
           "moves": [
             "earth power",
             "lava plume",
@@ -581,17 +614,17 @@
         },
         {
           "name": "Mewtwo",
-          "lvl": 50,
+          "lvl": 55,
           "moves": [
             "future sight",
-            "recover",
+            "psychic",
             "aura sphere",
             "amnesia"
           ]
         },
         {
           "name": "Arceus",
-          "lvl": 100,
+          "lvl": 60,
           "moves": [
             "recover",
             "hyper voice",

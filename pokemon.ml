@@ -123,9 +123,11 @@ module Pokemon : PokeSig = struct
   (** [stat_update m] updates the stats of [m] for leveling up. *)
   let stat_update mon = 
     mon.lvl <- mon.lvl + 1;
-    mon.max_hp <- mon.max_hp *. 1.02; 
     mon.hp <- mon.hp +. (mon.max_hp *. 0.02);
+    mon.max_hp <- mon.max_hp *. 1.02; 
     mon.attack <- mon.attack *. 1.02; 
+    mon.sp_attack <- mon.sp_attack *. 1.02;
+    mon.sp_defense <- mon.sp_defense *. 1.02; 
     mon.defense <- mon.defense *. 1.02; 
     mon.speed <- mon.speed *. 1.02
 
@@ -371,7 +373,7 @@ module Pokemon : PokeSig = struct
         if 0. < (get_hp mon) && (get_hp mon) <= 1. then "1"
         else (string_of_int (Int.of_float (get_hp mon))) 
       in "hp: " ^ curr_hp ^ "/" ^ 
-         (string_of_int (Int.of_float (get_max_hp mon)))
+         (string_of_int (Int.of_float ((get_max_hp mon))))
 
   let string_of_mon (mon : t) =
     ("{" ^ (get_name mon) ^ " - " ^ hp_string mon

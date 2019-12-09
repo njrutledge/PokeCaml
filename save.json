@@ -1,1 +1,148 @@
-{"cur_town":"Java Town","bag":[{"item_name":"super potion","ammount":3},{"item_name":"potion","ammount":5},{"item_name":"pokeball","ammount":5},{"item_name":"great ball","ammount":3},{"item_name":"antidote","ammount":3}],"money":3700,"party":[{"name":"Flapple","hp":108.21857695431166,"lvl":23,"xp":12153.51629082513,"moves":["astonish","twister","dragon breath"]},{"name":"Charmeleon","hp":98.99941564518416,"lvl":28,"xp":20151.632219170933,"moves":["fire fang","dragon breath","ember","slash"]},{"name":"Riolu","hp":68.27545906564423,"lvl":28,"xp":20545.488992053422,"moves":["force palm","metal claw","rock smash","swords dance"]},{"name":"Larvitar","hp":80.42186247376131,"lvl":25,"xp":15458.806617074919,"moves":["tackle","rock throw","bite","dark pulse"]},{"name":"Staravia","hp":93.87875621526085,"lvl":28,"xp":21850.466751786687,"moves":["tackle","aerial ace","wing attack","endeavor"]},{"name":"Lombre","hp":96.50623496851357,"lvl":25,"xp":13911.36426434368,"moves":["water gun","absorb","bubble beam"]}],"defeated trainers":["Dijkstra","TA Charlie","Pokemaniac Philip","Gym Leader Walker White","TA Bob","TA Alice","Youngster Joey"],"badges":["Python Badge"],"pc":[]}
+{
+  "cur_town": "Caml Town",
+  "bag": [
+    {
+      "item_name": "full restore",
+      "ammount": 1
+    },
+    {
+      "item_name": "master ball",
+      "ammount": 0
+    },
+    {
+      "item_name": "super potion",
+      "ammount": 12
+    },
+    {
+      "item_name": "potion",
+      "ammount": 5
+    },
+    {
+      "item_name": "pokeball",
+      "ammount": 5
+    },
+    {
+      "item_name": "great ball",
+      "ammount": 2
+    },
+    {
+      "item_name": "antidote",
+      "ammount": 3
+    }
+  ],
+  "money": 1300,
+  "party": [
+    {
+      "name": "Ludicolo",
+      "hp": 187.45514842763131,
+      "lvl": 44,
+      "xp": 83791.87373910648,
+      "moves": [
+        "water gun",
+        "absorb",
+        "bubble beam",
+        "giga drain"
+      ]
+    },
+    {
+      "name": "Flapple",
+      "hp": 167.30371997166097,
+      "lvl": 45,
+      "xp": 85772.93761487173,
+      "moves": [
+        "grav apple",
+        "dragon rush",
+        "dragon breath",
+        "dragon dance"
+      ]
+    },
+    {
+      "name": "Charizard",
+      "hp": 186.4241451112794,
+      "lvl": 45,
+      "xp": 87625.22342108548,
+      "moves": [
+        "fire fang",
+        "dragon breath",
+        "flamethrower",
+        "slash"
+      ]
+    },
+    {
+      "name": "Mew",
+      "hp": 243.78542053013456,
+      "lvl": 46,
+      "xp": 94340.26664084282,
+      "moves": [
+        "aura sphere",
+        "nasty plot",
+        "psychic",
+        "calm mind"
+      ]
+    },
+    {
+      "name": "Gardevoir",
+      "hp": 159.33687616348664,
+      "lvl": 44,
+      "xp": 81921.74143360695,
+      "moves": [
+        "psybeam",
+        "moonblast",
+        "psychic"
+      ]
+    },
+    {
+      "name": "Lucario",
+      "hp": 164.0232548741774,
+      "lvl": 44,
+      "xp": 81869.97151719447,
+      "moves": [
+        "dragon pulse",
+        "metal claw",
+        "rock smash",
+        "meteor mash"
+      ]
+    }
+  ],
+  "defeated trainers": [
+    "TA Kerri",
+    "TA Alaia",
+    "Happy Dave",
+    "Gym Leader David Gries",
+    "Dijkstra",
+    "TA Charlie",
+    "Pokemaniac Philip",
+    "Gym Leader Walker White",
+    "TA Bob",
+    "TA Alice",
+    "Youngster Joey"
+  ],
+  "badges": [
+    "Java Badge",
+    "Python Badge"
+  ],
+  "pc": [
+    {
+      "name": "Staraptor",
+      "level": 38,
+      "xp": 52433.701458954994,
+      "moves": [
+        "take down",
+        "aerial ace",
+        "wing attack",
+        "endeavor"
+      ]
+    },
+    {
+      "name": "Larvitar",
+      "level": 28,
+      "xp": 21492.855094011673,
+      "moves": [
+        "tackle",
+        "rock throw",
+        "crunch",
+        "dark pulse"
+      ]
+    }
+  ]
+}

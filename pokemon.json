@@ -301,6 +301,10 @@
         "lvl": 42
       },
       {
+        "name": "hydro cannon",
+        "lvl": 46
+      },
+      {
         "name": "hydro pump",
         "lvl": 49
       }
@@ -1910,12 +1914,12 @@
       "psychic"
     ],
     "Stats": {
-      "ATK": 150.0,
-      "DEF": 70.0,
-      "SPE": 140.0,
+      "ATK": 110.0,
+      "DEF": 90.0,
+      "SPE": 130.0,
       "HP": 106.0,
-      "SPA": 194.0,
-      "SPD": 120.0
+      "SPA": 154.0,
+      "SPD": 90.0
     },
     "Moveset": [
       {

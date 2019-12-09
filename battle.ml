@@ -139,7 +139,7 @@ let status_help atk_mon def_mon status_type info =
         print_endline (n ^ " was poisoned!");
         Unix.sleepf (Global.get_sleep_speed ())
       end
-    | "frozen" -> PM.set_status target "frozen"; 
+    | "freeze" -> PM.set_status target "frozen"; 
       print_endline (n ^ " was frozen!");
       Unix.sleepf (Global.get_sleep_speed ())
     | "flinch" -> PM.set_status target "flinch"; 
@@ -222,7 +222,7 @@ let effect_handler atk_mon def_mon effects damage =
       | "paralyze" :: tl -> status_help atk_mon def_mon "paralyze" tl;
         apply_effects t
       | "burn" :: tl -> status_help atk_mon def_mon "burn" tl; apply_effects t
-      | "frozen" :: tl -> status_help atk_mon def_mon "frozen" tl;
+      | "freeze" :: tl -> status_help atk_mon def_mon "freeze" tl;
         apply_effects t
       | "poison" :: tl -> status_help atk_mon def_mon "poison" tl;
         apply_effects t
@@ -249,7 +249,7 @@ let effect_handler atk_mon def_mon effects damage =
         apply_effects t
       | _ -> ANSITerminal.(print_string  [red] 
                              ("This move has raised an invalid effect. The " 
-                              ^ h ^ "effect will not take place.\n"));
+                              ^ h ^ " effect will not take place.\n"));
         apply_effects t
   in apply_effects effects
 
@@ -267,10 +267,12 @@ let critical_hit speed =
 
 (** [damage level power attack defense speed modifier] is the damage done using
     the calulation provided by https://bulbapedia.bulbagarden.net/wiki/Damage *)
-let damage level power attack defense speed modifier = 
-  let level' = if power <> 0. && critical_hit speed then 2. *. level 
-    else level in
-  modifier*.(((((2.*.level'/.5.)+. 2.)*.power*.(attack/.defense))/. 50.) +. 2.)
+let damage level power attack defense speed modifier =
+  let dam = 
+    modifier*.(((((2.*.level/.5.)+. 2.)*.power*.(attack/.defense))/. 50.) +. 2.) in
+  (*let level' = if power <> 0. && critical_hit speed then 2. *. level 
+    else level in*)
+  if power <> 0. && critical_hit speed then 1.5 *. dam else dam
 
 (** [get_modifier move_type acc mat hash def_type] is the damage modifier 
     of based on [move_type] and [def_type]. *)
@@ -861,7 +863,7 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
   print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
   print_string "> ";
   let res = get_command p_team player_mon cpu_mon bag cpu (read_line ()) in 
-  let mon = match res with 
+  let cur_player_mon = match res with 
     | Some p -> p 
     | None -> player_mon 
   in 
@@ -871,18 +873,15 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
     else raise (CPUDown (PM.get_name cpu_mon))
   else ();
   print_string "\n";
-  begin match res with 
-    | Some p -> execute_cpu_turn p cpu_mon
-    | None -> execute_cpu_turn player_mon cpu_mon
-  end;
-  if PM.get_status mon = "burn" then begin 
-    print_endline ((PM.get_name mon) ^ " is hurt by its burn!");
-    PM.change_hp mon (PM.get_max_hp mon /. -16.);
+  execute_cpu_turn cur_player_mon cpu_mon;
+  if PM.get_status cur_player_mon = "burn" then begin 
+    print_endline ((PM.get_name cur_player_mon) ^ " is hurt by its burn!");
+    PM.change_hp cur_player_mon (PM.get_max_hp cur_player_mon /. -16.);
     Unix.sleepf (Global.get_sleep_speed ())
   end 
-  else if PM.get_status mon = "poison" then begin
-    print_endline ((PM.get_name mon) ^ " is hurt by poison!");
-    PM.change_hp mon (PM.get_max_hp mon /. -8.);
+  else if PM.get_status cur_player_mon = "poison" then begin
+    print_endline ((PM.get_name cur_player_mon) ^ " is hurt by poison!");
+    PM.change_hp cur_player_mon (PM.get_max_hp cur_player_mon /. -8.);
     Unix.sleepf (Global.get_sleep_speed ()) end
   else ();
   if PM.get_status cpu_mon = "burn" then begin 
@@ -896,15 +895,13 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
     Unix.sleepf (Global.get_sleep_speed ())
   end
   else ();
-  if PM.fainted player_mon then begin
+  if PM.fainted cur_player_mon then begin
     if PM.retreat p_team then
       raise BattleLost
-    else raise (PlayerDown (PM.get_name player_mon))
+    else raise (PlayerDown (PM.get_name cur_player_mon))
   end
   else ();
-  match res with 
-  | Some p -> loop p_team cpu_team p cpu_mon bag cpu
-  | None -> loop p_team cpu_team player_mon cpu_mon bag cpu 
+  loop p_team cpu_team cur_player_mon cpu_mon bag cpu
 
 (** [learn_moves mon st_lvl end_lvl] is the helper for when the pokemon levels
     up and needs to learn moves. *)
@@ -923,7 +920,7 @@ let rec learn_moves mon st_lvl end_lvl =
         else begin 
           print_endline (mon_name ^ " wants to learn the move " 
                          ^ move_name ^ ", but already knows four moves. " ^
-                         "Should a move be deleted and replaced with " ^
+                         "\nShould a move be deleted and replaced with " ^
                          move_name ^ "? [Y/N]");
           if Global.get_y_n () then begin
             print_endline ("What move should " ^ mon_name ^ " forget?");
@@ -954,7 +951,7 @@ let rec learn_moves mon st_lvl end_lvl =
      member of the party. *)
 let give_xp cpu_lvl wild mon =  
   let st_lvl = PM.get_lvl mon + 1 in 
-  PM.give_xp mon (int_of_float (2.0 *. float_of_int cpu_lvl)) wild; 
+  PM.give_xp mon (int_of_float (2.75 *. float_of_int cpu_lvl)) wild; 
   if PM.lvl_up mon then begin
     print_endline ("\n" ^ PM.get_name mon ^ " leveled up!");
     learn_moves mon st_lvl (PM.get_lvl mon);
