@@ -116,30 +116,40 @@ let status_help atk_mon def_mon status_type info =
     let n = PM.get_name target in
     match status_type with
     | "sleep" -> PM.set_status target "sleep"; 
-      print_endline (n ^ " was put to sleep!")
+      print_endline (n ^ " was put to sleep!");
+      Unix.sleepf (Global.get_sleep_speed ())
     | "paralyze" -> PM.set_status target "paralyze"; 
-      print_endline (n ^ " was paralyzed! It may be unable to move!")
-    | "confuse" -> if (fst (PM.get_confusion target)) then () else 
-        begin PM.set_confusion target (true, 4); 
-          print_endline (n ^ " became confused!")
+      print_endline (n ^ " was paralyzed! It may be unable to move!");
+      Unix.sleepf (Global.get_sleep_speed ())
+    | "confuse" -> if (fst (PM.get_confusion target)) then () 
+      else 
+        begin 
+          PM.set_confusion target (true, 4); 
+          print_endline (n ^ " became confused!");
+          Unix.sleepf (Global.get_sleep_speed ())
         end 
     | "burn" -> if not (List.mem "fire" (PM.get_type target)) then begin
         PM.set_status target "burn"; 
-        print_endline (n ^ " was burned!") end
+        print_endline (n ^ " was burned!");
+        Unix.sleepf (Global.get_sleep_speed ())
+      end
     | "poison" -> if not (List.mem "poison" (PM.get_type target)) && 
                      not (List.mem "steel" (PM.get_type target)) then begin
         PM.set_status target "poison"; 
-        print_endline (n ^ " was poisoned!") end
+        print_endline (n ^ " was poisoned!");
+        Unix.sleepf (Global.get_sleep_speed ())
+      end
     | "frozen" -> PM.set_status target "frozen"; 
-      print_endline (n ^ " was frozen!")
+      print_endline (n ^ " was frozen!");
+      Unix.sleepf (Global.get_sleep_speed ())
     | "flinch" -> PM.set_status target "flinch"; 
-      print_endline (n ^ " flinched!")
+      print_endline (n ^ " flinched!");
+      Unix.sleepf (Global.get_sleep_speed ())
     | _ -> ANSITerminal.(print_string [red] 
                            ("Invalid status name: "  ^ status_type  
                             ^ " skipping this status..."))
   end 
-  else ();
-  Unix.sleepf (Global.get_sleep_speed ())
+  else ()
 
 (** [heal_help atk_mon def_mon x info] handles a healing effect caused by 
     a move used by [atk_mon] against [def_mon] dealing [x] ammount of damage. 
@@ -250,7 +260,7 @@ let critical_hit speed =
   let t_round = t |> Int.of_float |> Float.of_int in
   Random.self_init();
   let r = Random.float 256. in
-  if r < t_round then begin print_endline "A critical hit!\n";
+  if r < t_round then begin print_endline "A critical hit!";
     Unix.sleepf (Global.get_sleep_speed ());
     true end
   else false
@@ -405,14 +415,19 @@ let handle_move atk_mon def_mon move =
   in 
   effect_handler atk_mon def_mon status move_damage;
   if power <> 0.0 then begin 
-    if modifier = 0. then 
-      print_endline ("It has no effect!") 
-    else if modifier < 1. then 
-      print_endline ("It's not very effective...")
-    else if modifier >= 2. then
-      print_endline ("It's super effective!")
+    if modifier = 0. then begin 
+      print_endline ("It has no effect!");
+      Unix.sleepf (Global.get_sleep_speed ())
+    end 
+    else if modifier < 1. then begin 
+      print_endline ("It's not very effective...");
+      Unix.sleepf (Global.get_sleep_speed ())
+    end 
+    else if modifier >= 2. then begin 
+      print_endline ("It's super effective!");
+      Unix.sleepf (Global.get_sleep_speed ());
+    end 
     else ();
-    Unix.sleepf (Global.get_sleep_speed ());
     let new_hp = PM.get_hp def_mon -. move_damage in 
     if (Moves.name move) = "false swipe" && new_hp <= 0. 
     then PM.set_hp def_mon 1.0
@@ -581,9 +596,9 @@ let execute_item atk_mon def_mon item bag party cpu =
     i_count := !i_count - 1;
   match item with 
   | Item.Potion -> PM.change_hp atk_mon 20.0;
-    print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 20 point(s)!")
+    print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 20 points!")
   | Item.SuperPotion -> PM.change_hp atk_mon 50.0;
-    print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 50 point(s)!")
+    print_endline ((PM.get_name atk_mon) ^ "'s HP was restored by 50 points!")
   | Item.Antidote -> if PM.get_status atk_mon = "poison" then begin
       print_endline ((PM.get_name atk_mon) ^ "'s poison was cured!");
       PM.rem_status atk_mon end 
@@ -678,12 +693,15 @@ let execute_tgm party cpu_mon =
 let execute_change_speed () = 
   Global.change_speed ();
   let speed = Global.get_sleep_speed () in 
-  if speed = 1.0 then 
-    ANSITerminal.(print_string [yellow] "text speed changed to slow!\n> ")
-  else if speed = 0.5 then 
-    ANSITerminal.(print_string [yellow] "text speed changed to fast!\n> ")
-  else 
-    ANSITerminal.(print_string [yellow] "text speed changed to instant!\n> ")
+  if speed = 1.0 then begin
+    ANSITerminal.(print_string [yellow] "text speed changed to slow!\n");
+    print_string "\n> " end
+  else if speed = 0.5 then begin
+    ANSITerminal.(print_string [yellow] "text speed changed to fast!\n");
+    print_string "\n> " end
+  else begin
+    ANSITerminal.(print_string [yellow] "text speed changed to instant!\n");
+    print_string "\n> " end
 
 (** [execute_command party atk_mon def_mon bag cpu input] executes the correct
     command for [input] using [party], [atk_mon], 
@@ -843,7 +861,6 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
   print_endline "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~";
   print_string "> ";
   let res = get_command p_team player_mon cpu_mon bag cpu (read_line ()) in 
-  Unix.sleepf (Global.get_sleep_speed ());
   let mon = match res with 
     | Some p -> p 
     | None -> player_mon 
@@ -860,26 +877,23 @@ let rec loop p_team cpu_team player_mon cpu_mon bag cpu =
   end;
   if PM.get_status mon = "burn" then begin 
     print_endline ((PM.get_name mon) ^ " is hurt by its burn!");
-    PM.change_hp mon (PM.get_max_hp mon /. -16.) 
+    PM.change_hp mon (PM.get_max_hp mon /. -16.);
+    Unix.sleepf (Global.get_sleep_speed ())
   end 
   else if PM.get_status mon = "poison" then begin
     print_endline ((PM.get_name mon) ^ " is hurt by poison!");
-    PM.change_hp mon (PM.get_max_hp mon /. -8.) end
+    PM.change_hp mon (PM.get_max_hp mon /. -8.);
+    Unix.sleepf (Global.get_sleep_speed ()) end
   else ();
-
-  (* if first = 1 then begin execute_cpu_turn player_mon cpu_mon; 
-     execute_cpu_turn cpu_mon player_mon; end
-     else begin execute_cpu_turn cpu_mon player_mon; execute_cpu_turn player_mon
-      cpu_mon end; *)
-  Unix.sleepf (Global.get_sleep_speed ());
   if PM.get_status cpu_mon = "burn" then begin 
     print_endline ((PM.get_name cpu_mon) ^ " is hurt by its burn!");
-    PM.change_hp cpu_mon (PM.get_max_hp cpu_mon /. -16.) 
+    PM.change_hp cpu_mon (PM.get_max_hp cpu_mon /. -16.);
+    Unix.sleepf (Global.get_sleep_speed ())
   end 
   else if PM.get_status cpu_mon = "poison" then begin
     print_endline ((PM.get_name cpu_mon) ^ " is hurt by poison!");
     PM.change_hp cpu_mon (PM.get_max_hp cpu_mon /. -8.);
-    print_float (PM.get_max_hp cpu_mon /. -8.)
+    Unix.sleepf (Global.get_sleep_speed ())
   end
   else ();
   if PM.fainted player_mon then begin
@@ -940,7 +954,7 @@ let rec learn_moves mon st_lvl end_lvl =
      member of the party. *)
 let give_xp cpu_lvl wild mon =  
   let st_lvl = PM.get_lvl mon + 1 in 
-  PM.give_xp mon cpu_lvl wild; 
+  PM.give_xp mon (int_of_float (2.0 *. float_of_int cpu_lvl)) wild; 
   if PM.lvl_up mon then begin
     print_endline ("\n" ^ PM.get_name mon ^ " leveled up!");
     learn_moves mon st_lvl (PM.get_lvl mon);
@@ -975,7 +989,7 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
     m := !m - lost_money;
     ANSITerminal.(print_string [red] (Ascii.surp_pika ^ "\n\n"));    
     ANSITerminal.(print_string [red] 
-                    ("\nYou lost the battle! Lost " ^ string_of_int lost_money 
+                    ("\nYou lost the battle! Lost ₽" ^ string_of_int lost_money 
                      ^ " as well. Retreating back to town...\n"));
     PM.restore_mons p_mons;
     (p_mons, b, m, false, None) 
@@ -988,7 +1002,7 @@ let rec battle_handler b m cpu p_mons cpu_mons pmon cpumon cpu_money finale =
     else begin
       ANSITerminal.(print_string [yellow] ("You defeated " ^ cpu ^ "!\n"));
       ANSITerminal.(print_string [yellow] 
-                      ("You gained $" ^ (string_of_int cpu_money ) ^ "!\n"));  
+                      ("You gained ₽" ^ (string_of_int cpu_money ) ^ "!\n"));  
       m := (!m + cpu_money)
     end;
     print_endline "The pokemon in your party gain experience!";

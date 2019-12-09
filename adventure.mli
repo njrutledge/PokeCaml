@@ -1,6 +1,3 @@
-open Pokemon
-(** [PM] is an instance of the Pokemon module. *)
-module PM = Pokemon
 (** 
    Representation of static adventure data.
 
@@ -8,6 +5,10 @@ module PM = Pokemon
    the towns, exits, routes, battles, and badges.
    It handles loading of that data from JSON as well as querying the data.
 *)
+
+open Pokemon
+(** [PM] is an instance of the Pokemon module. *)
+module PM = Pokemon
 
 (** The type of item names. *)
 type badge_name = string

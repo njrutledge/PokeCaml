@@ -1,3 +1,8 @@
+(** Representation of a move.
+
+    This module represents the data stored in a move, including
+    the name, pp, and stats of the move. *)
+
 (** [MoveSig] defines a Pokemon's move. *)
 module type MoveSig = sig
   (** [t] is the type of a move. *) 

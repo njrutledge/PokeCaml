@@ -1,6 +1,6 @@
 {
   "tackle": {
-    "desc": "bam",
+    "desc": "A physical attack in which the user charges and slams into the target with its whole body.",
     "power": 40.0,
     "special": false,
     "accuracy": 100.0,
@@ -9,7 +9,7 @@
     "status": []
   },
   "scratch": {
-    "desc": "scrape",
+    "desc": "Hard, pointed, sharp claws rake the target to inflict damage.",
     "power": 40.0,
     "special": false,
     "accuracy": 100.0,
@@ -18,7 +18,7 @@
     "status": []
   },
   "struggle": {
-    "desc": "ouch bam",
+    "desc": "This attack is used in desperation only if the user has no PP. It also damages the user a little.",
     "power": 50.0,
     "special": false,
     "accuracy": 100.0,
@@ -27,7 +27,7 @@
     "status": []
   },
   "pulverizing pancake": {
-    "desc": "splat",
+    "desc": "The Pokémon moves its enormous body energetically and attacks the target with full force.",
     "power": 210.0,
     "special": false,
     "accuracy": 100.0,
@@ -36,7 +36,7 @@
     "status": []
   },
   "blast burn": {
-    "desc": "hot. very very hot. dante would be proud.",
+    "desc": "The target is razed by a fiery explosion. The user can't move on the next turn.",
     "power": 150.0,
     "special": true,
     "accuracy": 90.0,
@@ -45,7 +45,7 @@
     "status": []
   },
   "ember": {
-    "desc": "barely hot.",
+    "desc": "The target is attacked with small flames. This may also leave the target with a burn.",
     "power": 25.0,
     "special": true,
     "accuracy": 100.0,
@@ -56,7 +56,7 @@
     ]
   },
   "flamethrower": {
-    "desc": "kinda hot.",
+    "desc": "The target is scorched with an intense blast of fire. This may also leave the target with a burn.",
     "power": 90.0,
     "special": true,
     "accuracy": 100.0,
@@ -67,7 +67,7 @@
     ]
   },
   "leaf blade": {
-    "desc": "slicey slice.",
+    "desc": "The user handles a sharp leaf like a sword and attacks by cutting its target.",
     "power": 90.0,
     "special": false,
     "accuracy": 100.0,
@@ -76,7 +76,7 @@
     "status": []
   },
   "vine whip": {
-    "desc": "slash",
+    "desc": "The target is struck with slender, whiplike vines to inflict damage.",
     "power": 45.0,
     "special": false,
     "accuracy": 100.0,
@@ -85,7 +85,7 @@
     "status": []
   },
   "bubble": {
-    "desc": "bloop bloop.",
+    "desc": "A spray of countless bubbles is jetted at the opposing Pokémon. This may also lower their Speed stat.",
     "power": 40.0,
     "special": true,
     "accuracy": 100.0,
@@ -112,7 +112,7 @@
     "status": []
   },
   "hydro cannon": {
-    "desc": "drown your enemies in sorrow.",
+    "desc": "The target is hit with a watery blast.",
     "power": 150.0,
     "special": true,
     "accuracy": 90.0,
@@ -121,7 +121,7 @@
     "status": []
   },
   "Oceanic Operetta": {
-    "desc": "super glub glub",
+    "desc": "The user, Primarina, summons a massive amount of water using its Z-Power and attacks the target with full force.",
     "power": 195.0,
     "special": true,
     "accuracy": 100000.0,
@@ -130,7 +130,7 @@
     "status": []
   },
   "thundershock": {
-    "desc": "lil' zap",
+    "desc": "A jolt of electricity crashes down on the target to inflict damage. This may also leave the target with paralysis.",
     "power": 40.0,
     "special": true,
     "accuracy": 100.0,
@@ -141,7 +141,7 @@
     ]
   },
   "spark": {
-    "desc": "bam zap",
+    "desc": "The user throws an electrically charged tackle at the target. This may also leave the target with paralysis.",
     "power": 65.0,
     "special": true,
     "accuracy": 100.0,
@@ -152,12 +152,12 @@
     ]
   },
   "zippy zap": {
-    "desc": "zippy zap",
-    "power": 50.0,
+    "desc": "The user attacks the target with bursts of electricity at high speed.",
+    "power": 60.0,
     "special": true,
     "accuracy": 100.0,
     "type": "electric",
-    "uses": 15,
+    "uses": 10,
     "status": [
       "paralyze foe 30.0"
     ]
@@ -174,7 +174,7 @@
     ]
   },
   "thunder": {
-    "desc": "bigly zap",
+    "desc": "A wicked thunderbolt is dropped on the target to inflict damage. This may also leave the target with paralysis.",
     "power": 110.0,
     "special": true,
     "accuracy": 70.0,
@@ -185,7 +185,7 @@
     ]
   },
   "10,000,000 Volt Thunderbolt": {
-    "desc": "super zap",
+    "desc": "The user powers up a jolt of electricity using its Z-Power and unleashes it.",
     "power": 195.0,
     "special": true,
     "accuracy": 100000.0,
@@ -194,16 +194,18 @@
     "status": []
   },
   "bone club": {
-    "desc": "thwock",
+    "desc": "The user clubs the target with a bone. This may also make the target flinch.",
     "power": 65.0,
     "special": false,
     "accuracy": 85.0,
     "type": "ground",
     "uses": 20,
-    "status": []
+    "status": [
+      "flinch foe 10.0"
+    ]
   },
   "precipice blades": {
-    "desc": "cracka-boom",
+    "desc": "The user attacks opposing Pokémon by manifesting the power of the land in fearsome blades of stone.",
     "power": 120.0,
     "special": false,
     "accuracy": 85.0,
@@ -212,7 +214,7 @@
     "status": []
   },
   "bite": {
-    "desc": "chomp",
+    "desc": "The target is bitten with viciously sharp fangs. This may also make the target flinch.",
     "power": 60.0,
     "special": false,
     "accuracy": 100.0,
@@ -223,7 +225,7 @@
     ]
   },
   "gust": {
-    "desc": "little gusty wind",
+    "desc": "A gust of wind is whipped up by wings and launched at the target to inflict damage.",
     "power": 40.0,
     "special": false,
     "accuracy": 100.0,
@@ -232,7 +234,7 @@
     "status": []
   },
   "super fang": {
-    "desc": "chomp",
+    "desc": "The user chomps hard on the target with its sharp front fangs. This cuts the target's HP in half.",
     "power": 0.0,
     "special": false,
     "accuracy": 100.0,
@@ -241,7 +243,7 @@
     "status": []
   },
   "slam": {
-    "desc": "big bam",
+    "desc": "The target is slammed with a long tail, vines, or the like to inflict damage.",
     "power": 80.0,
     "special": false,
     "accuracy": 75.0,
@@ -386,20 +388,6 @@
     "uses": 35,
     "status": []
   },
-  "double slap": {
-    "desc": "The target is slapped repeatedly, back and forth, two to five times in a row.",
-    "power": 15.0,
-    "special": false,
-    "accuracy": 85.0,
-    "type": "normal",
-    "uses": 10,
-    "status": [
-      "hit 37.5",
-      "hit 37.5",
-      "hit 12.5",
-      "hit 12.5"
-    ]
-  },
   "body slam": {
     "desc": "The user drops onto the target with its full body weight. This may also leave the target with paralysis.",
     "power": 85.0,
@@ -423,15 +411,13 @@
     ]
   },
   "wing attack": {
-    "desc": "A reckless, life-risking tackle in which the user rushes the target. This also damages the user quite a lot.",
-    "power": 120.0,
+    "desc": "The target is struck with large, imposing wings spread wide to inflict damage.",
+    "power": 60.0,
     "special": false,
     "type": "flying",
     "accuracy": 100.0,
     "uses": 35,
-    "status": [
-      "hurt self 0.25"
-    ]
+    "status": []
   },
   "string shot": {
     "desc": "Opposing Pokémon are bound with silk blown from the user's mouth that harshly lowers the Speed stat.",
@@ -584,7 +570,7 @@
     "power": 50.0,
     "special": false,
     "accuracy": 95.0,
-    "type": "metal",
+    "type": "steel",
     "uses": 35,
     "status": [
       "ATK 1 self 10.0"
@@ -748,7 +734,7 @@
     "status": []
   },
   "sand attack": {
-    "desc": "bam",
+    "desc": "Sand is hurled in the target's face, reducing the target's accuracy.",
     "power": 0.0,
     "special": false,
     "accuracy": 100.0,
@@ -1057,7 +1043,7 @@
   },
   "judgement": {
     "desc": "The user releases countless shots of light at the target. ",
-    "power": 1000.0,
+    "power": 100.0,
     "special": true,
     "accuracy": 100.0,
     "type": "normal",
@@ -1281,15 +1267,6 @@
     "status": [
       "freeze foe 30.0"
     ]
-  },
-  "nothing": {
-    "desc": "Just for testing",
-    "power": 0.0,
-    "special": true,
-    "accuracy": 100.0,
-    "type": "normal",
-    "uses": 10,
-    "status": []
   },
   "fake out": {
     "desc": "This attack hits first and makes the target flinch. It only works the first turn each time the user enters battle.",

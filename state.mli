@@ -2,8 +2,8 @@
    Representation of dynamic adventure state.
 
    This module represents the state of an adventure as it is being played,
-   including the adventurer's current town, the towns that have been visited,
-   and functions that cause the state to change.
+   including the adventurer's current town, bag, party, defeated trainers,
+   badges, and functions that cause the state to change.
 *)
 open Pokemon
 open Item

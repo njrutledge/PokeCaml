@@ -1,3 +1,6 @@
+(** Representation of a battle.
+
+    This module contains all the data for the battle portion of the game. *)
 open Pokemon
 
 (** [PM] is an instance of the Pokemon module. *)

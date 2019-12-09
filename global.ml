@@ -10,8 +10,7 @@ let execute_quit () =
   ANSITerminal.(print_string [cyan] "\nThanks for playing!\n "); 
   exit 0
 
-let get_sleep_speed () = 
-  !sleep_speed
+let get_sleep_speed () = !sleep_speed
 
 let rec get_y_n () =
   print_string "> ";

@@ -52,6 +52,8 @@ let go ex adv st =
     Illegal ("\nExit \"" ^ ex ^ "\" does not exist.\n")
   | Adventure.LockedExit ex -> Illegal ("\nIt's locked.\n")
 
+(** [run_battles route adv st bat_lst] runs through the battles in [bat_lst]
+    in the state [st] and adventue [adv]. *)
 let rec run_battles route adv st = function 
   | [] -> begin 
       if (String.split_on_char ' ' route |> List.hd) =  "gym" then 
@@ -69,6 +71,10 @@ let rec run_battles route adv st = function
       make_battle route adv st tr t_mons t
     else run_battles route adv st t
 
+(** [run_batles r adv st cpu_name cpu_mons bats] launches the battle against
+    [cpu_name], fighting all pokemon in [cpu_mons]. [r] is the 
+    current route, [adv] the adventure, [st] the curent state, and 
+    [bats] is the list of remaining battles after this one. *)
 and make_battle route adv st cpu_name cpu_mons bats = 
   let cpu_money = if cpu_name = "wild" then 0 else 
       Adventure.get_trainer_money adv cpu_name in 
@@ -79,7 +85,7 @@ and make_battle route adv st cpu_name cpu_mons bats =
        (cpu_mons),
        cpu_name,
        cpu_money,
-       bats = [])
+       (bats = []))
   in 
   let dt = if cpu_name <> "wild" 
     then cpu_name :: st.defeated_trainers 

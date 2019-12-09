@@ -85,7 +85,7 @@
         },
         {
           "name": "Lotad",
-          "lvl": 14,
+          "lvl": 13,
           "chance": 15,
           "moves": [
             "water gun",
@@ -205,7 +205,8 @@
           "lvl": 6,
           "moves": [
             "tackle",
-            "tail whip"
+            "tail whip",
+            "super fang"
           ]
         },
         {
@@ -235,7 +236,8 @@
           "moves": [
             "poison sting",
             "bite",
-            "leer"
+            "leer",
+            "super fang"
           ]
         },
         {
@@ -278,7 +280,7 @@
       "pokemon": [
         {
           "name": "Sandslash",
-          "lvl": 28,
+          "lvl": 20,
           "moves": [
             "poison sting",
             "defense curl",
@@ -288,7 +290,7 @@
         },
         {
           "name": "Quagsire",
-          "lvl": 28,
+          "lvl": 20,
           "moves": [
             "amnesia",
             "body slam",
@@ -304,7 +306,7 @@
       "pokemon": [
         {
           "name": "Graveler",
-          "lvl": 28,
+          "lvl": 20,
           "moves": [
             "defense curl",
             "rock slide",
@@ -313,7 +315,7 @@
         },
         {
           "name": "Whiscash",
-          "lvl": 28,
+          "lvl": 21,
           "moves": [
             "water gun",
             "rest",
@@ -323,7 +325,7 @@
         },
         {
           "name": "Claydol",
-          "lvl": 30,
+          "lvl": 22,
           "moves": [
             "psybeam",
             "rock tomb",
@@ -359,7 +361,8 @@
           "moves": [
             "crunch",
             "poison sting",
-            "leer"
+            "leer",
+            "super fang"
           ]
         },
         {
@@ -380,7 +383,7 @@
       "pokemon": [
         {
           "name": "Mamoswine",
-          "lvl": 30,
+          "lvl": 22,
           "moves": [
             "earthquake",
             "ice fang",
@@ -389,7 +392,7 @@
         },
         {
           "name": "Dugtrio",
-          "lvl": 30,
+          "lvl": 23,
           "moves": [
             "earthquake",
             "slash",
@@ -398,7 +401,7 @@
         },
         {
           "name": "Krookadile",
-          "lvl": 35,
+          "lvl": 24,
           "moves": [
             "crunch",
             "earthquake",

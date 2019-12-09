@@ -1,3 +1,8 @@
+(** 
+   Representation of types data. 
+   Holds the matrix and hashing function for looking up type effectivness. 
+*)
+
 (** [t] is the type of pokemon types. *)
 type t = string 
 

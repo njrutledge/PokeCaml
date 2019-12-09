@@ -105,7 +105,7 @@ let execute_go adv state exit =
 let execute_bag st = 
   ANSITerminal.(print_string [cyan] 
                   ("bag : \n" 
-                   ^ "money : $" 
+                   ^ "money : ₽" 
                    ^ pp_int !(State.get_money st) 
                    ^ "\n" 
                    ^ pp_list pp_bag_entry (State.bag st)));
@@ -247,13 +247,15 @@ let execute_save state =
   else ();
   None
 
-(** [execute_shop] prints a formatted list of 
+(** [execute_shop state] prints a formatted list of 
     the items one can buy in the shop. *)
-let execute_shop () = 
+let execute_shop state () = 
   let items = ["potion"; "super potion"; "hyper potion"; "full restore"; 
                "pokeball"; "great ball"; "ultra ball";
                "master ball"; "antidote"; "paralyze heal"; "awakening"; 
                "ice heal"; "burn heal"; "full heal"] in
+  ANSITerminal.(print_string [green] ("You currently have ₽" ^ string_of_int
+                                        !(State.get_money state) ^ " left.\n"));
   ANSITerminal.(print_string [cyan] (Item.format_items items)); None
 
 (** [execute_tgm state] does ??? It's a secret to everyone. *)
@@ -367,7 +369,7 @@ let rec execute_command adv state input =
   | Quit -> Global.execute_quit ()
   | Go(phrase) -> execute_go adv state (String.concat " " phrase)
   | GoRoute(phrase) -> execute_go_route adv state (String.concat " " phrase)
-  | Shop -> if in_pokecenter state then execute_shop ()
+  | Shop -> if in_pokecenter state then execute_shop state ()
     else raise NotInPC
   | Party -> execute_party state
   | Bag -> execute_bag state

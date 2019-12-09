@@ -70,6 +70,7 @@ let string_of_command = function
   | Switch (lst) -> "switch " ^ pp_list pp_string lst
   | Info (lst) -> "info " ^ pp_list pp_string lst
 
+(** [string_of_btlcmd s] is the string of a battle command. *)
 let string_of_btlcmd = function
   | Btlcmd.Attack (i) -> "attack" ^ string_of_int i
   | Btlcmd.Item (lst) -> "item" ^ pp_list pp_string lst
@@ -82,6 +83,7 @@ let string_of_btlcmd = function
   | Btlcmd.TGM -> "tgm"
   | Btlcmd.ChangeSpeed -> "change speed"
 
+(** [result of string s] is whether s is legal. *)
 let result_of_string = function 
   | Legal(t) -> "Legal: " ^ current_town_id t
   | Illegal msg -> "Illegal: " ^ msg
@@ -149,6 +151,9 @@ let make_type_test name mat atk def hash exp_mult =
       assert_equal exp_mult (mat.(hash atk).(hash def))
         ~printer:string_of_float)
 
+(** [make_mon_creation_test name mon pname atk spa def spd speed hp moves]
+    constructs an OUnit test case that asserts the quality of [PM.get_(helper
+    name) mon] with [its appropiate form.]. *)
 let make_mon_creation_test name mon pname atk spa def spd speed hp moves = 
   name >:: (fun _ ->
       assert_equal pname (PM.get_name mon) ~printer:(fun x -> x);
@@ -189,9 +194,70 @@ let type_tests =
   ]
 
 module PM = Pokemon
+
 let thun_lst = [Moves.create_move "thundershock"]
 let w_gun_lst = [Moves.create_move "water gun"]
 let mon1 = PM.create_pokemon "Pikachu" 1 thun_lst
+(* This is now creating one of every pokemon to test if they can be created. 
+   This also tests parsing through every move,
+   causing many tests cases at once. *)
+let _ = PM.create_pokemon "Bulbasaur" 1 []
+let _ = PM.create_pokemon "Ivysaur" 1 []
+let _ = PM.create_pokemon "Venusaur" 1 []
+let _ = PM.create_pokemon "Charmander" 1 []
+let _ = PM.create_pokemon "Charmeleon" 1 []
+let _ = PM.create_pokemon "Charizard" 1 []
+let _ = PM.create_pokemon "Squirtle" 1 []
+let _ = PM.create_pokemon "Wartortle" 1 []
+let _ = PM.create_pokemon "Rattata" 1 []
+let _ = PM.create_pokemon "Raticate" 1 []
+let _ = PM.create_pokemon "Corphish" 1 []
+let _ = PM.create_pokemon "Crawdaunt" 1 []
+let _ = PM.create_pokemon "Lotad" 1 []
+let _ = PM.create_pokemon "Lombre" 1 []
+let _ = PM.create_pokemon "Ludicolo" 1 []
+let _ = PM.create_pokemon "Jigglypuff" 1 []
+let _ = PM.create_pokemon "Flapple" 1 []
+let _ = PM.create_pokemon "Caterpie" 1 []
+let _ = PM.create_pokemon "Metapod" 1 []
+let _ = PM.create_pokemon "Butterfree" 1 []
+let _ = PM.create_pokemon "Larvitar" 1 []
+let _ = PM.create_pokemon "Pupitar" 1 []
+let _ = PM.create_pokemon "Tyranitar" 1 []
+let _ = PM.create_pokemon "Starly" 1 []
+let _ = PM.create_pokemon "Staravia" 1 []
+let _ = PM.create_pokemon "Staraptor" 1 []
+let _ = PM.create_pokemon "Arceus" 1 []
+let _ = PM.create_pokemon "OCamlrupt" 1 []
+let _ = PM.create_pokemon "Entei" 1 []
+let _ = PM.create_pokemon "Riolu" 1 []
+let _ = PM.create_pokemon "Lucario" 1 []
+let _ = PM.create_pokemon "Machop" 1 []
+let _ = PM.create_pokemon "Machoke" 1 []
+let _ = PM.create_pokemon "Machamp" 1 []
+let _ = PM.create_pokemon "Ekans" 1 []
+let _ = PM.create_pokemon "Arbok" 1 []
+let _ = PM.create_pokemon "Dunsparce" 1 []
+let _ = PM.create_pokemon "Snivy" 1 []
+let _ = PM.create_pokemon "Onix" 1 []
+let _ = PM.create_pokemon "Zacian" 1 []
+let _ = PM.create_pokemon "Xerneas" 1 []
+let _ = PM.create_pokemon "Rayquaza" 1 []
+let _ = PM.create_pokemon "Mamoswine" 1 []
+let _ = PM.create_pokemon "Dugtrio" 1 []
+let _ = PM.create_pokemon "Krookadile" 1 []
+let _ = PM.create_pokemon "Sandslash" 1 []
+let _ = PM.create_pokemon "Quagsire" 1 []
+let _ = PM.create_pokemon "Graveler" 1 []
+let _ = PM.create_pokemon "Whiscash" 1 []
+let _ = PM.create_pokemon "Claydol" 1 []
+let _ = PM.create_pokemon "Vanillish" 1 []
+let _ = PM.create_pokemon "Vanilluxe" 1 []
+let _ = PM.create_pokemon "Gardevoir" 1 []
+let _ = PM.create_pokemon "Mew" 1 []
+let _ = PM.create_pokemon "Mewtwo" 1 []
+let _ = PM.create_pokemon "Mr. Mime" 1 []
+
 let squirt1 = PM.create_pokemon "Squirtle" 1 w_gun_lst
 let _ = PM.set_xp squirt1 4096.0; PM.lvl_up squirt1
 let (squirt2,_) = PM.evolve squirt1
@@ -258,7 +324,7 @@ let command_tests =
     make_malformed_test "bad map" "map quest";
     make_malformed_test "bad badges" "badges galore";
     make_malformed_test "bad shop" "shop WallMart";
-    make_malformed_test "bad TGM" "tgm is bad and you should feel bad";
+    make_malformed_test "bad TGM" "tgm is the best - but what does it do?";
     make_malformed_test "bad pc" "pc master race";
     make_malformed_test "bad go" "go";
     make_malformed_test "bad buy" "buy";

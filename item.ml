@@ -71,5 +71,5 @@ let cost_of_item i =
 
 let rec format_items = function
   | [] -> ""
-  | h :: t -> " - " ^ h ^ ": $" ^ (string_of_int (cost_of_item h)) ^ "\n" ^ 
+  | h :: t -> " - " ^ h ^ ": ₽" ^ (string_of_int (cost_of_item h)) ^ "\n" ^ 
               (format_items t)

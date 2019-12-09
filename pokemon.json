@@ -691,12 +691,8 @@
         "lvl": 6
       },
       {
-        "name": "double slap",
-        "lvl": 12
-      },
-      {
         "name": "rest",
-        "lvl": 18
+        "lvl": 12
       },
       {
         "name": "body slam",
@@ -1093,16 +1089,12 @@
         "lvl": 18
       },
       {
-        "name": "whirlwind",
-        "lvl": 23
-      },
-      {
         "name": "aerial ace",
-        "lvl": 28
+        "lvl": 25
       },
       {
         "name": "take down",
-        "lvl": 33
+        "lvl": 30
       }
     ],
     "Evolution": {
@@ -1139,10 +1131,6 @@
       {
         "name": "endeavor",
         "lvl": 18
-      },
-      {
-        "name": "whirlwind",
-        "lvl": 23
       },
       {
         "name": "aerial ace",

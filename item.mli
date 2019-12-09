@@ -1,3 +1,8 @@
+(** Representation of an item.
+
+    This module represents the data stored in an item, including
+    the the type and cost of the item. *)
+
 (** [InvalidItem s] is raised if an invalid item [s] is attempted to be
     accessed, created, etc. (should never really happen). *)
 exception InvalidItem of string

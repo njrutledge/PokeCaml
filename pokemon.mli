@@ -1,5 +1,10 @@
-open Moves
+(** 
+   Representation of a pokemon module. 
+   This includes all functions needed to make and mutate pokemon instances. 
+*)
 
+
+open Moves
 (** [PokeSig] defines a pokemon module. *)
 module type PokeSig = sig
 
@@ -182,4 +187,5 @@ module type PokeSig = sig
 
 end
 
+(** [Pokemon] is the representation of a pokemon. *)
 module Pokemon : PokeSig
