@@ -23,7 +23,7 @@
     },
     {
       "item_name": "great ball",
-      "ammount": 2
+      "ammount": 1
     },
     {
       "item_name": "antidote",
@@ -33,22 +33,22 @@
   "money": 1300,
   "party": [
     {
-      "name": "Ludicolo",
-      "hp": 187.45514842763131,
-      "lvl": 40,
-      "xp": 65000.0,
+      "name": "Mewtwo",
+      "hp": 253.34563309994374,
+      "lvl": 45,
+      "xp": 85184.0,
       "moves": [
-        "water gun",
-        "absorb",
-        "bubble beam",
-        "giga drain"
+        "recover",
+        "future sight",
+        "aura sphere",
+        "calm mind"
       ]
     },
     {
       "name": "Flapple",
       "hp": 167.30371997166097,
-      "lvl": 40,
-      "xp": 65000.0,
+      "lvl": 45,
+      "xp": 87650.95734830215,
       "moves": [
         "grav apple",
         "dragon rush",
@@ -59,8 +59,8 @@
     {
       "name": "Charizard",
       "hp": 186.4241451112794,
-      "lvl": 40,
-      "xp": 65000.0,
+      "lvl": 45,
+      "xp": 89503.24315451591,
       "moves": [
         "fire fang",
         "dragon breath",
@@ -71,8 +71,8 @@
     {
       "name": "Mew",
       "hp": 243.78542053013456,
-      "lvl": 40,
-      "xp": 65000.0,
+      "lvl": 46,
+      "xp": 96186.95110204612,
       "moves": [
         "aura sphere",
         "nasty plot",
@@ -83,8 +83,8 @@
     {
       "name": "Gardevoir",
       "hp": 159.33687616348664,
-      "lvl": 40,
-      "xp": 65000.0,
+      "lvl": 44,
+      "xp": 83831.84632372731,
       "moves": [
         "psybeam",
         "moonblast",
@@ -94,8 +94,8 @@
     {
       "name": "Lucario",
       "hp": 164.0232548741774,
-      "lvl": 40,
-      "xp": 65000.0,
+      "lvl": 44,
+      "xp": 83780.07640731483,
       "moves": [
         "dragon pulse",
         "metal claw",
@@ -105,6 +105,8 @@
     }
   ],
   "defeated trainers": [
+    "TA Kerri",
+    "TA Alaia",
     "Happy Dave",
     "Gym Leader David Gries",
     "Dijkstra",
@@ -120,6 +122,17 @@
     "Python Badge"
   ],
   "pc": [
+    {
+      "name": "Ludicolo",
+      "level": 44,
+      "xp": 83791.87373910648,
+      "moves": [
+        "water gun",
+        "absorb",
+        "bubble beam",
+        "giga drain"
+      ]
+    },
     {
       "name": "Staraptor",
       "level": 38,

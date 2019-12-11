@@ -3,7 +3,7 @@
   "bag": [
     {
       "item_name": "full restore",
-      "ammount": 1
+      "ammount": 4
     },
     {
       "item_name": "master ball",
@@ -15,7 +15,7 @@
     },
     {
       "item_name": "potion",
-      "ammount": 5
+      "ammount": 6
     },
     {
       "item_name": "pokeball",
@@ -23,32 +23,32 @@
     },
     {
       "item_name": "great ball",
-      "ammount": 1
+      "ammount": 0
     },
     {
       "item_name": "antidote",
       "ammount": 3
     }
   ],
-  "money": 1300,
+  "money": 5150,
   "party": [
     {
-      "name": "Mewtwo",
-      "hp": 253.34563309994374,
-      "lvl": 45,
-      "xp": 85184.0,
+      "name": "Lucario",
+      "hp": 160.80711262174256,
+      "lvl": 43,
+      "xp": 79055.6614478149,
       "moves": [
-        "recover",
-        "future sight",
-        "aura sphere",
-        "calm mind"
+        "dragon pulse",
+        "metal claw",
+        "rock smash",
+        "meteor mash"
       ]
     },
     {
       "name": "Flapple",
       "hp": 167.30371997166097,
       "lvl": 45,
-      "xp": 87650.95734830215,
+      "xp": 88913.70338937029,
       "moves": [
         "grav apple",
         "dragon rush",
@@ -57,22 +57,22 @@
       ]
     },
     {
-      "name": "Charizard",
+      "name": "Charmeleon",
       "hp": 186.4241451112794,
-      "lvl": 45,
-      "xp": 89503.24315451591,
+      "lvl": 35,
+      "xp": 89169.60069079722,
       "moves": [
         "fire fang",
         "dragon breath",
         "flamethrower",
-        "slash"
+        "thunder wave"
       ]
     },
     {
       "name": "Mew",
-      "hp": 243.78542053013456,
-      "lvl": 46,
-      "xp": 96186.95110204612,
+      "hp": 239.00531424522995,
+      "lvl": 45,
+      "xp": 88913.70338937029,
       "moves": [
         "aura sphere",
         "nasty plot",
@@ -82,25 +82,26 @@
     },
     {
       "name": "Gardevoir",
-      "hp": 159.33687616348664,
-      "lvl": 44,
-      "xp": 83831.84632372731,
+      "hp": 162.52361368675636,
+      "lvl": 45,
+      "xp": 88913.70338937029,
       "moves": [
         "psybeam",
         "moonblast",
+        "psychic",
         "psychic"
       ]
     },
     {
-      "name": "Lucario",
-      "hp": 164.0232548741774,
-      "lvl": 44,
-      "xp": 83780.07640731483,
+      "name": "Ludicolo",
+      "hp": 191.20425139618393,
+      "lvl": 45,
+      "xp": 88913.70338937029,
       "moves": [
-        "dragon pulse",
-        "metal claw",
-        "rock smash",
-        "meteor mash"
+        "water gun",
+        "absorb",
+        "bubble beam",
+        "giga drain"
       ]
     }
   ],
@@ -123,14 +124,23 @@
   ],
   "pc": [
     {
-      "name": "Ludicolo",
-      "level": 44,
-      "xp": 83791.87373910648,
+      "name": "Blastoise",
+      "level": 36,
+      "xp": 45315.908423744055,
       "moves": [
-        "water gun",
-        "absorb",
-        "bubble beam",
-        "giga drain"
+        "aqua tail",
+        "shell smash",
+        "bite",
+        "bubble beam"
+      ]
+    },
+    {
+      "name": "Gardevoir",
+      "level": 35,
+      "xp": 39304.0,
+      "moves": [
+        "psybeam",
+        "moonblast"
       ]
     },
     {

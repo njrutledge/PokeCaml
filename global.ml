@@ -1,4 +1,4 @@
-let sleep_speed = ref 1.0
+let sleep_speed = ref 0.5
 
 let change_speed () = 
   if !sleep_speed = 1.0 then sleep_speed := 0.5
